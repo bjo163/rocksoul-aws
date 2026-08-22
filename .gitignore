@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+
+# Build and test output
+dist/
+coverage/
+.nyc_output/
+*.tsbuildinfo
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+
+# Local runtime state
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.log
+.wrangler/
+
+# Temporary files
+.tmp/
+tmp/
+temp/
+*.tmp
+*.bak
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
