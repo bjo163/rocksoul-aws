@@ -4,7 +4,7 @@ Audit date: **2026-08-22**
 Audited repository version: **4.32.0 application baseline with historical protocol snapshots**  
 Purpose: this document is the prioritized engineering backlog required to turn the current research/runtime baseline into a reproducible, auditable, and production-ready release.
 
-Progress update (2026-08-22): **P0-01 is substantially closed**, **P0-02 is substantially closed for the default API lane**, **P0-03 is substantially closed**, **P0-04 is closed for the file/API evidence workflow**, **P0-05 is substantially closed**, **P0-06 is substantially closed**, and **P0-08 through P0-10 are closed**. The former internal web console is now the dedicated CAB application, `apps/web` is a separate public home, and both consume the versioned `@moonwitness/ui` package. The API suite passes 1,007 tests from both the repository root and `apps/api`; the final root regression and certification commands also pass. Remaining release blockers are deployment-specific PostgreSQL and source-control/CI certification.
+Progress update (2026-08-22): **P0-01 is substantially closed**, **P0-02 is substantially closed including an explicit PostgreSQL lane**, **P0-03 is substantially closed**, **P0-04 is closed for the file/API evidence workflow**, **P0-05 is substantially closed**, **P0-06 is substantially closed**, and **P0-08 through P0-10 are closed**. The former internal web console is now the dedicated CAB application, `apps/web` is a separate public home, and both consume the versioned `@moonwitness/ui` package. The API suite passes 1,007 tests from both the repository root and `apps/api`; the final root regression and certification commands also pass. PostgreSQL 18 fresh install, seed checksums, restart persistence, audit/event chains, and backup/restore are locally certified; CI now provisions a disposable PostgreSQL 18 service for every certification run. Remaining production work is concurrency/failure/PITR depth and source-control policy enforcement.
 
 This is a technical and governance TODO. It does not promote a corpus pattern, numerical score, reviewer decision, or software inference into Divine judgement.
 
@@ -22,7 +22,7 @@ The Revelation Grammar, Asma/Divine Ontology, Semantic Event Interpreter, Moral 
 The most important remaining gaps are:
 
 1. The green Git/CI baseline now needs durable publication of machine-readable certification artifacts. Branch protection remains blocked by the current GitHub plan while the repository is private.
-2. Live PostgreSQL migration, concurrency, backup, and restore are not certified against a provisioned deployment target.
+2. PostgreSQL concurrency, transaction-failure, retention, and point-in-time-recovery drills still need deeper certification.
 3. Browser session hardening, distributed rate limiting, production key custody, and full runtime response validation remain incomplete.
 4. Public-site deployment must be created from an auditable commit; CAB must remain a separately controlled internal deployment.
 
@@ -47,7 +47,7 @@ These results record the state observed during this audit. They are not a new re
 | API tests | 1,007/1,007 PASS | Default data-driven, E2E, SQLite, native HTTP, and AI-analysis lanes pass after hermetic-driver and bundle-relative data fixes. PostgreSQL remains a separate integration lane. |
 | `preflight` | PASS | Completed after the Windows junction fix; corpus and manifest checks executed. |
 | `final:certify` | PASS | Completed after the Windows junction fix; seed, Revelation, lifecycle, event-chain, and synthetic certification checks executed. |
-| Live PostgreSQL certification | NOT CERTIFIED | A deployment-specific database run remains required. |
+| Live PostgreSQL certification | BASELINE PASS | PostgreSQL 18 fresh install seeded 18,570 entities from 106 verified sources; restart, event/audit chains, and custom-format backup/restore passed. See `POSTGRES_CERTIFICATION_4.32.0.md`. |
 | Source-control baseline | PASS | Commit `7b14b72` contains the complete v4.32.0 baseline and GitHub Actions run `32550799798` passed every build, test, and certification step on Linux. |
 
 ## P0 — release blockers
@@ -92,7 +92,7 @@ Relevant implementation areas include `src/persistence/runtime-data.ts`, `apps/a
 
 - [x] `npm --prefix apps/api test` passes from the repository root without PostgreSQL.
 - [x] The same API command is proven from `apps/api` without PostgreSQL.
-- [ ] PostgreSQL integration tests run only through an explicit command and pass against a provisioned test database.
+- [x] PostgreSQL integration tests run only through the explicit `npm run test:postgres` command and pass against a provisioned test database.
 - [x] SQLite test behavior is deterministic in the supported development environment and the required dependency is declared.
 - [x] Runtime data resolves correctly in the built API test execution mode.
 - [x] Generated-case totals equal the declared 999-case matrix with no stale-file contamination.
@@ -308,11 +308,13 @@ There is also a vocabulary mismatch: persisted evidence uses statuses such as `O
 
 ### P1-04 — Certify PostgreSQL persistence and migration discipline
 
-**Finding:** live PostgreSQL remains deployment-dependent and uncertified. Some repository paths can create tables dynamically, which can diverge from controlled migration history.
+**Finding:** the PostgreSQL baseline is now certified, but advanced deployment behavior remains environment-dependent. Some repository paths can still create tables dynamically, which can diverge from controlled migration history.
+
+**Current status:** **BASELINE CERTIFIED** — local PostgreSQL 18 fresh install, 106-source seed verification, canonical JSONB-safe audit hashing, process-restart smoke, and custom-format backup/restore into staging pass. GitHub Actions now provisions an isolated PostgreSQL 18 service. Advanced failure, concurrency, PITR, and retention drills remain open.
 
 **TODO:**
 
-- [ ] Provision an isolated PostgreSQL certification environment in CI.
+- [x] Provision an isolated PostgreSQL certification environment in CI.
 - [ ] Test fresh install, upgrade from each supported schema, rollback/recovery, idempotency, concurrency, and transaction failure.
 - [ ] Move schema creation out of runtime repository methods and into versioned migrations.
 - [ ] Define backup, restore, point-in-time recovery, retention, and disaster-recovery drills.

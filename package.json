@@ -32,6 +32,7 @@
     "install:interactive": "node scripts/transpile-exec.mjs scripts/install-interactive.ts",
     "final:certify": "node scripts/transpile-exec.mjs scripts/final-certification.ts",
     "postgres:smoke": "node scripts/transpile-exec.mjs scripts/postgres-smoke.ts",
+    "test:postgres": "npm run persistence:migration:test && npm run db:install -- --driver=postgres && npm run postgres:smoke",
     "api:smoke": "node scripts/transpile-exec.mjs scripts/api-smoke.ts",
     "db:backup": "node scripts/transpile-exec.mjs scripts/db-backup.ts",
     "db:restore": "node scripts/transpile-exec.mjs scripts/db-restore.ts",

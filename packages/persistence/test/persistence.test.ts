@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { createPersistence, hashEvent } from '../src/index.js';
+import { canonicalJson, createPersistence, hashEvent } from '../src/index.js';
 
 async function run(): Promise<void> {
   const store = createPersistence({ driver: 'memory' });
@@ -16,6 +16,10 @@ async function run(): Promise<void> {
   assert.equal(second.previousHash, first.eventHash);
   assert.equal(hashEvent(second, second.previousHash), second.eventHash);
   assert.deepEqual(await events.verifyChain(), { valid: true, events: 2, head: second.eventHash });
+  assert.equal(
+    canonicalJson({ z: 1, nested: { beta: 2, alpha: 1 }, rows: [{ y: 2, x: 1 }] }),
+    canonicalJson({ rows: [{ x: 1, y: 2 }], nested: { alpha: 1, beta: 2 }, z: 1 }),
+  );
 
   await store.projectionStore().upsert({ projectionId: 'PROJ-TEST', entityId: 'RID-TEST', projectionType: 'CURRENT', payload: { status: 'ACTIVE' } });
   assert.equal((await store.projectionStore().get('RID-TEST', 'CURRENT'))?.payload.status, 'ACTIVE');

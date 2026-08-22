@@ -18,8 +18,9 @@ const store = createPersistence({
 });
 try {
   await store.ready?.();
-  const result = await verifySeedState(process.cwd(), store);
+  const result = await verifySeedState(process.cwd(), store, { assertOk: false });
   console.log(JSON.stringify({ ...result, schemaVersion: getLatestSchemaVersion() }, null, 2));
+  if (!result.ok) process.exitCode = 1;
 } finally {
   await store.close();
 }

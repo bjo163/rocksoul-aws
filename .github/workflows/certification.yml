@@ -15,6 +15,48 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  postgres:
+    name: PostgreSQL 18 integration
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres-ci-only
+          POSTGRES_DB: moonwitness_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d moonwitness_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    env:
+      STORAGE_DRIVER: postgres
+      PGHOST: 127.0.0.1
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres-ci-only
+      PGDATABASE: moonwitness_ci
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Run isolated PostgreSQL certification
+        run: npm run test:postgres
+
   certify:
     name: Build, test, and certify
     runs-on: ubuntu-latest

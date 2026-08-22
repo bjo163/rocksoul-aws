@@ -33,6 +33,8 @@ function applyMigrations(db: SqliteDatabase): void {
     });
     run();
   }
+  const latestVersion = MIGRATIONS.at(-1)?.version ?? 0;
+  db.prepare(`INSERT INTO meta(key,value) VALUES('schema_version',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value`).run(String(latestVersion));
 }
 
 export class SqliteProvider implements PersistenceStore {

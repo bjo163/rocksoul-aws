@@ -18,12 +18,18 @@ for (const e of all) byType.set(e.type, (byType.get(e.type) ?? 0) + 1);
 
 const manifest = await loadSeedManifest(process.cwd());
 const expectedSeed = await seedDatabase(process.cwd(), { driver: 'memory' });
-assert.equal(getLatestSchemaVersion(), 4);
+assert.equal(getLatestSchemaVersion(), 5);
 assert.ok(all.length >= expectedSeed.seeded, `expected at least ${expectedSeed.seeded} entities, got ${all.length}`);
 
 const duplicateIds = all.length - new Set(all.map((e) => e.id)).size;
 assert.equal(duplicateIds, 0);
-const coreTypes = ['ASMA', 'QURAN_AYAH', 'QURAN_SURAH'];
+const coreTypes = [
+  'QURAN_AYAH',
+  'QURAN_SURAH',
+  'DIVINE_BOOK.TAWRAT_WITNESS_PASSAGE',
+  'DIVINE_BOOK.ZABUR_WITNESS_PASSAGE',
+  'DIVINE_BOOK.INJIL_WITNESS_PASSAGE',
+];
 for (const type of coreTypes) assert.ok((byType.get(type) ?? 0) > 0, `missing seeded type ${type}`);
 
 const eventChain = await events.verifyChain();
@@ -38,6 +44,8 @@ assert.equal(probe?.payload.createdBy, 'postgres-smoke');
 await events.append({ eventId: `${probeId}-EVENT`, entityId: probeId, eventType: 'SMOKE', payload: { ok: true }, actorId: 'SMOKE' });
 const afterEventChain = await events.verifyChain();
 assert.equal(afterEventChain.valid, true);
+const afterAuditChain = await audit.verify();
+assert.equal(afterAuditChain.valid, true);
 
 console.log(JSON.stringify({
   ok: true,
@@ -47,7 +55,7 @@ console.log(JSON.stringify({
   actualEntities: all.length,
   coreTypes: Object.fromEntries(coreTypes.map((t) => [t, byType.get(t) ?? 0])),
   eventChain: afterEventChain,
-  auditChain,
+  auditChain: afterAuditChain,
   smokeEntity: probeId,
 }, null, 2));
 await store.close();

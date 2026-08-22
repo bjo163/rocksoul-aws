@@ -1,8 +1,27 @@
 import { createHash } from 'node:crypto';
 import type { EventRecord } from './types.js';
 
+function canonicalize(value: unknown): unknown {
+  if (value instanceof Date) return value.toISOString();
+  if (Array.isArray(value)) return value.map((item) => canonicalize(item));
+  if (value && typeof value === 'object') {
+    const record = value as Record<string, unknown>;
+    return Object.fromEntries(
+      Object.keys(record)
+        .sort()
+        .filter((key) => record[key] !== undefined)
+        .map((key) => [key, canonicalize(record[key])]),
+    );
+  }
+  return value;
+}
+
+export function canonicalJson(value: unknown): string {
+  return JSON.stringify(canonicalize(value));
+}
+
 export function canonicalEventPayload(event: EventRecord, previousHash = ''): string {
-  return JSON.stringify({
+  return canonicalJson({
     eventId: event.eventId,
     entityId: event.entityId,
     eventType: event.eventType,

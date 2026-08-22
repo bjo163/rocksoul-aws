@@ -57,6 +57,12 @@ export class PostgresProvider implements PersistenceStore {
           throw error;
         }
       }
+      const latestVersion = MIGRATIONS.at(-1)?.version ?? 0;
+      await client.query(
+        `INSERT INTO meta(key,value) VALUES('schema_version',$1)
+         ON CONFLICT(key) DO UPDATE SET value=EXCLUDED.value`,
+        [String(latestVersion)],
+      );
       await client.query('SELECT pg_advisory_unlock($1)', [837462901]);
     } catch (error) {
       try { await client.query('SELECT pg_advisory_unlock($1)', [837462901]); } catch {}
