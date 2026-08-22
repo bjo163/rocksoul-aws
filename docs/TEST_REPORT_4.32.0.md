@@ -28,6 +28,7 @@ Audit date: **2026-08-22**
 - Review queue API lifecycle integration: PASS
 - Complete root regression command (`npm test`): PASS
 - Current certification command (`npm run certify:current`): PASS
+- GitHub Actions Linux certification for baseline commit `7b14b72`: PASS ([run 32550799798](https://github.com/bjo163/cosmic/actions/runs/32550799798))
 
 ## Boundaries
 

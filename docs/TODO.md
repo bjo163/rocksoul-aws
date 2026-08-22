@@ -21,7 +21,7 @@ The Revelation Grammar, Asma/Divine Ontology, Semantic Event Interpreter, Moral 
 
 The most important remaining gaps are:
 
-1. The new Git/CI baseline must complete its first remote certification run before the release can be tied to a proven green commit.
+1. The green Git/CI baseline now needs release tagging, branch protection, and durable publication of machine-readable certification artifacts.
 2. Live PostgreSQL migration, concurrency, backup, and restore are not certified against a provisioned deployment target.
 3. Browser session hardening, distributed rate limiting, production key custody, and full runtime response validation remain incomplete.
 4. Public-site deployment must be created from an auditable commit; CAB must remain a separately controlled internal deployment.
@@ -48,7 +48,7 @@ These results record the state observed during this audit. They are not a new re
 | `preflight` | PASS | Completed after the Windows junction fix; corpus and manifest checks executed. |
 | `final:certify` | PASS | Completed after the Windows junction fix; seed, Revelation, lifecycle, event-chain, and synthetic certification checks executed. |
 | Live PostgreSQL certification | NOT CERTIFIED | A deployment-specific database run remains required. |
-| Source-control baseline | PARTIAL | GitHub `main` exists and certification CI is defined; the complete v4.32.0 source commit and first green remote run are pending verification. |
+| Source-control baseline | PASS | Commit `7b14b72` contains the complete v4.32.0 baseline and GitHub Actions run `32550799798` passed every build, test, and certification step on Linux. |
 
 ## P0 — release blockers
 
@@ -200,7 +200,7 @@ There is also a vocabulary mismatch: persisted evidence uses statuses such as `O
 
 **Finding:** no Git metadata or visible CI definition was found in this workspace. Without commit identity, changes, generated artifacts, test evidence, and release tags cannot be independently reproduced.
 
-**Current status:** **PARTIALLY CLOSED** — a new Git repository now tracks `origin/main`, the initial commit is present on GitHub, generated/local state is excluded, and `.github/workflows/certification.yml` defines locked install, release identity, API/CAB/public builds, regression suites, and current certification. The full v4.32.0 baseline commit and first green GitHub Actions run still need verification.
+**Current status:** **SUBSTANTIALLY CLOSED** — the complete v4.32.0 baseline is committed and pushed to `origin/main`; generated/local state is excluded; and `.github/workflows/certification.yml` runs locked install, release identity, API/CAB/public builds, regression suites, and current certification. GitHub Actions run `32550799798` completed successfully on Linux. Release tagging, branch protection, and durable certification artifacts remain open.
 
 **Change required:**
 
@@ -213,8 +213,8 @@ There is also a vocabulary mismatch: persisted evidence uses statuses such as `O
 **Acceptance criteria:**
 
 - [ ] Every release artifact maps to an immutable commit/tag.
-- [ ] CI can reproduce the clean-machine build and hermetic test lanes (workflow added; first green remote run pending).
-- [ ] Generated artifacts are either reproducibly built or intentionally versioned, never accidental.
+- [x] CI can reproduce the clean-machine build and hermetic test lanes.
+- [x] Generated/local build artifacts are excluded while governed corpus and test fixtures are intentionally versioned.
 - [ ] A release cannot be marked certified if a required check is skipped or blocked.
 
 ### P0-08 — Restore all local test suites to green
