@@ -18,7 +18,7 @@ for (const e of all) byType.set(e.type, (byType.get(e.type) ?? 0) + 1);
 
 const manifest = await loadSeedManifest(process.cwd());
 const expectedSeed = await seedDatabase(process.cwd(), { driver: 'memory' });
-assert.equal(getLatestSchemaVersion(), 5);
+assert.equal(getLatestSchemaVersion(), 6);
 assert.ok(all.length >= expectedSeed.seeded, `expected at least ${expectedSeed.seeded} entities, got ${all.length}`);
 
 const duplicateIds = all.length - new Set(all.map((e) => e.id)).size;
@@ -47,6 +47,16 @@ assert.equal(afterEventChain.valid, true);
 const afterAuditChain = await audit.verify();
 assert.equal(afterAuditChain.valid, true);
 
+const concurrentPrefix = `SMOKE-CONCURRENT-${Date.now()}`;
+await Promise.all(Array.from({ length: 32 }, (_, index) => entities.put({
+  id: `${concurrentPrefix}-${index}`,
+  type: 'SMOKE.CONCURRENT',
+  version: 1,
+  payload: { index, purpose: 'audit-serialization' },
+})));
+const afterConcurrentAuditChain = await audit.verify();
+assert.equal(afterConcurrentAuditChain.valid, true);
+
 console.log(JSON.stringify({
   ok: true,
   schemaVersion: getLatestSchemaVersion(),
@@ -55,7 +65,8 @@ console.log(JSON.stringify({
   actualEntities: all.length,
   coreTypes: Object.fromEntries(coreTypes.map((t) => [t, byType.get(t) ?? 0])),
   eventChain: afterEventChain,
-  auditChain: afterAuditChain,
+  auditChain: afterConcurrentAuditChain,
+  concurrentAuditWrites: 32,
   smokeEntity: probeId,
 }, null, 2));
 await store.close();

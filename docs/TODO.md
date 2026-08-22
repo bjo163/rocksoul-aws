@@ -4,7 +4,7 @@ Audit date: **2026-08-22**
 Audited repository version: **4.32.0 application baseline with historical protocol snapshots**  
 Purpose: this document is the prioritized engineering backlog required to turn the current research/runtime baseline into a reproducible, auditable, and production-ready release.
 
-Progress update (2026-08-22): **P0-01 is substantially closed**, **P0-02 is substantially closed including an explicit PostgreSQL lane**, **P0-03 is substantially closed**, **P0-04 is closed for the file/API evidence workflow**, **P0-05 is substantially closed**, **P0-06 is substantially closed**, and **P0-08 through P0-10 are closed**. The former internal web console is now the dedicated CAB application, `apps/web` is a separate public home, and both consume the versioned `@moonwitness/ui` package. The API suite passes 1,007 tests from both the repository root and `apps/api`; the final root regression and certification commands also pass. PostgreSQL 18 fresh install, seed checksums, restart persistence, audit/event chains, and backup/restore are locally certified; CI now provisions a disposable PostgreSQL 18 service for every certification run. Remaining production work is concurrency/failure/PITR depth and source-control policy enforcement.
+Progress update (2026-08-22): **P0-01 is substantially closed**, **P0-02 is substantially closed including an explicit PostgreSQL lane**, **P0-03 is substantially closed**, **P0-04 is closed for file and live PostgreSQL API workflows**, **P0-05 is substantially closed**, **P0-06 is substantially closed**, and **P0-08 through P0-10 are closed**. The former internal web console is now the dedicated CAB application, `apps/web` is a separate public home, and both consume the versioned `@moonwitness/ui` package. The API suite passes 1,007 tests from both the repository root and `apps/api`; CAB passes 12 tests and the public web passes 2. PostgreSQL 18 schema 6, three isolated local databases/roles, seed checksums, restart persistence, serialized audit appends, development/staging E2E, audit/event chains, and backup/restore are locally certified. A unified launcher, environment badges, health metadata, and guarded environment smoke scripts are available. Remaining production work is sustained concurrency/failure/PITR depth, managed deployment, and source-control policy enforcement.
 
 This is a technical and governance TODO. It does not promote a corpus pattern, numerical score, reviewer decision, or software inference into Divine judgement.
 
@@ -41,13 +41,13 @@ These results record the state observed during this audit. They are not a new re
 | Mizan adversarial suite | 500/500 PASS | Current generated variants pass. |
 | Human Review Gate | 4/4 PASS | Focused gate fixtures pass. |
 | Witness/Q-DAG tests | PASS | Current focused witness suite passes. |
-| CAB tests | 11/11 PASS | Route-contract expectations use `/api/v1/prophets`. |
+| CAB tests | 12/12 PASS | Route contracts and visible environment metadata pass. |
 | Public web tests | 2/2 PASS | Public metadata and internal-surface exclusion contracts pass. |
 | Shared UI contract | 2/2 PASS | CAB and public web consume the canonical token/component package. |
 | API tests | 1,007/1,007 PASS | Default data-driven, E2E, SQLite, native HTTP, and AI-analysis lanes pass after hermetic-driver and bundle-relative data fixes. PostgreSQL remains a separate integration lane. |
 | `preflight` | PASS | Completed after the Windows junction fix; corpus and manifest checks executed. |
 | `final:certify` | PASS | Completed after the Windows junction fix; seed, Revelation, lifecycle, event-chain, and synthetic certification checks executed. |
-| Live PostgreSQL certification | BASELINE PASS | PostgreSQL 18 fresh install seeded 18,570 entities from 106 verified sources; restart, event/audit chains, and custom-format backup/restore passed. See `POSTGRES_CERTIFICATION_4.32.0.md`. |
+| Live PostgreSQL certification | BASELINE PASS | PostgreSQL 18 schema 6 fresh installs seed 18,579 entities from 106 verified sources; development/staging E2E, post-write event/audit chains, restart, and custom-format backup/restore pass. See `POSTGRES_CERTIFICATION_4.32.0.md`. |
 | Source-control baseline | PASS | Commit `7b14b72` contains the complete v4.32.0 baseline and GitHub Actions run `32550799798` passed every build, test, and certification step on Linux. |
 
 ## P0 — release blockers
@@ -308,17 +308,23 @@ There is also a vocabulary mismatch: persisted evidence uses statuses such as `O
 
 ### P1-04 — Certify PostgreSQL persistence and migration discipline
 
-**Finding:** the PostgreSQL baseline is now certified, but advanced deployment behavior remains environment-dependent. Some repository paths can still create tables dynamically, which can diverge from controlled migration history.
+**Finding:** the PostgreSQL baseline is now certified, including the runtime evidence path and serialized audit writes. Advanced deployment behavior remains environment-dependent, and all remaining repository paths still need a static assertion preventing runtime DDL from returning.
 
-**Current status:** **BASELINE CERTIFIED** — local PostgreSQL 18 fresh install, 106-source seed verification, canonical JSONB-safe audit hashing, process-restart smoke, and custom-format backup/restore into staging pass. GitHub Actions now provisions an isolated PostgreSQL 18 service. Advanced failure, concurrency, PITR, and retention drills remain open.
+**Current status:** **BASELINE CERTIFIED, CONCURRENT AUDIT DEFECT CLOSED** — local PostgreSQL 18 schema 6 fresh installs, 106-source seed verification, canonical JSONB-safe hashing, database-ordered and transaction-locked audit append, development/staging E2E, post-write integrity, process restart, and custom-format backup/restore pass. Evidence persistence no longer creates schema at runtime. GitHub Actions provisions an isolated PostgreSQL 18 service. Sustained multi-process load, forced failure, PITR, and retention drills remain open.
 
 **TODO:**
 
 - [x] Provision an isolated PostgreSQL certification environment in CI.
+- [x] Isolate development, staging, and production-shaped local databases and restricted application roles.
+- [x] Remove runtime DDL from PostgreSQL evidence persistence.
+- [x] Serialize concurrent audit appends with deterministic database ordering and verify integrity after E2E writes.
+- [x] Provide one launcher, health metadata, visible environment badges, and guarded development/staging certification scripts.
 - [ ] Test fresh install, upgrade from each supported schema, rollback/recovery, idempotency, concurrency, and transaction failure.
 - [ ] Move schema creation out of runtime repository methods and into versioned migrations.
 - [ ] Define backup, restore, point-in-time recovery, retention, and disaster-recovery drills.
 - [ ] Clarify and test the boundary between file mode, SQLite mode, and production PostgreSQL mode.
+- [ ] Add a static repository rule that rejects `CREATE/ALTER/DROP` statements outside migration and explicitly approved installer code.
+- [ ] Run sustained multi-process API/worker load and forced rollback/deadlock drills against the schema-6 audit chain.
 - [ ] Verify audit/evidence/Witness referential integrity under deletion and retention policies.
 
 ### P1-05 — Complete the SDK and shared client behavior

@@ -14,10 +14,13 @@ test('native HTTP API exposes the universal kernel', async () => {
   const base = `http://127.0.0.1:${address.port}`;
   const response = await fetch(`${base}/api/v1/health`);
   assert.equal(response.status, 200);
-  const body = await response.json() as { ok: boolean; kernel: boolean; ledger: boolean };
+  const body = await response.json() as { ok: boolean; kernel: boolean; ledger: boolean; environment: string; storageDriver: string; release: string };
   assert.equal(body.ok, true);
   assert.equal(body.kernel, true);
   assert.equal(body.ledger, true);
+  assert.ok(body.environment);
+  assert.equal(body.storageDriver, 'file');
+  assert.equal(body.release, '4.32.0');
   await app.close();
   await fs.rm(dataDir, { recursive: true, force: true });
 });

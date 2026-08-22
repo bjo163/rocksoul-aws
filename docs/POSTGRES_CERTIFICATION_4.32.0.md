@@ -10,15 +10,17 @@ Scope: migration, corpus seed, integrity, restart persistence, and backup/restor
 
 | Check | Result |
 |---|---:|
-| Fresh schema migration | PASS — schema version 5 |
-| Seed installation | PASS — 18,570 canonical entities |
+| Fresh schema migration | PASS — schema version 6 |
+| Seed installation | PASS — 18,579 persisted seed/derived entities |
 | Seed source verification | PASS — 106/106 sources |
 | Qur'an corpus | PASS — 6,236 ayat and 114 surahs |
 | Tawrat witness corpus | PASS — 5,852 passages |
 | Zabur witness corpus | PASS — 2,461 passages |
 | Injil witness corpus | PASS — 3,779 passages |
-| Audit chain after seed | PASS — 18,570 records |
+| Audit chain after seed | PASS — 18,579 records |
 | Event chain | PASS |
+| Development E2E + post-write integrity | PASS — observe, evidence, analysis, review, Witness; audit/event chains valid |
+| Staging E2E + post-write integrity | PASS — observe, evidence, analysis, review, Witness; audit/event chains valid |
 | Separate-process restart smoke | PASS — two consecutive runs |
 | Custom-format backup | PASS |
 | Restore into staging | PASS |
@@ -37,7 +39,11 @@ All three databases are hosted by the same local PostgreSQL service for this cer
 
 PostgreSQL `JSONB` normalizes object-key ordering. The former hash serializer depended on insertion order, so valid persisted audit payloads could fail verification after read-back. Event and audit hashing now use recursively key-sorted canonical JSON, with a regression test covering reordered nested objects.
 
-The PostgreSQL smoke test was also aligned with schema version 5 and the current four-book corpus entity types. Database verification now emits its diagnostic report before returning a failing exit code.
+The PostgreSQL smoke test is aligned with schema version 6 and the current four-book corpus entity types. It includes a 32-write concurrent audit regression. Database verification emits its diagnostic report before returning a failing exit code.
+
+During three-environment validation, concurrent runtime-data updates exposed an audit append race: multiple records written in the same millisecond could select the same previous hash. Schema version 6 adds a database-assigned chain position, and PostgreSQL audit writes now run inside a transaction protected by an advisory transaction lock. Entity, evidence, event, projection, and direct audit appends use the same serialized boundary. Fresh development, staging, and production-shaped local databases pass full seed integrity; development and staging also pass post-write E2E verification.
+
+Environment launch and certification commands are documented in `LOCAL_ENVIRONMENTS.md`. Production is intentionally excluded from the E2E script.
 
 ## Automated recurrence
 
@@ -45,7 +51,7 @@ The PostgreSQL smoke test was also aligned with schema version 5 and the current
 
 ## Remaining production gates
 
-- Concurrent append/idempotency/load testing across multiple API and worker processes.
+- Sustained multi-process load testing beyond the corrected concurrent audit-append race.
 - Forced transaction-failure and deadlock recovery drills.
 - Point-in-time recovery, retention, encryption, TLS, and off-host backup policy.
 - Referential-integrity and deletion/retention policy for evidence and Witness records.

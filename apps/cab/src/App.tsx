@@ -26,7 +26,7 @@ function getInitialTheme(): Theme {
   return stored === 'light' ? 'light' : 'dark';
 }
 
-function AuthScreen({ onAuth }: { onAuth: (data: any) => void }) {
+function AuthScreen({ onAuth, health }: { onAuth: (data: any) => void; health: any }) {
   const [mode, setMode] = useState<'login' | 'register'>('login');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -67,6 +67,7 @@ function AuthScreen({ onAuth }: { onAuth: (data: any) => void }) {
           <div className="mw-eyebrow">REAL-WORLD PERSONAL OS</div>
           <CardTitle>{mode === 'login' ? 'Welcome back' : 'Create your account'}</CardTitle>
           <p className="mw-muted">Private-first workspace · local-first · real world</p>
+          <div className="mw-env-row"><Badge>{String(health?.environment ?? 'connecting').toUpperCase()}</Badge><span>{health?.database ?? 'Checking database…'}</span></div>
         </CardHeader>
         <CardContent>
           <form onSubmit={submit} className="mw-form">
@@ -90,8 +91,8 @@ function HomeOverview({ user, health, models, onAction }: any) {
     ['Identity', user?.rid ?? 'No RID', 'ACTOR'],
     ['System', health?.ok ? 'Online' : 'Degraded', 'HEALTH'],
     ['Models', models.length, 'REGISTRY'],
-    ['Mode', 'REAL', 'WORLD'],
-    ['Visibility', 'PRIVATE', 'DEFAULT'],
+    ['Environment', String(health?.environment ?? 'unknown').toUpperCase(), 'RUNTIME'],
+    ['Database', health?.database ?? 'Local', 'POSTGRES'],
     ['XP', '—', 'PROGRESS'],
   ];
   return <div className="mw-stack">
@@ -178,13 +179,16 @@ export default function App() {
   }, [theme]);
 
   useEffect(() => {
+    api.health().then(setHealth).catch(() => setHealth({ ok: false, environment: 'offline' }));
+  }, []);
+
+  useEffect(() => {
     if (!getToken()) return;
     api.me().then(setUser).catch(() => { clearAuth(); setUser(null); });
   }, []);
 
   useEffect(() => {
     if (!user) return;
-    api.health().then(setHealth).catch(() => setHealth({ ok: false }));
     api.models(query).then(setModels).catch(() => setModels([]));
   }, [user, query]);
 
@@ -206,7 +210,7 @@ export default function App() {
     api.graph(selected.entityId).then(setGraph).catch(() => setGraph(null));
   }, [selected]);
 
-  if (!user) return <AuthScreen onAuth={u => setUser(u)} />;
+  if (!user) return <AuthScreen health={health} onAuth={u => setUser(u)} />;
 
   const logout = async () => { try { await api.logout(); } finally { clearAuth(); setUser(null); } };
   
@@ -265,7 +269,7 @@ export default function App() {
     <div className="mw-stars" aria-hidden="true" />
     <header className="mw-header">
       <div className="mw-brand-lockup"><div className="mw-brand-mark"><span className="mw-brand-dot" /> MOONWITNESS</div><h1>Control & Audit Board</h1><div className="mw-user">{user.username} · {user.rid ?? 'NO-RID'} · <span>CAB / OPERATOR</span></div></div>
-      <div className="mw-actions"><Badge>{health?.ok ? 'ONLINE' : 'DEGRADED'}</Badge><Button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} variant="ghost" aria-label="Toggle theme">{theme === 'dark' ? '☀ Light' : '☾ Dark'}</Button><Button onClick={logout} variant="ghost">Logout</Button></div>
+      <div className="mw-actions"><Badge>{String(health?.environment ?? 'unknown').toUpperCase()}</Badge><Badge>{health?.ok ? 'ONLINE' : 'DEGRADED'}</Badge><Button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} variant="ghost" aria-label="Toggle theme">{theme === 'dark' ? '☀ Light' : '☾ Dark'}</Button><Button onClick={logout} variant="ghost">Logout</Button></div>
     </header>
     <nav className="mw-nav" aria-label="Main navigation">
       {menus.map(m => <Button key={m} className={menu === m ? 'active' : ''} variant={menu === m ? 'default' : 'ghost'} onClick={() => onMenu(m)}>{m}</Button>)}
