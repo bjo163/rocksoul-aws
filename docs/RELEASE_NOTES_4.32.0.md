@@ -26,7 +26,10 @@
 - The authenticated console moved from `apps/web` to the dedicated `apps/cab` Control & Audit Board.
 - A new independent `apps/web` provides the public MoonWitness home and communicates system boundaries without exposing internal controls.
 - Evidence attachment is append-only at the API boundary; corrections create explicit supersession links and preserve the original record.
-- CAB now includes an operational Review Queue with guarded state transitions.
+- CAB now includes an operational Review Queue with guarded state transitions and a dynamic table view.
+- CAB now includes a dedicated Identity & Access module allowing Admin users to monitor active sessions, provision new operators, and permanently bind RIDs directly from the frontend.
+- CAB feature-copy translation (Indonesian/English) is fully completed across all interfaces including Evidence Workflow, AI Playground, and Observatory.
+- The `data/countries.json` reference dataset has been expanded to support 250 global countries and territories.
 - Added `@moonwitness/ui` as the shared component, brand, token, and accessibility layer used by both CAB and the public website.
 - Published the independent public home through Sites at `https://moonwitness-os.rocksoultech.chatgpt.site`; the deployment contains no CAB route, login storage, or internal operational surface.
 

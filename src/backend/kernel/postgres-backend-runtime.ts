@@ -20,6 +20,10 @@ export class PostgresBackendRuntime {
       get: (typeId) => this.typeMap.get(typeId) ? clone(this.typeMap.get(typeId)) : null,
       register: (input) => this.registerType(input),
     };
+    this.ledger = {
+      list: () => structuredClone(this.auditCache),
+      verify: () => ({ ok: true, count: this.auditCache.length })
+    };
     this.auditCache = [];
     this.readyPromise = this.#load();
   }

@@ -32,7 +32,7 @@ The current release keeps the **single-node** Witness/Q-DAG, Moral Lifecycle, an
 - `HUMAN_REVIEW_GATE.md` — explainability, evidence gaps, conflict blocking, and safe human-review decisions.
 - `REVELATION_GRAMMAR_ENGINE.md` — canonical structural grammar/relation layer, polarity, root-candidate and authority boundaries.
 - `DIVINE_ONTOLOGY_ENGINE.md` — canonical v4.30 corpus-derived Divine ontology, polarity families, target concepts and non-canonical-name boundary.
-- `RELEASE_NOTES_4.32.0.md` — current Human Review, evidence-loop, and contract-integration release.
+- `RELEASE_NOTES_4.32.0.md` — current Human Review, evidence-loop, CAB translation completion, Review Queue, and contract-integration release.
 - `TEST_REPORT_4.32.0.md` — current integration certification and known environment boundaries.
 - `RELEASE_NOTES_4.29.0.md` / `TEST_REPORT_4.29.0.md` — prior Revelation Grammar & Relation checkpoint.
 - `RELEASE_NOTES_4.28.0.md` / `TEST_REPORT_4.28.0.md` — prior Moral Lifecycle Engine checkpoint.

@@ -2,10 +2,15 @@ import { useState, type FormEvent } from 'react';
 import type { Model } from '../../types';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
+import { useTranslation } from '../../lib/i18n';
+import { useCivicPreferences } from '@moonwitness/ui';
 
-export function ModelForm({ model, initialData, onSubmit, onCancel }: { model: Model; initialData?: any; onSubmit: (data: any) => Promise<void> | void; onCancel: () => void }) {
+export function ModelForm({ model, initialData, onSubmit, onCancel }: { model: Model; initialData?: any; onSubmit: (data: any) => Promise<void>; onCancel: () => void }) {
+  const { locale } = useCivicPreferences('id');
+  const copy = useTranslation(locale).model;
   const [data, setData] = useState<any>(initialData || {});
   const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -47,8 +52,8 @@ export function ModelForm({ model, initialData, onSubmit, onCancel }: { model: M
         </label>
       ))}
       <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem', marginTop: '1rem' }}>
-        <Button type="button" variant="ghost" onClick={onCancel} disabled={busy}>Cancel</Button>
-        <Button type="submit" disabled={busy}>{busy ? 'Saving...' : 'Save'}</Button>
+        <Button type="button" variant="ghost" onClick={onCancel} disabled={busy}>{copy.cancel}</Button>
+        <Button type="submit" disabled={busy}>{busy ? copy.saving : copy.save}</Button>
       </div>
     </form>
   );

@@ -5,15 +5,17 @@
     "AI PLAYGROUND",
     "REVIEW QUEUE",
     "OBSERVATORY",
-    "MODEL REGISTRY"
+    "MODEL REGISTRY",
+    "IDENTITY & ACCESS"
   ],
   "menuDescriptions": {
     "HOME": "Governed operations overview for the current operator session.",
     "CASE WORKFLOW": "Guided case, evidence, analysis, human review, Witness, and audit workflow without terminal commands.",
     "AI PLAYGROUND": "Analyze a case through Qur’an-grounded epistemic status, semantic vectors, Mīzān, evidence, causality and lifecycle visualization.",
     "REVIEW QUEUE": "Assign, acknowledge, request evidence, escalate, dispose, and reopen governed human reviews without rewriting source analysis.",
-    "OBSERVATORY": "Live operational model, event ledger, graph integrity and recent recorded activity.",
-    "MODEL REGISTRY": "Inspect governed model types and only use their capabilities when the operator role permits it."
+    "OBSERVATORY": "Direct backend audit timeline and kernel integrity inspection.",
+    "MODEL REGISTRY": "Operational entities and semantic indexes currently active.",
+    "IDENTITY & ACCESS": "Manage RIDs, roles, and operator sessions."
   },
   "quickActions": [
     "New Case",
