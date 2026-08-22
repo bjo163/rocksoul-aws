@@ -17,6 +17,16 @@ POST /api/v1/command
 GET  /api/v1/resource/:id
 GET  /api/v1/resource/:id/replay
 GET  /api/v1/resource/:id/audit
+GET  /api/v1/xrp/workspace
+POST /api/v1/xrp/cases
+POST /api/v1/xrp/cases/:id/evidence
+POST /api/v1/xrp/cases/:id/request-review
+POST /api/v1/xrp/work-items
+GET  /api/v1/flow/workflows
+POST /api/v1/flow/workflows
+POST /api/v1/flow/workflows/:id/request-review
+POST /api/v1/auth/provision
+POST /api/v1/auth/bind-rid
 GET  /api/v1/revelation/core
 GET  /api/v1/revelation/asma
 GET  /api/v1/revelation/divine-ontology
@@ -28,7 +38,7 @@ POST /api/v1/ingress/reminder
 POST /api/v1/ingress/reminder/trigger
 ```
 
-Legacy routes may remain for compatibility, but new clients must use the Universal API.
+Legacy graph routes may remain for development compatibility, but new clients must use the Universal API. In production they are disabled unless `MOONWITNESS_LEGACY_API=enabled`; when explicitly enabled they require authenticated `READ_AUDIT` (read) or `COMMAND` (write) authority. They are not a public XRP data surface.
 
 ## SDK
 
@@ -40,12 +50,41 @@ Legacy routes may remain for compatibility, but new clients must use the Univers
 - `query()`
 - `command()`
 - `resource()`
+- `xrpWorkspace()`
+
+## XRP RID workspace projection
+
+`GET /api/v1/xrp/workspace` requires an authenticated account with a non-empty RID. The RID is always taken from the verified server session; a client cannot select or override it. The response uses `MW_XRP_WORKSPACE_V1` and returns sanitized case, evidence, review-gate, task/project/resource, and case-linked Witness summaries.
+
+Evidence payload bodies, review rationale/notes, credentials, and unrelated DAG nodes are not returned. New cases and command-created work items receive `ownerRid` from the authenticated session. Existing records created by the same user remain readable as a legacy compatibility path, while an explicit `ownerRid` enables sharing among accounts attached to the same RID.
+
+### XRP writes and object-level RID authorization
+
+The public XRP routes accept an authenticated, RID-bound user only. The server creates identifiers and stamps `ownerRid`; clients cannot assign a different owner. A public user can create a case, submit an evidence record, create a personal task/project/resource, and request human review. Public evidence is always stored as `OBSERVED`: it cannot self-assign `VERIFIED` or `CORROBORATED`.
+
+Every persisted resource read/write route checks the same object scope. Cross-RID access returns `404` rather than confirming that an identifier exists. `ADMIN` has explicit oversight. A `REVIEWER` can inspect only an active unassigned review target or a review assigned to that same reviewer; assignment removes that target from other reviewers. Authority is never inferred from a client-supplied role or RID.
+
+XRP case, evidence, work-item, and review-request writes accept `Idempotency-Key`. Keys are scoped by authenticated actor and operation, so a replay returns the original result while another user or route cannot collide with it.
+
+### Flow Studio
+
+Flow is a separate governed application, not an automatic-decision endpoint. An XRP user may create a bounded draft and request a review. The server first persists `WITNESS_PENDING`, the Human Review record, and the request intent in one database transaction. It then commits only the workflow-definition hash plus version/action metadata to Witness and finalizes the workflow as `REVIEW_REQUIRED`. Replays and concurrent double-clicks converge on the same review and Witness hash. It never publishes a workflow, creates an adverse action, or grants final authority.
 
 ## Authentication
 
-`POST /api/v1/auth/register` and `POST /api/v1/auth/login` create and issue bearer sessions. Send `Authorization: Bearer <token>` for authenticated operations.
+`POST /api/v1/auth/register` creates an unbound ordinary `USER`; it cannot accept or claim a RID. `POST /api/v1/auth/login` creates a durable revocable session. Browser requests use `HttpOnly`, `SameSite` cookies and must send credentials; access and refresh tokens are not returned in browser JSON. Non-browser SDK/service clients request bearer mode with `X-MW-Auth-Mode: bearer` and send `Authorization: Bearer <access-token>`.
+
+Only an authenticated `ADMIN` may create an RID-bound account through `POST /api/v1/auth/provision` or bind an existing unbound account through `POST /api/v1/auth/bind-rid`. RID binding is immutable, emits a `RID_BINDING` audit record plus `AUTH.RID.BOUND` event, and revokes the account's existing sessions so the next login receives fresh RID claims. `MOONWITNESS_ADMIN_RID` is mandatory for admin bootstrap, which is safe to rerun for an existing admin with the same RID.
+
+Access tokens are short-lived. `POST /api/v1/auth/refresh` rotates the refresh token; replaying an already-rotated token is rejected. `POST /api/v1/auth/logout` revokes the durable session and clears browser cookies.
 
 Roles and permissions are explicit. `ADMIN` can evaluate, command, and read audit; `REVIEWER` can evaluate and read audit; `OPERATOR` can observe, analyze, and command. Ordinary `USER` sessions do not receive privileged permissions. Actor identity is carried through the write path.
+
+## Production exposure boundary
+
+In production, unauthenticated health returns only `status` and `release`. Database name, environment, storage driver, counts, kernel, ledger, semantic registry, raw jobs, and legacy graph/model internals require authenticated audit authority. `/observe`, `/analyze`, and `/query` also require their corresponding production permissions. Job reads are sanitized and limited to the requester unless the caller has `READ_AUDIT`.
+
+Authentication, AI, write, and general traffic use separate bounded rate-limit buckets. Production internal errors omit implementation messages. Cookie `SameSite` configuration is validated at startup.
 
 ## Response model
 

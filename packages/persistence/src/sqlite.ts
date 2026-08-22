@@ -55,7 +55,6 @@ export class SqliteProvider implements PersistenceStore {
     const BetterSqlite3 = requireBetterSqlite3();
     this.db = new BetterSqlite3(filename);
     this.db.pragma('foreign_keys = ON');
-    this.db.exec('CREATE TABLE IF NOT EXISTS evidence (evidence_id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, source_type TEXT NOT NULL, reference TEXT, status TEXT, confidence REAL, payload_json TEXT NOT NULL, created_at TEXT NOT NULL)');
     applyMigrations(this.db);
   }
 
@@ -78,8 +77,11 @@ export class SqliteProvider implements PersistenceStore {
     return {
       put: async (entity: EntityRecord) => {
         const now = new Date().toISOString();
-        const saved = { ...entity, version: entity.version ?? 1, updatedAt: now };
-        const existing = db.prepare('SELECT * FROM entities WHERE id = ?').get(saved.id) as any; const audit = JSON.stringify({createdAt:saved.createdAt,createdBy:saved.createdBy,updatedAt:saved.updatedAt,updatedBy:saved.updatedBy,version:saved.version}); db.prepare(`INSERT INTO entities(id,type,version,payload_json,updated_at,audit_json) VALUES(?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET type=excluded.type,version=excluded.version,payload_json=excluded.payload_json,updated_at=excluded.updated_at,audit_json=excluded.audit_json`).run(saved.id, saved.type, saved.version, JSON.stringify(saved.payload), now, audit); await writeAudit(db, {operation: existing ? 'UPDATE' : 'CREATE', modelType:saved.type, recordId:saved.id, actorId:saved.updatedBy ?? saved.createdBy ?? 'SYSTEM-001', timestamp:now, changedFields:changedFields(existing?JSON.parse(existing.payload_json):null,saved.payload), before: existing ? {id:existing.id,type:existing.type,version:existing.version,payload:JSON.parse(existing.payload_json),...(JSON.parse(existing.audit_json??'{}'))} : null, after:saved as any});
+        const existing = db.prepare('SELECT * FROM entities WHERE id = ?').get(entity.id) as any;
+        if(entity.expectedVersion!==undefined&&(existing?.version??0)!==entity.expectedVersion)throw Object.assign(new Error('ENTITY_VERSION_CONFLICT'),{code:'ENTITY_VERSION_CONFLICT',statusCode:409,currentVersion:existing?.version??0});
+        const {expectedVersion:_expectedVersion,...candidate}=entity;
+        const saved = { ...candidate, version: candidate.version ?? 1, updatedAt: now };
+        const audit = JSON.stringify({createdAt:saved.createdAt,createdBy:saved.createdBy,updatedAt:saved.updatedAt,updatedBy:saved.updatedBy,version:saved.version}); db.prepare(`INSERT INTO entities(id,type,version,payload_json,updated_at,audit_json) VALUES(?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET type=excluded.type,version=excluded.version,payload_json=excluded.payload_json,updated_at=excluded.updated_at,audit_json=excluded.audit_json`).run(saved.id, saved.type, saved.version, JSON.stringify(saved.payload), now, audit); await writeAudit(db, {operation: existing ? 'UPDATE' : 'CREATE', modelType:saved.type, recordId:saved.id, actorId:saved.updatedBy ?? saved.createdBy ?? 'SYSTEM-001', timestamp:now, changedFields:changedFields(existing?JSON.parse(existing.payload_json):null,saved.payload), before: existing ? {id:existing.id,type:existing.type,version:existing.version,payload:JSON.parse(existing.payload_json),...(JSON.parse(existing.audit_json??'{}'))} : null, after:saved as any});
         return saved;
       },
       get: async (id: string) => {

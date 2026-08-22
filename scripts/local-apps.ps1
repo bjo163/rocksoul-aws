@@ -12,7 +12,7 @@ $ErrorActionPreference = 'Stop'
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $envFile = Join-Path $repoRoot ".env.$Environment.local"
 $runDir = Join-Path $repoRoot ".tmp\local-apps\$Environment"
-$ports = [ordered]@{ api = 8787; cab = 4173; web = 4174 }
+$ports = [ordered]@{ api = 8787; cab = 4173; web = 4174; xrp = 4175; flow = 4176 }
 
 function Import-LocalEnvironment {
   if (-not (Test-Path -LiteralPath $envFile)) {
@@ -36,6 +36,22 @@ function Get-Listeners {
     Sort-Object LocalPort)
 }
 
+function Get-AuthorizedHealth {
+  $uri = "http://127.0.0.1:$($ports.api)/api/v1/health"
+  $health = Invoke-RestMethod -Uri $uri -TimeoutSec 10
+  if ($health.ok) { return $health }
+  if ($health.status -ne 'ok' -or -not $env:MOONWITNESS_ADMIN_USERNAME -or -not $env:MOONWITNESS_ADMIN_PASSWORD) {
+    return $health
+  }
+  $login = Invoke-RestMethod -Method POST -Uri "http://127.0.0.1:$($ports.api)/api/v1/auth/login" -Headers @{ 'X-MW-Auth-Mode' = 'bearer' } -ContentType 'application/json' -Body (@{
+    username = $env:MOONWITNESS_ADMIN_USERNAME
+    password = $env:MOONWITNESS_ADMIN_PASSWORD
+  } | ConvertTo-Json)
+  $token = if ($login.accessToken) { $login.accessToken } else { $login.token }
+  if (-not $token) { throw 'Administrative health authentication did not return an access token.' }
+  Invoke-RestMethod -Uri $uri -Headers @{ Authorization = "Bearer $token" } -TimeoutSec 10
+}
+
 function Stop-LocalApps {
   $listeners = Get-Listeners
   $processIds = @($listeners | Select-Object -ExpandProperty OwningProcess -Unique)
@@ -51,13 +67,14 @@ function Stop-LocalApps {
 }
 
 function Get-LocalStatus {
+  Import-LocalEnvironment
   $listeners = Get-Listeners
   $health = $null
   if ($listeners.LocalPort -contains $ports.api) {
-    try { $health = Invoke-RestMethod -Uri "http://127.0.0.1:$($ports.api)/api/v1/health" -TimeoutSec 5 }
+    try { $health = Get-AuthorizedHealth }
     catch { $health = @{ ok = $false; error = $_.Exception.Message } }
   }
-  [pscustomobject]@{ ok = $listeners.Count -eq 3 -and $health.ok; action = 'status'; requestedEnvironment = $Environment; listeners = $listeners; health = $health } |
+  [pscustomobject]@{ ok = $listeners.Count -eq 5 -and $health.ok; action = 'status'; requestedEnvironment = $Environment; listeners = $listeners; health = $health } |
     ConvertTo-Json -Depth 8
 }
 
@@ -70,10 +87,12 @@ function Start-LocalApps {
   $required = @(
     (Join-Path $repoRoot 'apps\api\dist\apps\api\src\server.js'),
     (Join-Path $repoRoot 'apps\cab\dist\index.html'),
-    (Join-Path $repoRoot 'apps\web\dist')
+    (Join-Path $repoRoot 'apps\web\dist'),
+    (Join-Path $repoRoot 'apps\xrp\dist\index.html'),
+    (Join-Path $repoRoot 'apps\flow\dist\index.html')
   )
   foreach ($path in $required) {
-    if (-not (Test-Path -LiteralPath $path)) { throw "Missing build output: $path. Run npm run build:api, build:cab, and build:web first." }
+    if (-not (Test-Path -LiteralPath $path)) { throw "Missing build output: $path. Build API, CAB, web, XRP, and Flow first." }
   }
 
   New-Item -ItemType Directory -Force -Path $runDir | Out-Null
@@ -81,22 +100,24 @@ function Start-LocalApps {
   $api = Start-Process @common -FilePath 'npm.cmd' -ArgumentList @('--prefix', 'apps/api', 'start') -RedirectStandardOutput (Join-Path $runDir 'api.out.log') -RedirectStandardError (Join-Path $runDir 'api.err.log')
   $cab = Start-Process @common -FilePath 'npm.cmd' -ArgumentList @('--prefix', 'apps/cab', 'run', 'preview', '--', '--port', '4173') -RedirectStandardOutput (Join-Path $runDir 'cab.out.log') -RedirectStandardError (Join-Path $runDir 'cab.err.log')
   $web = Start-Process @common -FilePath 'npm.cmd' -ArgumentList @('--prefix', 'apps/web', 'run', 'preview') -RedirectStandardOutput (Join-Path $runDir 'web.out.log') -RedirectStandardError (Join-Path $runDir 'web.err.log')
+  $xrp = Start-Process @common -FilePath 'npm.cmd' -ArgumentList @('--prefix', 'apps/xrp', 'run', 'preview') -RedirectStandardOutput (Join-Path $runDir 'xrp.out.log') -RedirectStandardError (Join-Path $runDir 'xrp.err.log')
+  $flow = Start-Process @common -FilePath 'npm.cmd' -ArgumentList @('--prefix', 'apps/flow', 'run', 'preview') -RedirectStandardOutput (Join-Path $runDir 'flow.out.log') -RedirectStandardError (Join-Path $runDir 'flow.err.log')
 
   $deadline = (Get-Date).AddSeconds(30)
-  while ((Get-Listeners).Count -lt 3 -and (Get-Date) -lt $deadline) {
+  while ((Get-Listeners).Count -lt 5 -and (Get-Date) -lt $deadline) {
     Start-Sleep -Milliseconds 500
   }
   $listeners = Get-Listeners
-  if ($listeners.Count -lt 3) {
+  if ($listeners.Count -lt 5) {
     throw "One or more applications failed to start. Inspect logs under $runDir."
   }
-  $health = Invoke-RestMethod -Uri "http://127.0.0.1:$($ports.api)/api/v1/health" -TimeoutSec 10
+  $health = Get-AuthorizedHealth
   [pscustomobject]@{
     ok = [bool]$health.ok
     action = 'start'
     environment = $Environment
-    urls = @{ api = "http://127.0.0.1:$($ports.api)"; cab = "http://127.0.0.1:$($ports.cab)"; web = "http://127.0.0.1:$($ports.web)" }
-    launchers = @{ api = $api.Id; cab = $cab.Id; web = $web.Id }
+    urls = @{ api = "http://127.0.0.1:$($ports.api)"; cab = "http://127.0.0.1:$($ports.cab)"; web = "http://127.0.0.1:$($ports.web)"; xrp = "http://127.0.0.1:$($ports.xrp)"; flow = "http://127.0.0.1:$($ports.flow)" }
+    launchers = @{ api = $api.Id; cab = $cab.Id; web = $web.Id; xrp = $xrp.Id; flow = $flow.Id }
     listeners = $listeners
     health = $health
   } | ConvertTo-Json -Depth 8

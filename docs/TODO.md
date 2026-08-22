@@ -4,7 +4,7 @@ Audit date: **2026-08-22**
 Audited repository version: **4.32.0 application baseline with historical protocol snapshots**  
 Purpose: this document is the prioritized engineering backlog required to turn the current research/runtime baseline into a reproducible, auditable, and production-ready release.
 
-Progress update (2026-08-22): **P0-01 is substantially closed**, **P0-02 is substantially closed including an explicit PostgreSQL lane**, **P0-03 is substantially closed**, **P0-04 is closed for file and live PostgreSQL API workflows**, **P0-05 is substantially closed**, **P0-06 is substantially closed**, and **P0-08 through P0-10 are closed**. The former internal web console is now the dedicated CAB application, `apps/web` is a separate public home, and both consume the versioned `@moonwitness/ui` package. The API suite passes 1,007 tests from both the repository root and `apps/api`; CAB passes 12 tests and the public web passes 2. PostgreSQL 18 schema 6, three isolated local databases/roles, seed checksums, restart persistence, serialized audit appends, development/staging E2E, audit/event chains, and backup/restore are locally certified. A unified launcher, environment badges, health metadata, and guarded environment smoke scripts are available. Remaining production work is sustained concurrency/failure/PITR depth, managed deployment, and source-control policy enforcement.
+Progress update (2026-08-22): **P0-01 is substantially closed**, **P0-02 is substantially closed including an explicit PostgreSQL lane**, **P0-03 is substantially closed**, **P0-04 is closed for file and live PostgreSQL API workflows**, **P0-05 is substantially closed**, **P0-06 is substantially closed**, and **P0-08 through P0-10 are closed**. The repository now has five explicit application boundaries: API, public web, public-user XRP, private CAB, and governed Flow. All human-facing applications consume the versioned `@moonwitness/ui` baseline. The backend closure audit rejects public RID claims, adds admin-only immutable/audited RID binding, revokes stale identity sessions, protects production internal/read/write surfaces, scopes jobs and reviewers, serializes actor/operation idempotency, uses optimistic version checks, and makes Flow review/Witness finalization retry-safe. XRP supports RID-scoped case, evidence, work-item, and human-review-request writes; Flow persists drafts and hash-only Witness commitments. The API suite passes 1,007 tests; the complete root suite and four production builds pass; shared UI/XRP/Flow/accessibility/governed-state contracts pass; and 16 automated visual baselines pass. PostgreSQL 18 schema 7 and all 106 runtime datasets are verified in three isolated local databases, all local admins are RID-bound, development/staging E2E passes, production-simulation disclosure checks pass, production preflight has zero warnings, and the production dependency audit reports zero vulnerabilities. Remaining production work includes sustained multi-process concurrency/failure/PITR depth, distributed rate limiting, managed key custody/deployment, source-control policy enforcement, complete CAB localization/accessibility, assistive-technology certification, and separate deployment certification.
 
 This is a technical and governance TODO. It does not promote a corpus pattern, numerical score, reviewer decision, or software inference into Divine judgement.
 
@@ -17,14 +17,14 @@ This is a technical and governance TODO. It does not promote a corpus pattern, n
 
 ## Executive finding
 
-The Revelation Grammar, Asma/Divine Ontology, Semantic Event Interpreter, Moral Lifecycle, Qur'anic Mizan, Human Review Gate, and Witness/Q-DAG components are present and their focused suites are largely healthy. The main remaining risk is no longer the absence of an analytical layer; it is that several layers are not yet connected into one closed, reproducible safety loop.
+The Revelation Grammar, Asma/Divine Ontology, Semantic Event Interpreter, Moral Lifecycle, Qur'anic Mizan, Human Review Gate, and Witness/Q-DAG components are present and their focused suites are healthy. Their local single-instance backend safety loop is connected and regression-tested. The main remaining risks are now multi-instance operations, external production infrastructure, independent domain review, and complete user-interface certification—not a missing backend analytical layer.
 
 The most important remaining gaps are:
 
 1. The green Git/CI baseline now needs durable publication of machine-readable certification artifacts. Branch protection remains blocked by the current GitHub plan while the repository is private.
 2. PostgreSQL concurrency, transaction-failure, retention, and point-in-time-recovery drills still need deeper certification.
-3. Browser session hardening, distributed rate limiting, production key custody, and full runtime response validation remain incomplete.
-4. Public-site deployment must be created from an auditable commit; CAB must remain a separately controlled internal deployment.
+3. Distributed rate limiting, production key custody/rotation, and generated full-depth runtime contracts remain incomplete.
+4. XRP, Flow, and CAB still need separately controlled production deployments and deployment-specific penetration/accessibility certification.
 
 ## Verification snapshot
 
@@ -43,11 +43,11 @@ These results record the state observed during this audit. They are not a new re
 | Witness/Q-DAG tests | PASS | Current focused witness suite passes. |
 | CAB tests | 16/16 PASS | Route, environment, visual, authentication, and guided case-workflow contracts pass. |
 | Public web tests | 2/2 PASS | Public metadata and internal-surface exclusion contracts pass. |
-| Shared UI contract | 2/2 PASS | CAB and public web consume the canonical token/component package. |
+| Shared UI/XRP/Flow/accessibility/governed-state contracts | 16/16 PASS | All four visual applications consume canonical preferences; shell/header, RID, dialog, keyboard-table, theme, locale, Evidence, Review, Witness, Audit, and World State invariants are covered. |
 | API tests | 1,007/1,007 PASS | Default data-driven, E2E, SQLite, native HTTP, and AI-analysis lanes pass after hermetic-driver and bundle-relative data fixes. PostgreSQL remains a separate integration lane. |
 | `preflight` | PASS | Completed after the Windows junction fix; corpus and manifest checks executed. |
 | `final:certify` | PASS | Completed after the Windows junction fix; seed, Revelation, lifecycle, event-chain, and synthetic certification checks executed. |
-| Live PostgreSQL certification | BASELINE PASS | PostgreSQL 18 schema 6 fresh installs seed 18,579 entities from 106 verified sources; development/staging E2E, post-write event/audit chains, restart, and custom-format backup/restore pass. See `POSTGRES_CERTIFICATION_4.32.0.md`. |
+| Live PostgreSQL certification | BASELINE PASS | PostgreSQL 18 schema 7 is installed and verified in the isolated development, staging, and production-simulation databases. All retain 106 verified sources, valid event/audit chains, least-privilege application roles, and durable auth sessions. See `POSTGRES_CERTIFICATION_4.32.0.md`. |
 | Source-control baseline | PASS | Commit `7b14b72` contains the complete v4.32.0 baseline and GitHub Actions run `32550799798` passed every build, test, and certification step on Linux. |
 
 ## P0 — release blockers
@@ -156,7 +156,7 @@ There is also a vocabulary mismatch: persisted evidence uses statuses such as `O
 
 **Finding:** `packages/contracts` does not yet type the complete analysis result. The web app defines part of its own `AnalysisResult`, and existing JSON schemas are present but are not consistently used to validate runtime API boundaries, persisted records, or fixtures.
 
-**Current status:** **SUBSTANTIALLY CLOSED** — canonical evidence/review-gate/evaluation types now exist in `packages/contracts`; the SDK and web consume shared types; the SDK exposes typed evidence attachment; and `/evaluate` performs a runtime review-gate contract check. Full runtime validation of every analysis field and generated schema coverage remain open.
+**Current status:** **SUBSTANTIALLY CLOSED** — canonical request/response, evidence, review-gate, evaluation, session, user, and Witness types now exist in `packages/contracts`. API and SDK success boundaries validate the canonical auth/observe/analyze/evaluate/query/resource/evidence/review surface at runtime and fail with a named contract diagnostic. Complete nested-field/schema generation and the remaining legacy CAB inspection routes remain open.
 
 **Change required:**
 
@@ -169,7 +169,7 @@ There is also a vocabulary mismatch: persisted evidence uses statuses such as `O
 **Acceptance criteria:**
 
 - [x] One contract package defines the canonical evidence, review-gate, evaluation, and Witness-facing result shape.
-- [ ] All API responses used by the web and SDK pass complete runtime validation.
+- [ ] All API responses used by the web and SDK pass complete runtime validation; canonical workflow routes are covered, while complete nested-field and legacy inspection-route coverage remains.
 - [x] Invalid emitted review-gate payloads fail with a specific diagnostic.
 - [x] Witness commitment changes use an explicit schema/model version change.
 
@@ -177,7 +177,7 @@ There is also a vocabulary mismatch: persisted evidence uses statuses such as `O
 
 **Finding:** root/API metadata reports 4.30.0, several workspace packages remain at 4.12/4.13, the web reports 4.4.0, and newer documents describe v4.31/v4.32 work. API `modelVersion` values still frequently report 4.30.0. Documentation also references scripts that do not exist and, in places, obsolete non-`/v1` routes.
 
-**Current status:** **SUBSTANTIALLY CLOSED** — application/workspace metadata is now 4.32.0, workspace dependency ranges are aligned, current release/test documents exist, documented dev/validate/certify/database/migration commands execute, API authentication route docs use `/api/v1`, and `npm run release:identity` checks the eight current packages. Historical protocol snapshots intentionally retain their own version numbers. Final commit/tag certification remains open under P0-07.
+**Current status:** **SUBSTANTIALLY CLOSED** — application/workspace metadata is now 4.32.0, workspace dependency ranges are aligned, current release/test documents exist, documented dev/validate/certify/database/migration commands execute, API authentication route docs use `/api/v1`, and `npm run release:identity` checks the ten current packages. Historical protocol snapshots intentionally retain their own version numbers. Final commit/tag certification remains open under P0-07.
 
 **Change required:**
 
@@ -264,7 +264,7 @@ There is also a vocabulary mismatch: persisted evidence uses statuses such as `O
 
 **Finding:** request bodies are buffered without an explicit maximum, malformed JSON can surface as a generic 500, CORS/SSE use `*`, security headers are not centrally enforced, and the in-memory rate limiter has limited eviction/proxy semantics.
 
-**Current status:** **PARTIALLY CLOSED** — request bodies now have a configurable 1 MiB default limit with structured 400/413 errors, security headers are centralized, production CORS requires an explicit allowlist, and expired rate-limit entries are evicted when the map grows. Focused abuse coverage passes for malformed and oversized JSON; slow-request/SSE stress coverage remains open.
+**Current status:** **SUBSTANTIALLY CLOSED FOR SINGLE INSTANCE** — request bodies have a configurable 1 MiB default limit with structured 400/413 errors; security headers are centralized; production CORS rejects origins outside an explicit allowlist; credentialed SSE no longer emits wildcard CORS; trusted-proxy handling is opt-in; separate authentication/AI/write/general buckets bound abuse; cookie `SameSite` is validated; production failures are redacted; and server/header/keepalive timeouts are bounded. Multi-instance shared limiting and slow/SSE stress depth remain open.
 
 **TODO:**
 
@@ -273,28 +273,31 @@ There is also a vocabulary mismatch: persisted evidence uses statuses such as `O
 - [x] Replace wildcard CORS with a configuration-backed allowlist for authenticated deployments.
 - [x] Add CSP, frame, MIME-sniffing, referrer, and transport-security headers appropriate to deployment.
 - [x] Replace or bound the in-memory rate-limit map; define TTL cleanup, trusted-proxy handling, and shared-store behavior for multiple instances.
-- [ ] Add abuse tests for large bodies, slow requests, repeated login attempts, and SSE connections.
+- [x] Add abuse tests for malformed/large bodies and repeated login attempts, including `429` and `Retry-After` behavior.
+- [ ] Add slow-request and sustained SSE connection stress tests.
 
 ### P1-02 — Strengthen authentication and session durability
 
 **Finding:** browser bearer tokens are stored in `localStorage`; file-mode JWT secrets can be randomly regenerated at restart; file-mode token revocation is memory-only; HMAC signatures are compared as ordinary strings; issuer/audience/key-rotation metadata is incomplete.
 
-**Current status:** **PARTIALLY CLOSED** — local JWT verification now uses constant-time signature comparison, rejects non-HS256/non-JWT headers, requires `exp`, checks `nbf`/issuer/audience when configured, adds unique `jti`, and production refuses an implicit signing secret. Browser cookie migration and durable revocation remain open.
+**Current status:** **SUBSTANTIALLY CLOSED** — access tokens are short-lived and verified with constant-time comparison, strict HS256 headers, expiry, optional issuer/audience, and unique `jti`. Browsers use `HttpOnly`/`SameSite` cookies without token-bearing JSON or `localStorage`; SDK/service clients use explicit bearer mode. File and PostgreSQL session state persists hashed rotating refresh tokens and revocation across restart. Public registration cannot claim RID; admin-only immutable RID binding is audited and revokes stale sessions. All three local admins are explicitly RID-bound. Signing-key rotation procedure and multi-instance failure drills remain open.
 
 **TODO:**
 
-- [ ] Prefer secure HttpOnly, SameSite cookies for the browser or document and mitigate the accepted XSS risk.
-- [ ] Persist revocation/session state or use short-lived access tokens with a governed refresh-token design.
+- [x] Prefer secure HttpOnly, SameSite cookies for the browser or document and mitigate the accepted XSS risk.
+- [x] Persist revocation/session state and use short-lived access tokens with a governed rotating refresh-token design.
 - [x] Use constant-time signature comparison and validate algorithm, issuer, audience, expiry, not-before, and unique token ID.
 - [x] Require stable managed secrets outside development and fail closed in production.
 - [ ] Define signing-key rotation and emergency revocation procedures.
-- [ ] Test logout/revocation across process restart and multiple API instances.
+- [x] Test logout/revocation and refresh replay across process restart in file mode.
+- [x] Reject public RID claims and require immutable, audited administrator binding with stale-session revocation.
+- [ ] Test cross-instance revocation under concurrent PostgreSQL API processes and forced connection failure.
 
 ### P1-03 — Implement the human-review workflow, not only the gate
 
 **Finding:** the gate produces decisions and reasons, but there is no complete workflow for assignment, acknowledgement, evidence request, disposition, escalation, or audited closure.
 
-**Current status:** **SUBSTANTIALLY CLOSED** — review records have explicit queue/assignment/acknowledgement/evidence-request/disposition/escalation/reopen transitions, are persisted separately from analysis, emit actor-attributed audit events, and are operable through the CAB Review Queue. CAB now also provides one guided Case Workflow for observation → evidence → analysis → human review → Witness → audit verification without terminal commands. Dedicated least-privilege reviewer roles and SLA/escalation automation remain open.
+**Current status:** **SUBSTANTIALLY CLOSED** — review records have explicit queue/assignment/acknowledgement/evidence-request/disposition/escalation/reopen transitions, are persisted separately from analysis, emit actor-attributed audit events, and are operable through the CAB Review Queue. Reviewer access is limited to unassigned or self-assigned active reviews. Flow review requests persist intent as `WITNESS_PENDING` before Q-DAG commit and concurrent retries converge on one review/Witness result. CAB also provides one guided Case Workflow for observation → evidence → analysis → human review → Witness → audit verification without terminal commands. SLA/escalation automation remains open.
 
 **TODO:**
 
@@ -305,13 +308,15 @@ There is also a vocabulary mismatch: persisted evidence uses statuses such as `O
 - [ ] Define re-open and supersession rules when evidence or model versions change.
 - [x] Show workflow actions and exact evidence references in the CAB UI.
 - [x] Provide a single guided CAB flow from case creation through Witness and audit verification.
+- [x] Limit reviewer target visibility to unassigned or self-assigned reviews and remove access from competing reviewers after assignment.
+- [x] Persist Flow review intent before Witness commit and prove concurrent replay converges on one governed result.
 - [ ] Add service-level objectives and escalation rules only after the workflow semantics are stable.
 
 ### P1-04 — Certify PostgreSQL persistence and migration discipline
 
-**Finding:** the PostgreSQL baseline is now certified, including the runtime evidence path and serialized audit writes. Advanced deployment behavior remains environment-dependent, and all remaining repository paths still need a static assertion preventing runtime DDL from returning.
+**Finding:** the PostgreSQL baseline is now certified, including the runtime evidence path, serialized audit writes, and a statically enforced repository/SQL boundary. Advanced deployment behavior remains environment-dependent.
 
-**Current status:** **BASELINE CERTIFIED, CONCURRENT AUDIT DEFECT CLOSED** — local PostgreSQL 18 schema 6 fresh installs, 106-source seed verification, canonical JSONB-safe hashing, database-ordered and transaction-locked audit append, development/staging E2E, post-write integrity, process restart, and custom-format backup/restore pass. Evidence persistence no longer creates schema at runtime. GitHub Actions provisions an isolated PostgreSQL 18 service. Sustained multi-process load, forced failure, PITR, and retention drills remain open.
+**Current status:** **BASELINE CERTIFIED, CONCURRENT AUDIT DEFECT CLOSED** — local PostgreSQL 18 schema 7 is verified in development, staging, and production-simulation, including 106-source/27-required-runtime-dataset verification, durable RID-bound admin sessions, canonical JSONB-safe hashing, database-ordered and transaction-locked audit append, optimistic entity updates, development/staging E2E, production-simulation read-boundary verification, post-write integrity, process restart, and custom-format backup/restore. Business actions use repositories/data mappers; a static contract limits SQL to six approved adapters, prohibits interpolated runtime values, and confines schema DDL to migrations plus migration-registry bootstrap. Application roles remain unable to create schema. GitHub Actions provisions an isolated PostgreSQL 18 service. Sustained multi-process load, forced failure, PITR, and retention drills remain open.
 
 **TODO:**
 
@@ -320,26 +325,27 @@ There is also a vocabulary mismatch: persisted evidence uses statuses such as `O
 - [x] Remove runtime DDL from PostgreSQL evidence persistence.
 - [x] Serialize concurrent audit appends with deterministic database ordering and verify integrity after E2E writes.
 - [x] Provide one launcher, health metadata, visible environment badges, and guarded development/staging certification scripts.
+- [x] Add optimistic compare-and-swap entity updates across memory, file, SQLite, and PostgreSQL persistence.
 - [ ] Test fresh install, upgrade from each supported schema, rollback/recovery, idempotency, concurrency, and transaction failure.
-- [ ] Move schema creation out of runtime repository methods and into versioned migrations.
+- [x] Move schema creation out of runtime repository methods and into versioned migrations.
 - [ ] Define backup, restore, point-in-time recovery, retention, and disaster-recovery drills.
 - [ ] Clarify and test the boundary between file mode, SQLite mode, and production PostgreSQL mode.
-- [ ] Add a static repository rule that rejects `CREATE/ALTER/DROP` statements outside migration and explicitly approved installer code.
-- [ ] Run sustained multi-process API/worker load and forced rollback/deadlock drills against the schema-6 audit chain.
+- [x] Add a static repository rule that rejects SQL outside approved adapters, runtime DDL outside migrations, and interpolated runtime SQL values.
+- [ ] Run sustained multi-process API/worker load and forced rollback/deadlock drills against the schema-7 audit chain.
 - [ ] Verify audit/evidence/Witness referential integrity under deletion and retention policies.
 
 ### P1-05 — Complete the SDK and shared client behavior
 
 **Finding:** the SDK is still minimal and carries older package metadata. Authentication is largely static-header based, and review/evidence workflows are not fully represented.
 
-**Current status:** **PARTIALLY CLOSED** — SDK metadata and canonical analysis/evaluation/evidence types are aligned, and typed observe/analyze/evaluate/query/command/resource/attachEvidence/listEvidence methods are available. Auth refresh, generated contract clients, and safe retry/idempotency policy remain open.
+**Current status:** **SUBSTANTIALLY CLOSED** — SDK metadata and canonical analysis/evaluation/evidence/session types are aligned. Typed workflow methods are available; bearer and cookie session lifecycles include explicit login/register/refresh/logout/me behavior; one guarded refresh follows a `401`; successful payloads are runtime-validated; and retries are restricted to GET or writes with an idempotency key. Contract generation and live-API CI coverage remain open.
 
 **TODO:**
 
 - [ ] Generate typed methods from the canonical API contract.
 - [x] Add analysis/evaluation, evidence, and error types.
-- [ ] Support governed token refresh/session behavior without hiding security failures.
-- [ ] Add retry/idempotency behavior only for safe operations.
+- [x] Support governed token refresh/session behavior without hiding security failures.
+- [x] Add retry/idempotency behavior only for safe operations.
 - [ ] Test the SDK against the real API contract in CI.
 
 ### P1-06 — Make score presentation obey epistemic state
@@ -357,13 +363,55 @@ There is also a vocabulary mismatch: persisted evidence uses statuses such as `O
 
 ### P1-07 — Add operational observability without leaking sensitive data
 
+**Current status:** **PARTIALLY CLOSED** — production anonymous health now exposes only status/release; authenticated audit authority is required for environment, database, storage, kernel, ledger, semantic registry, model, graph, and raw operational details. Job reads are requester-scoped and sanitized, and production exception messages are redacted. Separate readiness/dependency routes, formal log redaction policy, distributed metrics, and alerting remain open.
+
 **TODO:**
 
 - [ ] Separate liveness, readiness, and dependency health checks.
+- [x] Minimize anonymous production health and protect detailed dependency/kernel/ledger metadata.
+- [x] Scope job status to its requester or audit authority and remove raw payloads from the public projection.
 - [ ] Add structured logs, request correlation, job/Witness IDs, metrics, and traces.
 - [ ] Define redaction rules for tokens, personal data, submitted text, evidence, and reviewer notes.
 - [ ] Define log/audit retention separately; audit immutability must not imply indefinite storage of sensitive payloads.
 - [ ] Alert on failed persistence, blocked worker queues, signature failures, corpus digest mismatch, and repeated review-gate conflicts.
+
+### P1-08 — Build the unified MoonWitness Civic Command application family
+
+**Finding:** the active repository contains `apps/web`, `apps/cab`, and `apps/api`, while the authenticated public XRP portal and separate governed workflow application do not yet exist. `packages/ui` establishes a shared baseline but currently contains only a small primitive/token set. Building app-specific interfaces independently would recreate the visual and behavioral drift found in the legacy project.
+
+**Approved design decision (2026-08-22):** all human-facing applications use one **MoonWitness Civic Command System**. The direction is restrained civic sci-fi enterprise: distinctive spatial/causal visualization, high-trust government-ready presentation, and production usability. Retro/pixel/game styling is not part of the canonical interface. App responsibilities differ, but their visual language, interaction grammar, identity treatment, accessibility, themes, and localization must remain one system.
+
+**Current status:** **SHARED GOVERNED APPLICATION FOUNDATION IMPLEMENTED** — `ADR-0001-CIVIC-COMMAND-UI.md` freezes the system decision; `@moonwitness/ui` owns Solar/Lunar tokens, responsive private/public shells, navigation, preference controls, RID identity, semantic state/boundary components, metrics, causal lanes, accessible dialog behavior, and governed Evidence/Review Gate/Witness/Audit/World State views. CAB consumes these views in Case Workflow, Review Queue, and Observatory; XRP reads a sanitized RID workspace and writes new cases, observed evidence, work items, and review requests through scoped server routes; Flow persists bounded drafts and sends review requests through a human gate plus a hash-only Witness commitment. Public web content ships in Indonesian and English, CAB login/navigation has an initial bilingual lane, and CAB table records are keyboard selectable. Browser QA covers all four applications and 16 automated screenshot baselines cover Lunar/Solar desktop/mobile states. Full CAB feature-copy localization, account onboarding policy, complete assistive-technology audit, and separate deployment certification remain open.
+
+**Dependency order:**
+
+1. Complete the canonical runtime-response validation in P0-05.
+2. Complete browser transport and durable session work in P1-01 and P1-02.
+3. Complete the governed shared-client behavior in P1-05.
+4. Expand `packages/ui` before building app-local presentation layers.
+5. Create XRP and Flow, then migrate CAB and public web to the same application shell and component contracts.
+
+**Canonical application boundaries:**
+
+- `apps/web`: unauthenticated public home and product boundary documentation; no CAB surfaces or operational credentials.
+- `apps/xrp`: authenticated public-user portal for RID-scoped personal cases, evidence, projects, tasks, resources, and Flow access.
+- `apps/cab`: separately deployed private governance/operator console for world-state simulation, review, decisions, missions, Mizan assessment, Witness, and audit.
+- `apps/flow`: separately deployed governed workflow editor and execution history, using the same XRP identity/session boundary and RID authorization model.
+- `apps/api`: shared backend boundary; it does not own a separate visual language.
+
+**UI system requirements:**
+
+- [x] Record the Civic Command tokens, typography, iconography, motion, spatial layout, and accessibility rules as a versioned UI architecture decision.
+- [x] Expand `@moonwitness/ui` with semantic color tokens, Solar/Light and Lunar/Dark modes, responsive application/public shells, navigation, focus surfaces, forms, tables, dialogs, evidence state, review state, Witness state, audit timeline, causal lanes, and a bounded world-state snapshot. Deeper interactive graph/table variants remain normal product evolution rather than a missing baseline.
+- [x] Implement Indonesian and English for XRP/Flow and public web; CAB shell, login, and primary navigation have initial bilingual coverage. Full CAB feature-copy localization remains open.
+- [x] Make RID the only canonical human identity label in the shared shell. Authorization derives from explicit role, purpose, scope, and clearance—not achievement, reputation, moral score, spiritual rank, or a second identity.
+- [ ] Keep `SIMULATION · NOT REALITY` and `HUMAN AUTHORITY · LIMITED` visible on bounded world-state/governance simulations.
+- [x] Scaffold `apps/xrp` and `apps/flow` with independent build, test, environment, and route boundaries. XRP has governed public writes; Flow persists drafts/review requests and Witness commitments. Separate production deployment certification remains.
+- [x] Remove public self-registration from CAB; its login now states provisioned operator access and directs public users to XRP. Remaining public-user workflow separation is governed by the XRP/CAB route boundaries.
+- [x] Migrate CAB and public web away from app-local visual primitives where a canonical `@moonwitness/ui` component exists. CAB now uses `CivicShell`; public web uses `CivicPublicHeader`; both share preference controls and semantic tokens. Feature-specific CAB visualizations remain app-owned until matching governed primitives exist.
+- [ ] Add shared UI contract, accessibility, keyboard-navigation, responsive, localization, theme, and visual-regression coverage for web, XRP, CAB, and Flow. Source/behavior contracts pass 16 checks and 16 automated Lunar/Solar desktop/mobile screenshot baselines pass; complete assistive-technology certification remains open.
+- [ ] Prove that uncertain/provisional/blocked analysis states, non-normative Mizan wording, human-review requirements, and Witness/Audit provenance are presented consistently in every application.
+- [ ] Certify separate public XRP/web and private CAB deployments without leaking credentials, internal routes, evidence, reviewer notes, or operational configuration.
 
 ## P2 — semantic quality, scale, and maintainability
 

@@ -95,7 +95,20 @@ export async function readJsonBody(request: IncomingMessage): Promise<unknown> {
 
 export function bearerToken(request: IncomingMessage): string {
   const header = String(request.headers.authorization ?? '');
-  return header.startsWith('Bearer ') ? header.slice(7) : '';
+  if (header.startsWith('Bearer ')) return header.slice(7);
+  return requestCookie(request, 'mw_access') ?? '';
+}
+
+export function requestCookie(request: IncomingMessage, name: string): string | null {
+  const raw = typeof request.headers.cookie === 'string' ? request.headers.cookie : '';
+  for (const part of raw.split(';')) {
+    const separator = part.indexOf('=');
+    if (separator < 0) continue;
+    const key = part.slice(0, separator).trim();
+    if (key !== name) continue;
+    try { return decodeURIComponent(part.slice(separator + 1).trim()); } catch { return null; }
+  }
+  return null;
 }
 
 export function idempotencyKey(req: IncomingMessage): string | null { 

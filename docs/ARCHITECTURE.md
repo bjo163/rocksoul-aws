@@ -49,13 +49,16 @@ PERSISTENCE / EVENT LEDGER / AUDIT
 
 ```text
 apps/
-├─ api/            Universal HTTP entrypoint
-└─ web/            Human interface / AI Playground / Observatory UI
+├─ api/            Shared Universal HTTP entrypoint
+├─ web/            Unauthenticated public home and system boundaries
+├─ xrp/            Authenticated public-user RID portal
+├─ cab/            Private governance/operator console
+└─ flow/           Governed workflow editor and execution history
 ```
 
-The repository currently keeps the runtime small. Background work is handled by the worker/job subsystem in the backend packages rather than requiring a separate HTTP app.
+The active repository contains `api`, `web`, `xrp`, `cab`, and `flow`. XRP and Flow have independent packages, builds, tests, ports, and local launcher entries while sharing the governed UI and API/session boundaries. Background work is handled by the worker/job subsystem in the backend packages rather than requiring a separate HTTP app.
 
-The production boundary is the Universal API: it coordinates actor context, persistence, idempotency, observability, and the semantic engines. The Web UI and SDK consume that boundary rather than creating parallel write paths.
+The production boundary is the Universal API: it coordinates actor context, persistence, idempotency, observability, and the semantic engines. Web, XRP, CAB, Flow, and the SDK consume that boundary rather than creating parallel write paths. Public web/XRP and private CAB deployments must remain separable; the public bundles must not contain CAB credentials, internal routes, or operational configuration.
 
 ## 4. Package boundaries
 
@@ -64,8 +67,25 @@ packages/
 ├─ contracts/      shared schemas/contracts
 ├─ data-access/    repository/data-mapper client
 ├─ persistence/    persistence drivers + migrations/seed
-└─ sdk/            Universal API client
+├─ sdk/            Universal API client
+└─ ui/             shared Civic Command tokens, primitives, shells, and states
 ```
+
+### 4.1 Data-access and SQL boundary
+
+Business actions use `UniverseStore`, `PersistenceClient`, and typed repositories. API routes, CAB, XRP, Flow, and domain/analysis engines do not issue SQL. This is an internal repository/data-mapper architecture (ORM-like), not a dependency on Prisma, TypeORM, or another generated ORM.
+
+SQL is permitted only inside the approved PostgreSQL/SQLite persistence, authentication, idempotency, and Witness projection adapters. Runtime values use driver placeholders (`$1`, `?`, and parameter arrays); SQL string interpolation is prohibited. Versioned schema DDL belongs in `packages/persistence/src/schema.ts`; runtime providers may only bootstrap the migration registry before applying those migrations.
+
+`npm run test:persistence-boundary` statically inventories every source file containing SQL and fails if SQL escapes an approved adapter, runtime DDL returns, or a statement interpolates runtime values. This preserves database portability without leaking storage concerns into governed business behavior.
+
+## 4.2 Canonical human-interface system
+
+All human-facing applications use one **MoonWitness Civic Command System**. It is a restrained civic sci-fi enterprise language designed for public, government, and internal operational use. Retro/pixel/game presentation is explicitly excluded from the canonical system.
+
+Consistency is enforced through `@moonwitness/ui`: shared semantic tokens, typography, iconography, Solar/Light and Lunar/Dark modes, Indonesian/English localization behavior, accessibility, identity presentation, interaction states, and reusable operational visualizations. Applications may use different workspace compositions because their responsibilities differ, but they may not invent separate brands, authorization cues, evidence semantics, or review/audit status language.
+
+RID is the only canonical human identity label. Permissions derive from explicit role, purpose, scope, and clearance. A score, achievement, reputation, spiritual claim, or alternate identity may not grant authority. World-state screens describe bounded simulations and must surface `SIMULATION · NOT REALITY` and `HUMAN AUTHORITY · LIMITED`.
 
 ## 5. Core source areas
 

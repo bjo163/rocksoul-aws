@@ -3,46 +3,24 @@
     "HOME",
     "CASE WORKFLOW",
     "AI PLAYGROUND",
-    "OBSERVATORY",
     "REVIEW QUEUE",
-    "CAB",
-    "SHADOW",
-    "HEROES",
-    "MISSIONS",
-    "PROJECTS",
-    "KNOWLEDGE",
-    "RESOURCES",
-    "LIFE",
-    "ASMA",
-    "MĪZĀN",
-    "AUDIT"
+    "OBSERVATORY",
+    "MODEL REGISTRY"
   ],
   "menuDescriptions": {
-    "HOME": "Personal command center for your real-world workspace.",
+    "HOME": "Governed operations overview for the current operator session.",
     "CASE WORKFLOW": "Guided case, evidence, analysis, human review, Witness, and audit workflow without terminal commands.",
     "AI PLAYGROUND": "Analyze a case through Qur’an-grounded epistemic status, semantic vectors, Mīzān, evidence, causality and lifecycle visualization.",
     "REVIEW QUEUE": "Assign, acknowledge, request evidence, escalate, dispose, and reopen governed human reviews without rewriting source analysis.",
-    "CAB": "Boards for missions, changes, operators and selected references.",
-    "SHADOW": "Operator profile and active reference context.",
-    "HEROES": "Canonical reference catalog.",
-    "MISSIONS": "Mission objectives attached to workspaces.",
-    "PROJECTS": "Projects connected to missions and approved changes.",
-    "KNOWLEDGE": "Sources, claims, evidence, verification and clarification.",
-    "RESOURCES": "Income, wealth, assets and project resources.",
-    "LIFE": "Health, education and personal timeline.",
-    "ASMA": "Semantic knowledge graph and reference analysis.",
-    "MĪZĀN": "Balance, factors, evidence and accountability profile.",
-    "AUDIT": "Provenance, immutable events and decision history.",
-    "OBSERVATORY": "Live world-state, event ledger, graph integrity and recent recorded activity."
+    "OBSERVATORY": "Live operational model, event ledger, graph integrity and recent recorded activity.",
+    "MODEL REGISTRY": "Inspect governed model types and only use their capabilities when the operator role permits it."
   },
   "quickActions": [
     "New Case",
-    "Simulate AI",
-    "New CAB",
-    "Verify Knowledge",
-    "Open Projects",
-    "Review Asma",
-    "Open Mīzān"
+    "Analyze Case",
+    "Review Queue",
+    "Open Observatory",
+    "Open Registry"
   ],
   "aiExamples": [
     {

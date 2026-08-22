@@ -43,8 +43,10 @@ export class MemoryProvider implements PersistenceStore {
   entityRepository() {
     return {
       put: async (entity: EntityRecord) => {
-        const saved = { ...entity, version: entity.version ?? 1, updatedAt: entity.updatedAt ?? new Date().toISOString() };
-        const before = this.entities.get(saved.id) ?? null;
+        const before = this.entities.get(entity.id) ?? null;
+        if (entity.expectedVersion !== undefined && (before?.version ?? 0) !== entity.expectedVersion) throw Object.assign(new Error('ENTITY_VERSION_CONFLICT'), { code: 'ENTITY_VERSION_CONFLICT', statusCode: 409, currentVersion: before?.version ?? 0 });
+        const { expectedVersion: _expectedVersion, ...candidate } = entity;
+        const saved = { ...candidate, version: candidate.version ?? 1, updatedAt: candidate.updatedAt ?? new Date().toISOString() };
         this.entities.set(saved.id, saved);
         this.appendAudit({operation: before ? 'UPDATE' : 'CREATE', modelType: saved.type, recordId: saved.id, actorId: saved.updatedBy ?? saved.createdBy ?? 'SYSTEM-001', timestamp: saved.updatedAt ?? new Date().toISOString(), changedFields: changedFields(before as any, saved as any), before: before as any, after: saved as any});
         return saved;

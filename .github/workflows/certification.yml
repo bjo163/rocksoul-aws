@@ -87,6 +87,12 @@ jobs:
       - name: Build public web
         run: npm run build:web
 
+      - name: Build XRP
+        run: npm run build:xrp
+
+      - name: Build Flow
+        run: npm run build:flow
+
       - name: Run core regression suite
         run: npm test
 

@@ -1,25 +1,37 @@
 import type { AnalysisResult, Model } from '../types';
 
 const AUTH_KEY = 'moonwitness.auth';
+const API_BASE = import.meta.env.VITE_API_URL ?? 'http://127.0.0.1:8787';
+function apiUrl(url: string): string { return url.startsWith('/api/') ? `${API_BASE}${url}` : url; }
 
-export function getToken(): string | null {
-  try { return JSON.parse(localStorage.getItem(AUTH_KEY) || 'null')?.token ?? null; } catch { return null; }
+export function hasStoredSession(): boolean {
+  try { return Boolean(JSON.parse(localStorage.getItem(AUTH_KEY) || 'null')?.sessionId); } catch { return false; }
 }
-export function saveAuth(payload: unknown): void { localStorage.setItem(AUTH_KEY, JSON.stringify(payload)); }
+export function saveAuth(payload: any): void {
+  const safe = payload && typeof payload === 'object' ? { protocol: payload.protocol, transport: 'cookie', expiresAt: payload.expiresAt, refreshExpiresAt: payload.refreshExpiresAt, sessionId: payload.sessionId, user: payload.user } : null;
+  localStorage.setItem(AUTH_KEY, JSON.stringify(safe));
+}
 export function clearAuth(): void { localStorage.removeItem(AUTH_KEY); }
 
-export async function getJSON<T>(url: string, init?: RequestInit): Promise<T> {
-  const token = getToken();
+async function requestJSON<T>(url: string, init?: RequestInit, allowRefresh = true): Promise<T> {
   const headers = new Headers(init?.headers);
   if (init?.body !== undefined) headers.set('content-type', 'application/json');
-  if (token) headers.set('authorization', `Bearer ${token}`);
+  const method = String(init?.method ?? 'GET').toUpperCase();
+  if (!['GET', 'HEAD'].includes(method) && !url.startsWith('/api/v1/auth/') && !headers.has('idempotency-key')) {
+    headers.set('idempotency-key', globalThis.crypto?.randomUUID?.() ?? `cab-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+  }
   const controller = new AbortController();
   const timeout = window.setTimeout(() => controller.abort(), 20_000);
   try {
-    const res = await fetch(url, {...init, headers, signal: init?.signal ?? controller.signal});
+    const res = await fetch(apiUrl(url), {...init, headers, credentials:'include', signal: init?.signal ?? controller.signal});
     const raw = await res.text();
     let body: any = null;
     try { body = raw ? JSON.parse(raw) : null; } catch { body = raw; }
+    if (res.status === 401 && allowRefresh && !url.startsWith('/api/v1/auth/')) {
+      const refreshed = await requestJSON<any>('/api/v1/auth/refresh', {method:'POST'}, false).catch(() => null);
+      if (refreshed?.sessionId) { saveAuth(refreshed); return requestJSON<T>(url, {...init, headers}, false); }
+      clearAuth();
+    }
     if (!res.ok) {
       const message = typeof body === 'object' && body?.message ? body.message : (typeof body === 'object' && body?.error ? body.error : raw || res.statusText);
       throw new Error(`${res.status} ${message}`);
@@ -33,9 +45,10 @@ export async function getJSON<T>(url: string, init?: RequestInit): Promise<T> {
   }
 }
 
+export async function getJSON<T>(url: string, init?: RequestInit): Promise<T> { return requestJSON<T>(url, init); }
+
 export const api = {
   health: () => getJSON('/api/v1/health'),
-  register: (body: {username:string; password:string; rid?:string}) => getJSON('/api/v1/auth/register', {method:'POST', body:JSON.stringify(body)}),
   login: (body: {username:string; password:string}) => getJSON('/api/v1/auth/login', {method:'POST', body:JSON.stringify(body)}),
   logout: () => getJSON('/api/v1/auth/logout', {method:'POST'}),
   me: () => getJSON('/api/v1/auth/me'),

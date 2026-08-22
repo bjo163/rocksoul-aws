@@ -101,7 +101,10 @@ function HumanReviewGate({ gate }: { gate: any }) {
   </div>;
 }
 
-export function AiPlayground() {
+export function AiPlayground({ locale = 'id', canAnalyze = true }: { locale?: 'id' | 'en'; canAnalyze?: boolean }) {
+  const copy = locale === 'id'
+    ? { eyebrow: 'ANALISIS TERKELOLA', title: 'Observatorium Semantik', text: 'Analisis satu kasus melalui interpretasi semantik, RGBL, gerbang tindakan, dampak, waktu, kausalitas, bukti, dan Mīzān.', disabled: 'RID diperlukan sebelum analisis dapat disimpan.' }
+    : { eyebrow: 'GOVERNED ANALYSIS', title: 'Semantic observatory', text: 'Analyze one case through semantic interpretation, RGBL, action gates, impacts, time, causality, evidence, and Mīzān.', disabled: 'An RID is required before analysis can be persisted.' };
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
@@ -159,9 +162,9 @@ export function AiPlayground() {
   return <div className="mw-ai-playground">
     <div className="mw-playground-hero">
       <div>
-        <div className="mw-eyebrow">UNIVERSE OS · AI ANALYZER</div>
-        <h2>Semantic Observatory</h2>
-        <p>Analyze one case through semantic interpretation, RGBL, action gates, impacts, time, causality, evidence and Mīzān.</p>
+        <div className="mw-eyebrow">{copy.eyebrow}</div>
+        <h2>{copy.title}</h2>
+        <p>{copy.text}</p>
       </div>
       <div className="mw-playground-badge">{persisted ? 'PERSISTED · MODEL + EVIDENCE' : 'MODEL + EVIDENCE'}</div>
     </div>
@@ -175,8 +178,9 @@ export function AiPlayground() {
         <textarea className="mw-ai-textarea mw-ai-textarea-large" placeholder="Describe an event, action, observation, question, or case…" value={text} onChange={e => setText(e.target.value)} />
         <div className="mw-input-footer">
           <span className="mw-muted">The analyzer reports observed, inferred, supported and unknown information separately.</span>
-          <div className="mw-ai-actions"><button className="mw-ai-btn" onClick={analyze} disabled={loading || !text.trim()}>{loading ? 'Running semantic pipeline…' : 'Analyze Case'}</button>{caseId && <button className="mw-ai-btn" onClick={async()=>{try{const saved:any=await api.universeResource(caseId);setResult(saved.entity?.data ?? saved);setPersisted(true);}catch(err){setError(err instanceof Error?err.message:'PERSISTENCE_READ_ERROR');}}}>Reload Case</button>}</div>
+          <div className="mw-ai-actions"><button className="mw-ai-btn" onClick={analyze} disabled={!canAnalyze || loading || !text.trim()}>{loading ? 'Running semantic pipeline…' : 'Analyze Case'}</button>{caseId && <button className="mw-ai-btn" onClick={async()=>{try{const saved:any=await api.universeResource(caseId);setResult(saved.entity?.data ?? saved);setPersisted(true);}catch(err){setError(err instanceof Error?err.message:'PERSISTENCE_READ_ERROR');}}}>Reload Case</button>}</div>
         </div>
+        {!canAnalyze && <div className="mw-error" role="alert">{copy.disabled}</div>}
         {error && <div className="mw-error">{error}</div>}
       </div>
     </div>

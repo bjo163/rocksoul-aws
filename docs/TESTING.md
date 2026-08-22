@@ -24,16 +24,23 @@ npm run build:api
 npm run preflight
 npm run db:verify
 npm run db:runtime-verify
+npm run test:persistence-boundary
+npm run test:visual
+npm run test:api-cookie-session
 node scripts/transpile-runner.mjs tests/semantic-realcases.test.ts tests/api-web-contract.test.ts
 ```
 
+`npm run test:visual` compares 16 credential-free screenshot baselines: CAB, public web, XRP, and Flow in Lunar/Solar modes at desktop and mobile viewports. It serves the already-built public web with its production preview command, avoiding Cloudflare development-worker differences in screenshot runs. Use `npm run test:visual:update` only when an intentional reviewed UI change requires new baselines. `npm run test:api-cookie-session` covers browser sessions, public RID-claim rejection, admin-only immutable RID binding, stale-session revocation, XRP same-RID sharing, cross-RID projection isolation, server-side owner stamping, no-RID rejection, removal of evidence/reviewer-note content, cross-RID object denial, public evidence status limits, reviewer assignment isolation, production disclosure/auth boundaries, and concurrent Flow human-review/Witness convergence.
+
 Live database commands require their corresponding deployment dependencies and services. Semantic and witness suites are designed to run without a network service.
 
-The API test suite runs against the native HTTP server and covers health, AI analysis, authentication, case persistence, replay, audit integrity, and idempotency. Persistence recovery tests use a temporary file store and simulate a process restart by closing and reopening the provider.
+The API test suite runs against the native HTTP server and covers health, AI analysis, authentication, case persistence, replay, audit integrity, and idempotency. Persistence recovery tests use a temporary file store and simulate a process restart by closing and reopening the provider. `npm run test:persistence-boundary` verifies that business/application source contains no SQL, only the six approved data adapters contain statements, runtime schema DDL cannot escape migrations, and runtime values are never interpolated into statements.
+
+The 2026-08-22 backend closure run additionally passed `npm --prefix apps/api test` at 1,007/1,007, `npm test`, all four application builds, migration contracts, production preflight with zero warnings, `npm audit --omit=dev --audit-level=high` with zero vulnerabilities, development/staging workflow certificates, and `db:verify` plus `db:runtime-verify` for development, staging, and production-simulation.
 
 ## Robust Data-Driven Testing (Matrix Engine)
 Our testing infrastructure utilizes a powerful data-driven generator (`generate-test-cases.js`) that spawns over 1000+ deterministic JSON cases to thoroughly assault the API routes, ensuring 100% test coverage across:
-- **Authentication & Security:** Login matrix, Rate limiting bypasses, JWT stateless verifications, Online tracking (`/api/v1/auth/online`).
+- **Authentication & Security:** Login matrix, route-specific throttling, signed access-token verification, durable revocation, refresh rotation/replay rejection, browser cookie transport, SDK session lifecycle, and online tracking (`/api/v1/auth/online`).
 - **Kernel Abstractions:** Semantic registries, graph integrity checks, metrics.
 - **Workflow Engines (CAB & Justice):** Event-sourced commands pushing multi-stage workflow transitions.
 - **Resource Flow:** Ledger validations and Zakat/Finance event tracking.

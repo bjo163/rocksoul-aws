@@ -11,6 +11,7 @@ const routes = [
   '/api/v1/health',
   '/api/v1/auth/register',
   '/api/v1/auth/login',
+  '/api/v1/auth/refresh',
   '/api/v1/auth/logout',
   '/api/v1/auth/me',
   '/api/v1/features',
@@ -29,6 +30,10 @@ const routes = [
 for (const route of routes) if (!apiSource.includes(route)) throw new Error(`API route missing: ${route}`);
 if (!webApi.includes('/api/v1/ai/analyze')) throw new Error('Web AI analyzer route missing');
 if (!webApi.includes('getJSON<AnalysisResult>')) throw new Error('Web AI analyzer is not typed');
+if (!/credentials\s*:\s*['"]include['"]/.test(webApi)) throw new Error('CAB browser transport must include HttpOnly session cookies');
+if (webApi.includes("localStorage.getItem('mw-auth')") || webApi.includes('Authorization: `Bearer ${auth.token}`')) {
+  throw new Error('CAB must not read a bearer token from localStorage');
+}
 if ((apiSource+appSource).includes('demo1234') || (apiSource+appSource).includes('RID-001')) throw new Error('Demo credentials remain hardcoded in API');
 
 console.log(`API↔WEB contract PASS: ${routes.length} routes checked`);

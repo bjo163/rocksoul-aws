@@ -28,7 +28,7 @@ export class UniverseStore {
     const aggregate = createCaseAggregate(input);
     if (!this.persistence.store.batch) throw new Error('TRANSACTION_NOT_SUPPORTED');
     await this.persistence.store.batch(async () => {
-      await this.persistence.asActor(actorId).saveEntity(toEntity(aggregate));
+      await this.persistence.asActor(actorId).saveEntity({ ...toEntity(aggregate), expectedVersion: 0 });
       await this.persistEvidence(aggregate, actorId);
       await this.events.append({
         eventId: `EVT-CASE-${aggregate.id}-${aggregate.version}-${Date.now()}`,
@@ -57,7 +57,7 @@ export class UniverseStore {
     }
     if (!this.persistence.store.batch) throw new Error('TRANSACTION_NOT_SUPPORTED');
     await this.persistence.store.batch(async () => {
-      await this.persistence.asActor(actorId).saveEntity(toEntity(aggregate));
+      await this.persistence.asActor(actorId).saveEntity({ ...toEntity(aggregate), expectedVersion: existing ? Number(existing.version ?? 1) : 0 });
       await this.persistEvidence(aggregate, actorId);
       await this.events.append({
         eventId: `EVT-CASE-${aggregate.id}-${aggregate.version}-${Date.now()}`,

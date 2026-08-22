@@ -9,7 +9,7 @@ const rootPackage = readJson('package.json');
 const expected = rootPackage.version;
 if (typeof expected !== 'string' || !/^\d+\.\d+\.\d+$/.test(expected)) throw new Error('RELEASE_VERSION_INVALID');
 
-const packageFiles = ['apps/api/package.json', 'apps/cab/package.json', 'apps/web/package.json', 'packages/contracts/package.json', 'packages/data-access/package.json', 'packages/persistence/package.json', 'packages/sdk/package.json', 'packages/ui/package.json'];
+const packageFiles = ['apps/api/package.json', 'apps/cab/package.json', 'apps/web/package.json', 'apps/xrp/package.json', 'apps/flow/package.json', 'packages/contracts/package.json', 'packages/data-access/package.json', 'packages/persistence/package.json', 'packages/sdk/package.json', 'packages/ui/package.json'];
 const packages = packageFiles.map((file) => ({ file, version: readJson(file).version }));
 const mismatched = packages.filter((item) => item.version !== expected);
 if (mismatched.length) throw new Error(`RELEASE_PACKAGE_VERSION_MISMATCH:${JSON.stringify({ expected, mismatched })}`);

@@ -5,8 +5,9 @@ import { PostgresAuthService } from '../src/access/postgres-auth.js';
 const dataDir = path.resolve(process.env.MOONWITNESS_DATA_DIR ?? '.data');
 const username = process.env.MOONWITNESS_ADMIN_USERNAME;
 const password = process.env.MOONWITNESS_ADMIN_PASSWORD;
-if (!username || !password) {
-  console.error('Set MOONWITNESS_ADMIN_USERNAME and MOONWITNESS_ADMIN_PASSWORD.');
+const rid = process.env.MOONWITNESS_ADMIN_RID;
+if (!username || !password || !rid) {
+  console.error('Set MOONWITNESS_ADMIN_USERNAME, MOONWITNESS_ADMIN_PASSWORD, and MOONWITNESS_ADMIN_RID.');
   process.exit(2);
 }
 if (password.length < 12) {
@@ -22,13 +23,21 @@ try {
       process.exit(2);
     }
     const auth = await PostgresAuthService.create({ jwtSecret: jwtSecret || 'change-me-before-production' });
-    const user = await auth.createUser({ username, password, roles: ['ADMIN'] });
+    const existing = auth._users.get(username);
+    if (existing && !existing.roles.includes('ADMIN')) throw new Error('Existing username is not an ADMIN account.');
+    const user = existing
+      ? await auth.assignRid(existing.userId, rid)
+      : await auth.createUser({ username, password, rid, roles: ['ADMIN'] });
     console.log(JSON.stringify(user, null, 2));
     await auth.close();
     process.exit(0);
   }
   const auth = createAuthService({ storagePath: path.join(dataDir, 'auth-users.json') });
-  const user = auth.createUser({ username, password, roles: ['ADMIN'] });
+  const existing = auth._users.get(username);
+  if (existing && !existing.roles.includes('ADMIN')) throw new Error('Existing username is not an ADMIN account.');
+  const user = existing
+    ? auth.assignRid(existing.userId, rid)
+    : auth.createUser({ username, password, rid, roles: ['ADMIN'] });
   console.log(JSON.stringify(user, null, 2));
 } catch (error) {
   console.error(error instanceof Error ? error.message : String(error));

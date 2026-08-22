@@ -27,6 +27,8 @@ export interface AuditRecord {
 export interface EntityRecord extends AuditFields {
   id: string;
   type: string;
+  /** Optional compare-and-swap guard; it is checked but never persisted. */
+  expectedVersion?: number;
   version?: number;
   payload: Record<string, unknown>;
   updatedAt?: string;

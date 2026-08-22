@@ -5,12 +5,13 @@ The Universal Event/State/Knowledge Platform backend (API & Kernel) has reached 
 
 ### Milestones Achieved:
 1. **Core Kernel Abstractions**: Implemented zero-dependency `UniverseStore`, `EntityRepository`, and `EventStore`.
-2. **Pluggable Persistence**: Support for `Memory`, `File`, `SQLite`, and `Postgres` drivers using a unified schema approach (`schema.ts`).
+2. **Pluggable Persistence**: Support for `Memory`, `File`, `SQLite`, and `Postgres` drivers using a unified schema approach (`schema.ts`). Business actions use the internal repository/data-mapper API; SQL is confined to six parameterized adapters and guarded by a static boundary test, while schema DDL remains migration-owned.
 3. **Event-Sourced Ledger Integrity**: Business events are strictly decoupled from system operational data (Traces and Jobs), preventing hash-chain pollution.
 4. **Security, Telemetry & Authentication**:
-   - JWT stateless sessions.
-   - Robust `idempotencyKey` handling.
-   - Rate limiting and standard API response constraints.
+   - Short-lived signed access tokens backed by durable revocable sessions and rotating refresh-token hashes.
+   - Public RID claims prohibited; administrator RID provisioning/binding is immutable, audited, and revokes stale sessions.
+   - Actor/operation-scoped idempotency and optimistic compare-and-swap updates for governed XRP/Flow writes.
+   - Endpoint-specific rate limiting, minimal production public health, requester-scoped jobs, and redacted production failures.
    - Server-Sent Events (SSE) `/api/v1/stream` for real-time `Observability` monitoring.
    - `/api/v1/auth/online` for real-time tracking of online users and their `lastSeen` status.
 5. **Zero-Dependency Guardrails**: Native `v` validator schema protects command ingestion.
@@ -18,10 +19,10 @@ The Universal Event/State/Knowledge Platform backend (API & Kernel) has reached 
 
 ### Versioning
 - **Current Version:** `4.32.0`.
-- **4.32 integration status:** Human Review Gate propagation, evidence-to-reanalysis flow, canonical contracts, SDK evidence attachment, Windows certification runner, hermetic API tests, and versioned route contracts are implemented and covered by focused verification. Live PostgreSQL deployment certification and production security hardening remain environment-dependent release gates.
+- **4.32 integration status:** Human Review Gate propagation, evidence-to-reanalysis flow, canonical contracts, SDK evidence attachment, durable browser/SDK sessions, immutable RID binding, production API disclosure controls, idempotent XRP/Flow writes, reviewer assignment isolation, Windows certification runner, hermetic API tests, and versioned route contracts are implemented and covered by regression verification. The three local PostgreSQL environments are migrated to schema 7 and pass database/runtime checks; managed deployment, distributed controls, and remaining production security runbooks remain environment-dependent release gates.
 
 ### Current deployment boundaries
-- Live PostgreSQL certification requires an accessible target server.
+- The local development, staging, and production-simulation PostgreSQL databases are schema-7 certified; any external production target requires its own migration and recovery certification.
 - Production witness startup requires externally supplied `WITNESS_KEY_PASSWORD`.
 - Single-node backup/recovery must preserve both the encrypted keystore and its separately managed password.
 - Multi-node networking is intentionally deferred.
@@ -29,6 +30,7 @@ The Universal Event/State/Knowledge Platform backend (API & Kernel) has reached 
 ### Current Domain Focus
 - **Single-node baseline complete**: local Q-DAG durability, Mizan commitments, encrypted identity, signed checkpoints, backup verification, recovery drill, and diagnostics are implemented.
 - **Revelation Semantic Core v4.30 active**: v4.29 grammar remains intact and now feeds a corpus-derived Divine Ontology. Polarity/negation is preserved into Asma and the Moral Graph; ontology clusters never become canonical Names or normative authority. Root/lemma outputs remain non-authoritative candidates and Tawrat/Zabur/Injil remain corroborative textual witnesses.
+- **Civic Command governed UI foundation active**: public web, public-user XRP, private CAB, and governed Flow have explicit app boundaries. CAB/XRP/Flow consume the shared application shell or identity/preferences contract; public web consumes the shared public header and preference controls. Shared Evidence, Review Gate, Witness, Audit Timeline, and bounded World State views preserve uncertainty and human-authority boundaries across CAB/XRP/Flow. Solar/Lunar and Indonesian/English are active across all four visual applications, with full CAB feature-copy translation still in progress. CAB no longer offers public self-registration. XRP now loads sanitized live case/evidence/review/work-item/Witness projections from a server-derived RID scope, and 16 desktop/mobile Lunar/Solar screenshot baselines guard the four-application visual family. Complete accessibility certification and separate production deployments remain open.
 
 ## 4.12.0 pre-test hardening
 

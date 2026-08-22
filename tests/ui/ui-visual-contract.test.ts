@@ -13,20 +13,19 @@ test('all canonical menus are rendered', () => {
 });
 
 test('authentication UI is complete', () => {
-  for (const needle of ['login','register','logout','api.login','api.register','api.me','api.logout','moonwitness.auth']) assert.ok(app.includes(needle) || api.includes(needle), needle);
+  for (const needle of ['login','logout','api.login','api.me','api.logout','moonwitness.auth','Provisioned accounts only']) assert.ok(app.includes(needle) || api.includes(needle), needle);
+  assert.ok(!app.includes('api.register'));
 });
 
-test('theme system supports dark and light', () => {
-  assert.match(app, /Theme = 'dark' \| 'light'/);
-  assert.match(app, /dataset\.theme/);
-  assert.match(app, /Toggle theme/);
-  assert.match(css, /:root\[data-theme="light"\]/);
-  assert.match(css, /color-scheme: dark/);
-  assert.match(css, /color-scheme: light/);
+test('theme system consumes canonical Solar and Lunar preferences', () => {
+  assert.match(app, /useCivicPreferences/);
+  assert.match(app, /CivicShell/);
+  assert.match(css, /--bg:var\(--mw-bg\)/);
+  assert.doesNotMatch(app, /dataset\.theme|moonwitness\.theme/);
 });
 
-test('cosmic visual system is present', () => {
-  for (const token of ['--accent','--accent-2','mw-stars','mw-orb','radial-gradient','backdrop-filter']) assert.ok(css.includes(token), token);
+test('Civic Command visual system is present', () => {
+  for (const token of ['--accent','--accent-2','--mw-bg','mw-orb','radial-gradient','backdrop-filter']) assert.ok(css.includes(token), token);
 });
 
 test('real-world default remains visible', () => {

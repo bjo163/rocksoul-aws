@@ -53,8 +53,14 @@ import { WitnessObservability } from '../../../src/ledger/witness-observability.
 import { runWitnessDiagnostics } from '../../../src/ledger/witness-diagnostics.js';
 import { appendMizanWitness } from '../../../src/ledger/witness-mizan.js';
 import { LocalWitnessDagStore } from '../../../src/ledger/local-dag-store.js';
+import { assertApiResponseContract, ContractValidationError } from '../../../packages/contracts/src/index.js';
 
 export async function buildApp(options: AppOptions = {}): Promise<HttpApp> {
+  const cookieSameSite = process.env.MW_COOKIE_SAME_SITE ?? 'Lax';
+  if (!['Lax', 'Strict', 'None'].includes(cookieSameSite)) throw new Error('MW_COOKIE_SAME_SITE_INVALID');
+  if (cookieSameSite === 'None' && process.env.NODE_ENV !== 'production' && process.env.MW_COOKIE_SECURE !== '1') {
+    throw new Error('MW_COOKIE_SAME_SITE_NONE_REQUIRES_SECURE');
+  }
   const yamlConfig = loadDatabaseConfig(path.resolve(here, '../../../'));
   const dataDir = options.dataDir ?? path.resolve(process.env.MOONWITNESS_DATA_DIR ?? '.data');
   const persistenceDriver = options.persistenceDriver ?? (process.env.STORAGE_DRIVER as any) ?? yamlConfig.storage?.driver ?? 'file';
@@ -154,6 +160,7 @@ export async function buildApp(options: AppOptions = {}): Promise<HttpApp> {
       async persistKeys() { if(witnessStore) for(const key of witnessKeyStore.list()) await witnessStore.putKey(key); },
       async appendMizan(input:any) { const node=appendMizanWitness(witnessDag,input); await witnessDagStore.save(witnessDag); if(witnessStore) await witnessStore.putNode(node); witnessMetrics.record('NODE_APPENDED'); return node; },
       async commitMizan(input:any) { const node=appendMizanWitness(witnessDag,input); await witnessDagStore.save(witnessDag); if(witnessStore) await witnessStore.putNode(node); witnessMetrics.record('NODE_APPENDED'); let checkpoint=null; if(process.env.WITNESS_AUTO_CHECKPOINT!=='0' && witnessKeyStore.activeIdentity()){ const active=witnessKeyStore.activeIdentity()!; checkpoint=signCheckpoint(witnessDag.checkpoint(),active); await witnessCheckpointStore.put(checkpoint); if(witnessStore) await witnessStore.putCheckpoint(checkpoint); witnessMetrics.record('CHECKPOINT_CREATED'); } return { node, checkpoint, root:witnessDag.root() }; },
+      async commit(input:{ nodeId?:string; kind:string; payload:Record<string,unknown>; actorId?:string|null }) { const node=witnessDag.append(input); await witnessDagStore.save(witnessDag); if(witnessStore) await witnessStore.putNode(node); witnessMetrics.record('NODE_APPENDED'); let checkpoint=null; if(process.env.WITNESS_AUTO_CHECKPOINT!=='0' && witnessKeyStore.activeIdentity()){ const active=witnessKeyStore.activeIdentity()!; checkpoint=signCheckpoint(witnessDag.checkpoint(),active); await witnessCheckpointStore.put(checkpoint); if(witnessStore) await witnessStore.putCheckpoint(checkpoint); witnessMetrics.record('CHECKPOINT_CREATED'); } return { node, checkpoint, root:witnessDag.root() }; },
       async createCheckpoint(at?: string) { const active=witnessKeyStore.activeIdentity(); if(!active) throw new Error('WITNESS_ACTIVE_KEY_NOT_FOUND'); const signed=signCheckpoint(witnessDag.checkpoint(at),active); await witnessCheckpointStore.put(signed); if(witnessStore) await witnessStore.putCheckpoint(signed); witnessMetrics.record('CHECKPOINT_CREATED'); return signed; },
       async createBackup(at?: string) { const result=await witnessBackups.create(at); witnessMetrics.record('BACKUP_CREATED'); return result; },
       async diagnostics() { const result=await runWitnessDiagnostics({ dataDir, dag:witnessDag, keyStore:witnessKeyStore, checkpoints:witnessCheckpointStore, backups:witnessBackups }); witnessMetrics.record('DIAGNOSTIC_RUN'); return result; },
@@ -170,6 +177,10 @@ export async function buildApp(options: AppOptions = {}): Promise<HttpApp> {
   const httpServer = createServer((request, response) => {
     void handleRequest(request, response, rootRouter, ctx);
   });
+  httpServer.requestTimeout = Number(process.env.MW_REQUEST_TIMEOUT_MS ?? 30_000);
+  httpServer.headersTimeout = Number(process.env.MW_HEADERS_TIMEOUT_MS ?? 15_000);
+  httpServer.keepAliveTimeout = Number(process.env.MW_KEEP_ALIVE_TIMEOUT_MS ?? 5_000);
+  httpServer.maxRequestsPerSocket = Number(process.env.MW_MAX_REQUESTS_PER_SOCKET ?? 1_000);
 
   return {
     handler: (request, response) => handleRequest(request, response, rootRouter, ctx),
@@ -196,22 +207,45 @@ export async function buildApp(options: AppOptions = {}): Promise<HttpApp> {
 }
 
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
-const MAX_REQUESTS_PER_MINUTE = 600;
 
-function checkRateLimit(ip: string): boolean {
-  if (process.env.NODE_ENV === 'test') return true;
-  
+function positiveInteger(value: string | undefined, fallback: number): number {
+  const parsed = Number(value ?? fallback);
+  return Number.isFinite(parsed) && parsed >= 1 ? Math.floor(parsed) : fallback;
+}
+
+function checkRateLimit(ip: string, pathName: string): { allowed: boolean; limit: number; remaining: number; retryAfter: number } {
+  if (process.env.NODE_ENV === 'test') return { allowed: true, limit: Number.MAX_SAFE_INTEGER, remaining: Number.MAX_SAFE_INTEGER, retryAfter: 0 };
   const now = Date.now();
-  if (rateLimitMap.size > 10000) for (const [key, value] of rateLimitMap) if (value.resetAt <= now) rateLimitMap.delete(key);
-  let record = rateLimitMap.get(ip);
+  const authSensitive = ['/api/v1/auth/login', '/api/v1/auth/register', '/api/v1/auth/refresh'].includes(pathName);
+  const aiSensitive = ['/api/v1/ai/analyze', '/api/v1/analyze', '/api/v1/evaluate'].includes(pathName);
+  const writeSensitive = pathName === '/api/v1/observe' || pathName.startsWith('/api/v1/xrp/') || pathName.startsWith('/api/v1/flow/');
+  const limit = authSensitive
+    ? positiveInteger(process.env.MW_AUTH_RATE_LIMIT_PER_MINUTE, 30)
+    : aiSensitive
+      ? positiveInteger(process.env.MW_AI_RATE_LIMIT_PER_MINUTE, 30)
+      : writeSensitive
+        ? positiveInteger(process.env.MW_WRITE_RATE_LIMIT_PER_MINUTE, 120)
+        : positiveInteger(process.env.MW_RATE_LIMIT_PER_MINUTE, 600);
+  const bucket = authSensitive ? 'auth' : aiSensitive ? 'ai' : writeSensitive ? 'write' : 'general';
+  const key = `${bucket}:${ip}`;
+  const maxBuckets = positiveInteger(process.env.MW_RATE_LIMIT_MAX_BUCKETS, 10_000);
+  if (rateLimitMap.size >= maxBuckets) {
+    for (const [candidate, value] of rateLimitMap) if (value.resetAt <= now) rateLimitMap.delete(candidate);
+    while (rateLimitMap.size >= maxBuckets) {
+      const oldest = rateLimitMap.keys().next().value;
+      if (typeof oldest !== 'string') break;
+      rateLimitMap.delete(oldest);
+    }
+  }
+  let record = rateLimitMap.get(key);
   if (!record || now > record.resetAt) {
     record = { count: 1, resetAt: now + 60000 };
-    rateLimitMap.set(ip, record);
-    return true;
+    rateLimitMap.set(key, record);
+    return { allowed: true, limit, remaining: Math.max(0, limit - 1), retryAfter: 0 };
   }
   record.count++;
-  if (record.count > MAX_REQUESTS_PER_MINUTE) return false;
-  return true;
+  const allowed = record.count <= limit;
+  return { allowed, limit, remaining: Math.max(0, limit - record.count), retryAfter: allowed ? 0 : Math.max(1, Math.ceil((record.resetAt - now) / 1000)) };
 }
 
 async function handleRequest(request: IncomingMessage, response: ServerResponse, router: Router, ctx: any): Promise<void> {
@@ -219,22 +253,27 @@ async function handleRequest(request: IncomingMessage, response: ServerResponse,
   const requestId = randomUUID();
   const method = (request.method ?? 'GET').toUpperCase();
   const url = new URL(request.url ?? '/', `http://${request.headers.host ?? '127.0.0.1'}`);
-  const clientIp = request.socket.remoteAddress ?? 'unknown';
+  const forwardedFor = process.env.MW_TRUST_PROXY === '1' && typeof request.headers['x-forwarded-for'] === 'string' ? request.headers['x-forwarded-for'].split(',')[0]?.trim() : '';
+  const clientIp = forwardedFor || request.socket.remoteAddress || 'unknown';
 
   // 1. CORS & security headers. Wildcard CORS is retained only for local development.
   const configuredOrigins = (process.env.MW_CORS_ORIGINS ?? '').split(',').map((value) => value.trim()).filter(Boolean);
   const origin = typeof request.headers.origin === 'string' ? request.headers.origin : '';
   const allowOrigin = configuredOrigins.length ? (configuredOrigins.includes(origin) ? origin : '') : (process.env.NODE_ENV === 'production' ? '' : '*');
   if (allowOrigin) response.setHeader('Access-Control-Allow-Origin', allowOrigin);
-  if (allowOrigin && allowOrigin !== '*') response.setHeader('Vary', 'Origin');
+  if (allowOrigin && allowOrigin !== '*') { response.setHeader('Vary', 'Origin'); response.setHeader('Access-Control-Allow-Credentials', 'true'); }
   response.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  response.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Idempotency-Key');
+  response.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Idempotency-Key, X-MW-Auth-Mode');
   response.setHeader('X-Content-Type-Options', 'nosniff');
   response.setHeader('X-Frame-Options', 'DENY');
   response.setHeader('Referrer-Policy', 'no-referrer');
   response.setHeader('Content-Security-Policy', "default-src 'none'; frame-ancestors 'none'");
   if (process.env.NODE_ENV === 'production') response.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
   response.setHeader('X-Request-Id', requestId);
+
+  if (process.env.NODE_ENV === 'production' && origin && !allowOrigin) {
+    return writeJson(response, 403, { error: 'ORIGIN_NOT_ALLOWED', request_id: requestId });
+  }
   
   if (method === 'OPTIONS') {
     response.statusCode = 204;
@@ -267,7 +306,11 @@ async function handleRequest(request: IncomingMessage, response: ServerResponse,
   };
 
   // 3. Rate Limiting Middleware
-  if (!checkRateLimit(clientIp)) {
+  const rateLimit = checkRateLimit(clientIp, url.pathname);
+  response.setHeader('X-RateLimit-Limit', String(rateLimit.limit));
+  response.setHeader('X-RateLimit-Remaining', String(rateLimit.remaining));
+  if (!rateLimit.allowed) {
+    response.setHeader('Retry-After', String(rateLimit.retryAfter));
     return writeJson(response, 429, { error: 'TOO_MANY_REQUESTS', message: 'Rate limit exceeded. Try again later.', request_id: requestId });
   }
 
@@ -283,9 +326,19 @@ async function handleRequest(request: IncomingMessage, response: ServerResponse,
     // 5. Global Error boundaries per handler
     const result = await route.handler(request, response, params, body, url.searchParams, ctx);
     
-    if (isHttpError(result)) return writeJson(response, result.statusCode, { ...result.body, request_id: requestId });
-    if (isStatusBody(result)) return writeJson(response, result.statusCode, result.body);
-    if (result !== undefined && !response.writableEnded) return writeJson(response, 200, result);
+    if (isHttpError(result)) {
+      const body = { ...result.body };
+      if (process.env.NODE_ENV === 'production' && result.statusCode >= 500) delete body.message;
+      return writeJson(response, result.statusCode, { ...body, request_id: requestId });
+    }
+    if (isStatusBody(result)) {
+      if (result.statusCode >= 200 && result.statusCode < 300) assertApiResponseContract(method, url.pathname, result.body);
+      return writeJson(response, result.statusCode, result.body);
+    }
+    if (result !== undefined && !response.writableEnded) {
+      assertApiResponseContract(method, url.pathname, result);
+      return writeJson(response, 200, result);
+    }
   } catch (error) {
     const timestamp = new Date().toISOString();
     const errMsg = error instanceof Error ? error.message : String(error);
@@ -299,6 +352,7 @@ async function handleRequest(request: IncomingMessage, response: ServerResponse,
     // Update trace with error before finish triggers
     trace.error = errMsg;
     if (error instanceof HttpBodyError) return writeJson(response, error.statusCode, { error: error.code, message: error.message, request_id: requestId });
-    return writeJson(response, 500, { error: 'INTERNAL_SERVER_ERROR', message: errMsg, request_id: requestId });
+    if (error instanceof ContractValidationError) return writeJson(response, 500, { error: 'INVALID_RESPONSE_CONTRACT', ...(process.env.NODE_ENV === 'production' ? {} : { message: error.message }), request_id: requestId });
+    return writeJson(response, 500, { error: 'INTERNAL_SERVER_ERROR', ...(process.env.NODE_ENV === 'production' ? {} : { message: errMsg }), request_id: requestId });
   }
 }

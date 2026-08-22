@@ -6,6 +6,8 @@ dist/
 .next/
 coverage/
 .nyc_output/
+playwright-report/
+test-results/
 *.tsbuildinfo
 
 # Local configuration and secrets

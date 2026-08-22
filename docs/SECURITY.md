@@ -26,18 +26,32 @@ Privileged operations require explicit authorization. `MLV-001 / MYLOVE` is repr
 
 ## Sessions and permissions
 
-Authentication uses bearer sessions issued by the register/login routes. Permissions are role-based:
+Authentication uses durable, revocable sessions issued by the register/login routes. Browser clients receive `HttpOnly`, `SameSite` cookies and never store access or refresh tokens in `localStorage`. SDK/service clients may explicitly use bearer transport. Refresh tokens are stored server-side only as hashes and rotate on every refresh. Permissions are role-based:
 
 - `ADMIN`: observe, analyze, evaluate, command, administration, and audit access.
 - `REVIEWER`: observe, analyze, evaluate, and audit access.
 - `OPERATOR`: observe, analyze, and command access.
 - `USER`: authenticated identity without privileged evaluation, command, or audit access.
 
-The current observation and analysis routes accept an optional bearer session and otherwise record the service actor. Evaluation, commands, replay/audit access, job processing, and ingress routes require the relevant permission.
+Observation and analysis may accept an anonymous service actor only outside production. Production requires `OBSERVE` or `ANALYZE`, while query, evaluation, commands, replay/audit access, job processing, and ingress routes require their relevant permissions. Logout, refresh replay protection, RID-change revocation, and account-wide revocation survive process restart; PostgreSQL deployments share this state across API instances.
+
+Production must supply a stable managed signing secret, explicit browser-origin allowlist, and secure-cookie configuration. Signing-key rotation and emergency-revocation operations remain a deployment runbook requirement; application database roles do not receive schema-creation privileges.
+
+## RID identity binding
+
+RID is an authority-bearing scope, not a public profile field. Public registration always creates an unbound `USER` and rejects client-supplied RID. An administrator may provision an RID-bound account or bind an existing unbound account exactly once. Rebinding to another RID is rejected, the binding is written to immutable audit/event history, and all older sessions are revoked before the new RID can be used.
+
+RID does not encode spiritual rank, moral score, achievement, or Divine authority. It is a governed application identity and tenancy boundary only.
 
 ## Audit
 
-Writes preserve actor identity and record before/after state where supported. The ledger is append-oriented and hash chained. Audit/replay access is permission-gated, and idempotent command results are persisted to prevent duplicate writes across retries or restarts.
+Writes preserve actor identity and record before/after state where supported. The ledger is append-oriented and hash chained. Audit/replay access is permission-gated. Idempotency keys are scoped by actor and operation, persisted in PostgreSQL deployments, and serialized in memory so concurrent retries cannot create duplicate XRP/Flow records. Versioned entity updates use optimistic compare-and-swap semantics to reject lost updates.
+
+Flow review requests persist a `WITNESS_PENDING` state and review intent transactionally before the external Q-DAG commit, then finalize `REVIEW_REQUIRED` with the committed hash. This avoids presenting a Witness commitment before durable workflow state exists and makes retries converge on one governed result.
+
+## Production disclosure boundary
+
+Public production health exposes only status and release. Detailed dependency health, kernel/ledger state, database/environment identifiers, semantic registries, raw jobs, and model/graph internals require audit authority. Job status is requester-scoped and sanitized. Production 500 responses omit internal exception text. Authentication, AI, writes, and general reads use distinct bounded rate-limit buckets; a shared limiter is still required before horizontal multi-instance deployment.
 
 
 ## Single-node witness key custody (v4.20; v4.19 baseline retained)

@@ -14,6 +14,7 @@ export class IdempotencyStore {
   private readonly file: string;
   private loaded = false;
   private records = new Map<string, IdempotencyRecord>();
+  private inFlight = new Map<string, Promise<{ statusCode: number; body: unknown }>>();
 
   constructor(filePath: string) {
     this.file = filePath;
@@ -70,8 +71,27 @@ export class IdempotencyStore {
       }
       return { statusCode: existing.statusCode, body: existing.body as T };
     }
-    const result = await work();
-    await this.put({ key, requestHash, statusCode: result.statusCode, body: result.body, createdAt: new Date().toISOString() });
-    return result;
+    const pending = this.inFlight.get(key);
+    if (pending) {
+      await pending;
+      const completed = await this.get(key);
+      if (!completed || completed.requestHash !== requestHash) {
+        const error = new Error('IDEMPOTENCY_KEY_REUSED_WITH_DIFFERENT_PAYLOAD');
+        Object.assign(error, { code: 'IDEMPOTENCY_CONFLICT', statusCode: 409 });
+        throw error;
+      }
+      return { statusCode: completed.statusCode, body: completed.body as T };
+    }
+    const execution = (async () => {
+      const result = await work();
+      await this.put({ key, requestHash, statusCode: result.statusCode, body: result.body, createdAt: new Date().toISOString() });
+      return result as { statusCode: number; body: unknown };
+    })();
+    this.inFlight.set(key, execution);
+    try {
+      return await execution as { statusCode: number; body: T };
+    } finally {
+      this.inFlight.delete(key);
+    }
   }
 }

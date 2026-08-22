@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
+import { AuditTimeline, EvidenceLedger, ReviewGatePanel, WitnessPanel } from '@moonwitness/ui';
 import { api } from '../lib/api';
-import { Badge } from './ui/Badge';
 import { Button } from './ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/Card';
 import { Input } from './ui/Input';
@@ -25,7 +25,11 @@ function ErrorMessage({ error }: { error: string }) {
   return error ? <div className="mw-error" role="alert">{error}</div> : null;
 }
 
-export function CaseWorkflow({ user }: { user: any }) {
+export function CaseWorkflow({ user, locale = 'id' }: { user: any; locale?: 'id' | 'en' }) {
+  const canGovern = Boolean(user?.rid);
+  const copy = locale === 'id'
+    ? { eyebrow: 'OPERASI TERPANDU', title: 'Alur Kasus', text: 'Catat observasi, lampirkan bukti, simpan analisis, selesaikan review manusia, lalu verifikasi Witness dan audit dalam satu alur.', noTerminal: 'TANPA TERMINAL', rid: 'RID diperlukan sebelum tindakan tata kelola dapat dilakukan.' }
+    : { eyebrow: 'GUIDED OPERATION', title: 'Case workflow', text: 'Record an observation, attach evidence, persist analysis, complete human review, then verify Witness and audit in one flow.', noTerminal: 'NO TERMINAL REQUIRED', rid: 'An RID is required before governed action can be performed.' };
   const [caseId, setCaseId] = useState(newCaseId);
   const [text, setText] = useState('');
   const [source, setSource] = useState('CAB_LOCAL');
@@ -135,9 +139,10 @@ export function CaseWorkflow({ user }: { user: any }) {
 
   return <div className="mw-stack mw-case-workflow">
     <div className="mw-playground-hero">
-      <div><div className="mw-eyebrow">GUIDED LOCAL OPERATION</div><h2>Case Workflow</h2><p>Record a real-world observation, attach evidence, persist analysis, complete human review, and verify the Witness and audit trail from one screen.</p></div>
-      <div className="mw-playground-badge">NO TERMINAL REQUIRED</div>
+      <div><div className="mw-eyebrow">{copy.eyebrow}</div><h2>{copy.title}</h2><p>{copy.text}</p></div>
+      <div className="mw-playground-badge">{copy.noTerminal}</div>
     </div>
+    {!canGovern && <div className="mw-error" role="alert">{copy.rid}</div>}
 
     <div className="mw-workflow-progress" aria-label="Case workflow progress">
       {steps.map((step, index) => <div key={step.id} className={completed.has(step.id) ? 'complete' : ''}><span>{completed.has(step.id) ? '✓' : index + 1}</span><strong>{step.label}</strong></div>)}
@@ -149,29 +154,29 @@ export function CaseWorkflow({ user }: { user: any }) {
         <label className="mw-field"><span>Case ID</span><Input aria-label="Case ID" value={caseId} onChange={event => setCaseId(event.target.value)} disabled={Boolean(observation)} /></label>
         <label className="mw-field"><span>Observation source</span><Input aria-label="Observation source" value={source} onChange={event => setSource(event.target.value)} disabled={Boolean(observation)} /></label>
         <label className="mw-field"><span>What happened?</span><textarea aria-label="Case observation" className="mw-ai-textarea mw-case-textarea" value={text} onChange={event => setText(event.target.value)} disabled={Boolean(observation)} placeholder="Describe actors, actions, timing, known facts, and uncertainty." /></label>
-        <div className="mw-workflow-actions"><Button onClick={observe} disabled={Boolean(observation) || busy !== ''}>{busy === 'observe' ? 'Recording…' : observation ? 'Case recorded' : 'Record case'}</Button><Button variant="ghost" onClick={reset} disabled={busy !== ''}>New blank case</Button></div>
+        <div className="mw-workflow-actions"><Button onClick={observe} disabled={!canGovern || Boolean(observation) || busy !== ''}>{busy === 'observe' ? 'Recording…' : observation ? 'Case recorded' : 'Record case'}</Button><Button variant="ghost" onClick={reset} disabled={busy !== ''}>New blank case</Button></div>
       </div></CardContent></Card>
 
       <Card><CardHeader><div className="mw-eyebrow">STEP 2</div><CardTitle>Attach evidence</CardTitle></CardHeader><CardContent><div className="mw-form">
         <div className="mw-form-row"><label className="mw-field"><span>Source type</span><select aria-label="Evidence source type" value={evidenceType} onChange={event => setEvidenceType(event.target.value)}><option>DOCUMENT</option><option>TESTIMONY</option><option>SYSTEM_RECORD</option><option>PHOTO_VIDEO</option><option>USER_SUBMITTED</option></select></label><label className="mw-field"><span>Status</span><select aria-label="Evidence status" value={evidenceStatus} onChange={event => setEvidenceStatus(event.target.value)}><option>VERIFIED</option><option>SUPPORTED</option><option>OBSERVED</option><option>CORROBORATED</option><option>CONFLICTED</option><option>UNKNOWN</option></select></label></div>
         <label className="mw-field"><span>Reference</span><Input aria-label="Evidence reference" value={evidenceReference} onChange={event => setEvidenceReference(event.target.value)} placeholder="Document number, local file reference, or source note" /></label>
         <label className="mw-field"><span>Confidence (0–1)</span><Input aria-label="Evidence confidence" type="number" min="0" max="1" step="0.1" value={confidence} onChange={event => setConfidence(event.target.value)} /></label>
-        <Button onClick={attachEvidence} disabled={!observation || busy !== ''}>{busy === 'evidence' ? 'Attaching…' : 'Attach evidence'}</Button>
-        <div className="mw-compact-list">{evidence.length ? evidence.map(item => <div key={item.evidenceId}><Badge>{item.status}</Badge><span>{item.reference ?? item.evidenceId}</span></div>) : <p className="mw-muted">No evidence attached.</p>}</div>
+        <Button onClick={attachEvidence} disabled={!canGovern || !observation || busy !== ''}>{busy === 'evidence' ? 'Attaching…' : 'Attach evidence'}</Button>
+        <EvidenceLedger items={evidence.map(item=>({id:item.evidenceId,status:item.status,sourceType:item.sourceType,reference:item.reference,confidence:item.confidence,superseded:Boolean(item.supersededBy)}))} />
       </div></CardContent></Card>
 
       <Card><CardHeader><div className="mw-eyebrow">STEP 3</div><CardTitle>Persist analysis</CardTitle></CardHeader><CardContent><div className="mw-form">
         <p className="mw-muted">Analysis reloads the evidence currently attached to this case and commits its result to Witness.</p>
-        <Button onClick={analyze} disabled={!observation || busy !== ''}>{busy === 'analysis' ? 'Analyzing…' : analysis ? 'Re-analyze with current evidence' : 'Analyze case'}</Button>
-        <div className="mw-status-grid"><div><span>Status</span><strong>{analysis?.status ?? 'PENDING'}</strong></div><div><span>Mīzān score</span><strong>{score}</strong></div><div><span>Review gate</span><strong>{gate}</strong></div><div><span>Witness commit</span><strong>{analysis?.witness?.hash ? 'COMMITTED' : 'PENDING'}</strong></div></div>
-        {analysis?.reviewGate?.boundary && <div className="mw-boundary-note">{analysis.reviewGate.boundary}</div>}
+        <Button onClick={analyze} disabled={!canGovern || !observation || busy !== ''}>{busy === 'analysis' ? 'Analyzing…' : analysis ? 'Re-analyze with current evidence' : 'Analyze case'}</Button>
+        <div className="mw-status-grid"><div><span>Analysis status</span><strong>{analysis?.status ?? 'PENDING'}</strong></div><div><span>Mīzān engineering signal</span><strong>{score}</strong></div></div>
+        <ReviewGatePanel gate={analysis?.reviewGate ? {...analysis.reviewGate,decision:gate} : null} />
       </div></CardContent></Card>
 
       <Card><CardHeader><div className="mw-eyebrow">STEP 4</div><CardTitle>Human review</CardTitle></CardHeader><CardContent><div className="mw-form">
-        {!review ? <Button onClick={queueReview} disabled={!analysis || busy !== ''}>Queue human review</Button> : <><div className="mw-status-grid"><div><span>Status</span><strong>{review.status}</strong></div><div><span>Disposition</span><strong>{review.disposition ?? 'PENDING'}</strong></div></div><label className="mw-field"><span>Reviewer rationale</span><textarea aria-label="Reviewer rationale" className="mw-ai-textarea mw-review-rationale" value={rationale} onChange={event => setRationale(event.target.value)} /></label><div className="mw-workflow-actions">
-          {review.status === 'QUEUED' && <Button onClick={() => transition('ASSIGNED')} disabled={busy !== ''}>Assign to me</Button>}
-          {['QUEUED', 'ASSIGNED', 'EVIDENCE_REQUESTED', 'ESCALATED', 'REOPENED'].includes(review.status) && <Button onClick={() => transition('ACKNOWLEDGED')} disabled={busy !== ''}>Acknowledge</Button>}
-          {review.status === 'ACKNOWLEDGED' && <Button onClick={() => transition('DISPOSED')} disabled={busy !== '' || !rationale.trim()}>Dispose: uphold gate</Button>}
+        {!review ? <Button onClick={queueReview} disabled={!canGovern || !analysis || busy !== ''}>Queue human review</Button> : <><div className="mw-status-grid"><div><span>Status</span><strong>{review.status}</strong></div><div><span>Disposition</span><strong>{review.disposition ?? 'PENDING'}</strong></div></div><label className="mw-field"><span>Reviewer rationale</span><textarea aria-label="Reviewer rationale" className="mw-ai-textarea mw-review-rationale" value={rationale} onChange={event => setRationale(event.target.value)} /></label><div className="mw-workflow-actions">
+          {review.status === 'QUEUED' && <Button onClick={() => transition('ASSIGNED')} disabled={!canGovern || busy !== ''}>Assign to me</Button>}
+          {['QUEUED', 'ASSIGNED', 'EVIDENCE_REQUESTED', 'ESCALATED', 'REOPENED'].includes(review.status) && <Button onClick={() => transition('ACKNOWLEDGED')} disabled={!canGovern || busy !== ''}>Acknowledge</Button>}
+          {review.status === 'ACKNOWLEDGED' && <Button onClick={() => transition('DISPOSED')} disabled={!canGovern || busy !== '' || !rationale.trim()}>Dispose: uphold gate</Button>}
         </div></>}
         <div className="mw-boundary-note">Human disposition is operational review. It does not rewrite the source analysis or become Divine judgement.</div>
       </div></CardContent></Card>
@@ -179,8 +184,8 @@ export function CaseWorkflow({ user }: { user: any }) {
 
     <Card><CardHeader><div className="mw-eyebrow">STEPS 5–6</div><CardTitle>Witness and audit verification</CardTitle></CardHeader><CardContent><div className="mw-form">
       <Button onClick={verifyTrail} disabled={!analysis || busy !== ''}>{busy === 'verify' ? 'Verifying…' : 'Refresh verified trail'}</Button>
-      <div className="mw-workflow-verification"><div><span>Witness DAG</span><strong>{witness?.valid ? 'VALID' : 'PENDING'}</strong><small>{witness?.nodes ?? 0} nodes · {witness?.root?.slice(0, 18) ?? 'no root'}…</small></div><div><span>Audit chain</span><strong>{audit?.integrity?.valid ? 'VALID' : 'PENDING'}</strong><small>{audit?.audit?.length ?? 0} case records · {audit?.integrity?.count ?? 0} global records</small></div><div><span>Persisted case</span><strong>{resource?.entity?.status ?? 'PENDING'}</strong><small>version {resource?.entity?.version ?? '—'} · {resource?.events?.length ?? 0} events</small></div></div>
-      {analysis?.witness?.hash && <div className="mw-hash-block"><span>Analysis Witness hash</span><code>{analysis.witness.hash}</code></div>}
+      <div className="mw-governed-pair"><WitnessPanel witness={{state:witness?.valid?'VALID':analysis?.witness?.hash?'VALID':'PENDING',hash:analysis?.witness?.hash,root:witness?.root??analysis?.witness?.root,nodeCount:witness?.nodes,checkpointId:analysis?.witness?.checkpointId}} /><AuditTimeline entries={(audit?.audit??[]).slice(-8).reverse().map((entry:any,index:number)=>({id:entry.auditId??entry.ledgerId??`${index}`,type:entry.action??entry.type??'AUDIT_EVENT',subject:entry.entityId??caseId,actor:entry.actorId??entry.actorRid,time:entry.timestamp??entry.recordedAt,detail:entry.reason}))} /></div>
+      <div className="mw-status-grid"><div><span>Audit chain</span><strong>{audit?.integrity?.valid ? 'VALID' : 'PENDING'}</strong></div><div><span>Persisted case</span><strong>{resource?.entity?.status ?? 'PENDING'}</strong></div><div><span>Case version</span><strong>{resource?.entity?.version ?? '—'}</strong></div><div><span>Persisted events</span><strong>{resource?.events?.length ?? 0}</strong></div></div>
     </div></CardContent></Card>
   </div>;
 }
