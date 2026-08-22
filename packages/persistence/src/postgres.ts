@@ -43,7 +43,10 @@ export class PostgresProvider implements PersistenceStore {
     const client = await this.pool.connect();
     try {
       await client.query('SELECT pg_advisory_lock($1)', [837462901]);
-      await client.query('CREATE TABLE IF NOT EXISTS schema_migrations (version INTEGER PRIMARY KEY, migration_id TEXT NOT NULL, applied_at TIMESTAMPTZ NOT NULL)');
+      const migrationRegistry = await client.query(`SELECT to_regclass('public.schema_migrations') AS name`);
+      if (!migrationRegistry.rows[0]?.name) {
+        await client.query('CREATE TABLE schema_migrations (version INTEGER PRIMARY KEY, migration_id TEXT NOT NULL, applied_at TIMESTAMPTZ NOT NULL)');
+      }
       for (const migration of MIGRATIONS) {
         const existing = await client.query('SELECT version FROM schema_migrations WHERE version = $1', [migration.version]);
         if (existing.rows.length) continue;
