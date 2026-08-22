@@ -12,11 +12,10 @@ const principles = [
 ];
 
 export default function App() {
-  const cabUrl = import.meta.env.VITE_CAB_URL as string | undefined;
   return <main>
     <nav className="nav shell" aria-label="Navigasi utama">
       <a className="brand" href="#top" aria-label="MoonWitness OS home"><BrandMark /></a>
-      <div className="nav-links"><a href="#system">Sistem</a><a href="#principles">Prinsip</a><a href="#status">Status</a>{cabUrl && <a className="cab-link" href={cabUrl}>CAB ↗</a>}</div>
+      <div className="nav-links"><a href="#system">Sistem</a><a href="#principles">Prinsip</a><a href="#status">Status</a><a href="#boundaries">Batas</a></div>
     </nav>
 
     <section className="hero shell" id="top">
