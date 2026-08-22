@@ -17,6 +17,7 @@ coverage/
 *.p12
 
 # Local runtime state
+.data/
 *.db
 *.db-*
 *.sqlite
