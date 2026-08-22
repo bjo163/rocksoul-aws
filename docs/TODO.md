@@ -21,7 +21,7 @@ The Revelation Grammar, Asma/Divine Ontology, Semantic Event Interpreter, Moral 
 
 The most important remaining gaps are:
 
-1. The green Git/CI baseline now needs durable publication of machine-readable certification artifacts; release tagging and branch protection are being completed in the current release lane.
+1. The green Git/CI baseline now needs durable publication of machine-readable certification artifacts. Branch protection remains blocked by the current GitHub plan while the repository is private.
 2. Live PostgreSQL migration, concurrency, backup, and restore are not certified against a provisioned deployment target.
 3. Browser session hardening, distributed rate limiting, production key custody, and full runtime response validation remain incomplete.
 4. Public-site deployment must be created from an auditable commit; CAB must remain a separately controlled internal deployment.
@@ -200,7 +200,7 @@ There is also a vocabulary mismatch: persisted evidence uses statuses such as `O
 
 **Finding:** no Git metadata or visible CI definition was found in this workspace. Without commit identity, changes, generated artifacts, test evidence, and release tags cannot be independently reproduced.
 
-**Current status:** **SUBSTANTIALLY CLOSED** — the complete v4.32.0 baseline is committed and pushed to `origin/main`; generated/local state is excluded; `.github/workflows/certification.yml` runs locked install, release identity, API/CAB/public builds, regression suites, and current certification; GitHub Actions run `32550799798` completed successfully on Linux; and tag `v4.32.0` exists. Durable machine-readable certification artifacts remain open.
+**Current status:** **SUBSTANTIALLY CLOSED** — the complete v4.32.0 baseline is committed and pushed to `origin/main`; generated/local state is excluded; `.github/workflows/certification.yml` runs locked install, release identity, API/CAB/public builds, regression suites, and current certification; GitHub Actions runs pass on Linux; and tag `v4.32.0` exists. Durable machine-readable certification artifacts remain open. GitHub rejected branch-protection configuration for this private repository because it requires GitHub Pro or public repository visibility; repository visibility was not changed automatically.
 
 **Change required:**
 
