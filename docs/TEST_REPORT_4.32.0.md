@@ -29,11 +29,13 @@ Audit date: **2026-08-22**
 - Complete root regression command (`npm test`): PASS
 - Current certification command (`npm run certify:current`): PASS
 - GitHub Actions Linux certification for baseline commit `7b14b72`: PASS ([run 32550799798](https://github.com/bjo163/cosmic/actions/runs/32550799798))
+- Public Sites deployment from source commit `738dd89`: PASS ([MoonWitness OS public home](https://moonwitness-os.rocksoultech.chatgpt.site))
+- Public production response/title handoff: PASS
 
 ## Boundaries
 
 - Live PostgreSQL installation, migration, backup, restore, and production connection certification still require a provisioned deployment target.
 - Browser HttpOnly token storage, durable revocation across instances, distributed rate limiting, and live PostgreSQL certification remain open deployment work.
-- Public hosting is not certified yet because this workspace has no Git metadata/immutable source commit; CAB remains intentionally excluded from the public deployment surface.
+- Public hosting is active from a committed source version; CAB remains intentionally excluded from the public deployment surface and still requires its own authenticated/private production target.
 - Engine protocol snapshots may retain their own historical protocol versions such as 4.29 or 4.30; those are not the application release identity.
 - This report certifies the listed checks only and does not claim Divine judgement, exhaustive linguistic understanding, or empirical truth about an external event.

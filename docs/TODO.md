@@ -21,7 +21,7 @@ The Revelation Grammar, Asma/Divine Ontology, Semantic Event Interpreter, Moral 
 
 The most important remaining gaps are:
 
-1. The green Git/CI baseline now needs release tagging, branch protection, and durable publication of machine-readable certification artifacts.
+1. The green Git/CI baseline now needs durable publication of machine-readable certification artifacts; release tagging and branch protection are being completed in the current release lane.
 2. Live PostgreSQL migration, concurrency, backup, and restore are not certified against a provisioned deployment target.
 3. Browser session hardening, distributed rate limiting, production key custody, and full runtime response validation remain incomplete.
 4. Public-site deployment must be created from an auditable commit; CAB must remain a separately controlled internal deployment.
@@ -200,7 +200,7 @@ There is also a vocabulary mismatch: persisted evidence uses statuses such as `O
 
 **Finding:** no Git metadata or visible CI definition was found in this workspace. Without commit identity, changes, generated artifacts, test evidence, and release tags cannot be independently reproduced.
 
-**Current status:** **SUBSTANTIALLY CLOSED** — the complete v4.32.0 baseline is committed and pushed to `origin/main`; generated/local state is excluded; and `.github/workflows/certification.yml` runs locked install, release identity, API/CAB/public builds, regression suites, and current certification. GitHub Actions run `32550799798` completed successfully on Linux. Release tagging, branch protection, and durable certification artifacts remain open.
+**Current status:** **SUBSTANTIALLY CLOSED** — the complete v4.32.0 baseline is committed and pushed to `origin/main`; generated/local state is excluded; `.github/workflows/certification.yml` runs locked install, release identity, API/CAB/public builds, regression suites, and current certification; GitHub Actions run `32550799798` completed successfully on Linux; and tag `v4.32.0` exists. Durable machine-readable certification artifacts remain open.
 
 **Change required:**
 
@@ -436,7 +436,7 @@ Some real-world questions cannot be resolved from wording alone—for example wh
 - [ ] Add least-privilege runtime users, read-only corpus mounts, writable-data boundaries, and graceful shutdown.
 - [ ] Document TLS termination, reverse-proxy trust, database connection limits, worker scaling, and key custody.
 - [ ] Store Witness signing keys in an appropriate managed secret/KMS/HSM for production.
-- [ ] Publish `apps/web` as the public/home deployment from an immutable source commit and record its deployment URL/version.
+- [x] Publish `apps/web` as the public/home deployment from an immutable source commit and record its deployment URL/version (`https://moonwitness-os.rocksoultech.chatgpt.site`, Sites version 2, source `738dd89`).
 - [ ] Keep `apps/cab` on a separate authenticated/private deployment; never bundle CAB routes, credentials, or operational API configuration into the public site.
 
 ### P2-08 — Add dependency, license, and supply-chain controls

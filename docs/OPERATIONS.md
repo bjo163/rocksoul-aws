@@ -21,6 +21,8 @@ npm run cab:dev
 
 `web:dev` starts the unauthenticated public/home site. `cab:dev` starts the authenticated Control & Audit Board. In development the CAB proxies `/api` to the API runtime; the public site is static and does not expose operational endpoints.
 
+The public production site is deployed independently at `https://moonwitness-os.rocksoultech.chatgpt.site`. Its Sites project configuration is scoped to `apps/web`. CAB is not part of that build or deployment and must remain on a separate authenticated/private runtime.
+
 For production-like builds, install dependencies first, then use the workspace build commands. Revelation witness corpora are committed under `data/divine-books/witness-corpora/`; rebuild provenance with `npm run revelation:import-witnesses -- --source-file <verse-text-file>` when intentionally replacing the witness snapshot.
 
 ## Persistence

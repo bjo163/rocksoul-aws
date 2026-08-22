@@ -28,3 +28,4 @@
 - Evidence attachment is append-only at the API boundary; corrections create explicit supersession links and preserve the original record.
 - CAB now includes an operational Review Queue with guarded state transitions.
 - Added `@moonwitness/ui` as the shared component, brand, token, and accessibility layer used by both CAB and the public website.
+- Published the independent public home through Sites at `https://moonwitness-os.rocksoultech.chatgpt.site`; the deployment contains no CAB route, login storage, or internal operational surface.
