@@ -6,7 +6,7 @@ const app = fs.readFileSync('apps/cab/src/App.tsx','utf8');
 const css = fs.readFileSync('apps/cab/src/styles.css','utf8');
 const api = fs.readFileSync('apps/cab/src/lib/api.ts','utf8');
 
-const menus = ['HOME','CAB','SHADOW','HEROES','MISSIONS','PROJECTS','KNOWLEDGE','RESOURCES','LIFE','ASMA','MĪZĀN','AUDIT'];
+const menus = ['HOME','CASE WORKFLOW','CAB','SHADOW','HEROES','MISSIONS','PROJECTS','KNOWLEDGE','RESOURCES','LIFE','ASMA','MĪZĀN','AUDIT'];
 
 test('all canonical menus are rendered', () => {
   for (const menu of menus) assert.match(app, new RegExp(menu.replace(/[.*+?^${}()|[\\]\\]/g,'\\$&')));

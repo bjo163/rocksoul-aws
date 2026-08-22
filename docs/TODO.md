@@ -41,7 +41,7 @@ These results record the state observed during this audit. They are not a new re
 | Mizan adversarial suite | 500/500 PASS | Current generated variants pass. |
 | Human Review Gate | 4/4 PASS | Focused gate fixtures pass. |
 | Witness/Q-DAG tests | PASS | Current focused witness suite passes. |
-| CAB tests | 12/12 PASS | Route contracts and visible environment metadata pass. |
+| CAB tests | 16/16 PASS | Route, environment, visual, authentication, and guided case-workflow contracts pass. |
 | Public web tests | 2/2 PASS | Public metadata and internal-surface exclusion contracts pass. |
 | Shared UI contract | 2/2 PASS | CAB and public web consume the canonical token/component package. |
 | API tests | 1,007/1,007 PASS | Default data-driven, E2E, SQLite, native HTTP, and AI-analysis lanes pass after hermetic-driver and bundle-relative data fixes. PostgreSQL remains a separate integration lane. |
@@ -294,16 +294,17 @@ There is also a vocabulary mismatch: persisted evidence uses statuses such as `O
 
 **Finding:** the gate produces decisions and reasons, but there is no complete workflow for assignment, acknowledgement, evidence request, disposition, escalation, or audited closure.
 
-**Current status:** **SUBSTANTIALLY CLOSED** — review records have explicit queue/assignment/acknowledgement/evidence-request/disposition/escalation/reopen transitions, are persisted separately from analysis, emit actor-attributed audit events, and are operable through the CAB Review Queue. Dedicated least-privilege reviewer roles and SLA/escalation automation remain open.
+**Current status:** **SUBSTANTIALLY CLOSED** — review records have explicit queue/assignment/acknowledgement/evidence-request/disposition/escalation/reopen transitions, are persisted separately from analysis, emit actor-attributed audit events, and are operable through the CAB Review Queue. CAB now also provides one guided Case Workflow for observation → evidence → analysis → human review → Witness → audit verification without terminal commands. Dedicated least-privilege reviewer roles and SLA/escalation automation remain open.
 
 **TODO:**
 
 - [x] Add a review queue with assignment and explicit workflow states.
 - [x] Record reviewer identity, rationale, evidence references, timestamps, and disposition as events.
 - [x] Keep `gateDecision`, `humanDisposition`, and final operational action as separate fields.
-- [ ] Prohibit a reviewer override from rewriting the original analysis, corpus evidence, or Witness commitment.
+- [x] Prohibit a reviewer override from rewriting the original analysis, corpus evidence, or Witness commitment.
 - [ ] Define re-open and supersession rules when evidence or model versions change.
 - [x] Show workflow actions and exact evidence references in the CAB UI.
+- [x] Provide a single guided CAB flow from case creation through Witness and audit verification.
 - [ ] Add service-level objectives and escalation rules only after the workflow semantics are stable.
 
 ### P1-04 — Certify PostgreSQL persistence and migration discipline

@@ -1,6 +1,7 @@
 {
   "menus": [
     "HOME",
+    "CASE WORKFLOW",
     "AI PLAYGROUND",
     "OBSERVATORY",
     "REVIEW QUEUE",
@@ -18,6 +19,7 @@
   ],
   "menuDescriptions": {
     "HOME": "Personal command center for your real-world workspace.",
+    "CASE WORKFLOW": "Guided case, evidence, analysis, human review, Witness, and audit workflow without terminal commands.",
     "AI PLAYGROUND": "Analyze a case through Qur’an-grounded epistemic status, semantic vectors, Mīzān, evidence, causality and lifecycle visualization.",
     "REVIEW QUEUE": "Assign, acknowledge, request evidence, escalate, dispose, and reopen governed human reviews without rewriting source analysis.",
     "CAB": "Boards for missions, changes, operators and selected references.",
@@ -34,6 +36,7 @@
     "OBSERVATORY": "Live world-state, event ledger, graph integrity and recent recorded activity."
   },
   "quickActions": [
+    "New Case",
     "Simulate AI",
     "New CAB",
     "Verify Knowledge",

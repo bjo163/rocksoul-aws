@@ -7,7 +7,7 @@
     "dev": "vite --host 127.0.0.1",
     "build": "vite build",
     "preview": "vite preview --host 127.0.0.1",
-    "test": "cd ../.. && tsx --test tests/ui/ui-contract.test.ts tests/ui/ui-runtime-contract.test.ts tests/ui/ui-visual-contract.test.ts"
+    "test": "cd ../.. && tsx --test tests/ui/ui-contract.test.ts tests/ui/ui-runtime-contract.test.ts tests/ui/ui-visual-contract.test.ts tests/ui/case-workflow-contract.test.ts"
   },
   "dependencies": {
     "@moonwitness/contracts": "4.32.0",

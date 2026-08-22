@@ -67,10 +67,14 @@ export const api = {
   universeCommand: (body: unknown) => getJSON('/api/v1/command', { method:'POST', body: JSON.stringify(body) }),
   universeResource: (id: string) => getJSON(`/api/v1/resource/${encodeURIComponent(id)}`),
   evidence: (id: string) => getJSON(`/api/v1/resource/${encodeURIComponent(id)}/evidence`),
+  attachEvidence: (id: string, body: unknown) => getJSON(`/api/v1/resource/${encodeURIComponent(id)}/evidence`, {method:'POST',body:JSON.stringify(body)}),
+  resourceAudit: (id: string) => getJSON(`/api/v1/resource/${encodeURIComponent(id)}/audit`),
+  resourceReplay: (id: string) => getJSON(`/api/v1/resource/${encodeURIComponent(id)}/replay`),
   reviews: () => getJSON<{reviews:any[]}>('/api/v1/reviews'),
   createReview: (body: unknown) => getJSON('/api/v1/reviews', {method:'POST',body:JSON.stringify(body)}),
   transitionReview: (id:string,body:unknown) => getJSON(`/api/v1/reviews/${encodeURIComponent(id)}/transition`, {method:'POST',body:JSON.stringify(body)}),
   kernelGraph: () => getJSON('/api/v1/kernel/graph'),
   kernelIntegrity: () => getJSON('/api/v1/kernel/graph/integrity'),
-  kernelLedger: () => getJSON('/api/v1/kernel/ledger')
+  kernelLedger: () => getJSON('/api/v1/kernel/ledger'),
+  witnessStatus: () => getJSON('/api/v1/witness/status')
 };

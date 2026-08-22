@@ -13,6 +13,7 @@ import { ModelForm } from './components/model/ModelForm';
 import { AiPlayground } from './components/AiPlayground';
 import { Observatory } from './components/Observatory';
 import { ReviewQueue } from './components/ReviewQueue';
+import { CaseWorkflow } from './components/CaseWorkflow';
 import uiConfig from './data/ui-config.json';
 
 const menus = uiConfig.menus as readonly string[];
@@ -245,6 +246,7 @@ export default function App() {
 
   const handleQuickAction = (action: string) => {
     switch(action) {
+      case 'New Case': onMenu('CASE WORKFLOW'); break;
       case 'New CAB': {
         const cabModel = models.find((m: Model) => m.typeId.toLowerCase().includes('cab'));
         if (cabModel) {
@@ -274,19 +276,19 @@ export default function App() {
     <nav className="mw-nav" aria-label="Main navigation">
       {menus.map(m => <Button key={m} className={menu === m ? 'active' : ''} variant={menu === m ? 'default' : 'ghost'} onClick={() => onMenu(m)}>{m}</Button>)}
     </nav>
-    <main className="mw-grid">
-      <section className="mw-search">
+    <main className={`mw-grid ${menu === 'CASE WORKFLOW' ? 'mw-grid-focus' : ''}`}>
+      {menu !== 'CASE WORKFLOW' && <section className="mw-search">
         <div className="mw-search-head"><div><div className="mw-eyebrow">UNIVERSAL SEARCH</div><strong>Search any model or knowledge surface</strong></div><Badge>REAL · PRIVATE</Badge></div>
         <Input aria-label="Universal search" value={query} onChange={e => setQuery(e.target.value)} placeholder="Search CAB, project, claim, asset, Asma, Mīzān…" />
         <div className="mw-model-groups">{Object.entries(models.reduce((acc: any, m: any) => { const k = m.domain || m.typeId.split('.')[0] || 'SYSTEM'; (acc[k] ??= []).push(m); return acc; }, {} as Record<string, Model[]>)).sort(([a], [b]) => a.localeCompare(b)).map(([domain, items]: any) => <div key={domain} className="mw-model-group"><div className="mw-group-title">{domain}<span>{items.length}</span></div><div className="mw-model-list">{items.map((m: any) => <Button key={m.typeId} className={m.typeId === selectedType ? 'active' : ''} onClick={() => setSelectedType(m.typeId)}>{m.typeId}</Button>)}</div></div>)}</div>
-      </section>
+      </section>}
       <div className="mw-main">
-        {menu === 'AI PLAYGROUND' ? <AiPlayground /> : menu === 'OBSERVATORY' ? <Observatory /> : menu === 'REVIEW QUEUE' ? <ReviewQueue /> : menu === 'HOME' && !model ? <HomeOverview user={user} health={health} models={models} onAction={handleQuickAction} /> : model ? <ModelTable model={model} rows={rows} onSelect={setSelected} onCreate={() => setIsCreating(true)} /> : <MenuOverview menu={menu} />}
+        {menu === 'CASE WORKFLOW' ? <CaseWorkflow user={user} /> : menu === 'AI PLAYGROUND' ? <AiPlayground /> : menu === 'OBSERVATORY' ? <Observatory /> : menu === 'REVIEW QUEUE' ? <ReviewQueue /> : menu === 'HOME' && !model ? <HomeOverview user={user} health={health} models={models} onAction={handleQuickAction} /> : model ? <ModelTable model={model} rows={rows} onSelect={setSelected} onCreate={() => setIsCreating(true)} /> : <MenuOverview menu={menu} />}
       </div>
-      <aside className="mw-side">
+      {menu !== 'CASE WORKFLOW' && <aside className="mw-side">
         <ModelDetail model={model ?? ({ typeId: `MENU.${menu}`, ui: { typeId: `MENU.${menu}`, title: menu, family: 'SYSTEM', route: '', layout: 'default', sections: [], fields: [], capabilities: { create: false, read: true, update: false, delete: false, relations: false, events: false, audit: false } } } satisfies Model)} row={selected} onEdit={() => setIsEditing(true)} onDelete={handleDelete} />
         {selected && <ModelGraphPanel graph={graph} />}
-      </aside>
+      </aside>}
     </main>
     <footer className="mw-footer">REAL · R / G / B / L · Asma · Mīzān · XP · Audit · Local-first</footer>
     {isCreating && model && (

@@ -23,6 +23,8 @@ The launcher starts the API and both user interfaces together:
 
 The CAB login screen and authenticated header show the active environment. The health response reports the environment, database, storage driver, and release without exposing credentials.
 
+After login, open **CASE WORKFLOW** (or choose **New Case** on Home) to complete the normal local flow from observation and evidence through analysis, human review, Witness commitment, and audit verification. Every mutation remains an explicit user action; the screen does not silently dispose a review or change evidence.
+
 ## Commands
 
 Build the three applications before the first launch or after source changes:
