@@ -1,0 +1,108 @@
+{
+  "version": "1.0.0",
+  "policy": "QURAN_CORE_ANALYTICAL_PROTOCOL",
+  "boundary": "Derived software protocol. References are Qur'anic; labels, categories, confidence rules and numeric weights are engineering abstractions, not revealed numeric values or divine verdicts.",
+  "decisionStatuses": [
+    "ESTABLISHED",
+    "PROVISIONAL",
+    "INSUFFICIENT_EVIDENCE",
+    "RESERVED"
+  ],
+  "principles": [
+    {
+      "id": "MIZAN_BALANCE",
+      "refs": [
+        "Q55:7-9",
+        "Q57:25"
+      ],
+      "role": "Keep the assessment balanced and directed toward qist; do not distort or short-change the measure.",
+      "scope": "GENERAL_PRINCIPLE"
+    },
+    {
+      "id": "JUSTICE_WITNESS",
+      "refs": [
+        "Q4:135",
+        "Q5:8",
+        "Q6:152"
+      ],
+      "role": "Apply the same standard despite self-interest, kinship, wealth, poverty, love or hostility.",
+      "scope": "GENERAL_PRINCIPLE"
+    },
+    {
+      "id": "VERIFY_REPORTS",
+      "refs": [
+        "Q49:6"
+      ],
+      "role": "Treat reports as requiring verification before conclusions that could harm people.",
+      "scope": "REPORT_VERIFICATION"
+    },
+    {
+      "id": "KNOWLEDGE_BOUNDARY",
+      "refs": [
+        "Q17:36"
+      ],
+      "role": "Do not promote an inference into knowledge when the supporting evidence is absent.",
+      "scope": "EPISTEMIC_BOUNDARY"
+    },
+    {
+      "id": "INTENT_DISTINCTION",
+      "refs": [
+        "Q33:5",
+        "Q2:225"
+      ],
+      "role": "Distinguish mistake/unintentional conduct from deliberate intention while acknowledging that software does not know hearts.",
+      "scope": "INTENTION"
+    },
+    {
+      "id": "CAPACITY",
+      "refs": [
+        "Q6:152",
+        "Q2:286"
+      ],
+      "role": "Account for ability/capacity rather than assuming equal capability in every case.",
+      "scope": "RESPONSIBILITY_CONTEXT"
+    },
+    {
+      "id": "COERCION_CONTEXT",
+      "refs": [
+        "Q16:106"
+      ],
+      "role": "Coercion can materially alter responsibility; the cited verse has a specific faith context, so software generalization is cautious and analogical only.",
+      "scope": "CONTEXT_WITH_CAUTION"
+    },
+    {
+      "id": "INDIVIDUAL_RESPONSIBILITY",
+      "refs": [
+        "Q6:164"
+      ],
+      "role": "Do not transfer one person's burden to another; ancestry, group, media or environment are context, not inherited guilt.",
+      "scope": "ATTRIBUTION"
+    },
+    {
+      "id": "DEED_GRANULARITY",
+      "refs": [
+        "Q99:7-8"
+      ],
+      "role": "Preserve small as well as large beneficial/harmful signals, keep benefit and harm separately visible, and do not treat an engineering net score as a revealed cancellation rule.",
+      "scope": "RECORDING_PRINCIPLE"
+    },
+    {
+      "id": "RECORD_COMPLETENESS",
+      "refs": [
+        "Q17:13-14",
+        "Q18:49"
+      ],
+      "role": "Keep a traceable record of what the model used so the subject can inspect the basis of the assessment.",
+      "scope": "AUDITABILITY"
+    },
+    {
+      "id": "FINAL_JUDGMENT_RESERVED",
+      "refs": [
+        "Q21:47",
+        "Q53:32"
+      ],
+      "role": "Actual final divine weighing, inner righteousness and final destination remain outside the software model.",
+      "scope": "UNSEEN_BOUNDARY"
+    }
+  ]
+}

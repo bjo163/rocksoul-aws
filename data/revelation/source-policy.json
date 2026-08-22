@@ -1,0 +1,80 @@
+{
+  "version": "4.29.0",
+  "mode": "FOUR_BOOKS_ONLY",
+  "normativeSources": [
+    {
+      "id": "BOOK-QURAN",
+      "canonicalName": "QURAN",
+      "authority": "PRIMARY_MUHAIMIN",
+      "refs": [
+        "Q5:48"
+      ]
+    },
+    {
+      "id": "BOOK-TAWRAT",
+      "canonicalName": "TAWRAT",
+      "authority": "SUPPLEMENTARY_REVELATION_REFERENCE",
+      "refs": [
+        "Q5:44",
+        "Q5:48"
+      ]
+    },
+    {
+      "id": "BOOK-ZABUR",
+      "canonicalName": "ZABUR",
+      "authority": "SUPPLEMENTARY_REVELATION_REFERENCE",
+      "refs": [
+        "Q4:163",
+        "Q17:55"
+      ]
+    },
+    {
+      "id": "BOOK-INJIL",
+      "canonicalName": "INJIL",
+      "authority": "SUPPLEMENTARY_REVELATION_REFERENCE",
+      "refs": [
+        "Q5:46",
+        "Q5:48"
+      ]
+    }
+  ],
+  "excludedFromNormativeReasoning": [
+    "HADITH",
+    "TAFSIR",
+    "ASBAB_REPORT",
+    "SCHOLARLY_INTERPRETATION",
+    "HISTORICAL_CHRONOLOGY",
+    "MEDICAL_SOURCE",
+    "LEGAL_SOURCE",
+    "NEWS",
+    "WEB_RESEARCH"
+  ],
+  "rules": [
+    "External material may not contribute normative weight.",
+    "A textual witness of Tawrat, Zabur, or Injil must be explicitly labelled TEXTUAL_WITNESS and must not be silently equated with the original revelation.",
+    "Quranic metadata that is not stated in the Quran text itself is non-normative metadata.",
+    "Unknown revelation location remains UNDETERMINED rather than being filled from external chronology.",
+    "Every normative result must expose passage provenance."
+  ],
+  "corroborationPolicy": {
+    "mode": "QURAN_PRIMARY_THREE_EQUAL_CORROBORATION_CHANNELS",
+    "quranRole": "PRIMARY_MUHAIMIN",
+    "witnessBooks": [
+      "TAWRAT",
+      "ZABUR",
+      "INJIL"
+    ],
+    "witnessChannelWeights": {
+      "TAWRAT": 1,
+      "ZABUR": 1,
+      "INJIL": 1
+    },
+    "maxCombinedConfidenceBoost": 0.3,
+    "rules": [
+      "Textual witnesses may increase grounding confidence only when local text is present and matched.",
+      "A textual witness cannot create or reverse moral direction on its own.",
+      "Reference-index-only availability contributes zero score.",
+      "If witness evidence conflicts or is ambiguous, increase uncertainty instead of forcing agreement."
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "canonical": [
+    {"id":"ISO_GREGORIAN","name":"ISO/Gregorian","kind":"civil"},
+    {"id":"HIJRI_TABULAR","name":"Hijri Tabular","kind":"religious/civil"},
+    {"id":"JULIAN","name":"Julian","kind":"historical"}
+  ],
+  "units": ["millisecond","second","minute","hour","day","week","month","year","era","indeterminate"],
+  "temporalScopes": ["INSTANT","INTERVAL","RECURRING","SYSTEMIC","ETERNITY_MODEL"],
+  "principle": "The engine tracks time as data; metaphysical eternity remains a theological boundary."
+}

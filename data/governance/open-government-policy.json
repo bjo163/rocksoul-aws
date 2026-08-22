@@ -1,0 +1,5 @@
+{
+  "default":"PUBLIC_BY_DEFAULT",
+  "exceptions":["privacy","personal_data","legally_protected_secret","security_sensitive_information","protected_minor_data"],
+  "requirements":["publish decisions","publish budgets","publish project milestones","publish procurement metadata","publish audit status","publish legal basis","track public comments"]
+}

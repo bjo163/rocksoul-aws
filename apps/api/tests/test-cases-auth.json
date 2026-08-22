@@ -1,0 +1,587 @@
+[
+  {
+    "id": "TC-001",
+    "name": "Auth - Valid Login",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 200,
+    "body": {
+      "username": "admin-ddt",
+      "password": "password"
+    }
+  },
+  {
+    "id": "TC-002",
+    "name": "Auth - Invalid Login 0",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user0",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-003",
+    "name": "Auth - Invalid Login 1",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user1",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-004",
+    "name": "Auth - Invalid Login 2",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user2",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-005",
+    "name": "Auth - Invalid Login 3",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user3",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-006",
+    "name": "Auth - Invalid Login 4",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user4",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-007",
+    "name": "Auth - Invalid Login 5",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user5",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-008",
+    "name": "Auth - Invalid Login 6",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user6",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-009",
+    "name": "Auth - Invalid Login 7",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user7",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-010",
+    "name": "Auth - Invalid Login 8",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user8",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-011",
+    "name": "Auth - Invalid Login 9",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user9",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-012",
+    "name": "Auth - Invalid Login 10",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user10",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-013",
+    "name": "Auth - Invalid Login 11",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user11",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-014",
+    "name": "Auth - Invalid Login 12",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user12",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-015",
+    "name": "Auth - Invalid Login 13",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user13",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-016",
+    "name": "Auth - Invalid Login 14",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user14",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-017",
+    "name": "Auth - Invalid Login 15",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user15",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-018",
+    "name": "Auth - Invalid Login 16",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user16",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-019",
+    "name": "Auth - Invalid Login 17",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user17",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-020",
+    "name": "Auth - Invalid Login 18",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user18",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-021",
+    "name": "Auth - Invalid Login 19",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user19",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-022",
+    "name": "Auth - Invalid Login 20",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user20",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-023",
+    "name": "Auth - Invalid Login 21",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user21",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-024",
+    "name": "Auth - Invalid Login 22",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user22",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-025",
+    "name": "Auth - Invalid Login 23",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user23",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-026",
+    "name": "Auth - Invalid Login 24",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user24",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-027",
+    "name": "Auth - Invalid Login 25",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user25",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-028",
+    "name": "Auth - Invalid Login 26",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user26",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-029",
+    "name": "Auth - Invalid Login 27",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user27",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-030",
+    "name": "Auth - Invalid Login 28",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user28",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-031",
+    "name": "Auth - Invalid Login 29",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user29",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-032",
+    "name": "Auth - Invalid Login 30",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user30",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-033",
+    "name": "Auth - Invalid Login 31",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user31",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-034",
+    "name": "Auth - Invalid Login 32",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user32",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-035",
+    "name": "Auth - Invalid Login 33",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user33",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-036",
+    "name": "Auth - Invalid Login 34",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user34",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-037",
+    "name": "Auth - Invalid Login 35",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user35",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-038",
+    "name": "Auth - Invalid Login 36",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user36",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-039",
+    "name": "Auth - Invalid Login 37",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user37",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-040",
+    "name": "Auth - Invalid Login 38",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user38",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-041",
+    "name": "Auth - Invalid Login 39",
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "requiresAuth": false,
+    "expectedStatus": 401,
+    "body": {
+      "username": "user39",
+      "password": "wrong"
+    }
+  },
+  {
+    "id": "TC-042",
+    "name": "Auth - Me",
+    "method": "GET",
+    "route": "/api/v1/auth/me",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-043",
+    "name": "Auth - Online",
+    "method": "GET",
+    "route": "/api/v1/auth/online",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-044",
+    "name": "Auth - Missing Field Register 0",
+    "method": "POST",
+    "route": "/api/v1/auth/register",
+    "requiresAuth": false,
+    "expectedStatus": 400,
+    "body": {
+      "username": "u0"
+    }
+  },
+  {
+    "id": "TC-045",
+    "name": "Auth - Missing Field Register 1",
+    "method": "POST",
+    "route": "/api/v1/auth/register",
+    "requiresAuth": false,
+    "expectedStatus": 400,
+    "body": {
+      "username": "u1"
+    }
+  },
+  {
+    "id": "TC-046",
+    "name": "Auth - Missing Field Register 2",
+    "method": "POST",
+    "route": "/api/v1/auth/register",
+    "requiresAuth": false,
+    "expectedStatus": 400,
+    "body": {
+      "username": "u2"
+    }
+  },
+  {
+    "id": "TC-047",
+    "name": "Auth - Missing Field Register 3",
+    "method": "POST",
+    "route": "/api/v1/auth/register",
+    "requiresAuth": false,
+    "expectedStatus": 400,
+    "body": {
+      "username": "u3"
+    }
+  },
+  {
+    "id": "TC-048",
+    "name": "Auth - Missing Field Register 4",
+    "method": "POST",
+    "route": "/api/v1/auth/register",
+    "requiresAuth": false,
+    "expectedStatus": 400,
+    "body": {
+      "username": "u4"
+    }
+  },
+  {
+    "id": "TC-049",
+    "name": "Auth - Missing Field Register 5",
+    "method": "POST",
+    "route": "/api/v1/auth/register",
+    "requiresAuth": false,
+    "expectedStatus": 400,
+    "body": {
+      "username": "u5"
+    }
+  },
+  {
+    "id": "TC-050",
+    "name": "Auth - Missing Field Register 6",
+    "method": "POST",
+    "route": "/api/v1/auth/register",
+    "requiresAuth": false,
+    "expectedStatus": 400,
+    "body": {
+      "username": "u6"
+    }
+  }
+]

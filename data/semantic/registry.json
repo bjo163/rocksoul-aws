@@ -1,0 +1,675 @@
+{
+  "version": "4.26.0-revelation-grounded-impact-axes",
+  "definitions": {
+    "R": {
+      "id": "R",
+      "label": "TARGET",
+      "sign": "signed",
+      "evidence_refs": [
+        "Q17:18",
+        "Q42:20"
+      ],
+      "source_note": "Engine abstraction for target of will."
+    },
+    "G": {
+      "id": "G",
+      "label": "DIRECTION",
+      "sign": "signed",
+      "evidence_refs": [
+        "Q17:19",
+        "Q42:20"
+      ],
+      "source_note": "Engine abstraction for direction of purpose."
+    },
+    "B": {
+      "id": "B",
+      "label": "PURSUIT",
+      "sign": "signed",
+      "evidence_refs": [
+        "Q67:2"
+      ],
+      "source_note": "Engine abstraction for pursuit/action effort."
+    },
+    "L": {
+      "id": "L",
+      "label": "VALUE_ALIGNMENT",
+      "sign": "signed",
+      "evidence_refs": [
+        "Q98:5",
+        "Q76:9"
+      ],
+      "source_note": "Engine abstraction for value alignment."
+    },
+    "MIZAN": {
+      "id": "MIZAN",
+      "label": "BALANCE",
+      "evidence_refs": [
+        "Q55:7-9",
+        "Q57:25"
+      ],
+      "source_note": "Engine balancing service."
+    }
+  },
+  "vectors": {
+    "actionGate": {
+      "length": 9,
+      "meaning": "Epistemic/context channels, 0..1 presence/strength. They are not moral scores. AG01-AG05 preserve the project's five-sense implementation convention; the Qur'an explicitly names hearing/sight/heart in Q17:36 and separately contains bodily/taste/smell observations, but does not present a technical five-sense enumeration.",
+      "axes": [
+        {
+          "id": "AG01",
+          "label": "HEARING",
+          "aliases": [
+            "dengar",
+            "mendengar",
+            "terdengar",
+            "kata orang",
+            "audio",
+            "suara"
+          ],
+          "strategy": "ALIAS",
+          "evidence_refs": [
+            "Q17:36"
+          ]
+        },
+        {
+          "id": "AG02",
+          "label": "SIGHT",
+          "aliases": [
+            "lihat",
+            "melihat",
+            "menyaksikan",
+            "terlihat",
+            "foto",
+            "video"
+          ],
+          "strategy": "ALIAS",
+          "evidence_refs": [
+            "Q17:36"
+          ]
+        },
+        {
+          "id": "AG03",
+          "label": "TOUCH_BODY",
+          "aliases": [
+            "sentuh",
+            "menyentuh",
+            "pegang",
+            "memegang",
+            "tangan",
+            "kulit",
+            "tubuh"
+          ],
+          "strategy": "ALIAS",
+          "evidence_refs": [
+            "Q41:20",
+            "Q24:24"
+          ]
+        },
+        {
+          "id": "AG04",
+          "label": "TASTE",
+          "aliases": [
+            "rasa",
+            "merasakan",
+            "mencicipi",
+            "makan",
+            "minum"
+          ],
+          "strategy": "ALIAS",
+          "evidence_refs": [
+            "Q7:22"
+          ]
+        },
+        {
+          "id": "AG05",
+          "label": "SMELL",
+          "aliases": [
+            "bau",
+            "aroma",
+            "mencium",
+            "tercium"
+          ],
+          "strategy": "ALIAS",
+          "evidence_refs": [
+            "Q12:94"
+          ]
+        },
+        {
+          "id": "AG06",
+          "label": "KNOWLEDGE_REASONING",
+          "aliases": [
+            "tahu",
+            "mengetahui",
+            "bukti",
+            "data",
+            "cek",
+            "verifikasi",
+            "memastikan"
+          ],
+          "strategy": "KNOWLEDGE",
+          "evidence_refs": [
+            "Q17:36",
+            "Q49:6"
+          ]
+        },
+        {
+          "id": "AG07",
+          "label": "INTENTIONALITY",
+          "aliases": [
+            "sengaja",
+            "berniat",
+            "bermaksud",
+            "demi",
+            "agar",
+            "supaya",
+            "tidak sengaja",
+            "keliru"
+          ],
+          "strategy": "INTENTION",
+          "evidence_refs": [
+            "Q33:5",
+            "Q2:225"
+          ]
+        },
+        {
+          "id": "AG08",
+          "label": "CONTEXT_INFLUENCE",
+          "aliases": [
+            "dipaksa",
+            "terpaksa",
+            "diancam",
+            "tekanan",
+            "lingkungan",
+            "media",
+            "pengaruh",
+            "atasan"
+          ],
+          "strategy": "CONTEXT",
+          "evidence_refs": [
+            "Q16:106",
+            "Q2:286"
+          ]
+        },
+        {
+          "id": "AG09",
+          "label": "INHERITED_TRANSMITTED_CONTEXT",
+          "aliases": [
+            "keluarga",
+            "orang tua",
+            "leluhur",
+            "tradisi",
+            "turun-temurun",
+            "warisan",
+            "didikan",
+            "lingkungan keluarga"
+          ],
+          "strategy": "CONTEXT",
+          "evidence_refs": [
+            "Q2:170",
+            "Q6:164"
+          ],
+          "source_note": "Context only; Q6:164 forbids treating ancestry/group context as inherited guilt."
+        }
+      ]
+    },
+    "impact": {
+      "length": 13,
+      "meaning": "13 OUT analytical lenses. Values are signed and may only be populated by Revelation-grounded passage relevance in the core v4.26 path; the axes themselves are engineering lenses, not revealed units.",
+      "axes": [
+        {
+          "id": "IM01",
+          "label": "LIFE",
+          "harmAliases": [
+            "life",
+            "nyawa",
+            "kehidupan"
+          ],
+          "quranAnchors": [
+            "نفس",
+            "تقتلوا",
+            "قتل",
+            "حياة",
+            "احيا"
+          ],
+          "anchorRole": "ANALYTICAL_QUERY_ONLY_NON_NORMATIVE"
+        },
+        {
+          "id": "IM02",
+          "label": "HEALTH",
+          "harmAliases": [
+            "health",
+            "kesehatan",
+            "self",
+            "addiction"
+          ],
+          "quranAnchors": [
+            "مرض",
+            "شفاء",
+            "جسد",
+            "بدن"
+          ],
+          "anchorRole": "ANALYTICAL_QUERY_ONLY_NON_NORMATIVE"
+        },
+        {
+          "id": "IM03",
+          "label": "SAFETY",
+          "harmAliases": [
+            "safety",
+            "keselamatan"
+          ],
+          "quranAnchors": [
+            "الامن",
+            "خوف",
+            "اعتدوا"
+          ],
+          "anchorRole": "ANALYTICAL_QUERY_ONLY_NON_NORMATIVE"
+        },
+        {
+          "id": "IM04",
+          "label": "DIGNITY",
+          "harmAliases": [
+            "dignity",
+            "martabat",
+            "honor"
+          ],
+          "quranAnchors": [
+            "المحصنات",
+            "قذف",
+            "عرض",
+            "كرم",
+            "سخر"
+          ],
+          "anchorRole": "ANALYTICAL_QUERY_ONLY_NON_NORMATIVE"
+        },
+        {
+          "id": "IM05",
+          "label": "TRUTH",
+          "harmAliases": [
+            "truth",
+            "kebenaran",
+            "false"
+          ],
+          "quranAnchors": [
+            "حق",
+            "صدق",
+            "كذب",
+            "زور",
+            "نبا",
+            "بينة"
+          ],
+          "anchorRole": "ANALYTICAL_QUERY_ONLY_NON_NORMATIVE"
+        },
+        {
+          "id": "IM06",
+          "label": "TRUST",
+          "harmAliases": [
+            "trust",
+            "amanah",
+            "kepercayaan"
+          ],
+          "quranAnchors": [
+            "الامانات",
+            "امانة",
+            "عهد",
+            "خان"
+          ],
+          "anchorRole": "ANALYTICAL_QUERY_ONLY_NON_NORMATIVE"
+        },
+        {
+          "id": "IM07",
+          "label": "PROPERTY",
+          "harmAliases": [
+            "property",
+            "aset",
+            "barang",
+            "uang"
+          ],
+          "quranAnchors": [
+            "مال",
+            "اموال",
+            "السارق",
+            "متاع",
+            "ملك"
+          ],
+          "anchorRole": "ANALYTICAL_QUERY_ONLY_NON_NORMATIVE"
+        },
+        {
+          "id": "IM08",
+          "label": "JUSTICE",
+          "harmAliases": [
+            "justice",
+            "keadilan"
+          ],
+          "quranAnchors": [
+            "عدل",
+            "قسط",
+            "ظلم",
+            "الحكام",
+            "حكم"
+          ],
+          "anchorRole": "ANALYTICAL_QUERY_ONLY_NON_NORMATIVE"
+        },
+        {
+          "id": "IM09",
+          "label": "PUBLIC",
+          "harmAliases": [
+            "public",
+            "publik",
+            "community",
+            "secondhand"
+          ],
+          "quranAnchors": [
+            "قوم",
+            "الناس",
+            "امة",
+            "المؤمنين"
+          ],
+          "anchorRole": "ANALYTICAL_QUERY_ONLY_NON_NORMATIVE"
+        },
+        {
+          "id": "IM10",
+          "label": "SYSTEMIC",
+          "harmAliases": [
+            "systemic",
+            "sistemik",
+            "institution"
+          ],
+          "quranAnchors": [
+            "الحكام",
+            "حكم",
+            "سلطان",
+            "امر"
+          ],
+          "anchorRole": "ANALYTICAL_QUERY_ONLY_NON_NORMATIVE"
+        },
+        {
+          "id": "IM11",
+          "label": "ENVIRONMENT",
+          "harmAliases": [
+            "environment",
+            "lingkungan"
+          ],
+          "quranAnchors": [
+            "الارض",
+            "البحر",
+            "فساد"
+          ],
+          "anchorRole": "ANALYTICAL_QUERY_ONLY_NON_NORMATIVE"
+        },
+        {
+          "id": "IM12",
+          "label": "REPAIR",
+          "harmAliases": [
+            "repair",
+            "pemulihan",
+            "restitution"
+          ],
+          "quranAnchors": [
+            "توب",
+            "غفر",
+            "اصلح",
+            "رد",
+            "تودوا"
+          ],
+          "anchorRole": "ANALYTICAL_QUERY_ONLY_NON_NORMATIVE"
+        },
+        {
+          "id": "IM13",
+          "label": "THEOLOGICAL",
+          "harmAliases": [
+            "theological",
+            "tauhid",
+            "shirk"
+          ],
+          "quranAnchors": [
+            "شرك",
+            "ايمان",
+            "كفر",
+            "تقوى",
+            "دين"
+          ],
+          "anchorRole": "ANALYTICAL_QUERY_ONLY_NON_NORMATIVE"
+        }
+      ]
+    }
+  },
+  "defaults": {
+    "unknownIntent": "UNRESOLVED",
+    "unknownConfidence": 0,
+    "status": "INFERRED"
+  },
+  "domains": {
+    "HEALTH": [
+      "kesehatan",
+      "sehat",
+      "rokok",
+      "vape",
+      "rumah sakit",
+      "dokter",
+      "penyakit"
+    ],
+    "JUSTICE": [
+      "keadilan",
+      "mencuri",
+      "curi",
+      "korupsi",
+      "suap",
+      "membunuh",
+      "bunuh"
+    ],
+    "GOVERNANCE": [
+      "pemerintah",
+      "pejabat",
+      "negara",
+      "anggaran",
+      "kementerian",
+      "publik"
+    ],
+    "FINANCE": [
+      "uang",
+      "dana",
+      "anggaran",
+      "pajak",
+      "harta",
+      "aset"
+    ],
+    "ENVIRONMENT": [
+      "lingkungan",
+      "ekosistem",
+      "hutan",
+      "sungai",
+      "udara"
+    ],
+    "TRUTH": [
+      "bohong",
+      "berdusta",
+      "fitnah",
+      "kebenaran",
+      "verifikasi",
+      "kutipan"
+    ],
+    "THEOLOGY": [
+      "allah",
+      "tauhid",
+      "syirik",
+      "shirk",
+      "ibadah"
+    ]
+  },
+  "domainHarmMapping": {
+    "self": [
+      "HEALTH"
+    ],
+    "secondhand": [
+      "HEALTH",
+      "GOVERNANCE"
+    ],
+    "addiction": [
+      "HEALTH"
+    ],
+    "public": [
+      "GOVERNANCE",
+      "JUSTICE"
+    ],
+    "systemic": [
+      "GOVERNANCE",
+      "JUSTICE"
+    ],
+    "financial": [
+      "FINANCE"
+    ],
+    "property": [
+      "FINANCE",
+      "JUSTICE"
+    ],
+    "truth": [
+      "TRUTH"
+    ],
+    "life": [
+      "JUSTICE",
+      "HEALTH"
+    ],
+    "trauma": [
+      "HEALTH",
+      "JUSTICE"
+    ],
+    "environment": [
+      "ENVIRONMENT"
+    ],
+    "theological": [
+      "THEOLOGY"
+    ]
+  },
+  "timeSignals": {
+    "recurring": [
+      "berulang",
+      "rutin",
+      "selalu",
+      "sering",
+      "setiap",
+      "setiap hari",
+      "setiap minggu",
+      "tiap"
+    ],
+    "future": [
+      "akan",
+      "besok",
+      "nanti",
+      "rencana",
+      "mungkin"
+    ],
+    "past": [
+      "sudah",
+      "telah",
+      "kemarin",
+      "pernah"
+    ]
+  },
+  "scaleSignals": {
+    "GLOBAL": [
+      "global"
+    ],
+    "NATION": [
+      "nasional",
+      "negara"
+    ],
+    "COMMUNITY": [
+      "publik",
+      "masyarakat"
+    ],
+    "FAMILY": [
+      "keluarga"
+    ],
+    "SELF": [
+      "diri sendiri"
+    ]
+  },
+  "modeSignals": {
+    "REFLECTION": [
+      "tidak",
+      "jangan",
+      "bukan",
+      "dilarang",
+      "janganlah"
+    ]
+  },
+  "scopeReach": {
+    "SELF": 0.2,
+    "FAMILY": 0.4,
+    "COMMUNITY": 0.6,
+    "NATION": 0.8,
+    "GLOBAL": 1.0
+  },
+  "contextSignals": {
+    "negation": [
+      "tidak",
+      "bukan",
+      "jangan",
+      "belum"
+    ],
+    "restitution": [
+      "mengembalikan",
+      "mengembalikan kepada pemilik",
+      "dikembalikan",
+      "menyerahkan kepada pemilik",
+      "memulangkan",
+      "restitusi",
+      "refund",
+      "mengganti kerugian"
+    ],
+    "beneficial": [
+      "membantu",
+      "menolong",
+      "menyelamatkan",
+      "berbagi",
+      "sedekah",
+      "donasi",
+      "memperbaiki",
+      "melindungi"
+    ],
+    "support": [
+      "membantu teman",
+      "membantu orang lain",
+      "tanpa meminta imbalan"
+    ],
+    "intentional": [
+      "sengaja",
+      "berniat",
+      "bermaksud",
+      "dengan niat",
+      "demi",
+      "agar",
+      "supaya"
+    ],
+    "mistake": [
+      "tidak sengaja",
+      "tanpa sengaja",
+      "keliru",
+      "khilaf",
+      "salah tanpa sengaja"
+    ],
+    "coercion": [
+      "dipaksa",
+      "terpaksa",
+      "diancam",
+      "ancaman",
+      "di bawah tekanan"
+    ],
+    "capacityLimited": [
+      "tidak mampu",
+      "tidak sanggup",
+      "di luar kemampuan",
+      "keterbatasan"
+    ],
+    "reservedUnseen": [
+      "masuk neraka",
+      "masuk surga",
+      "pasti neraka",
+      "pasti surga",
+      "akhiratnya",
+      "isi hati sebenarnya",
+      "allah pasti menghukum",
+      "allah pasti menerima"
+    ]
+  }
+}

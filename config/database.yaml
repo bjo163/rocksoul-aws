@@ -1,0 +1,10 @@
+version: 1
+# Persistent storage configuration.
+# Secrets are intentionally omitted; set PGHOST/PGPORT/PGDATABASE/PGUSER/PGPASSWORD or DATABASE_URL.
+storage:
+  driver: postgres
+  file_dir: ./data/runtime
+  postgres: {}
+seed:
+  manifest: ./data/seed/manifest.json
+  mode: idempotent

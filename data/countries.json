@@ -1,0 +1,8 @@
+[
+  {"id":"ID","name":"Indonesia","kind":"COUNTRY","region":"Southeast Asia"},
+  {"id":"SA","name":"Saudi Arabia","kind":"COUNTRY","region":"Middle East"},
+  {"id":"EG","name":"Egypt","kind":"COUNTRY","region":"North Africa"},
+  {"id":"PS","name":"Palestine","kind":"TERRITORY_OR_POLITICAL_ENTITY","region":"Middle East","sourceScoped":true},
+  {"id":"TR","name":"Türkiye","kind":"COUNTRY","region":"West Asia / Europe"},
+  {"id":"US","name":"United States","kind":"COUNTRY","region":"North America"}
+]

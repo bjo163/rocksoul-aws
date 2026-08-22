@@ -1,0 +1,2 @@
+// @ts-nocheck
+export function evaluateDecision({options=[]}={}){return options.map(o=>{const cost=+o.cost||0,benefit=+o.benefit||0,risk=+o.risk||0,rightsImpact=+o.rightsImpact||0,env=Math.abs(+o.environmentImpact||0),publicValue=+o.publicValue||0;return{id:o.id,legality:o.legality??null,cost,benefit,risk,rightsImpact,environmentImpact:+o.environmentImpact||0,publicValue,score:benefit+publicValue+rightsImpact-cost-risk-env}}).sort((a,b)=>b.score-a.score)}

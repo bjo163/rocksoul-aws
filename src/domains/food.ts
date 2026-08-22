@@ -1,0 +1,1 @@
+export function foodSystemProfile({production=0,reserve=0,consumption=0,waste=0,regions=[]}={}){return{production,reserve,consumption,waste,netAvailability:+production+(+reserve)-(+consumption)-(+waste),regions}}

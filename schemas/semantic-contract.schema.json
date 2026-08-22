@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:moonwitness:semantic-contract",
+  "title": "Semantic Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "confidence"],
+  "properties": {
+    "status": {"type":"string","enum":["OBSERVED","SUPPORTED","INFERRED","UNKNOWN","CONFLICTED"]},
+    "confidence": {"type":"number","minimum":0,"maximum":1},
+    "evidence_refs": {"type":"array","items":{"type":"string"}},
+    "source_note": {"type":"string"}
+  }
+}

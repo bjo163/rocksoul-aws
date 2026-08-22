@@ -1,0 +1,1830 @@
+{
+  "version": 1,
+  "candidateCount": 114,
+  "rows": [
+    {
+      "id": "SURAH-096-ORDER-001",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 96,
+      "revelationOrder": 1,
+      "references": [
+        "96:1-19"
+      ],
+      "ayahCount": 19,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-068-ORDER-002",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 68,
+      "revelationOrder": 2,
+      "references": [
+        "68:1-52"
+      ],
+      "ayahCount": 52,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-073-ORDER-003",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 73,
+      "revelationOrder": 3,
+      "references": [
+        "73:1-20"
+      ],
+      "ayahCount": 20,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-074-ORDER-004",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 74,
+      "revelationOrder": 4,
+      "references": [
+        "74:1-56"
+      ],
+      "ayahCount": 56,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-001-ORDER-005",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 1,
+      "revelationOrder": 5,
+      "references": [
+        "1:1-7"
+      ],
+      "ayahCount": 7,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-111-ORDER-006",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 111,
+      "revelationOrder": 6,
+      "references": [
+        "111:1-5"
+      ],
+      "ayahCount": 5,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-081-ORDER-007",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 81,
+      "revelationOrder": 7,
+      "references": [
+        "81:1-29"
+      ],
+      "ayahCount": 29,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-087-ORDER-008",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 87,
+      "revelationOrder": 8,
+      "references": [
+        "87:1-19"
+      ],
+      "ayahCount": 19,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-092-ORDER-009",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 92,
+      "revelationOrder": 9,
+      "references": [
+        "92:1-21"
+      ],
+      "ayahCount": 21,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-089-ORDER-010",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 89,
+      "revelationOrder": 10,
+      "references": [
+        "89:1-30"
+      ],
+      "ayahCount": 30,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-093-ORDER-011",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 93,
+      "revelationOrder": 11,
+      "references": [
+        "93:1-11"
+      ],
+      "ayahCount": 11,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-094-ORDER-012",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 94,
+      "revelationOrder": 12,
+      "references": [
+        "94:1-8"
+      ],
+      "ayahCount": 8,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-103-ORDER-013",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 103,
+      "revelationOrder": 13,
+      "references": [
+        "103:1-3"
+      ],
+      "ayahCount": 3,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-100-ORDER-014",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 100,
+      "revelationOrder": 14,
+      "references": [
+        "100:1-11"
+      ],
+      "ayahCount": 11,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-108-ORDER-015",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 108,
+      "revelationOrder": 15,
+      "references": [
+        "108:1-3"
+      ],
+      "ayahCount": 3,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-102-ORDER-016",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 102,
+      "revelationOrder": 16,
+      "references": [
+        "102:1-8"
+      ],
+      "ayahCount": 8,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-107-ORDER-017",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 107,
+      "revelationOrder": 17,
+      "references": [
+        "107:1-7"
+      ],
+      "ayahCount": 7,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-109-ORDER-018",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 109,
+      "revelationOrder": 18,
+      "references": [
+        "109:1-6"
+      ],
+      "ayahCount": 6,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-105-ORDER-019",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 105,
+      "revelationOrder": 19,
+      "references": [
+        "105:1-5"
+      ],
+      "ayahCount": 5,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-113-ORDER-020",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 113,
+      "revelationOrder": 20,
+      "references": [
+        "113:1-5"
+      ],
+      "ayahCount": 5,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-114-ORDER-021",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 114,
+      "revelationOrder": 21,
+      "references": [
+        "114:1-6"
+      ],
+      "ayahCount": 6,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-112-ORDER-022",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 112,
+      "revelationOrder": 22,
+      "references": [
+        "112:1-4"
+      ],
+      "ayahCount": 4,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-053-ORDER-023",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 53,
+      "revelationOrder": 23,
+      "references": [
+        "53:1-62"
+      ],
+      "ayahCount": 62,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-080-ORDER-024",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 80,
+      "revelationOrder": 24,
+      "references": [
+        "80:1-42"
+      ],
+      "ayahCount": 42,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-097-ORDER-025",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 97,
+      "revelationOrder": 25,
+      "references": [
+        "97:1-5"
+      ],
+      "ayahCount": 5,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-091-ORDER-026",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 91,
+      "revelationOrder": 26,
+      "references": [
+        "91:1-15"
+      ],
+      "ayahCount": 15,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-085-ORDER-027",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 85,
+      "revelationOrder": 27,
+      "references": [
+        "85:1-22"
+      ],
+      "ayahCount": 22,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-095-ORDER-028",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 95,
+      "revelationOrder": 28,
+      "references": [
+        "95:1-8"
+      ],
+      "ayahCount": 8,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-106-ORDER-029",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 106,
+      "revelationOrder": 29,
+      "references": [
+        "106:1-4"
+      ],
+      "ayahCount": 4,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-101-ORDER-030",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 101,
+      "revelationOrder": 30,
+      "references": [
+        "101:1-11"
+      ],
+      "ayahCount": 11,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-075-ORDER-031",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 75,
+      "revelationOrder": 31,
+      "references": [
+        "75:1-40"
+      ],
+      "ayahCount": 40,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-104-ORDER-032",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 104,
+      "revelationOrder": 32,
+      "references": [
+        "104:1-9"
+      ],
+      "ayahCount": 9,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-077-ORDER-033",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 77,
+      "revelationOrder": 33,
+      "references": [
+        "77:1-50"
+      ],
+      "ayahCount": 50,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-050-ORDER-034",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 50,
+      "revelationOrder": 34,
+      "references": [
+        "50:1-45"
+      ],
+      "ayahCount": 45,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-090-ORDER-035",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 90,
+      "revelationOrder": 35,
+      "references": [
+        "90:1-20"
+      ],
+      "ayahCount": 20,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-086-ORDER-036",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 86,
+      "revelationOrder": 36,
+      "references": [
+        "86:1-17"
+      ],
+      "ayahCount": 17,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-054-ORDER-037",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 54,
+      "revelationOrder": 37,
+      "references": [
+        "54:1-55"
+      ],
+      "ayahCount": 55,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-038-ORDER-038",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 38,
+      "revelationOrder": 38,
+      "references": [
+        "38:1-88"
+      ],
+      "ayahCount": 88,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-007-ORDER-039",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 7,
+      "revelationOrder": 39,
+      "references": [
+        "7:1-206"
+      ],
+      "ayahCount": 206,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-072-ORDER-040",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 72,
+      "revelationOrder": 40,
+      "references": [
+        "72:1-28"
+      ],
+      "ayahCount": 28,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-036-ORDER-041",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 36,
+      "revelationOrder": 41,
+      "references": [
+        "36:1-83"
+      ],
+      "ayahCount": 83,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-025-ORDER-042",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 25,
+      "revelationOrder": 42,
+      "references": [
+        "25:1-77"
+      ],
+      "ayahCount": 77,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-035-ORDER-043",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 35,
+      "revelationOrder": 43,
+      "references": [
+        "35:1-45"
+      ],
+      "ayahCount": 45,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-019-ORDER-044",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 19,
+      "revelationOrder": 44,
+      "references": [
+        "19:1-98"
+      ],
+      "ayahCount": 98,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-020-ORDER-045",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 20,
+      "revelationOrder": 45,
+      "references": [
+        "20:1-135"
+      ],
+      "ayahCount": 135,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-056-ORDER-046",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 56,
+      "revelationOrder": 46,
+      "references": [
+        "56:1-96"
+      ],
+      "ayahCount": 96,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-026-ORDER-047",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 26,
+      "revelationOrder": 47,
+      "references": [
+        "26:1-227"
+      ],
+      "ayahCount": 227,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-027-ORDER-048",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 27,
+      "revelationOrder": 48,
+      "references": [
+        "27:1-93"
+      ],
+      "ayahCount": 93,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-028-ORDER-049",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 28,
+      "revelationOrder": 49,
+      "references": [
+        "28:1-88"
+      ],
+      "ayahCount": 88,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-017-ORDER-050",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 17,
+      "revelationOrder": 50,
+      "references": [
+        "17:1-111"
+      ],
+      "ayahCount": 111,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-010-ORDER-051",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 10,
+      "revelationOrder": 51,
+      "references": [
+        "10:1-109"
+      ],
+      "ayahCount": 109,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-011-ORDER-052",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 11,
+      "revelationOrder": 52,
+      "references": [
+        "11:1-123"
+      ],
+      "ayahCount": 123,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-012-ORDER-053",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 12,
+      "revelationOrder": 53,
+      "references": [
+        "12:1-111"
+      ],
+      "ayahCount": 111,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-015-ORDER-054",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 15,
+      "revelationOrder": 54,
+      "references": [
+        "15:1-99"
+      ],
+      "ayahCount": 99,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-006-ORDER-055",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 6,
+      "revelationOrder": 55,
+      "references": [
+        "6:1-165"
+      ],
+      "ayahCount": 165,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-037-ORDER-056",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 37,
+      "revelationOrder": 56,
+      "references": [
+        "37:1-182"
+      ],
+      "ayahCount": 182,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-031-ORDER-057",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 31,
+      "revelationOrder": 57,
+      "references": [
+        "31:1-34"
+      ],
+      "ayahCount": 34,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-034-ORDER-058",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 34,
+      "revelationOrder": 58,
+      "references": [
+        "34:1-54"
+      ],
+      "ayahCount": 54,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-039-ORDER-059",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 39,
+      "revelationOrder": 59,
+      "references": [
+        "39:1-75"
+      ],
+      "ayahCount": 75,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-040-ORDER-060",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 40,
+      "revelationOrder": 60,
+      "references": [
+        "40:1-85"
+      ],
+      "ayahCount": 85,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-041-ORDER-061",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 41,
+      "revelationOrder": 61,
+      "references": [
+        "41:1-54"
+      ],
+      "ayahCount": 54,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-042-ORDER-062",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 42,
+      "revelationOrder": 62,
+      "references": [
+        "42:1-53"
+      ],
+      "ayahCount": 53,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-043-ORDER-063",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 43,
+      "revelationOrder": 63,
+      "references": [
+        "43:1-89"
+      ],
+      "ayahCount": 89,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-044-ORDER-064",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 44,
+      "revelationOrder": 64,
+      "references": [
+        "44:1-59"
+      ],
+      "ayahCount": 59,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-045-ORDER-065",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 45,
+      "revelationOrder": 65,
+      "references": [
+        "45:1-37"
+      ],
+      "ayahCount": 37,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-046-ORDER-066",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 46,
+      "revelationOrder": 66,
+      "references": [
+        "46:1-35"
+      ],
+      "ayahCount": 35,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-051-ORDER-067",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 51,
+      "revelationOrder": 67,
+      "references": [
+        "51:1-60"
+      ],
+      "ayahCount": 60,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-088-ORDER-068",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 88,
+      "revelationOrder": 68,
+      "references": [
+        "88:1-26"
+      ],
+      "ayahCount": 26,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-018-ORDER-069",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 18,
+      "revelationOrder": 69,
+      "references": [
+        "18:1-110"
+      ],
+      "ayahCount": 110,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-016-ORDER-070",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 16,
+      "revelationOrder": 70,
+      "references": [
+        "16:1-128"
+      ],
+      "ayahCount": 128,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-071-ORDER-071",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 71,
+      "revelationOrder": 71,
+      "references": [
+        "71:1-28"
+      ],
+      "ayahCount": 28,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-014-ORDER-072",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 14,
+      "revelationOrder": 72,
+      "references": [
+        "14:1-52"
+      ],
+      "ayahCount": 52,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-021-ORDER-073",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 21,
+      "revelationOrder": 73,
+      "references": [
+        "21:1-112"
+      ],
+      "ayahCount": 112,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-023-ORDER-074",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 23,
+      "revelationOrder": 74,
+      "references": [
+        "23:1-118"
+      ],
+      "ayahCount": 118,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-032-ORDER-075",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 32,
+      "revelationOrder": 75,
+      "references": [
+        "32:1-30"
+      ],
+      "ayahCount": 30,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-052-ORDER-076",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 52,
+      "revelationOrder": 76,
+      "references": [
+        "52:1-49"
+      ],
+      "ayahCount": 49,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-067-ORDER-077",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 67,
+      "revelationOrder": 77,
+      "references": [
+        "67:1-30"
+      ],
+      "ayahCount": 30,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-069-ORDER-078",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 69,
+      "revelationOrder": 78,
+      "references": [
+        "69:1-52"
+      ],
+      "ayahCount": 52,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-070-ORDER-079",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 70,
+      "revelationOrder": 79,
+      "references": [
+        "70:1-44"
+      ],
+      "ayahCount": 44,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-078-ORDER-080",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 78,
+      "revelationOrder": 80,
+      "references": [
+        "78:1-40"
+      ],
+      "ayahCount": 40,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-079-ORDER-081",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 79,
+      "revelationOrder": 81,
+      "references": [
+        "79:1-46"
+      ],
+      "ayahCount": 46,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-082-ORDER-082",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 82,
+      "revelationOrder": 82,
+      "references": [
+        "82:1-19"
+      ],
+      "ayahCount": 19,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-084-ORDER-083",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 84,
+      "revelationOrder": 83,
+      "references": [
+        "84:1-25"
+      ],
+      "ayahCount": 25,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-030-ORDER-084",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 30,
+      "revelationOrder": 84,
+      "references": [
+        "30:1-60"
+      ],
+      "ayahCount": 60,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-029-ORDER-085",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 29,
+      "revelationOrder": 85,
+      "references": [
+        "29:1-69"
+      ],
+      "ayahCount": 69,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-083-ORDER-086",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 83,
+      "revelationOrder": 86,
+      "references": [
+        "83:1-36"
+      ],
+      "ayahCount": 36,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-002-ORDER-087",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 2,
+      "revelationOrder": 87,
+      "references": [
+        "2:1-286"
+      ],
+      "ayahCount": 286,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-008-ORDER-088",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 8,
+      "revelationOrder": 88,
+      "references": [
+        "8:1-75"
+      ],
+      "ayahCount": 75,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-003-ORDER-089",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 3,
+      "revelationOrder": 89,
+      "references": [
+        "3:1-200"
+      ],
+      "ayahCount": 200,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-033-ORDER-090",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 33,
+      "revelationOrder": 90,
+      "references": [
+        "33:1-73"
+      ],
+      "ayahCount": 73,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-060-ORDER-091",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 60,
+      "revelationOrder": 91,
+      "references": [
+        "60:1-13"
+      ],
+      "ayahCount": 13,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-004-ORDER-092",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 4,
+      "revelationOrder": 92,
+      "references": [
+        "4:1-176"
+      ],
+      "ayahCount": 176,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-099-ORDER-093",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 99,
+      "revelationOrder": 93,
+      "references": [
+        "99:1-8"
+      ],
+      "ayahCount": 8,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-057-ORDER-094",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 57,
+      "revelationOrder": 94,
+      "references": [
+        "57:1-29"
+      ],
+      "ayahCount": 29,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-047-ORDER-095",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 47,
+      "revelationOrder": 95,
+      "references": [
+        "47:1-38"
+      ],
+      "ayahCount": 38,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-013-ORDER-096",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 13,
+      "revelationOrder": 96,
+      "references": [
+        "13:1-43"
+      ],
+      "ayahCount": 43,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-055-ORDER-097",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 55,
+      "revelationOrder": 97,
+      "references": [
+        "55:1-78"
+      ],
+      "ayahCount": 78,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-076-ORDER-098",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 76,
+      "revelationOrder": 98,
+      "references": [
+        "76:1-31"
+      ],
+      "ayahCount": 31,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-065-ORDER-099",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 65,
+      "revelationOrder": 99,
+      "references": [
+        "65:1-12"
+      ],
+      "ayahCount": 12,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-098-ORDER-100",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 98,
+      "revelationOrder": 100,
+      "references": [
+        "98:1-8"
+      ],
+      "ayahCount": 8,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-059-ORDER-101",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 59,
+      "revelationOrder": 101,
+      "references": [
+        "59:1-24"
+      ],
+      "ayahCount": 24,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-024-ORDER-102",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 24,
+      "revelationOrder": 102,
+      "references": [
+        "24:1-64"
+      ],
+      "ayahCount": 64,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-022-ORDER-103",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 22,
+      "revelationOrder": 103,
+      "references": [
+        "22:1-78"
+      ],
+      "ayahCount": 78,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-063-ORDER-104",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 63,
+      "revelationOrder": 104,
+      "references": [
+        "63:1-11"
+      ],
+      "ayahCount": 11,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-058-ORDER-105",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 58,
+      "revelationOrder": 105,
+      "references": [
+        "58:1-22"
+      ],
+      "ayahCount": 22,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-049-ORDER-106",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 49,
+      "revelationOrder": 106,
+      "references": [
+        "49:1-18"
+      ],
+      "ayahCount": 18,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-066-ORDER-107",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 66,
+      "revelationOrder": 107,
+      "references": [
+        "66:1-12"
+      ],
+      "ayahCount": 12,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-064-ORDER-108",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 64,
+      "revelationOrder": 108,
+      "references": [
+        "64:1-18"
+      ],
+      "ayahCount": 18,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-061-ORDER-109",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 61,
+      "revelationOrder": 109,
+      "references": [
+        "61:1-14"
+      ],
+      "ayahCount": 14,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-062-ORDER-110",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 62,
+      "revelationOrder": 110,
+      "references": [
+        "62:1-11"
+      ],
+      "ayahCount": 11,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-048-ORDER-111",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 48,
+      "revelationOrder": 111,
+      "references": [
+        "48:1-29"
+      ],
+      "ayahCount": 29,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-005-ORDER-112",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 5,
+      "revelationOrder": 112,
+      "references": [
+        "5:1-120"
+      ],
+      "ayahCount": 120,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-009-ORDER-113",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 9,
+      "revelationOrder": 113,
+      "references": [
+        "9:1-129"
+      ],
+      "ayahCount": 129,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    },
+    {
+      "id": "SURAH-110-ORDER-114",
+      "kind": "SURAH_CONTEXT",
+      "surahNumber": 110,
+      "revelationOrder": 114,
+      "references": [
+        "110:1-3"
+      ],
+      "ayahCount": 3,
+      "status": "STRUCTURAL_CANDIDATE",
+      "sourceClass": "STRUCTURAL_QURAN_DATA",
+      "sourceRefs": [
+        "QURAN-TANZIL-METADATA"
+      ],
+      "note": "Structural container only; not asserted to equal a single revelation occasion or a single narrative story."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import {parseSemanticEventGraph} from '../src/events/event-parser.js';
+const neg=parseSemanticEventGraph('Saya tidak mencuri barang itu.');
+assert.equal(neg.nodes[0].occurrence,'NEGATED');
+const permit=parseSemanticEventGraph('Saya mengambil barang milik orang lain dengan izin pemilik.');
+assert.equal(permit.nodes[0].occurrence,'CONTEXT_INVALIDATED');
+assert.equal(permit.nodes[0].actions.find(x=>x.action==='THEFT')?.suppressionReason,'PERMISSION_CONTEXT_INVALIDATES_THEFT_LABEL');
+const report=parseSemanticEventGraph('Dia dituduh mencuri tanpa bukti.');
+assert.equal(report.nodes[0].actions.find(x=>x.action==='THEFT')?.suppressionReason,'EMBEDDED_REPORTED_CLAIM');
+assert.equal(report.nodes[0].actions.find(x=>x.action==='DEFAMATION')?.suppressed,undefined);
+assert.equal(report.nodes[0].actor,null);
+assert.equal(report.nodes[0].patient,'Dia');
+const seq=parseSemanticEventGraph('Saya mencuri dompet lalu mengembalikannya kepada pemilik.');
+assert.equal(seq.nodes.length,2); assert.equal(seq.nodes[1].restoration,true);
+console.log(JSON.stringify({ok:true,parser:seq.protocol},null,2));

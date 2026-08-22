@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "principle": "Every department is a type pack on a general kernel.",
+  "families": [
+    "PERSON",
+    "ORGANIZATION",
+    "GOVERNMENT",
+    "COMMUNITY",
+    "PLACE",
+    "ASSET",
+    "PROJECT",
+    "OFFICE",
+    "EVENT",
+    "RESOURCE",
+    "CASE"
+  ],
+  "examples": [
+    {
+      "typeId": "HEALTH.CARE_EVENT",
+      "entityFamily": "EVENT",
+      "domain": "HEALTH"
+    },
+    {
+      "typeId": "EDUCATION.LEARNING_EVENT",
+      "entityFamily": "EVENT",
+      "domain": "EDUCATION"
+    },
+    {
+      "typeId": "FISCAL.ZAKAT_ASSESSMENT",
+      "entityFamily": "EVENT",
+      "domain": "FISCAL"
+    },
+    {
+      "typeId": "FISCAL.TAX_ASSESSMENT",
+      "entityFamily": "EVENT",
+      "domain": "FISCAL"
+    },
+    {
+      "typeId": "JUSTICE.CASE",
+      "entityFamily": "CASE",
+      "domain": "JUSTICE"
+    },
+    {
+      "typeId": "GOVERNANCE.PROJECT",
+      "entityFamily": "PROJECT",
+      "domain": "GOVERNANCE"
+    },
+    {
+      "typeId": "ESCHATOLOGY.AMAL",
+      "entityFamily": "EVENT",
+      "domain": "ESCHATOLOGY"
+    },
+    {
+      "typeId": "WEALTH.ASSET",
+      "entityFamily": "ASSET",
+      "domain": "WEALTH"
+    },
+    {
+      "typeId": "KNOWLEDGE.HADITH_COLLECTION",
+      "entityFamily": "ENTITY",
+      "domain": "KNOWLEDGE"
+    },
+    {
+      "typeId": "KNOWLEDGE.RELIGIOUS_TERM",
+      "entityFamily": "ENTITY",
+      "domain": "KNOWLEDGE"
+    },
+    {
+      "typeId": "KNOWLEDGE.PROPHETIC_EVENT",
+      "entityFamily": "EVENT",
+      "domain": "KNOWLEDGE"
+    },
+    {
+      "typeId": "KNOWLEDGE.CROSS_SOURCE_RELATION",
+      "entityFamily": "RELATION",
+      "domain": "KNOWLEDGE"
+    },
+    {
+      "typeId": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+      "entityFamily": "RELATION",
+      "domain": "KNOWLEDGE"
+    },
+    {
+      "typeId": "MISSION.REFERENCE",
+      "entityFamily": "MISSION",
+      "domain": "CAB"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+# Test Report — 4.32.0
+
+Audit date: **2026-08-22**
+
+## Verified in the current workspace
+
+- API build: PASS
+- Web build: PASS
+- Semantic suite: PASS
+- Witness suite: PASS
+- Human Review Gate suite: PASS
+- API data-driven/E2E/SQLite/AI suite: **1,007/1,007 PASS**
+- Web contract suite: **11/11 PASS**
+- Evidence attach → re-analysis integration: PASS
+- Evaluation → review gate → Witness envelope integration: PASS
+- Windows `preflight`: PASS
+- Windows `final:certify`: PASS
+- SDK/contracts TypeScript check: PASS
+- Release identity consistency check: PASS (`npm run release:identity`)
+- HTTP malformed/oversized-body boundary test: PASS
+- Review workflow transition test: PASS
+- API suite from `apps/api` working directory: **1,007/1,007 PASS**
+- CAB contract suite: **11/11 PASS**
+- Public web contract suite: **2/2 PASS**
+- CAB and public web production builds: PASS
+- Shared UI cross-application contract: PASS
+- Immutable evidence overwrite/supersession integration: PASS
+- Review queue API lifecycle integration: PASS
+- Complete root regression command (`npm test`): PASS
+- Current certification command (`npm run certify:current`): PASS
+
+## Boundaries
+
+- Live PostgreSQL installation, migration, backup, restore, and production connection certification still require a provisioned deployment target.
+- Browser HttpOnly token storage, durable revocation across instances, distributed rate limiting, and live PostgreSQL certification remain open deployment work.
+- Public hosting is not certified yet because this workspace has no Git metadata/immutable source commit; CAB remains intentionally excluded from the public deployment surface.
+- Engine protocol snapshots may retain their own historical protocol versions such as 4.29 or 4.30; those are not the application release identity.
+- This report certifies the listed checks only and does not claim Divine judgement, exhaustive linguistic understanding, or empirical truth about an external event.

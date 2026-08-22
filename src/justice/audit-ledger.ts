@@ -1,0 +1,3 @@
+// @ts-nocheck
+import fs from 'node:fs'; import crypto from 'node:crypto';
+export class AuditLedger{constructor(path='./ledger.json'){this.path=path;this.entries=fs.existsSync(path)?JSON.parse(fs.readFileSync(path,'utf8')):[];}append(payload){const e={id:`LEDGER_${crypto.randomUUID()}`,time:new Date().toISOString(),payload,prev:this.entries.at(-1)?.hash??''};e.hash=crypto.createHash('sha256').update(e.prev+JSON.stringify(e)).digest('hex');this.entries.push(e);fs.writeFileSync(this.path,JSON.stringify(this.entries,null,2));return e;}verify(){let p='';for(const e of this.entries){const {hash,...r}=e;const x=crypto.createHash('sha256').update(p+JSON.stringify(r)).digest('hex');if(x!==hash)return {valid:false,id:e.id};p=hash;}return {valid:true,count:this.entries.length};}}

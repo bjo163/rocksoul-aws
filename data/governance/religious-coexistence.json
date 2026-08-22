@@ -1,0 +1,6 @@
+{
+  "defaultPrinciple":"PUBLIC_LAW_FOCUSES_ON_ACTIONS_AND_CIVIC_DUTIES_NOT_SIMPLE_RELIGIOUS_IDENTITY",
+  "communities":["MUSLIM","JEWISH","CHRISTIAN","OTHER_RELIGIOUS","NONRELIGIOUS"],
+  "domains":{"personal_religious_obligation":"RELIGIOUS_DOMAIN","public_law":"CIVIC_DOMAIN","interfaith_dialogue":"CIVIC_RELATIONS"},
+  "status":"MODEL_ONLY"
+}

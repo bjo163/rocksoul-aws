@@ -1,0 +1,8 @@
+[
+  {"code":"EDU_EARLY","name":"Early Childhood"},
+  {"code":"EDU_BASIC","name":"Basic Education"},
+  {"code":"EDU_SECONDARY","name":"Secondary Education"},
+  {"code":"EDU_HIGHER","name":"Higher Education"},
+  {"code":"EDU_VOCATIONAL","name":"Vocational / Skills"},
+  {"code":"EDU_LIFELONG","name":"Lifelong Learning"}
+]

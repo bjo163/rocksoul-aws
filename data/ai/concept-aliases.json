@@ -1,0 +1,131 @@
+{
+  "entities": {
+    "PERSON": [
+      "saya",
+      "orang",
+      "warga",
+      "pejabat",
+      "guru",
+      "dokter",
+      "imam"
+    ],
+    "GOVERNMENT": [
+      "pemerintah",
+      "negara",
+      "kementerian",
+      "kabupaten",
+      "kota",
+      "provinsi"
+    ],
+    "RELIGIOUS_TEXT": [
+      "quran",
+      "al-quran",
+      "bible",
+      "injil",
+      "gospel",
+      "torah",
+      "taurat",
+      "hadith",
+      "hadis",
+      "tafsir"
+    ],
+    "PROJECT": [
+      "proyek",
+      "project",
+      "pembangunan",
+      "program"
+    ],
+    "ASSET": [
+      "bangunan",
+      "masjid",
+      "gereja",
+      "sekolah",
+      "rumah sakit",
+      "jembatan",
+      "tanah",
+      "gedung"
+    ],
+    "MONEY": [
+      "uang",
+      "dana",
+      "anggaran",
+      "gaji",
+      "pajak",
+      "zakat",
+      "jizyah"
+    ]
+  },
+  "actions": {
+    "CORRUPTION": [
+      "korupsi",
+      "gelapkan dana",
+      "gunakan anggaran untuk keluarga",
+      "suap",
+      "mengambil dana publik"
+    ],
+    "SMOKING": [
+      "merokok",
+      "rokok"
+    ],
+    "LYING": [
+      "berbohong",
+      "berdusta",
+      "bohong",
+      "kebohongan",
+      "memalsukan"
+    ],
+    "DEFAMATION": [
+      "fitnah",
+      "menuduh tanpa bukti"
+    ],
+    "THEFT": [
+      "mencuri",
+      "curi",
+      "mengambil milik orang"
+    ],
+    "VERIFY_CLAIM": [
+      "verifikasi",
+      "benar atau palsu",
+      "cek sumber",
+      "cek kutipan",
+      "cross check",
+      "kroscek"
+    ],
+    "CHARITY": [
+      "sedekah",
+      "bersedekah",
+      "donasi",
+      "memberi kepada yang membutuhkan",
+      "memberi bantuan materi"
+    ],
+    "HELPING_GOOD": [
+      "membantu",
+      "menolong",
+      "membantu teman",
+      "membantu orang lain",
+      "membantu belajar"
+    ],
+    "RESTITUTION": [
+      "mengembalikan kepada pemilik",
+      "mengembalikan dompet",
+      "mengembalikan barang",
+      "mengganti kerugian",
+      "restitusi",
+      "refund",
+      "mengembalikannya kepada pemilik",
+      "mengembalikan kepada pemiliknya",
+      "mengembalikan dompet kepada pemilik"
+    ],
+    "FAIR_TRADE": [
+      "timbang dengan adil",
+      "takaran yang adil",
+      "jual beli adil",
+      "berdagang dengan jujur"
+    ],
+    "PROTECTION_LIFE": [
+      "menyelamatkan nyawa",
+      "menyelamatkan orang",
+      "melindungi nyawa"
+    ]
+  }
+}

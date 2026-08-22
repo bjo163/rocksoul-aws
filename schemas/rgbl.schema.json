@@ -1,0 +1,14 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"urn:moonwitness:rgbl",
+  "title":"RGBL Semantic Intention Chain",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["R","G","B","L"],
+  "properties":{
+    "R":{"type":"number","minimum":-1,"maximum":1},
+    "G":{"type":"number","minimum":-1,"maximum":1},
+    "B":{"type":"number","minimum":-1,"maximum":1},
+    "L":{"type":"number","minimum":-1,"maximum":1}
+  }
+}

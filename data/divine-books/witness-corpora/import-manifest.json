@@ -1,0 +1,33 @@
+{
+  "version": "4.26.0",
+  "generatedAt": "2026-08-21T21:03:42.719248+00:00",
+  "source": {
+    "name": "King James Bible: Pure Cambridge Edition textual witness",
+    "retrievalUrl": "https://blessedtxts.com/downloads/kjv/full.txt",
+    "retrievedFileSha256": "0286f1328073a32dcfc4f1d29ab4b100e506c2f7b20a14b354b6f2c064669904",
+    "sourceNotice": "Plain-text KJV textual witness. Bundled only as a transmitted textual witness for corroboration; never equated with original Tawrat, Zabur or Injil revelation."
+  },
+  "files": {
+    "TAWRAT": {
+      "path": "data/divine-books/witness-corpora/tawrat.jsonl",
+      "verseCount": 5852,
+      "sha256": "0afddb3c4490492f170d7310b305c4fe9de379b60a9332b6669272d621563988"
+    },
+    "ZABUR": {
+      "path": "data/divine-books/witness-corpora/zabur.jsonl",
+      "verseCount": 2461,
+      "sha256": "b6c28d2b4f9cca75b0f5c9a48825be9fad85cd04e8118c52e8a4d9f6ba093fe9"
+    },
+    "INJIL": {
+      "path": "data/divine-books/witness-corpora/injil.jsonl",
+      "verseCount": 3779,
+      "sha256": "c2da8f6f5298814f7289d008dee7614ed6f3dcd3f044f88f2cdef5ce8a216905"
+    }
+  },
+  "policy": {
+    "quranPrimaryMuhaimin": true,
+    "textualWitnessMayCreateStandaloneMoralDirection": false,
+    "textualWitnessMayReverseQuran": false,
+    "equalWitnessChannelWeights": true
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "version": "4.29.0",
+  "protocol": "REVELATION_SCORING_PROFILE_V1",
+  "normativeAuthority": false,
+  "boundary": "This profile defines engineering mathematics only. It cannot create moral direction, scripture references, sin/reward units, or a divine verdict. Moral direction and magnitude inputs must already be grounded in retrieved Revelation.",
+  "markerWeights": {
+    "DIVINE_DOES_NOT_LOVE": 1.0,
+    "DIVINE_LOVES": 1.0,
+    "DIVINE_FORBIDS": 1.0,
+    "DIVINE_COMMANDS": 1.0,
+    "PROHIBITION_STRUCTURE": 0.95,
+    "AVOIDANCE_DIRECTIVE": 0.95,
+    "NEGATIVE_CONSEQUENCE_NAKAL": 0.88,
+    "PUNISHMENT_SURFACE": 0.86,
+    "CONDEMNATION_FISQ_SURFACE": 0.82,
+    "IMPERATIVE_SURFACE_CANDIDATE": 0.68,
+    "DEFAULT": 0.55
+  },
+  "magnitudeWeights": {
+    "bindingConfidence": 0.30,
+    "markerStrength": 0.30,
+    "graphStrength": 0.18,
+    "repetitionStrength": 0.12,
+    "coverageStrength": 0.10
+  },
+  "impact": {
+    "localWindowRadius": 8,
+    "baseRelevance": 0.38,
+    "perAnchor": 0.12,
+    "maxAnchorContribution": 0.38,
+    "perAdditionalPassage": 0.08,
+    "maxPassageContribution": 0.24
+  },
+  "mizan": {
+    "redRiskWeight": 0.55,
+    "negativeImpactWeight": 0.45,
+    "greenBenefitWeight": 0.55,
+    "lightRestorationWeight": 0.15,
+    "positiveImpactWeight": 0.30,
+    "causalMagnitude": 0.10,
+    "timeMagnitude": 0.08,
+    "domainBreadth": 0.07,
+    "blueGroundingWeight": 0.65,
+    "externalConfidenceWeight": 0.35
+  }
+}

@@ -1,0 +1,939 @@
+[
+  {
+    "id": "ADAM",
+    "name": "Adam",
+    "order": 1,
+    "role": "PROPHET_REFERENCE",
+    "sourceProfiles": [
+      "QURAN"
+    ],
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {
+      "aliases": [
+        "Adam",
+        "Ādam"
+      ],
+      "quranReferences": [
+        "Q2:30-39",
+        "Q7:11-27",
+        "Q20:115-123",
+        "Q38:71-85"
+      ],
+      "missionTags": [
+        "ORIGIN",
+        "REPENTANCE",
+        "HUMANITY"
+      ],
+      "heroReference": true
+    },
+    "type": "HERO_REFERENCE.PROPHET"
+  },
+  {
+    "id": "IDRIS",
+    "name": "Idris",
+    "order": 2,
+    "role": "PROPHET_REFERENCE",
+    "sourceProfiles": [
+      "QURAN"
+    ],
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {
+      "aliases": [
+        "Idris",
+        "Enoch"
+      ],
+      "quranReferences": [
+        "Q19:56-57",
+        "Q21:85"
+      ],
+      "missionTags": [
+        "TRUTH",
+        "PATIENCE"
+      ],
+      "heroReference": true
+    },
+    "type": "HERO_REFERENCE.PROPHET"
+  },
+  {
+    "id": "NUH",
+    "name": "Nuh",
+    "order": 3,
+    "role": "PROPHET_REFERENCE",
+    "sourceProfiles": [
+      "QURAN"
+    ],
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {
+      "aliases": [
+        "Nuh",
+        "Noah"
+      ],
+      "quranReferences": [
+        "Q10:71-73",
+        "Q11:25-49",
+        "Q23:23-30",
+        "Q26:105-122",
+        "Q54:9-17",
+        "Q71:1-28"
+      ],
+      "missionTags": [
+        "WARN",
+        "MONOTHEISM",
+        "RESILIENCE"
+      ],
+      "heroReference": true
+    },
+    "type": "HERO_REFERENCE.PROPHET"
+  },
+  {
+    "id": "HUD",
+    "name": "Hud",
+    "order": 4,
+    "role": "PROPHET_REFERENCE",
+    "sourceProfiles": [
+      "QURAN"
+    ],
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {
+      "aliases": [
+        "Hud"
+      ],
+      "quranReferences": [
+        "Q7:65-72",
+        "Q11:50-60",
+        "Q26:123-140",
+        "Q46:21-26"
+      ],
+      "missionTags": [
+        "MONOTHEISM",
+        "ADVERSITY"
+      ],
+      "heroReference": true
+    },
+    "type": "HERO_REFERENCE.PROPHET"
+  },
+  {
+    "id": "SALIH",
+    "name": "Salih",
+    "order": 5,
+    "role": "PROPHET_REFERENCE",
+    "sourceProfiles": [
+      "QURAN"
+    ],
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {
+      "aliases": [
+        "Salih",
+        "Ṣāliḥ"
+      ],
+      "quranReferences": [
+        "Q7:73-79",
+        "Q11:61-68",
+        "Q26:141-159",
+        "Q54:23-31",
+        "Q91:11-15"
+      ],
+      "missionTags": [
+        "TRUST",
+        "SIGN",
+        "COMMUNITY"
+      ],
+      "heroReference": true
+    },
+    "type": "HERO_REFERENCE.PROPHET"
+  },
+  {
+    "id": "IBRAHIM",
+    "name": "Ibrahim",
+    "order": 6,
+    "role": "PROPHET_REFERENCE",
+    "sourceProfiles": [
+      "QURAN"
+    ],
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {
+      "aliases": [
+        "Ibrahim",
+        "Abraham"
+      ],
+      "quranReferences": [
+        "Q2:124-141",
+        "Q6:74-83",
+        "Q11:69-76",
+        "Q14:35-41",
+        "Q19:41-50",
+        "Q21:51-73",
+        "Q26:69-89",
+        "Q37:83-113",
+        "Q51:24-37",
+        "Q60:4-6"
+      ],
+      "missionTags": [
+        "TAWHID",
+        "BREAK_IDOLS",
+        "HOSPITALITY",
+        "SACRIFICE"
+      ],
+      "heroReference": true
+    },
+    "type": "HERO_REFERENCE.PROPHET"
+  },
+  {
+    "id": "LUT",
+    "name": "Lut",
+    "order": 7,
+    "role": "PROPHET_REFERENCE",
+    "sourceProfiles": [
+      "QURAN"
+    ],
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {
+      "aliases": [
+        "Lut",
+        "Lot"
+      ],
+      "quranReferences": [
+        "Q7:80-84",
+        "Q11:77-83",
+        "Q15:57-77",
+        "Q21:74-75",
+        "Q26:160-175",
+        "Q27:54-58",
+        "Q29:28-35",
+        "Q37:133-138",
+        "Q54:33-39"
+      ],
+      "missionTags": [
+        "MORAL_WARNING",
+        "COMMUNITY"
+      ],
+      "heroReference": true
+    },
+    "type": "HERO_REFERENCE.PROPHET"
+  },
+  {
+    "id": "ISMAIL",
+    "name": "Ismail",
+    "order": 8,
+    "role": "PROPHET_REFERENCE",
+    "sourceProfiles": [
+      "QURAN"
+    ],
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {
+      "aliases": [
+        "Ismail",
+        "Ishmael"
+      ],
+      "quranReferences": [
+        "Q2:125-129",
+        "Q19:54-55",
+        "Q37:100-111"
+      ],
+      "missionTags": [
+        "OBEDIENCE",
+        "SACRIFICE",
+        "FAMILY"
+      ],
+      "heroReference": true
+    },
+    "type": "HERO_REFERENCE.PROPHET"
+  },
+  {
+    "id": "ISHAQ",
+    "name": "Ishaq",
+    "order": 9,
+    "role": "PROPHET_REFERENCE",
+    "sourceProfiles": [
+      "QURAN"
+    ],
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {
+      "aliases": [
+        "Ishaq",
+        "Isaac"
+      ],
+      "quranReferences": [
+        "Q6:84",
+        "Q11:71-73",
+        "Q37:112-113"
+      ],
+      "missionTags": [
+        "LINEAGE",
+        "BLESSING"
+      ],
+      "heroReference": true
+    },
+    "type": "HERO_REFERENCE.PROPHET"
+  },
+  {
+    "id": "YAQUB",
+    "name": "Yaqub",
+    "order": 10,
+    "role": "PROPHET_REFERENCE",
+    "sourceProfiles": [
+      "QURAN"
+    ],
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {
+      "aliases": [
+        "Yaqub",
+        "Jacob"
+      ],
+      "quranReferences": [
+        "Q2:132-133",
+        "Q12:4-101",
+        "Q19:6",
+        "Q21:72",
+        "Q38:45"
+      ],
+      "missionTags": [
+        "PATIENCE",
+        "FAMILY",
+        "TRUST"
+      ],
+      "heroReference": true
+    },
+    "type": "HERO_REFERENCE.PROPHET"
+  },
+  {
+    "id": "YUSUF",
+    "name": "Yusuf",
+    "order": 11,
+    "role": "PROPHET_REFERENCE",
+    "sourceProfiles": [
+      "QURAN"
+    ],
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {
+      "aliases": [
+        "Yusuf",
+        "Joseph"
+      ],
+      "quranReferences": [
+        "Q12:1-111",
+        "Q40:34"
+      ],
+      "missionTags": [
+        "DREAM",
+        "FORGIVENESS",
+        "GOVERNANCE",
+        "FOOD_SECURITY"
+      ],
+      "heroReference": true
+    },
+    "type": "HERO_REFERENCE.PROPHET"
+  },
+  {
+    "id": "AYYUB",
+    "name": "Ayyub",
+    "order": 12,
+    "role": "PROPHET_REFERENCE",
+    "sourceProfiles": [
+      "QURAN"
+    ],
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {
+      "aliases": [
+        "Ayyub",
+        "Job"
+      ],
+      "quranReferences": [
+        "Q21:83-84",
+        "Q38:41-44"
+      ],
+      "missionTags": [
+        "PATIENCE",
+        "TRIAL",
+        "HEALING"
+      ],
+      "heroReference": true
+    },
+    "type": "HERO_REFERENCE.PROPHET"
+  },
+  {
+    "id": "SHUAYB",
+    "name": "Shuayb",
+    "order": 13,
+    "role": "PROPHET_REFERENCE",
+    "sourceProfiles": [
+      "QURAN"
+    ],
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {
+      "aliases": [
+        "Shuayb",
+        "Jethro"
+      ],
+      "quranReferences": [
+        "Q7:85-93",
+        "Q11:84-95",
+        "Q26:176-191",
+        "Q29:36-37"
+      ],
+      "missionTags": [
+        "FAIR_TRADE",
+        "MEASURE",
+        "MARKET_JUSTICE"
+      ],
+      "heroReference": true
+    },
+    "type": "HERO_REFERENCE.PROPHET"
+  },
+  {
+    "id": "MUSA",
+    "name": "Musa",
+    "order": 14,
+    "role": "PROPHET_REFERENCE",
+    "sourceProfiles": [
+      "QURAN",
+      "TAURAT_CONTEXT"
+    ],
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {
+      "aliases": [
+        "Musa",
+        "Moses"
+      ],
+      "quranReferences": [
+        "Q2:49-61",
+        "Q7:103-160",
+        "Q10:75-93",
+        "Q20:9-98",
+        "Q26:10-68",
+        "Q28:3-46",
+        "Q40:23-46"
+      ],
+      "missionTags": [
+        "LIBERATION",
+        "LAW",
+        "LEADERSHIP",
+        "CONFRONTATION"
+      ],
+      "heroReference": true
+    },
+    "type": "HERO_REFERENCE.PROPHET"
+  },
+  {
+    "id": "HARUN",
+    "name": "Harun",
+    "order": 15,
+    "role": "PROPHET_REFERENCE",
+    "sourceProfiles": [
+      "QURAN"
+    ],
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {
+      "aliases": [
+        "Harun",
+        "Aaron"
+      ],
+      "quranReferences": [
+        "Q7:142-150",
+        "Q20:29-94",
+        "Q21:48",
+        "Q23:45-49",
+        "Q26:13",
+        "Q28:34-35",
+        "Q37:114-122"
+      ],
+      "missionTags": [
+        "ASSISTANCE",
+        "LEADERSHIP",
+        "COMMUNITY"
+      ],
+      "heroReference": true
+    },
+    "type": "HERO_REFERENCE.PROPHET"
+  },
+  {
+    "id": "DHULKIFL",
+    "name": "Dhul-Kifl",
+    "order": 16,
+    "role": "PROPHET_REFERENCE",
+    "sourceProfiles": [
+      "QURAN"
+    ],
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {
+      "aliases": [
+        "Dhul-Kifl"
+      ],
+      "quranReferences": [],
+      "missionTags": [],
+      "heroReference": true
+    },
+    "type": "HERO_REFERENCE.PROPHET"
+  },
+  {
+    "id": "DAWUD",
+    "name": "Dawud",
+    "order": 17,
+    "role": "PROPHET_REFERENCE",
+    "sourceProfiles": [
+      "QURAN"
+    ],
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {
+      "aliases": [
+        "Dawud",
+        "David"
+      ],
+      "quranReferences": [
+        "Q2:251",
+        "Q4:163",
+        "Q17:55",
+        "Q21:78-82",
+        "Q27:15-16",
+        "Q34:10-11",
+        "Q38:17-26"
+      ],
+      "missionTags": [
+        "JUDGMENT",
+        "WORSHIP",
+        "LEADERSHIP"
+      ],
+      "heroReference": true
+    },
+    "type": "HERO_REFERENCE.PROPHET"
+  },
+  {
+    "id": "SULAYMAN",
+    "name": "Sulayman",
+    "order": 18,
+    "role": "PROPHET_REFERENCE",
+    "sourceProfiles": [
+      "QURAN"
+    ],
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {
+      "aliases": [
+        "Sulayman",
+        "Solomon"
+      ],
+      "quranReferences": [
+        "Q2:102",
+        "Q4:163",
+        "Q21:78-82",
+        "Q27:15-44",
+        "Q34:12-14",
+        "Q38:30-40"
+      ],
+      "missionTags": [
+        "GOVERNANCE",
+        "WISDOM",
+        "STEWARDSHIP"
+      ],
+      "heroReference": true
+    },
+    "type": "HERO_REFERENCE.PROPHET"
+  },
+  {
+    "id": "ILYAS",
+    "name": "Ilyas",
+    "order": 19,
+    "role": "PROPHET_REFERENCE",
+    "sourceProfiles": [
+      "QURAN"
+    ],
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {
+      "aliases": [
+        "Ilyas",
+        "Elijah"
+      ],
+      "quranReferences": [
+        "Q6:85",
+        "Q37:123-132"
+      ],
+      "missionTags": [
+        "MONOTHEISM",
+        "IDOLATRY_REFORM"
+      ],
+      "heroReference": true
+    },
+    "type": "HERO_REFERENCE.PROPHET"
+  },
+  {
+    "id": "ALYASA",
+    "name": "Al-Yasa",
+    "order": 20,
+    "role": "PROPHET_REFERENCE",
+    "sourceProfiles": [
+      "QURAN"
+    ],
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {
+      "aliases": [
+        "Al-Yasa"
+      ],
+      "quranReferences": [],
+      "missionTags": [],
+      "heroReference": true
+    },
+    "type": "HERO_REFERENCE.PROPHET"
+  },
+  {
+    "id": "YUNUS",
+    "name": "Yunus",
+    "order": 21,
+    "role": "PROPHET_REFERENCE",
+    "sourceProfiles": [
+      "QURAN"
+    ],
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {
+      "aliases": [
+        "Yunus",
+        "Jonah"
+      ],
+      "quranReferences": [
+        "Q4:163",
+        "Q6:86",
+        "Q10:98",
+        "Q21:87-88",
+        "Q37:139-148",
+        "Q68:48-50"
+      ],
+      "missionTags": [
+        "REPENTANCE",
+        "HOPE",
+        "COMMUNITY"
+      ],
+      "heroReference": true
+    },
+    "type": "HERO_REFERENCE.PROPHET"
+  },
+  {
+    "id": "ZAKARIYYA",
+    "name": "Zakariyya",
+    "order": 22,
+    "role": "PROPHET_REFERENCE",
+    "sourceProfiles": [
+      "QURAN"
+    ],
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {
+      "aliases": [
+        "Zakariyya",
+        "Zechariah"
+      ],
+      "quranReferences": [
+        "Q3:37-41",
+        "Q6:85",
+        "Q19:2-15",
+        "Q21:89-90"
+      ],
+      "missionTags": [
+        "PRAYER",
+        "HOPE",
+        "FAMILY"
+      ],
+      "heroReference": true
+    },
+    "type": "HERO_REFERENCE.PROPHET"
+  },
+  {
+    "id": "YAHYA",
+    "name": "Yahya",
+    "order": 23,
+    "role": "PROPHET_REFERENCE",
+    "sourceProfiles": [
+      "QURAN"
+    ],
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {
+      "aliases": [
+        "Yahya",
+        "John the Baptist"
+      ],
+      "quranReferences": [
+        "Q3:39",
+        "Q6:85",
+        "Q19:7-15"
+      ],
+      "missionTags": [
+        "TRUTH",
+        "PURITY",
+        "COURAGE"
+      ],
+      "heroReference": true
+    },
+    "type": "HERO_REFERENCE.PROPHET"
+  },
+  {
+    "id": "ISA",
+    "name": "Isa",
+    "order": 24,
+    "role": "PROPHET_REFERENCE",
+    "sourceProfiles": [
+      "QURAN",
+      "COMPARATIVE_GOSPEL"
+    ],
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {
+      "aliases": [
+        "Isa",
+        "Jesus"
+      ],
+      "quranReferences": [
+        "Q2:87",
+        "Q2:253",
+        "Q3:45-55",
+        "Q4:157-159",
+        "Q5:46",
+        "Q5:72-78",
+        "Q5:110-120",
+        "Q19:16-36",
+        "Q43:57-65",
+        "Q61:6",
+        "Q61:14"
+      ],
+      "missionTags": [
+        "GUIDANCE",
+        "INJIL",
+        "MERCY",
+        "SIGN",
+        "BANI_ISRAIL"
+      ],
+      "heroReference": true
+    },
+    "type": "HERO_REFERENCE.PROPHET"
+  },
+  {
+    "id": "MUHAMMAD",
+    "name": "Muhammad",
+    "order": 25,
+    "role": "PROPHET_REFERENCE",
+    "sourceProfiles": [
+      "QURAN",
+      "SIRAH",
+      "HADITH"
+    ],
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {
+      "aliases": [
+        "Muhammad",
+        "Muhammad ﷺ"
+      ],
+      "quranReferences": [
+        "Q3:144",
+        "Q33:40",
+        "Q48:29",
+        "Q53:1-18",
+        "Q68:1-4",
+        "Q94:1-8"
+      ],
+      "missionTags": [
+        "GUIDANCE",
+        "QURAN",
+        "COMMUNITY",
+        "JUSTICE",
+        "GOVERNANCE",
+        "MERCY"
+      ],
+      "heroReference": true
+    },
+    "type": "HERO_REFERENCE.PROPHET"
+  }
+]

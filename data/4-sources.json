@@ -1,0 +1,6 @@
+[
+  {"id":"S01","name":"INTERNAL","description":"Internal human/biological/psychological source slot","modeled":true},
+  {"id":"S02","name":"EXTERNAL","description":"External physical/world source slot","modeled":true},
+  {"id":"S03","name":"SOCIAL","description":"Human/social/institutional source slot","modeled":true},
+  {"id":"S04","name":"ENVIRONMENTAL","description":"Environmental/cosmic/contextual source slot","modeled":true}
+]

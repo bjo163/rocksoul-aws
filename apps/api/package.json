@@ -1,0 +1,19 @@
+{
+  "name": "@moonwitness/api",
+  "version": "4.32.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node -e \"const fs=require('fs'); for (const d of ['data','config','schemas']) fs.cpSync('../../'+d,'dist/'+d,{recursive:true});\"",
+    "start": "node dist/server.js",
+    "dev": "tsx watch src/server.ts",
+    "test": "node tests/generate-test-cases.js && npm run build && node -e \"const fs=require('fs'); fs.readdirSync('tests').filter(f=>f.startsWith('test-cases-')).forEach(f=>fs.cpSync('tests/'+f, 'dist/apps/api/tests/'+f))\" && node --test --test-concurrency=1 dist/apps/api/tests/api.test.js dist/apps/api/tests/api-e2e.test.js dist/apps/api/tests/api-sqlite.test.js dist/apps/api/tests/api-data-driven.test.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.7.0"
+  }
+}

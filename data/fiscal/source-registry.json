@@ -1,0 +1,37 @@
+{
+  "sources": [
+    {
+      "id": "BAZNAS_ID_2026_INCOME",
+      "domain": "ZAKAT",
+      "jurisdiction": "ID",
+      "authority": "BAZNAS RI",
+      "reference": "SK Ketua BAZNAS Nomor 15 Tahun 2026",
+      "effectiveYear": 2026,
+      "facts": {
+        "incomeNisabAnnualIdr": 91681728,
+        "incomeNisabMonthlyIdr": 7640144,
+        "rate": 0.025,
+        "nisabGoldGrams": 85
+      },
+      "sourceType": "OFFICIAL_AUTHORITY_SUMMARY"
+    },
+    {
+      "id": "TAX_ID_ZAKAT_DEDUCTION",
+      "domain": "TAX",
+      "jurisdiction": "ID",
+      "authority": "Direktorat Jenderal Pajak",
+      "reference": "Government regulation / official tax guidance on qualifying obligatory religious contributions",
+      "sourceType": "OFFICIAL_GUIDANCE",
+      "note": "Use the current official regulation and proof/payment-channel requirements for an actual tax filing."
+    },
+    {
+      "id": "Q9_29_JIZYAH",
+      "domain": "JIZYAH",
+      "jurisdiction": "SCRIPTURAL",
+      "authority": "Quran",
+      "reference": "Qur'an 9:29",
+      "sourceType": "REVELATION_REFERENCE",
+      "note": "The engine stores this as source evidence, not as an automatic modern tax schedule."
+    }
+  ]
+}

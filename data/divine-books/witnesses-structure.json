@@ -1,0 +1,218 @@
+{
+  "TAWRAT": [
+    {
+      "id": "GEN",
+      "name": "Genesis",
+      "tradition": "PENTATEUCH_WITNESS",
+      "chapters": 50,
+      "type": "DIVINE_BOOK.TEXTUAL_WITNESS_SECTION",
+      "bookCategory": "TAWRAT",
+      "schemaVersion": 1,
+      "version": 1,
+      "createdAt": "2026-08-19T22:30:00.000Z",
+      "createdBy": "SYSTEM-001",
+      "updatedAt": "2026-08-19T22:30:00.000Z",
+      "updatedBy": "SYSTEM-001",
+      "status": "REFERENCE_STRUCTURE",
+      "visibility": "PUBLIC",
+      "provenance": {
+        "sourceRepository": "https://github.com/midvash/bible-data",
+        "edition": "KJV 1769",
+        "license": "Public Domain"
+      }
+    },
+    {
+      "id": "EXOD",
+      "name": "Exodus",
+      "tradition": "PENTATEUCH_WITNESS",
+      "chapters": 40,
+      "type": "DIVINE_BOOK.TEXTUAL_WITNESS_SECTION",
+      "bookCategory": "TAWRAT",
+      "schemaVersion": 1,
+      "version": 1,
+      "createdAt": "2026-08-19T22:30:00.000Z",
+      "createdBy": "SYSTEM-001",
+      "updatedAt": "2026-08-19T22:30:00.000Z",
+      "updatedBy": "SYSTEM-001",
+      "status": "REFERENCE_STRUCTURE",
+      "visibility": "PUBLIC",
+      "provenance": {
+        "sourceRepository": "https://github.com/midvash/bible-data",
+        "edition": "KJV 1769",
+        "license": "Public Domain"
+      }
+    },
+    {
+      "id": "LEV",
+      "name": "Leviticus",
+      "tradition": "PENTATEUCH_WITNESS",
+      "chapters": 27,
+      "type": "DIVINE_BOOK.TEXTUAL_WITNESS_SECTION",
+      "bookCategory": "TAWRAT",
+      "schemaVersion": 1,
+      "version": 1,
+      "createdAt": "2026-08-19T22:30:00.000Z",
+      "createdBy": "SYSTEM-001",
+      "updatedAt": "2026-08-19T22:30:00.000Z",
+      "updatedBy": "SYSTEM-001",
+      "status": "REFERENCE_STRUCTURE",
+      "visibility": "PUBLIC",
+      "provenance": {
+        "sourceRepository": "https://github.com/midvash/bible-data",
+        "edition": "KJV 1769",
+        "license": "Public Domain"
+      }
+    },
+    {
+      "id": "NUM",
+      "name": "Numbers",
+      "tradition": "PENTATEUCH_WITNESS",
+      "chapters": 36,
+      "type": "DIVINE_BOOK.TEXTUAL_WITNESS_SECTION",
+      "bookCategory": "TAWRAT",
+      "schemaVersion": 1,
+      "version": 1,
+      "createdAt": "2026-08-19T22:30:00.000Z",
+      "createdBy": "SYSTEM-001",
+      "updatedAt": "2026-08-19T22:30:00.000Z",
+      "updatedBy": "SYSTEM-001",
+      "status": "REFERENCE_STRUCTURE",
+      "visibility": "PUBLIC",
+      "provenance": {
+        "sourceRepository": "https://github.com/midvash/bible-data",
+        "edition": "KJV 1769",
+        "license": "Public Domain"
+      }
+    },
+    {
+      "id": "DEUT",
+      "name": "Deuteronomy",
+      "tradition": "PENTATEUCH_WITNESS",
+      "chapters": 34,
+      "type": "DIVINE_BOOK.TEXTUAL_WITNESS_SECTION",
+      "bookCategory": "TAWRAT",
+      "schemaVersion": 1,
+      "version": 1,
+      "createdAt": "2026-08-19T22:30:00.000Z",
+      "createdBy": "SYSTEM-001",
+      "updatedAt": "2026-08-19T22:30:00.000Z",
+      "updatedBy": "SYSTEM-001",
+      "status": "REFERENCE_STRUCTURE",
+      "visibility": "PUBLIC",
+      "provenance": {
+        "sourceRepository": "https://github.com/midvash/bible-data",
+        "edition": "KJV 1769",
+        "license": "Public Domain"
+      }
+    }
+  ],
+  "ZABUR": [
+    {
+      "id": "PS",
+      "name": "Psalms",
+      "tradition": "PSALMS_WITNESS",
+      "chapters": 150,
+      "type": "DIVINE_BOOK.TEXTUAL_WITNESS_SECTION",
+      "bookCategory": "ZABUR",
+      "schemaVersion": 1,
+      "version": 1,
+      "createdAt": "2026-08-19T22:30:00.000Z",
+      "createdBy": "SYSTEM-001",
+      "updatedAt": "2026-08-19T22:30:00.000Z",
+      "updatedBy": "SYSTEM-001",
+      "status": "REFERENCE_STRUCTURE",
+      "visibility": "PUBLIC",
+      "provenance": {
+        "sourceRepository": "https://github.com/midvash/bible-data",
+        "edition": "KJV 1769",
+        "license": "Public Domain"
+      }
+    }
+  ],
+  "INJIL": [
+    {
+      "id": "MATT",
+      "name": "Matthew",
+      "tradition": "GOSPEL_WITNESS",
+      "chapters": 28,
+      "type": "DIVINE_BOOK.TEXTUAL_WITNESS_SECTION",
+      "bookCategory": "INJIL",
+      "schemaVersion": 1,
+      "version": 1,
+      "createdAt": "2026-08-19T22:30:00.000Z",
+      "createdBy": "SYSTEM-001",
+      "updatedAt": "2026-08-19T22:30:00.000Z",
+      "updatedBy": "SYSTEM-001",
+      "status": "REFERENCE_STRUCTURE",
+      "visibility": "PUBLIC",
+      "provenance": {
+        "sourceRepository": "https://github.com/midvash/bible-data",
+        "edition": "KJV 1769",
+        "license": "Public Domain"
+      }
+    },
+    {
+      "id": "MARK",
+      "name": "Mark",
+      "tradition": "GOSPEL_WITNESS",
+      "chapters": 16,
+      "type": "DIVINE_BOOK.TEXTUAL_WITNESS_SECTION",
+      "bookCategory": "INJIL",
+      "schemaVersion": 1,
+      "version": 1,
+      "createdAt": "2026-08-19T22:30:00.000Z",
+      "createdBy": "SYSTEM-001",
+      "updatedAt": "2026-08-19T22:30:00.000Z",
+      "updatedBy": "SYSTEM-001",
+      "status": "REFERENCE_STRUCTURE",
+      "visibility": "PUBLIC",
+      "provenance": {
+        "sourceRepository": "https://github.com/midvash/bible-data",
+        "edition": "KJV 1769",
+        "license": "Public Domain"
+      }
+    },
+    {
+      "id": "LUKE",
+      "name": "Luke",
+      "tradition": "GOSPEL_WITNESS",
+      "chapters": 24,
+      "type": "DIVINE_BOOK.TEXTUAL_WITNESS_SECTION",
+      "bookCategory": "INJIL",
+      "schemaVersion": 1,
+      "version": 1,
+      "createdAt": "2026-08-19T22:30:00.000Z",
+      "createdBy": "SYSTEM-001",
+      "updatedAt": "2026-08-19T22:30:00.000Z",
+      "updatedBy": "SYSTEM-001",
+      "status": "REFERENCE_STRUCTURE",
+      "visibility": "PUBLIC",
+      "provenance": {
+        "sourceRepository": "https://github.com/midvash/bible-data",
+        "edition": "KJV 1769",
+        "license": "Public Domain"
+      }
+    },
+    {
+      "id": "JOHN",
+      "name": "John",
+      "tradition": "GOSPEL_WITNESS",
+      "chapters": 21,
+      "type": "DIVINE_BOOK.TEXTUAL_WITNESS_SECTION",
+      "bookCategory": "INJIL",
+      "schemaVersion": 1,
+      "version": 1,
+      "createdAt": "2026-08-19T22:30:00.000Z",
+      "createdBy": "SYSTEM-001",
+      "updatedAt": "2026-08-19T22:30:00.000Z",
+      "updatedBy": "SYSTEM-001",
+      "status": "REFERENCE_STRUCTURE",
+      "visibility": "PUBLIC",
+      "provenance": {
+        "sourceRepository": "https://github.com/midvash/bible-data",
+        "edition": "KJV 1769",
+        "license": "Public Domain"
+      }
+    }
+  ]
+}

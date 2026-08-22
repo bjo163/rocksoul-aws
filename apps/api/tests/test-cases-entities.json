@@ -1,0 +1,1082 @@
+[
+  {
+    "id": "TC-100",
+    "name": "Entity - Create Legacy 0",
+    "method": "POST",
+    "route": "/api/v1/entities",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "entityId": "LEGACY-0",
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 0
+      }
+    }
+  },
+  {
+    "id": "TC-101",
+    "name": "Entity - Create Legacy 1",
+    "method": "POST",
+    "route": "/api/v1/entities",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "entityId": "LEGACY-1",
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 1
+      }
+    }
+  },
+  {
+    "id": "TC-102",
+    "name": "Entity - Create Legacy 2",
+    "method": "POST",
+    "route": "/api/v1/entities",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "entityId": "LEGACY-2",
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 2
+      }
+    }
+  },
+  {
+    "id": "TC-103",
+    "name": "Entity - Create Legacy 3",
+    "method": "POST",
+    "route": "/api/v1/entities",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "entityId": "LEGACY-3",
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 3
+      }
+    }
+  },
+  {
+    "id": "TC-104",
+    "name": "Entity - Create Legacy 4",
+    "method": "POST",
+    "route": "/api/v1/entities",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "entityId": "LEGACY-4",
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 4
+      }
+    }
+  },
+  {
+    "id": "TC-105",
+    "name": "Entity - Create Legacy 5",
+    "method": "POST",
+    "route": "/api/v1/entities",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "entityId": "LEGACY-5",
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 5
+      }
+    }
+  },
+  {
+    "id": "TC-106",
+    "name": "Entity - Create Legacy 6",
+    "method": "POST",
+    "route": "/api/v1/entities",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "entityId": "LEGACY-6",
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 6
+      }
+    }
+  },
+  {
+    "id": "TC-107",
+    "name": "Entity - Create Legacy 7",
+    "method": "POST",
+    "route": "/api/v1/entities",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "entityId": "LEGACY-7",
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 7
+      }
+    }
+  },
+  {
+    "id": "TC-108",
+    "name": "Entity - Create Legacy 8",
+    "method": "POST",
+    "route": "/api/v1/entities",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "entityId": "LEGACY-8",
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 8
+      }
+    }
+  },
+  {
+    "id": "TC-109",
+    "name": "Entity - Create Legacy 9",
+    "method": "POST",
+    "route": "/api/v1/entities",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "entityId": "LEGACY-9",
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 9
+      }
+    }
+  },
+  {
+    "id": "TC-110",
+    "name": "Entity - Create Legacy 10",
+    "method": "POST",
+    "route": "/api/v1/entities",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "entityId": "LEGACY-10",
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 10
+      }
+    }
+  },
+  {
+    "id": "TC-111",
+    "name": "Entity - Create Legacy 11",
+    "method": "POST",
+    "route": "/api/v1/entities",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "entityId": "LEGACY-11",
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 11
+      }
+    }
+  },
+  {
+    "id": "TC-112",
+    "name": "Entity - Create Legacy 12",
+    "method": "POST",
+    "route": "/api/v1/entities",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "entityId": "LEGACY-12",
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 12
+      }
+    }
+  },
+  {
+    "id": "TC-113",
+    "name": "Entity - Create Legacy 13",
+    "method": "POST",
+    "route": "/api/v1/entities",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "entityId": "LEGACY-13",
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 13
+      }
+    }
+  },
+  {
+    "id": "TC-114",
+    "name": "Entity - Create Legacy 14",
+    "method": "POST",
+    "route": "/api/v1/entities",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "entityId": "LEGACY-14",
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 14
+      }
+    }
+  },
+  {
+    "id": "TC-115",
+    "name": "Entity - Create Legacy 15",
+    "method": "POST",
+    "route": "/api/v1/entities",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "entityId": "LEGACY-15",
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 15
+      }
+    }
+  },
+  {
+    "id": "TC-116",
+    "name": "Entity - Create Legacy 16",
+    "method": "POST",
+    "route": "/api/v1/entities",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "entityId": "LEGACY-16",
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 16
+      }
+    }
+  },
+  {
+    "id": "TC-117",
+    "name": "Entity - Create Legacy 17",
+    "method": "POST",
+    "route": "/api/v1/entities",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "entityId": "LEGACY-17",
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 17
+      }
+    }
+  },
+  {
+    "id": "TC-118",
+    "name": "Entity - Create Legacy 18",
+    "method": "POST",
+    "route": "/api/v1/entities",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "entityId": "LEGACY-18",
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 18
+      }
+    }
+  },
+  {
+    "id": "TC-119",
+    "name": "Entity - Create Legacy 19",
+    "method": "POST",
+    "route": "/api/v1/entities",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "entityId": "LEGACY-19",
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 19
+      }
+    }
+  },
+  {
+    "id": "TC-120",
+    "name": "Entity - Get Limit 0",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=1&offset=0",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-121",
+    "name": "Entity - Get Limit 1",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=2&offset=1",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-122",
+    "name": "Entity - Get Limit 2",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=3&offset=2",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-123",
+    "name": "Entity - Get Limit 3",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=4&offset=3",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-124",
+    "name": "Entity - Get Limit 4",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=5&offset=4",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-125",
+    "name": "Entity - Get Limit 5",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=6&offset=0",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-126",
+    "name": "Entity - Get Limit 6",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=7&offset=1",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-127",
+    "name": "Entity - Get Limit 7",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=8&offset=2",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-128",
+    "name": "Entity - Get Limit 8",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=9&offset=3",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-129",
+    "name": "Entity - Get Limit 9",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=10&offset=4",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-130",
+    "name": "Entity - Get Limit 10",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=11&offset=0",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-131",
+    "name": "Entity - Get Limit 11",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=12&offset=1",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-132",
+    "name": "Entity - Get Limit 12",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=13&offset=2",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-133",
+    "name": "Entity - Get Limit 13",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=14&offset=3",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-134",
+    "name": "Entity - Get Limit 14",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=15&offset=4",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-135",
+    "name": "Entity - Get Limit 15",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=16&offset=0",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-136",
+    "name": "Entity - Get Limit 16",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=17&offset=1",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-137",
+    "name": "Entity - Get Limit 17",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=18&offset=2",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-138",
+    "name": "Entity - Get Limit 18",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=19&offset=3",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-139",
+    "name": "Entity - Get Limit 19",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=20&offset=4",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-140",
+    "name": "Entity - Get Limit 20",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=21&offset=0",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-141",
+    "name": "Entity - Get Limit 21",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=22&offset=1",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-142",
+    "name": "Entity - Get Limit 22",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=23&offset=2",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-143",
+    "name": "Entity - Get Limit 23",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=24&offset=3",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-144",
+    "name": "Entity - Get Limit 24",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=25&offset=4",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-145",
+    "name": "Entity - Get Limit 25",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=26&offset=0",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-146",
+    "name": "Entity - Get Limit 26",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=27&offset=1",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-147",
+    "name": "Entity - Get Limit 27",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=28&offset=2",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-148",
+    "name": "Entity - Get Limit 28",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=29&offset=3",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-149",
+    "name": "Entity - Get Limit 29",
+    "method": "GET",
+    "route": "/api/v1/entities?limit=30&offset=4",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-150",
+    "name": "Entity - Get Specific 0",
+    "method": "GET",
+    "route": "/api/v1/entities/LEGACY-0",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-151",
+    "name": "Entity - Get Specific 1",
+    "method": "GET",
+    "route": "/api/v1/entities/LEGACY-1",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-152",
+    "name": "Entity - Get Specific 2",
+    "method": "GET",
+    "route": "/api/v1/entities/LEGACY-2",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-153",
+    "name": "Entity - Get Specific 3",
+    "method": "GET",
+    "route": "/api/v1/entities/LEGACY-3",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-154",
+    "name": "Entity - Get Specific 4",
+    "method": "GET",
+    "route": "/api/v1/entities/LEGACY-4",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-155",
+    "name": "Entity - Get Specific 5",
+    "method": "GET",
+    "route": "/api/v1/entities/LEGACY-5",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-156",
+    "name": "Entity - Get Specific 6",
+    "method": "GET",
+    "route": "/api/v1/entities/LEGACY-6",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-157",
+    "name": "Entity - Get Specific 7",
+    "method": "GET",
+    "route": "/api/v1/entities/LEGACY-7",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-158",
+    "name": "Entity - Get Specific 8",
+    "method": "GET",
+    "route": "/api/v1/entities/LEGACY-8",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-159",
+    "name": "Entity - Get Specific 9",
+    "method": "GET",
+    "route": "/api/v1/entities/LEGACY-9",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-160",
+    "name": "Entity - Get Specific 10",
+    "method": "GET",
+    "route": "/api/v1/entities/LEGACY-10",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-161",
+    "name": "Entity - Get Specific 11",
+    "method": "GET",
+    "route": "/api/v1/entities/LEGACY-11",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-162",
+    "name": "Entity - Get Specific 12",
+    "method": "GET",
+    "route": "/api/v1/entities/LEGACY-12",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-163",
+    "name": "Entity - Get Specific 13",
+    "method": "GET",
+    "route": "/api/v1/entities/LEGACY-13",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-164",
+    "name": "Entity - Get Specific 14",
+    "method": "GET",
+    "route": "/api/v1/entities/LEGACY-14",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-165",
+    "name": "Entity - Get Specific 15",
+    "method": "GET",
+    "route": "/api/v1/entities/LEGACY-15",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-166",
+    "name": "Entity - Get Specific 16",
+    "method": "GET",
+    "route": "/api/v1/entities/LEGACY-16",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-167",
+    "name": "Entity - Get Specific 17",
+    "method": "GET",
+    "route": "/api/v1/entities/LEGACY-17",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-168",
+    "name": "Entity - Get Specific 18",
+    "method": "GET",
+    "route": "/api/v1/entities/LEGACY-18",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-169",
+    "name": "Entity - Get Specific 19",
+    "method": "GET",
+    "route": "/api/v1/entities/LEGACY-19",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-170",
+    "name": "Entity - Update Specific 0",
+    "method": "PUT",
+    "route": "/api/v1/entities/LEGACY-0",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 0
+      }
+    }
+  },
+  {
+    "id": "TC-171",
+    "name": "Entity - Update Specific 1",
+    "method": "PUT",
+    "route": "/api/v1/entities/LEGACY-1",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 2
+      }
+    }
+  },
+  {
+    "id": "TC-172",
+    "name": "Entity - Update Specific 2",
+    "method": "PUT",
+    "route": "/api/v1/entities/LEGACY-2",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 4
+      }
+    }
+  },
+  {
+    "id": "TC-173",
+    "name": "Entity - Update Specific 3",
+    "method": "PUT",
+    "route": "/api/v1/entities/LEGACY-3",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 6
+      }
+    }
+  },
+  {
+    "id": "TC-174",
+    "name": "Entity - Update Specific 4",
+    "method": "PUT",
+    "route": "/api/v1/entities/LEGACY-4",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 8
+      }
+    }
+  },
+  {
+    "id": "TC-175",
+    "name": "Entity - Update Specific 5",
+    "method": "PUT",
+    "route": "/api/v1/entities/LEGACY-5",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 10
+      }
+    }
+  },
+  {
+    "id": "TC-176",
+    "name": "Entity - Update Specific 6",
+    "method": "PUT",
+    "route": "/api/v1/entities/LEGACY-6",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 12
+      }
+    }
+  },
+  {
+    "id": "TC-177",
+    "name": "Entity - Update Specific 7",
+    "method": "PUT",
+    "route": "/api/v1/entities/LEGACY-7",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 14
+      }
+    }
+  },
+  {
+    "id": "TC-178",
+    "name": "Entity - Update Specific 8",
+    "method": "PUT",
+    "route": "/api/v1/entities/LEGACY-8",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 16
+      }
+    }
+  },
+  {
+    "id": "TC-179",
+    "name": "Entity - Update Specific 9",
+    "method": "PUT",
+    "route": "/api/v1/entities/LEGACY-9",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 18
+      }
+    }
+  },
+  {
+    "id": "TC-180",
+    "name": "Entity - Update Specific 10",
+    "method": "PUT",
+    "route": "/api/v1/entities/LEGACY-10",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 20
+      }
+    }
+  },
+  {
+    "id": "TC-181",
+    "name": "Entity - Update Specific 11",
+    "method": "PUT",
+    "route": "/api/v1/entities/LEGACY-11",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 22
+      }
+    }
+  },
+  {
+    "id": "TC-182",
+    "name": "Entity - Update Specific 12",
+    "method": "PUT",
+    "route": "/api/v1/entities/LEGACY-12",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 24
+      }
+    }
+  },
+  {
+    "id": "TC-183",
+    "name": "Entity - Update Specific 13",
+    "method": "PUT",
+    "route": "/api/v1/entities/LEGACY-13",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 26
+      }
+    }
+  },
+  {
+    "id": "TC-184",
+    "name": "Entity - Update Specific 14",
+    "method": "PUT",
+    "route": "/api/v1/entities/LEGACY-14",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "type": "LEGACY_TEST",
+      "data": {
+        "i": 28
+      }
+    }
+  },
+  {
+    "id": "TC-185",
+    "name": "Entity - Delete Specific 15",
+    "method": "DELETE",
+    "route": "/api/v1/entities/LEGACY-15",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-186",
+    "name": "Entity - Delete Specific 16",
+    "method": "DELETE",
+    "route": "/api/v1/entities/LEGACY-16",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-187",
+    "name": "Entity - Delete Specific 17",
+    "method": "DELETE",
+    "route": "/api/v1/entities/LEGACY-17",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-188",
+    "name": "Entity - Delete Specific 18",
+    "method": "DELETE",
+    "route": "/api/v1/entities/LEGACY-18",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-189",
+    "name": "Entity - Delete Specific 19",
+    "method": "DELETE",
+    "route": "/api/v1/entities/LEGACY-19",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-190",
+    "name": "Entity - Create Type 0",
+    "method": "POST",
+    "route": "/api/v1/types",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "typeId": "TYPE_0",
+      "entityFamily": "ENTITY",
+      "definition": {}
+    }
+  },
+  {
+    "id": "TC-191",
+    "name": "Entity - Create Type 1",
+    "method": "POST",
+    "route": "/api/v1/types",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "typeId": "TYPE_1",
+      "entityFamily": "ENTITY",
+      "definition": {}
+    }
+  },
+  {
+    "id": "TC-192",
+    "name": "Entity - Create Type 2",
+    "method": "POST",
+    "route": "/api/v1/types",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "typeId": "TYPE_2",
+      "entityFamily": "ENTITY",
+      "definition": {}
+    }
+  },
+  {
+    "id": "TC-193",
+    "name": "Entity - Create Type 3",
+    "method": "POST",
+    "route": "/api/v1/types",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "typeId": "TYPE_3",
+      "entityFamily": "ENTITY",
+      "definition": {}
+    }
+  },
+  {
+    "id": "TC-194",
+    "name": "Entity - Create Type 4",
+    "method": "POST",
+    "route": "/api/v1/types",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "typeId": "TYPE_4",
+      "entityFamily": "ENTITY",
+      "definition": {}
+    }
+  },
+  {
+    "id": "TC-195",
+    "name": "Entity - Create Type 5",
+    "method": "POST",
+    "route": "/api/v1/types",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "typeId": "TYPE_5",
+      "entityFamily": "ENTITY",
+      "definition": {}
+    }
+  },
+  {
+    "id": "TC-196",
+    "name": "Entity - Create Type 6",
+    "method": "POST",
+    "route": "/api/v1/types",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "typeId": "TYPE_6",
+      "entityFamily": "ENTITY",
+      "definition": {}
+    }
+  },
+  {
+    "id": "TC-197",
+    "name": "Entity - Create Type 7",
+    "method": "POST",
+    "route": "/api/v1/types",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "typeId": "TYPE_7",
+      "entityFamily": "ENTITY",
+      "definition": {}
+    }
+  },
+  {
+    "id": "TC-198",
+    "name": "Entity - Create Type 8",
+    "method": "POST",
+    "route": "/api/v1/types",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "typeId": "TYPE_8",
+      "entityFamily": "ENTITY",
+      "definition": {}
+    }
+  },
+  {
+    "id": "TC-199",
+    "name": "Entity - Create Type 9",
+    "method": "POST",
+    "route": "/api/v1/types",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "body": {
+      "typeId": "TYPE_9",
+      "entityFamily": "ENTITY",
+      "definition": {}
+    }
+  }
+]

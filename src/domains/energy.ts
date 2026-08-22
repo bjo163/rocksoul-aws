@@ -1,0 +1,1 @@
+export function energyProfile({generation=0,demand=0,storage=0,renewable=0}={}){return{generation,demand,storage,renewable,net:+generation+(+storage)-(+demand),renewableShare:+generation?(+renewable)/(+generation):0}}

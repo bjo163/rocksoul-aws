@@ -1,0 +1,1 @@
+{"type":"object","required":["rid","personId","ruhId","state"],"properties":{"rid":{"type":"string"},"personId":{"type":"string"},"ruhId":{"type":"string"},"state":{"type":"string"},"alive":{"type":"boolean"},"displayName":{"type":["string","null"]},"citizenship":{"type":["object","null"]},"residency":{"type":["object","null"]}}}

@@ -1,0 +1,16 @@
+{
+  "jurisdiction": "ID",
+  "year": 2026,
+  "authority": "BAZNAS RI",
+  "income": {
+    "nisabAnnualIdr": 91681728,
+    "nisabMonthlyIdr": 7640144,
+    "goldEquivalentGrams": 85,
+    "rate": 0.025
+  },
+  "gold": {
+    "nisabGrams": 85,
+    "rate": 0.025
+  },
+  "notes": "Configuration snapshot for 2026; current official authority should be rechecked before real-world reliance."
+}

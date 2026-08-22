@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "status": "CURATED_QURAN_ANCHOR_DATA",
+  "note": "Narrative anchors are thematic scripture ranges curated from Qur'an passages. They are not asserted to be single revelation occasions.",
+  "patterns": [
+    {"id":"STORY-ADAM","subject":"ADAM","references":["2:30-39","7:11-27","20:115-123","38:71-85"],"arc":["CREATION","KNOWLEDGE","COMMAND","TEST","ERROR","REPENTANCE","GUIDANCE"]},
+    {"id":"STORY-NUH","subject":"NUH","references":["11:25-49","23:23-30","26:105-122","71:1-28"],"arc":["CALL","REJECTION","WARNING","PATIENT_PERSISTENCE","DELIVERANCE","CONSEQUENCE"]},
+    {"id":"STORY-IBRAHIM","subject":"IBRAHIM","references":["2:124-132","6:74-83","11:69-76","19:41-50","21:51-70","37:83-111"],"arc":["GUIDANCE","QUESTIONING","TAWHEED","TRIAL","SACRIFICE","DELIVERANCE","LEGACY"]},
+    {"id":"STORY-MUSA","subject":"MUSA","references":["20:9-98","26:10-68","28:3-42","79:15-26"],"arc":["CALL","MISSION","OPPRESSION","SIGN","CONFRONTATION","DELIVERANCE","ACCOUNTABILITY"]},
+    {"id":"STORY-YUSUF","subject":"YUSUF","references":["12:1-111"],"arc":["VISION","LOSS","TRIAL","TEMPTATION","PRISON","INTERPRETATION","AUTHORITY","RECONCILIATION"]},
+    {"id":"STORY-MARYAM-ISA","subject":"MARYAM_ISA","references":["3:35-59","19:16-36"],"arc":["DEVOTION","ANNOUNCEMENT","BIRTH","SIGN","MISSION","TRUTH"]},
+    {"id":"STORY-DAWUD-SULAYMAN","subject":"DAWUD_SULAYMAN","references":["21:78-82","27:15-44","38:17-40"],"arc":["KNOWLEDGE","JUDGMENT","AUTHORITY","TEST","GRATITUDE","JUSTICE"]},
+    {"id":"STORY-AYYUB","subject":"AYYUB","references":["21:83-84","38:41-44"],"arc":["TRIAL","PATIENCE","SUPPLICATION","RESTORATION"]},
+    {"id":"STORY-YUNUS","subject":"YUNUS","references":["10:98","37:139-148","21:87-88"],"arc":["MISSION","DISTRESS","SUPPLICATION","DELIVERANCE","CORRECTION"]},
+    {"id":"STORY-PEOPLE-CAVE","subject":"COMPANIONS_OF_CAVE","references":["18:9-26"],"arc":["FAITH","WITHDRAWAL","PROTECTION","TIME","DISCLOSURE"]},
+    {"id":"STORY-DHUL-QARNAYN","subject":"DHUL_QARNAYN","references":["18:83-98"],"arc":["JOURNEY","POWER","JUSTICE","LIMIT","SERVICE"]},
+    {"id":"STORY-QARUN","subject":"QARUN","references":["28:76-82"],"arc":["WEALTH","PRIDE","ADVICE","REJECTION","CONSEQUENCE"]},
+    {"id":"STORY-SABA","subject":"SABA","references":["34:15-19"],"arc":["BLESSING","INGRATITUDE","CHOICE","DISPERSAL","CONSEQUENCE"]},
+    {"id":"STORY-PHARAOH","subject":"PHARAOH","references":["10:75-92","26:10-68","28:3-42","79:15-26"],"arc":["POWER","DENIAL","OPPRESSION","WARNING","RESISTANCE","CONSEQUENCE"]},
+    {"id":"STORY-PEOPLE-ELEPHANT","subject":"PEOPLE_OF_ELEPHANT","references":["105:1-5"],"arc":["THREAT","DIVINE_PROTECTION","CONSEQUENCE"]}
+  ]
+}

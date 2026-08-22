@@ -1,0 +1,89 @@
+[
+  {
+    "id": "BOOK-TAWRAT",
+    "type": "DIVINE_BOOK",
+    "canonicalName": "TAWRAT",
+    "displayName": "Tawrat",
+    "tradition": "ISLAMIC_REFERENCE",
+    "revelationRecipient": "MUSA",
+    "language": null,
+    "status": "REFERENCE_METADATA",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T22:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T22:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "provenance": {
+      "notes": "Islamic canonical reference metadata; not a complete modern Torah corpus."
+    },
+    "metadata": {},
+    "visibility": "PUBLIC"
+  },
+  {
+    "id": "BOOK-ZABUR",
+    "type": "DIVINE_BOOK",
+    "canonicalName": "ZABUR",
+    "displayName": "Zabur",
+    "tradition": "ISLAMIC_REFERENCE",
+    "revelationRecipient": "DAWUD",
+    "language": null,
+    "status": "REFERENCE_METADATA",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T22:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T22:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "provenance": {
+      "notes": "Islamic canonical reference metadata; Psalm collections are not equated wholesale with the revealed Zabur."
+    },
+    "metadata": {},
+    "visibility": "PUBLIC"
+  },
+  {
+    "id": "BOOK-INJIL",
+    "type": "DIVINE_BOOK",
+    "canonicalName": "INJIL",
+    "displayName": "Injil",
+    "tradition": "ISLAMIC_REFERENCE",
+    "revelationRecipient": "ISA",
+    "language": null,
+    "status": "REFERENCE_METADATA",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T22:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T22:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "provenance": {
+      "notes": "Islamic canonical reference metadata; not identical by definition to the entire modern New Testament/Bible."
+    },
+    "metadata": {},
+    "visibility": "PUBLIC"
+  },
+  {
+    "id": "BOOK-QURAN",
+    "type": "DIVINE_BOOK",
+    "canonicalName": "QURAN",
+    "displayName": "Al-Qur'an",
+    "tradition": "ISLAM",
+    "revelationRecipient": "MUHAMMAD",
+    "language": "AR",
+    "status": "CANONICAL_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T22:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T22:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "provenance": {
+      "sourceUrl": "https://quran.com/",
+      "notes": "Metadata index only in this release; full Quranic text should be imported from a verified corpus with its own provenance/license."
+    },
+    "metadata": {
+      "surahCount": 114
+    },
+    "visibility": "PUBLIC"
+  }
+]

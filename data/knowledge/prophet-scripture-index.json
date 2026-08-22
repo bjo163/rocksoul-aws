@@ -1,0 +1,2362 @@
+[
+  {
+    "id": "QREF-ADAM-Q2_30_39",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q2:30-39",
+      "prophetId": "ADAM",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-ADAM-Q7_11_27",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q7:11-27",
+      "prophetId": "ADAM",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-ADAM-Q20_115_123",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q20:115-123",
+      "prophetId": "ADAM",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-ADAM-Q38_71_85",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q38:71-85",
+      "prophetId": "ADAM",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-IDRIS-Q19_56_57",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q19:56-57",
+      "prophetId": "IDRIS",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-IDRIS-Q21_85",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q21:85",
+      "prophetId": "IDRIS",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-NUH-Q10_71_73",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q10:71-73",
+      "prophetId": "NUH",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-NUH-Q11_25_49",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q11:25-49",
+      "prophetId": "NUH",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-NUH-Q23_23_30",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q23:23-30",
+      "prophetId": "NUH",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-NUH-Q26_105_122",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q26:105-122",
+      "prophetId": "NUH",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-NUH-Q54_9_17",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q54:9-17",
+      "prophetId": "NUH",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-NUH-Q71_1_28",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q71:1-28",
+      "prophetId": "NUH",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-HUD-Q7_65_72",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q7:65-72",
+      "prophetId": "HUD",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-HUD-Q11_50_60",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q11:50-60",
+      "prophetId": "HUD",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-HUD-Q26_123_140",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q26:123-140",
+      "prophetId": "HUD",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-HUD-Q46_21_26",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q46:21-26",
+      "prophetId": "HUD",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-SALIH-Q7_73_79",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q7:73-79",
+      "prophetId": "SALIH",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-SALIH-Q11_61_68",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q11:61-68",
+      "prophetId": "SALIH",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-SALIH-Q26_141_159",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q26:141-159",
+      "prophetId": "SALIH",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-SALIH-Q54_23_31",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q54:23-31",
+      "prophetId": "SALIH",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-SALIH-Q91_11_15",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q91:11-15",
+      "prophetId": "SALIH",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-IBRAHIM-Q2_124_141",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q2:124-141",
+      "prophetId": "IBRAHIM",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-IBRAHIM-Q6_74_83",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q6:74-83",
+      "prophetId": "IBRAHIM",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-IBRAHIM-Q11_69_76",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q11:69-76",
+      "prophetId": "IBRAHIM",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-IBRAHIM-Q14_35_41",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q14:35-41",
+      "prophetId": "IBRAHIM",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-IBRAHIM-Q19_41_50",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q19:41-50",
+      "prophetId": "IBRAHIM",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-IBRAHIM-Q21_51_73",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q21:51-73",
+      "prophetId": "IBRAHIM",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-IBRAHIM-Q26_69_89",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q26:69-89",
+      "prophetId": "IBRAHIM",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-IBRAHIM-Q37_83_113",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q37:83-113",
+      "prophetId": "IBRAHIM",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-IBRAHIM-Q51_24_37",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q51:24-37",
+      "prophetId": "IBRAHIM",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-IBRAHIM-Q60_4_6",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q60:4-6",
+      "prophetId": "IBRAHIM",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-LUT-Q7_80_84",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q7:80-84",
+      "prophetId": "LUT",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-LUT-Q11_77_83",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q11:77-83",
+      "prophetId": "LUT",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-LUT-Q15_57_77",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q15:57-77",
+      "prophetId": "LUT",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-LUT-Q21_74_75",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q21:74-75",
+      "prophetId": "LUT",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-LUT-Q26_160_175",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q26:160-175",
+      "prophetId": "LUT",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-LUT-Q27_54_58",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q27:54-58",
+      "prophetId": "LUT",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-LUT-Q29_28_35",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q29:28-35",
+      "prophetId": "LUT",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-LUT-Q37_133_138",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q37:133-138",
+      "prophetId": "LUT",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-LUT-Q54_33_39",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q54:33-39",
+      "prophetId": "LUT",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-ISMAIL-Q2_125_129",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q2:125-129",
+      "prophetId": "ISMAIL",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-ISMAIL-Q19_54_55",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q19:54-55",
+      "prophetId": "ISMAIL",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-ISMAIL-Q37_100_111",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q37:100-111",
+      "prophetId": "ISMAIL",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-ISHAQ-Q6_84",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q6:84",
+      "prophetId": "ISHAQ",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-ISHAQ-Q11_71_73",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q11:71-73",
+      "prophetId": "ISHAQ",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-ISHAQ-Q37_112_113",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q37:112-113",
+      "prophetId": "ISHAQ",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-YAQUB-Q2_132_133",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q2:132-133",
+      "prophetId": "YAQUB",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-YAQUB-Q12_4_101",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q12:4-101",
+      "prophetId": "YAQUB",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-YAQUB-Q19_6",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q19:6",
+      "prophetId": "YAQUB",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-YAQUB-Q21_72",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q21:72",
+      "prophetId": "YAQUB",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-YAQUB-Q38_45",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q38:45",
+      "prophetId": "YAQUB",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-YUSUF-Q12_1_111",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q12:1-111",
+      "prophetId": "YUSUF",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-YUSUF-Q40_34",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q40:34",
+      "prophetId": "YUSUF",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-AYYUB-Q21_83_84",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q21:83-84",
+      "prophetId": "AYYUB",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-AYYUB-Q38_41_44",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q38:41-44",
+      "prophetId": "AYYUB",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-SHUAYB-Q7_85_93",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q7:85-93",
+      "prophetId": "SHUAYB",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-SHUAYB-Q11_84_95",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q11:84-95",
+      "prophetId": "SHUAYB",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-SHUAYB-Q26_176_191",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q26:176-191",
+      "prophetId": "SHUAYB",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-SHUAYB-Q29_36_37",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q29:36-37",
+      "prophetId": "SHUAYB",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-MUSA-Q2_49_61",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q2:49-61",
+      "prophetId": "MUSA",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-MUSA-Q7_103_160",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q7:103-160",
+      "prophetId": "MUSA",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-MUSA-Q10_75_93",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q10:75-93",
+      "prophetId": "MUSA",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-MUSA-Q20_9_98",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q20:9-98",
+      "prophetId": "MUSA",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-MUSA-Q26_10_68",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q26:10-68",
+      "prophetId": "MUSA",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-MUSA-Q28_3_46",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q28:3-46",
+      "prophetId": "MUSA",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-MUSA-Q40_23_46",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q40:23-46",
+      "prophetId": "MUSA",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-HARUN-Q7_142_150",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q7:142-150",
+      "prophetId": "HARUN",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-HARUN-Q20_29_94",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q20:29-94",
+      "prophetId": "HARUN",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-HARUN-Q21_48",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q21:48",
+      "prophetId": "HARUN",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-HARUN-Q23_45_49",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q23:45-49",
+      "prophetId": "HARUN",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-HARUN-Q26_13",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q26:13",
+      "prophetId": "HARUN",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-HARUN-Q28_34_35",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q28:34-35",
+      "prophetId": "HARUN",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-HARUN-Q37_114_122",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q37:114-122",
+      "prophetId": "HARUN",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-DAWUD-Q2_251",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q2:251",
+      "prophetId": "DAWUD",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-DAWUD-Q4_163",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q4:163",
+      "prophetId": "DAWUD",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-DAWUD-Q17_55",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q17:55",
+      "prophetId": "DAWUD",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-DAWUD-Q21_78_82",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q21:78-82",
+      "prophetId": "DAWUD",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-DAWUD-Q27_15_16",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q27:15-16",
+      "prophetId": "DAWUD",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-DAWUD-Q34_10_11",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q34:10-11",
+      "prophetId": "DAWUD",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-DAWUD-Q38_17_26",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q38:17-26",
+      "prophetId": "DAWUD",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-SULAYMAN-Q2_102",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q2:102",
+      "prophetId": "SULAYMAN",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-SULAYMAN-Q4_163",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q4:163",
+      "prophetId": "SULAYMAN",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-SULAYMAN-Q21_78_82",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q21:78-82",
+      "prophetId": "SULAYMAN",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-SULAYMAN-Q27_15_44",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q27:15-44",
+      "prophetId": "SULAYMAN",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-SULAYMAN-Q34_12_14",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q34:12-14",
+      "prophetId": "SULAYMAN",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-SULAYMAN-Q38_30_40",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q38:30-40",
+      "prophetId": "SULAYMAN",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-ILYAS-Q6_85",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q6:85",
+      "prophetId": "ILYAS",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-ILYAS-Q37_123_132",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q37:123-132",
+      "prophetId": "ILYAS",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-YUNUS-Q4_163",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q4:163",
+      "prophetId": "YUNUS",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-YUNUS-Q6_86",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q6:86",
+      "prophetId": "YUNUS",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-YUNUS-Q10_98",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q10:98",
+      "prophetId": "YUNUS",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-YUNUS-Q21_87_88",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q21:87-88",
+      "prophetId": "YUNUS",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-YUNUS-Q37_139_148",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q37:139-148",
+      "prophetId": "YUNUS",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-YUNUS-Q68_48_50",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q68:48-50",
+      "prophetId": "YUNUS",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-ZAKARIYYA-Q3_37_41",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q3:37-41",
+      "prophetId": "ZAKARIYYA",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-ZAKARIYYA-Q6_85",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q6:85",
+      "prophetId": "ZAKARIYYA",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-ZAKARIYYA-Q19_2_15",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q19:2-15",
+      "prophetId": "ZAKARIYYA",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-ZAKARIYYA-Q21_89_90",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q21:89-90",
+      "prophetId": "ZAKARIYYA",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-YAHYA-Q3_39",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q3:39",
+      "prophetId": "YAHYA",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-YAHYA-Q6_85",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q6:85",
+      "prophetId": "YAHYA",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-YAHYA-Q19_7_15",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q19:7-15",
+      "prophetId": "YAHYA",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-ISA-Q2_87",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q2:87",
+      "prophetId": "ISA",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-ISA-Q2_253",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q2:253",
+      "prophetId": "ISA",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-ISA-Q3_45_55",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q3:45-55",
+      "prophetId": "ISA",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-ISA-Q4_157_159",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q4:157-159",
+      "prophetId": "ISA",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-ISA-Q5_46",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q5:46",
+      "prophetId": "ISA",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-ISA-Q5_72_78",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q5:72-78",
+      "prophetId": "ISA",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-ISA-Q5_110_120",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q5:110-120",
+      "prophetId": "ISA",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-ISA-Q19_16_36",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q19:16-36",
+      "prophetId": "ISA",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-ISA-Q43_57_65",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q43:57-65",
+      "prophetId": "ISA",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-ISA-Q61_6",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q61:6",
+      "prophetId": "ISA",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-ISA-Q61_14",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q61:14",
+      "prophetId": "ISA",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-MUHAMMAD-Q3_144",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q3:144",
+      "prophetId": "MUHAMMAD",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-MUHAMMAD-Q33_40",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q33:40",
+      "prophetId": "MUHAMMAD",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-MUHAMMAD-Q48_29",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q48:29",
+      "prophetId": "MUHAMMAD",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-MUHAMMAD-Q53_1_18",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q53:1-18",
+      "prophetId": "MUHAMMAD",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-MUHAMMAD-Q68_1_4",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q68:1-4",
+      "prophetId": "MUHAMMAD",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  },
+  {
+    "id": "QREF-MUHAMMAD-Q94_1_8",
+    "type": "KNOWLEDGE.SCRIPTURE_REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "sourceId": "BOOK-QURAN",
+      "reference": "Q94:1-8",
+      "prophetId": "MUHAMMAD",
+      "relationType": "REFERENCES_PROPHET"
+    }
+  }
+]

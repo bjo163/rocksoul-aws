@@ -1,0 +1,451 @@
+[
+  {
+    "id": "EVENT-ADAM-CREATION",
+    "type": "KNOWLEDGE.PROPHETIC_EVENT",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "title": "Adam and human origin",
+      "prophetId": "ADAM",
+      "quranReferences": [
+        "Q2:30-39",
+        "Q7:11-27",
+        "Q20:115-123"
+      ],
+      "eventTags": [
+        "CREATION_ORIGIN"
+      ],
+      "evidenceClass": "SCRIPTURAL_REFERENCE"
+    }
+  },
+  {
+    "id": "EVENT-NUH-FLOOD",
+    "type": "KNOWLEDGE.PROPHETIC_EVENT",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "title": "Nuh and the flood",
+      "prophetId": "NUH",
+      "quranReferences": [
+        "Q11:25-49",
+        "Q23:23-30",
+        "Q71:1-28"
+      ],
+      "eventTags": [
+        "FLOOD"
+      ],
+      "evidenceClass": "SCRIPTURAL_REFERENCE"
+    }
+  },
+  {
+    "id": "EVENT-IBRAHIM-IDOL",
+    "type": "KNOWLEDGE.PROPHETIC_EVENT",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "title": "Ibrahim challenges idolatry",
+      "prophetId": "IBRAHIM",
+      "quranReferences": [
+        "Q21:51-70",
+        "Q26:69-82"
+      ],
+      "eventTags": [
+        "IDOLATRY_REFORM"
+      ],
+      "evidenceClass": "SCRIPTURAL_REFERENCE"
+    }
+  },
+  {
+    "id": "EVENT-LUT-DESTRUCTION",
+    "type": "KNOWLEDGE.PROPHETIC_EVENT",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "title": "Lut and the destruction of the people",
+      "prophetId": "LUT",
+      "quranReferences": [
+        "Q11:77-83",
+        "Q15:57-77"
+      ],
+      "eventTags": [
+        "JUDGMENT"
+      ],
+      "evidenceClass": "SCRIPTURAL_REFERENCE"
+    }
+  },
+  {
+    "id": "EVENT-ISMAIL-SACRIFICE",
+    "type": "KNOWLEDGE.PROPHETIC_EVENT",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "title": "Ismail and sacrifice narrative",
+      "prophetId": "ISMAIL",
+      "quranReferences": [
+        "Q37:100-111"
+      ],
+      "eventTags": [
+        "SACRIFICE"
+      ],
+      "evidenceClass": "SCRIPTURAL_REFERENCE"
+    }
+  },
+  {
+    "id": "EVENT-YUSUF-DREAM",
+    "type": "KNOWLEDGE.PROPHETIC_EVENT",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "title": "Yusuf dream and later administration",
+      "prophetId": "YUSUF",
+      "quranReferences": [
+        "Q12:4-6",
+        "Q12:43-57"
+      ],
+      "eventTags": [
+        "DREAM_GOVERNANCE"
+      ],
+      "evidenceClass": "SCRIPTURAL_REFERENCE"
+    }
+  },
+  {
+    "id": "EVENT-AYYUB-TRIAL",
+    "type": "KNOWLEDGE.PROPHETIC_EVENT",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "title": "Ayyub trial and relief",
+      "prophetId": "AYYUB",
+      "quranReferences": [
+        "Q21:83-84",
+        "Q38:41-44"
+      ],
+      "eventTags": [
+        "TRIAL_RELIEF"
+      ],
+      "evidenceClass": "SCRIPTURAL_REFERENCE"
+    }
+  },
+  {
+    "id": "EVENT-MUSA-EXODUS",
+    "type": "KNOWLEDGE.PROPHETIC_EVENT",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "title": "Musa and Pharaoh / exodus narrative",
+      "prophetId": "MUSA",
+      "quranReferences": [
+        "Q20:9-98",
+        "Q26:10-68",
+        "Q28:3-46"
+      ],
+      "eventTags": [
+        "EXODUS"
+      ],
+      "evidenceClass": "SCRIPTURAL_REFERENCE"
+    }
+  },
+  {
+    "id": "EVENT-MUSA-TORAH",
+    "type": "KNOWLEDGE.PROPHETIC_EVENT",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "title": "Musa receives the scripture",
+      "prophetId": "MUSA",
+      "quranReferences": [
+        "Q2:53",
+        "Q17:2",
+        "Q32:23"
+      ],
+      "eventTags": [
+        "SCRIPTURE_RECEIPT"
+      ],
+      "evidenceClass": "SCRIPTURAL_REFERENCE"
+    }
+  },
+  {
+    "id": "EVENT-DAWUD-JUDGMENT",
+    "type": "KNOWLEDGE.PROPHETIC_EVENT",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "title": "Dawud as judge and leader",
+      "prophetId": "DAWUD",
+      "quranReferences": [
+        "Q38:17-26",
+        "Q21:78-82"
+      ],
+      "eventTags": [
+        "JUDGMENT"
+      ],
+      "evidenceClass": "SCRIPTURAL_REFERENCE"
+    }
+  },
+  {
+    "id": "EVENT-SULAYMAN-KINGDOM",
+    "type": "KNOWLEDGE.PROPHETIC_EVENT",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "title": "Sulayman and extraordinary kingdom",
+      "prophetId": "SULAYMAN",
+      "quranReferences": [
+        "Q27:15-44",
+        "Q34:12-14",
+        "Q38:30-40"
+      ],
+      "eventTags": [
+        "GOVERNANCE"
+      ],
+      "evidenceClass": "SCRIPTURAL_REFERENCE"
+    }
+  },
+  {
+    "id": "EVENT-YUNUS-REPENTANCE",
+    "type": "KNOWLEDGE.PROPHETIC_EVENT",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "title": "Yunus and repentance",
+      "prophetId": "YUNUS",
+      "quranReferences": [
+        "Q21:87-88",
+        "Q37:139-148"
+      ],
+      "eventTags": [
+        "REPENTANCE"
+      ],
+      "evidenceClass": "SCRIPTURAL_REFERENCE"
+    }
+  },
+  {
+    "id": "EVENT-ZAKARIYYA-PRAYER",
+    "type": "KNOWLEDGE.PROPHETIC_EVENT",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "title": "Zakariyya prayer and Yahya",
+      "prophetId": "ZAKARIYYA",
+      "quranReferences": [
+        "Q3:37-41",
+        "Q19:2-15",
+        "Q21:89-90"
+      ],
+      "eventTags": [
+        "PRAYER_FAMILY"
+      ],
+      "evidenceClass": "SCRIPTURAL_REFERENCE"
+    }
+  },
+  {
+    "id": "EVENT-ISA-BIRTH",
+    "type": "KNOWLEDGE.PROPHETIC_EVENT",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "title": "Isa birth narrative",
+      "prophetId": "ISA",
+      "quranReferences": [
+        "Q3:45-47",
+        "Q19:16-36"
+      ],
+      "eventTags": [
+        "BIRTH"
+      ],
+      "evidenceClass": "SCRIPTURAL_REFERENCE"
+    }
+  },
+  {
+    "id": "EVENT-ISA-MISSION",
+    "type": "KNOWLEDGE.PROPHETIC_EVENT",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "title": "Isa and his mission to Bani Israil",
+      "prophetId": "ISA",
+      "quranReferences": [
+        "Q3:49-50",
+        "Q5:46",
+        "Q61:6"
+      ],
+      "eventTags": [
+        "MISSION"
+      ],
+      "evidenceClass": "SCRIPTURAL_REFERENCE"
+    }
+  },
+  {
+    "id": "EVENT-MUHAMMAD-REVELATION",
+    "type": "KNOWLEDGE.PROPHETIC_EVENT",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "title": "Muhammad and revelation/Quran",
+      "prophetId": "MUHAMMAD",
+      "quranReferences": [
+        "Q2:97",
+        "Q17:1",
+        "Q53:1-18"
+      ],
+      "eventTags": [
+        "REVELATION"
+      ],
+      "evidenceClass": "SCRIPTURAL_REFERENCE"
+    }
+  },
+  {
+    "id": "EVENT-MUHAMMAD-MEDINA",
+    "type": "KNOWLEDGE.PROPHETIC_EVENT",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "title": "Muhammad and community/governance context",
+      "prophetId": "MUHAMMAD",
+      "quranReferences": [
+        "Q33:40",
+        "Q48:29"
+      ],
+      "eventTags": [
+        "COMMUNITY_GOVERNANCE"
+      ],
+      "evidenceClass": "SCRIPTURAL_REFERENCE"
+    }
+  }
+]

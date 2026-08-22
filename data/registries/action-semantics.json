@@ -1,0 +1,213 @@
+{
+  "version": "4.26.0-language-engineering-bridge",
+  "actions": {
+    "SMOKING": {
+      "vector": {
+        "R": -0.15,
+        "G": -0.25,
+        "B": -0.35,
+        "L": -0.65
+      },
+      "harm": {
+        "self": 0.85,
+        "secondhand": 0.65,
+        "environment": 0.25,
+        "addiction": 0.75
+      }
+    },
+    "CORRUPTION": {
+      "vector": {
+        "R": -0.5,
+        "G": -0.7,
+        "B": -1,
+        "L": -0.4
+      },
+      "harm": {
+        "public": 0.9,
+        "financial": 0.9,
+        "systemic": 0.9
+      }
+    },
+    "THEFT": {
+      "vector": {
+        "R": -0.5,
+        "G": -0.5,
+        "B": -0.9,
+        "L": -0.3
+      },
+      "harm": {
+        "property": 0.8,
+        "trust": 0.8
+      }
+    },
+    "LYING": {
+      "vector": {
+        "R": -1,
+        "G": -0.3,
+        "B": -0.5,
+        "L": -0.2
+      },
+      "harm": {
+        "truth": 0.8,
+        "trust": 0.6
+      }
+    },
+    "UNLAWFUL_KILLING": {
+      "vector": {
+        "R": -0.7,
+        "G": -0.4,
+        "B": -0.8,
+        "L": -1
+      },
+      "harm": {
+        "life": 1,
+        "trauma": 1
+      }
+    },
+    "SHIRK": {
+      "vector": {
+        "R": -0.4,
+        "G": -0.5,
+        "B": -1,
+        "L": -0.5
+      },
+      "harm": {
+        "theological": 1
+      }
+    },
+    "DEFAMATION": {
+      "vector": {
+        "R": 0,
+        "G": 0,
+        "B": 0,
+        "L": 0
+      },
+      "harm": {
+        "dignity": 0.85,
+        "truth": 0.75,
+        "trust": 0.7,
+        "public": 0.4
+      }
+    },
+    "VERIFY_CLAIM": {
+      "vector": {
+        "R": 0.45,
+        "G": 0.65,
+        "B": 0.65,
+        "L": 0.75
+      },
+      "harm": {},
+      "benefit": {
+        "truth": 0.9,
+        "trust": 0.65,
+        "public": 0.35
+      }
+    },
+    "CHARITY": {
+      "vector": {
+        "R": 0.65,
+        "G": 0.75,
+        "B": 0.75,
+        "L": 0.8
+      },
+      "harm": {},
+      "benefit": {
+        "public": 0.7,
+        "dignity": 0.45,
+        "trust": 0.25
+      }
+    },
+    "HELPING_GOOD": {
+      "vector": {
+        "R": 0.55,
+        "G": 0.7,
+        "B": 0.65,
+        "L": 0.7
+      },
+      "harm": {},
+      "benefit": {
+        "public": 0.55,
+        "trust": 0.4,
+        "dignity": 0.3
+      }
+    },
+    "RESTITUTION": {
+      "vector": {
+        "R": 0.6,
+        "G": 0.75,
+        "B": 0.85,
+        "L": 0.7
+      },
+      "harm": {},
+      "benefit": {
+        "property": 0.85,
+        "trust": 0.8,
+        "repair": 1.0
+      }
+    },
+    "FAIR_TRADE": {
+      "vector": {
+        "R": 0.55,
+        "G": 0.7,
+        "B": 0.75,
+        "L": 0.75
+      },
+      "harm": {},
+      "benefit": {
+        "property": 0.55,
+        "trust": 0.65,
+        "justice": 0.85,
+        "public": 0.35
+      }
+    },
+    "PROTECTION_LIFE": {
+      "vector": {
+        "R": 0.65,
+        "G": 0.75,
+        "B": 0.8,
+        "L": 0.85
+      },
+      "harm": {},
+      "benefit": {
+        "life": 1.0,
+        "safety": 0.9,
+        "public": 0.45
+      }
+    }
+  },
+  "rights": {
+    "THEFT": [
+      "PROPERTY",
+      "TRUST"
+    ],
+    "CORRUPTION": [
+      "PUBLIC_TRUST",
+      "PROPERTY",
+      "JUSTICE"
+    ],
+    "LYING": [
+      "TRUTH",
+      "TRUST"
+    ],
+    "UNLAWFUL_KILLING": [
+      "LIFE",
+      "SAFETY",
+      "JUSTICE"
+    ],
+    "CHARITY": [],
+    "PROTECTION": []
+  },
+  "wealth": {
+    "THEFT": -1,
+    "CORRUPTION": -1,
+    "FRAUD": -0.9,
+    "BRIBERY": -0.9,
+    "HOARDING": -0.6,
+    "CHARITY": 0.9,
+    "FAIR_TRADE": 0.8,
+    "RESTITUTION": 0.8,
+    "PROVISION": 0.7
+  },
+  "modelBoundary": "Action vectors, harm/benefit magnitudes, and aliases are software engineering signals only. They contain no action-to-verse mapping and have zero normative authority. Revelation binding and moral direction come from src/revelation/binding and the four-book Revelation Core.",
+  "boundary": "This registry may help parse language and estimate analytical magnitude. It MUST NOT supply scripture references, moral direction, divine reward/sin units, or final judgement."
+}

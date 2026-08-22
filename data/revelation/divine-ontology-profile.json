@@ -1,0 +1,25 @@
+{
+  "protocol": "DIVINE_ONTOLOGY_PROFILE_V1",
+  "version": "4.30.0",
+  "normativeAuthority": false,
+  "clustering": {
+    "minimumReferences": 2,
+    "contextTokenLimit": 18,
+    "minimumSharedContextTokens": 3,
+    "similarityThreshold": 0.64,
+    "surfaceWeight": 0.20,
+    "contextWeight": 0.60,
+    "referenceWeight": 0.20
+  },
+  "invariants": {
+    "canonical99Hardcoded": false,
+    "humanCuratedNameListUsed": false,
+    "externalLexiconUsed": false,
+    "canonicalDivineNamePromotedAutomatically": false,
+    "canonicalArabicRootAssumed": false,
+    "clusterSimilarityIsNormativeEvidence": false,
+    "quranRemainsPrimaryMuhaimin": true,
+    "textualWitnessMayOutvoteQuran": false
+  },
+  "boundary": "This profile controls corpus-internal ontology clustering only. Similarity thresholds and weights are engineering parameters, not Revelation and not moral authority."
+}

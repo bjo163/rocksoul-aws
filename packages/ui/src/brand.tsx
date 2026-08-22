@@ -1,0 +1,1 @@
+export function BrandMark({label='MOONWITNESS',suffix='OS',compact=false}:{label?:string;suffix?:string;compact?:boolean}){return <span className={`mw-shared-brand ${compact?'compact':''}`}><span className="mw-shared-brand-mark" aria-hidden="true"><i>MW</i></span><span>{label} {suffix&&<small>{suffix}</small>}</span></span>;}

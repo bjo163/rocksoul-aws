@@ -1,0 +1,35 @@
+{
+  "version": "4.29.0",
+  "protocol": "SEMANTIC_EVENT_LANGUAGE_PROFILE_V1",
+  "normativeAuthority": false,
+  "boundary": "Language/event parsing only. This profile cannot create scripture references, moral direction, sin/reward values, or divine verdicts.",
+  "sequenceConnectors": ["lalu", "kemudian", "setelah itu", "sesudah itu", "selanjutnya", "tetapi", "namun"],
+  "causalConnectors": ["karena", "sebab", "akibat", "sehingga"],
+  "purposeConnectors": ["agar", "supaya", "demi", "untuk"],
+  "knowledge": {
+    "known": ["tahu", "mengetahui", "sadar", "memastikan", "yakin"],
+    "unknown": ["tidak tahu", "belum tahu", "tidak mengetahui"],
+    "believed": ["mengira", "menyangka", "menduga"],
+    "updated": ["setelah sadar", "setelah mengetahui", "baru sadar", "kemudian sadar"]
+  },
+  "context": {
+    "mistake": ["tidak sengaja", "tanpa sengaja", "salah mengambil", "keliru", "khilaf", "mengira itu miliknya", "mengira itu milik saya", "mengira miliknya"],
+    "coercion": ["dipaksa", "terpaksa", "diancam", "di bawah ancaman", "di bawah tekanan"],
+    "permission": ["dengan izin", "atas izin", "diizinkan", "mendapat izin", "seizin", "izin pemilik"],
+    "capacityLimited": ["tidak mampu", "tidak sanggup", "di luar kemampuan", "keterbatasan"],
+    "emergency": ["darurat", "keadaan darurat", "menyelamatkan nyawa", "ancaman nyawa"]
+  },
+  "reporting": {
+    "verbs": ["menuduh", "dituduh", "melaporkan", "dilaporkan", "mengatakan bahwa", "mendengar bahwa", "katanya", "mengklaim"],
+    "unverified": ["tanpa bukti", "belum diverifikasi", "belum dicek", "katanya", "rumor", "desas-desus"]
+  },
+  "ownership": {
+    "other": ["milik orang", "milik orang lain", "barang orang", "barang orang lain", "uang orang", "uang orang lain", "dompet orang", "dompet orang lain", "bukan miliknya", "bukan milik saya"],
+    "self": ["milik saya", "punya saya", "miliknya sendiri", "punya sendiri"],
+    "return": ["kepada pemilik", "kepada pemiliknya", "pemilik yang berhak"]
+  },
+  "genericActionSurfaces": {
+    "PROPERTY_TAKING": ["mengambil", "ambil", "menguasai", "menyimpan"],
+    "RETURN": ["mengembalikan", "memulangkan", "mengganti kerugian", "restitusi", "refund"]
+  }
+}

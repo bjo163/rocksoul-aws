@@ -1,0 +1,1 @@
+export function defenseProfile({capabilities=[],procurements=[],oversight=[]}={}){return{capabilities,procurements,oversight,oversightCoverage:capabilities.length?oversight.length/capabilities.length:0}}

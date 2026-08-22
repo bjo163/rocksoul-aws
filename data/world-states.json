@@ -1,0 +1,16 @@
+[
+  {"id":"CREATION","kind":"WORLD","description":"Creation-state model"},
+  {"id":"DUNYA","kind":"WORLD","description":"Ordinary worldly life"},
+  {"id":"TRIAL","kind":"WORLD","description":"World state emphasizing trials/tests"},
+  {"id":"FITNAH","kind":"WORLD","description":"World state emphasizing conflict/confusion"},
+  {"id":"LATE_AGE","kind":"WORLD","description":"Late-world state"},
+  {"id":"AKHIRZAMAN","kind":"WORLD","description":"End-time state"},
+  {"id":"ESCHATOLOGICAL_TRANSITION","kind":"WORLD","description":"Transition toward end of Dunya"},
+  {"id":"END_OF_DUNYA","kind":"WORLD","description":"End-of-world transition state"},
+  {"id":"BARZAKH","kind":"AFTERLIFE","description":"Intermediate post-death model state"},
+  {"id":"RESURRECTION","kind":"AFTERLIFE","description":"Ba'th / resurrection model state"},
+  {"id":"MAHSHAR","kind":"AFTERLIFE","description":"Gathering model state"},
+  {"id":"HISAB","kind":"AFTERLIFE","description":"Accounting model state"},
+  {"id":"MIZAN","kind":"AFTERLIFE","description":"Weighing model state"},
+  {"id":"FINAL_STATE","kind":"AFTERLIFE","description":"Final modeled state"}
+]

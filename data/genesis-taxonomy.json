@@ -1,0 +1,16 @@
+{
+  "status": "CONFIGURABLE_CANONICAL_SLOTS",
+  "note": "The four-source, seven-gateway and four-process taxonomies are stored as explicit slots so a project-specific canonical vocabulary can be inserted without silently inventing doctrine.",
+  "sources": [
+    {"id":"S01","name":"SOURCE_01","description":"Canonical source slot 01"},
+    {"id":"S02","name":"SOURCE_02","description":"Canonical source slot 02"},
+    {"id":"S03","name":"SOURCE_03","description":"Canonical source slot 03"},
+    {"id":"S04","name":"SOURCE_04","description":"Canonical source slot 04"}
+  ],
+  "gateways": [
+    {"id":"G01","name":"GATEWAY_01"},{"id":"G02","name":"GATEWAY_02"},{"id":"G03","name":"GATEWAY_03"},{"id":"G04","name":"GATEWAY_04"},{"id":"G05","name":"GATEWAY_05"},{"id":"G06","name":"GATEWAY_06"},{"id":"G07","name":"GATEWAY_07"}
+  ],
+  "processes": [
+    {"id":"P01","name":"PROCESS_01"},{"id":"P02","name":"PROCESS_02"},{"id":"P03","name":"PROCESS_03"},{"id":"P04","name":"PROCESS_04"}
+  ]
+}

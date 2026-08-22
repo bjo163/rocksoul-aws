@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "policy": {
+    "defaultUnit": "SINGLE_AYAH",
+    "distributionIntent": "SIMULATION_ONLY",
+    "note": "The Quran establishes staged/gradual revelation but does not specify a maximum number of ayahs per revelation event. The weights below are software defaults for reminder simulation, not historical revelation statistics.",
+    "weights": {
+      "SINGLE_AYAH": 70,
+      "SHORT_PASSAGE_2_5": 22,
+      "PASSAGE_6_10": 7,
+      "LARGE_PASSAGE_GT10": 1
+    },
+    "hardRule": "Never convert a simulated schedule into a claim of actual revelation, angelic descent, or divine communication."
+  },
+  "patterns": [
+    {
+      "id": "RP-STAGED-001",
+      "type": "GRADUAL_REVELATION",
+      "references": ["Q17:106", "Q25:32"],
+      "evidenceClass": "QURAN_EXPLICIT",
+      "selection": "FOUNDATIONAL"
+    },
+    {
+      "id": "RP-FIRST-WAHY-001",
+      "type": "HISTORICAL_REPORT",
+      "passage": "96:1-5",
+      "count": 5,
+      "references": ["Q96:1-5"],
+      "evidenceClass": "REVELATION_HISTORY_REPORT",
+      "selection": "REFERENCE_ONLY"
+    },
+    {
+      "id": "RP-TEN-VERSE-001",
+      "type": "HISTORICAL_REPORT",
+      "passage": "24:11-20",
+      "count": 10,
+      "references": ["Q24:11-20"],
+      "evidenceClass": "HADITH_REPORT",
+      "selection": "REFERENCE_ONLY"
+    },
+    {
+      "id": "RP-QADR-001",
+      "type": "SPECIAL_NIGHT",
+      "passage": "97:1-5",
+      "count": 5,
+      "references": ["Q97:1-5"],
+      "temporalWindow": "NIGHT_TO_DAWN",
+      "evidenceClass": "QURAN_EXPLICIT",
+      "selection": "SPECIAL_CONTEXT"
+    },
+    {
+      "id": "RP-BLESSED-NIGHT-001",
+      "type": "SPECIAL_NIGHT",
+      "passage": "44:3-4",
+      "references": ["Q44:3-4"],
+      "temporalWindow": "NIGHT",
+      "evidenceClass": "QURAN_EXPLICIT",
+      "selection": "SPECIAL_CONTEXT"
+    },
+    {
+      "id": "RP-MESSENGER-COMMAND-001",
+      "type": "MESSENGER_DESCENT_PATTERN",
+      "references": ["Q19:64", "Q2:97", "Q42:51"],
+      "evidenceClass": "QURAN_EXPLICIT",
+      "selection": "REFERENCE_PATTERN",
+      "rule": "Messenger/angelic descent is modeled as permissioned by divine command; software does not claim to observe an actual descent."
+    },
+    {
+      "id": "RP-LARGE-REPORT-001",
+      "type": "HISTORICAL_REPORT",
+      "passage": "6:1-165",
+      "count": 165,
+      "references": ["Q6:1-165"],
+      "evidenceClass": "HISTORICAL_REPORT_WITH_DISPUTED_STRENGTH",
+      "selection": "DO_NOT_USE_FOR_AUTOMATIC_SCHEDULING",
+      "rule": "Kept as a research record only; not treated as a verified maximum or default distribution."
+    }
+  ]
+}

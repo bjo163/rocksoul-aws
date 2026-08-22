@@ -1,0 +1,61 @@
+name: MoonWitness Certification
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: certification-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  certify:
+    name: Build, test, and certify
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Verify release identity
+        run: npm run release:identity
+
+      - name: Build API
+        run: npm run build:api
+
+      - name: Build CAB
+        run: npm run build:cab
+
+      - name: Build public web
+        run: npm run build:web
+
+      - name: Run core regression suite
+        run: npm test
+
+      - name: Run API suite
+        run: npm --prefix apps/api test
+
+      - name: Run CAB contracts
+        run: npm run test:cab
+
+      - name: Run public web contracts
+        run: npm run test:web
+
+      - name: Run current certification
+        run: npm run certify:current

@@ -1,0 +1,6 @@
+{
+  "root":"GLOBAL",
+  "firstDeployment":"IDN",
+  "principles":["stable_ids","versioned_reference_data","provenance","interoperability"],
+  "idPattern":"{scope}.{type}.{code}"
+}

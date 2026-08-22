@@ -1,0 +1,237 @@
+{
+  "version": "4.29.0",
+  "protocol": "REVELATION_LANGUAGE_QUERY_BRIDGE_V1",
+  "boundary": "Language/query normalization only. These profiles do not contain verse references, moral scores, rewards, sins, or divine verdicts. Normative direction must be discovered from the Revelation corpus after retrieval.",
+  "normativeAuthority": false,
+  "profiles": {
+    "CORRUPTION": {
+      "concept": "UNJUST_WEALTH_CONSUMPTION",
+      "coverage": "DIRECT",
+      "quranAnchorGroups": [
+        [
+          "اموالكم",
+          "بالباطل"
+        ],
+        [
+          "الحكام",
+          "بالاثم"
+        ],
+        [
+          "اموال",
+          "الباطل"
+        ]
+      ],
+      "focusAnchors": [
+        "تاكلوا",
+        "تدلوا",
+        "الباطل"
+      ],
+      "focusMode": "ACTION",
+      "witnessQueryPhrases": [
+        "take a gift",
+        "full of bribes",
+        "wrest judgment"
+      ]
+    },
+    "THEFT": {
+      "concept": "UNLAWFUL_PROPERTY_TAKING",
+      "coverage": "DIRECT",
+      "quranAnchorGroups": [
+        [
+          "السارق",
+          "السارقة"
+        ],
+        [
+          "جزاء",
+          "نكالا"
+        ]
+      ],
+      "focusAnchors": [
+        "السارق",
+        "السارقة"
+      ],
+      "focusMode": "SUBJECT",
+      "witnessQueryPhrases": [
+        "shalt not steal",
+        "a thief",
+        "the thief"
+      ]
+    },
+    "LYING": {
+      "concept": "FALSE_SPEECH",
+      "coverage": "DIRECT",
+      "quranAnchorGroups": [
+        [
+          "قول",
+          "الزور"
+        ],
+        [
+          "اجتنبوا",
+          "الزور"
+        ]
+      ],
+      "focusAnchors": [
+        "الزور"
+      ],
+      "focusMode": "SUBJECT",
+      "witnessQueryPhrases": [
+        "false witness",
+        "lying lips",
+        "lie not"
+      ]
+    },
+    "DEFAMATION": {
+      "concept": "UNSUPPORTED_ACCUSATION",
+      "coverage": "DIRECT",
+      "quranAnchorGroups": [
+        [
+          "يرمون",
+          "المحصنات"
+        ],
+        [
+          "اربعه",
+          "شهداء"
+        ]
+      ],
+      "focusAnchors": [
+        "يرمون",
+        "المحصنات"
+      ],
+      "focusMode": "SUBJECT",
+      "witnessQueryPhrases": [
+        "false witness",
+        "slander of many",
+        "falsely accuse"
+      ]
+    },
+    "VERIFY_CLAIM": {
+      "concept": "REPORT_VERIFICATION",
+      "coverage": "DIRECT",
+      "quranAnchorGroups": [
+        [
+          "فاسق",
+          "فتبينوا"
+        ],
+        [
+          "بنبا",
+          "فتبينوا"
+        ]
+      ],
+      "focusAnchors": [
+        "فتبينوا"
+      ],
+      "focusMode": "ACTION",
+      "witnessQueryPhrases": [
+        "diligent inquisition",
+        "two witnesses",
+        "three witnesses"
+      ]
+    },
+    "RESTITUTION": {
+      "concept": "RETURN_TRUST_TO_OWNER",
+      "coverage": "DIRECT",
+      "quranAnchorGroups": [
+        [
+          "تودوا",
+          "الامانات"
+        ],
+        [
+          "الامانات",
+          "اهلها"
+        ]
+      ],
+      "focusAnchors": [
+        "تودوا",
+        "الامانات"
+      ],
+      "focusMode": "ACTION",
+      "witnessQueryPhrases": [
+        "restore that which",
+        "make restitution",
+        "restore unto"
+      ]
+    },
+    "HELPING_GOOD": {
+      "concept": "COOPERATE_IN_GOOD",
+      "coverage": "DIRECT",
+      "quranAnchorGroups": [
+        [
+          "تعاونوا",
+          "البر"
+        ],
+        [
+          "البر",
+          "التقوي"
+        ]
+      ],
+      "focusAnchors": [
+        "وتعاونوا",
+        "البر"
+      ],
+      "focusMode": "ACTION",
+      "witnessQueryPhrases": [
+        "love thy neighbour",
+        "good works",
+        "help the poor"
+      ]
+    },
+    "CHARITY": {
+      "concept": "GIVING_FOR_GOOD",
+      "coverage": "DIRECT",
+      "quranAnchorGroups": [
+        [
+          "انفقوا",
+          "خير"
+        ],
+        [
+          "تنفقوا",
+          "خير"
+        ]
+      ],
+      "focusAnchors": [
+        "انفقوا",
+        "تنفقوا"
+      ],
+      "focusMode": "ACTION",
+      "witnessQueryPhrases": [
+        "give to the poor",
+        "giveth to the poor",
+        "alms"
+      ]
+    },
+    "FAIR_TRADE": {
+      "concept": "FAIR_MEASURE",
+      "coverage": "DIRECT",
+      "quranAnchorGroups": [
+        [
+          "اوفوا",
+          "الكيل"
+        ],
+        [
+          "الميزان",
+          "بالقسط"
+        ]
+      ],
+      "focusAnchors": [
+        "اوفوا",
+        "الكيل",
+        "الميزان"
+      ],
+      "focusMode": "ACTION",
+      "witnessQueryPhrases": [
+        "just weight",
+        "just measure",
+        "divers weights"
+      ]
+    },
+    "SMOKING": {
+      "concept": "UNRESOLVED_MODERN_CONSUMPTION",
+      "coverage": "INDIRECT",
+      "empiricalRequired": true,
+      "quranAnchorGroups": [],
+      "focusAnchors": [],
+      "focusMode": "NONE",
+      "witnessQueryPhrases": []
+    }
+  }
+}

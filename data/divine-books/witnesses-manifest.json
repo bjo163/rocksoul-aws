@@ -1,0 +1,54 @@
+{
+  "TAWRAT": {
+    "id": "WITNESS-TAWRAT-KJV",
+    "bookId": "BOOK-TAWRAT",
+    "witnessType": "TEXTUAL_WITNESS",
+    "edition": "King James Bible: Pure Cambridge Edition textual witness",
+    "license": "Public Domain",
+    "sourceRepository": "https://blessedtxts.com",
+    "sourcePathPrefix": "/downloads/kjv/full.txt",
+    "books": [
+      "Gen",
+      "Exod",
+      "Lev",
+      "Num",
+      "Deut"
+    ],
+    "note": "A KJV textual witness to the Pentateuch/Torah tradition; not asserted to be identical to the revealed Tawrat in Islamic theology.",
+    "runtimeRole": "CORROBORATIVE_ONLY",
+    "standaloneNormativeAuthority": false
+  },
+  "ZABUR": {
+    "id": "WITNESS-ZABUR-KJV",
+    "bookId": "BOOK-ZABUR",
+    "witnessType": "TEXTUAL_WITNESS",
+    "edition": "King James Bible: Pure Cambridge Edition textual witness",
+    "license": "Public Domain",
+    "sourceRepository": "https://blessedtxts.com",
+    "sourcePathPrefix": "/downloads/kjv/full.txt",
+    "books": [
+      "Ps"
+    ],
+    "note": "A KJV Psalms textual witness; not asserted to exhaust or equal the revealed Zabur.",
+    "runtimeRole": "CORROBORATIVE_ONLY",
+    "standaloneNormativeAuthority": false
+  },
+  "INJIL": {
+    "id": "WITNESS-INJIL-KJV-GOSPELS",
+    "bookId": "BOOK-INJIL",
+    "witnessType": "TEXTUAL_WITNESS",
+    "edition": "King James Bible: Pure Cambridge Edition textual witness",
+    "license": "Public Domain",
+    "sourceRepository": "https://blessedtxts.com",
+    "sourcePathPrefix": "/downloads/kjv/full.txt",
+    "books": [
+      "Matt",
+      "Mark",
+      "Luke",
+      "John"
+    ],
+    "note": "The four canonical Gospel texts are provided as a Christian textual witness; they are not asserted to be identical to the revealed Injil in Islamic theology.",
+    "runtimeRole": "CORROBORATIVE_ONLY",
+    "standaloneNormativeAuthority": false
+  }
+}

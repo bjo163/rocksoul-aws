@@ -1,0 +1,12 @@
+{
+  "required": [
+    "id", "type", "schemaVersion", "version",
+    "createdAt", "createdBy", "updatedAt", "updatedBy",
+    "status", "visibility", "provenance", "metadata"
+  ],
+  "actorFields": {
+    "createdBy": "ACTOR_ID",
+    "updatedBy": "ACTOR_ID"
+  },
+  "rule": "Every persisted model, relation and auditable event must satisfy this contract."
+}

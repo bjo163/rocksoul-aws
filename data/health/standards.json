@@ -1,0 +1,8 @@
+{
+  "jurisdiction":"IDN",
+  "platform":"SATUSEHAT",
+  "standard":"HL7 FHIR",
+  "dataClass":"SENSITIVE",
+  "requiresAuthorization":true,
+  "notes":"Adapter only; credentials and live endpoint configuration are deployment secrets."
+}

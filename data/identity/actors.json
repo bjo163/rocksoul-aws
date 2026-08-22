@@ -1,0 +1,143 @@
+[
+  {
+    "id": "RID-001",
+    "type": "HUMAN",
+    "name": "Primary Operator",
+    "status": "ACTIVE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "visibility": "PRIVATE",
+    "provenance": {},
+    "metadata": {}
+  },
+  {
+    "id": "BOT-001",
+    "type": "BOT",
+    "name": "CAB Automation",
+    "status": "ACTIVE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "visibility": "PRIVATE",
+    "provenance": {},
+    "metadata": {}
+  },
+  {
+    "id": "AI-001",
+    "type": "AI",
+    "name": "Knowledge AI",
+    "status": "ACTIVE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "visibility": "PRIVATE",
+    "provenance": {},
+    "metadata": {}
+  },
+  {
+    "id": "SYSTEM-001",
+    "type": "SYSTEM",
+    "name": "MoonWitness System",
+    "status": "ACTIVE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "visibility": "PRIVATE",
+    "provenance": {},
+    "metadata": {}
+  },
+  {
+    "id": "SERVICE-001",
+    "type": "SERVICE",
+    "name": "Sync Service",
+    "status": "ACTIVE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "visibility": "PRIVATE",
+    "provenance": {},
+    "metadata": {}
+  },
+  {
+    "id": "PROCESS-001",
+    "type": "PROCESS",
+    "name": "Migration Process",
+    "status": "ACTIVE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T14:30:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T14:30:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "visibility": "PRIVATE",
+    "provenance": {},
+    "metadata": {}
+  },
+  {
+    "id": "SERVICE-API-001",
+    "type": "SERVICE",
+    "name": "Universe API",
+    "status": "ACTIVE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-20T00:00:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-20T00:00:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "visibility": "PRIVATE",
+    "provenance": {},
+    "metadata": {
+      "runtime": "api"
+    }
+  },
+  {
+    "id": "SERVICE-WORKER-001",
+    "type": "SERVICE",
+    "name": "Universe Worker",
+    "status": "ACTIVE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-20T00:00:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-20T00:00:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "visibility": "PRIVATE",
+    "provenance": {},
+    "metadata": {
+      "runtime": "worker"
+    }
+  },
+  {
+    "id": "PROCESS-SEED-001",
+    "type": "PROCESS",
+    "name": "Base Data Seed",
+    "status": "ACTIVE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-20T00:00:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-20T00:00:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "visibility": "PRIVATE",
+    "provenance": {},
+    "metadata": {
+      "process": "seed"
+    }
+  }
+]

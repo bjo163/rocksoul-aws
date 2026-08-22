@@ -1,0 +1,94 @@
+{
+  "version": "4.29.0",
+  "protocol": "REVELATION_GRAMMAR_PROFILE_V1",
+  "normativeAuthority": false,
+  "language": "ar",
+  "scope": "QURAN_PRIMARY_GRAMMAR_ONLY",
+  "markers": {
+    "divineSubjectSurfaces": [
+      "الله"
+    ],
+    "negation": [
+      "لا",
+      "ولا",
+      "فلا",
+      "لم",
+      "لن",
+      "ما"
+    ],
+    "condition": [
+      "ان",
+      "اذا",
+      "لو"
+    ],
+    "vocative": [
+      "يا"
+    ],
+    "speech": [
+      "قل",
+      "قال",
+      "قالوا"
+    ],
+    "causeCandidate": [
+      "بما",
+      "بم",
+      "لما"
+    ],
+    "purposeResultCandidate": [
+      "كي",
+      "لكي",
+      "لعل"
+    ],
+    "avoidanceStem": "اجتنب",
+    "negativeConsequenceSurfaces": [
+      "عذاب",
+      "العذاب",
+      "نكال",
+      "فاسق",
+      "فاسقين",
+      "فاسقون"
+    ],
+    "imperativeExclusions": [
+      "قالوا",
+      "كانوا",
+      "امنوا",
+      "كفروا",
+      "ظلموا",
+      "عملوا"
+    ],
+    "divinePredicateFamilies": [
+      "يحب",
+      "يامر",
+      "ينهى",
+      "يغفر",
+      "يهدي",
+      "يعلم",
+      "يحكم"
+    ]
+  },
+  "morphology": {
+    "leadingClitics": [
+      "و",
+      "ف",
+      "ب",
+      "ك",
+      "ل"
+    ],
+    "definiteArticle": "ال",
+    "pluralSuffixes": [
+      "وا",
+      "ون",
+      "ين",
+      "ات"
+    ],
+    "pronounSuffixes": [
+      "هم",
+      "كم",
+      "نا",
+      "ها",
+      "ه"
+    ],
+    "canonicalRootExternalLexicon": false
+  },
+  "boundary": "Engineering structural grammar profile only; zero normative authority and no action-to-verse mapping."
+}

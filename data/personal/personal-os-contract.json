@@ -1,0 +1,6 @@
+{
+  "modeDefault":"PERSONAL",
+  "visibilityDefault":"PRIVATE",
+  "modules":["command-center","orchestrator","memory","cab-automation","e2e","os"],
+  "rule":"No public publication without lifecycle gate"
+}

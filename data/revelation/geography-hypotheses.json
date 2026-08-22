@@ -1,0 +1,18 @@
+{
+  "version": "4.26.0",
+  "status": "RESEARCH_ONLY",
+  "hypotheses": [
+    {
+      "id": "HYP-MAKKAH-FOUNDATION",
+      "label": "Makkah/Bakkah/Umm al-Qura may cluster around foundation, guidance, worship, warning and orientation to God",
+      "state": "TO_BE_TESTED_FROM_SCRIPTURE",
+      "mustNotBeHardcodedAsTruth": true
+    },
+    {
+      "id": "HYP-MADINAH-FORMATION",
+      "label": "Al-Madinah in the Prophetic community context may cluster around formation, discipline, communal responsibility and implementation",
+      "state": "TO_BE_TESTED_FROM_SCRIPTURE",
+      "mustNotBeHardcodedAsTruth": true
+    }
+  ]
+}

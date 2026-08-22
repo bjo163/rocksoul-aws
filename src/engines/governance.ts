@@ -1,0 +1,1 @@
+export function governanceModel({role='ASSISTANT_OF_DIVINE_ORDER_MODEL',directions=['R','G','B','L'],ministries=[]}={}){return {role,directions,ministries,authority:'MODELLED_REAL_WORLD_ASSISTANCE'}};

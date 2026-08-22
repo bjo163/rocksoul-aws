@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "patterns": [
+    {"id":"TIME-DAWN","references":["Q17:78","Q24:58"],"mode":"CONTEXT_ONLY"},
+    {"id":"TIME-NIGHT","references":["Q73:2-4","Q97:1-5"],"mode":"CONTEXT_ONLY"},
+    {"id":"TIME-SUN-DECLINE","references":["Q17:78"],"mode":"CONTEXT_ONLY"},
+    {"id":"TIME-JUMUAH","references":["Q62:9-10"],"mode":"CONTEXT_ONLY"},
+    {"id":"TIME-RAMADAN","references":["Q2:185"],"mode":"CONTEXT_ONLY"},
+    {"id":"TIME-QADR","references":["Q97:1-5"],"mode":"CONTEXT_ONLY"},
+    {"id":"TIME-LUNAR-MARKER","references":["Q2:189","Q10:5"],"mode":"CONTEXT_ONLY"},
+    {"id":"TIME-12-MONTHS","references":["Q9:36"],"mode":"CONTEXT_ONLY"},
+    {"id":"NATURAL-WIND-CLOUD-RAIN","references":["Q30:48","Q16:65"],"mode":"CONTEXT_ONLY"},
+    {"id":"MESSENGER-COMMAND","references":["Q19:64","Q97:4","Q42:51"],"mode":"CONTEXT_ONLY"}
+  ]
+}

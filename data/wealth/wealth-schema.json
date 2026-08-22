@@ -1,0 +1,1 @@
+{"required":["rid","assetId","type","value","currency"],"notes":["Asset identity is linked to RID.","Valuation is jurisdiction/currency/date dependent.","Wealth data may be personal or sensitive; publication requires access policy."]}

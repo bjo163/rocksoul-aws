@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MoonWitness Genesis Trace",
+  "type": "object",
+  "required": ["sourceId", "gatewayId", "processId", "amalId"],
+  "properties": {
+    "sourceId": {"type":"string"},
+    "gatewayId": {"type":"string"},
+    "processId": {"type":"string"},
+    "amalId": {"type":"string"}
+  },
+  "additionalProperties": true
+}

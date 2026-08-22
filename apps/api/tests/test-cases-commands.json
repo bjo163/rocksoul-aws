@@ -1,0 +1,2952 @@
+[
+  {
+    "id": "TC-200",
+    "name": "Command - Create Entity 0",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-0"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-0",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 0
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-201",
+    "name": "Command - Create Entity 1",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-1"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-1",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 1
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-202",
+    "name": "Command - Create Entity 2",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-2"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-2",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-203",
+    "name": "Command - Create Entity 3",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-3"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-3",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 3
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-204",
+    "name": "Command - Create Entity 4",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-4"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-4",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 4
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-205",
+    "name": "Command - Create Entity 5",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-5"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-5",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 5
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-206",
+    "name": "Command - Create Entity 6",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-6"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-6",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 6
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-207",
+    "name": "Command - Create Entity 7",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-7"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-7",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 7
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-208",
+    "name": "Command - Create Entity 8",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-8"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-8",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 8
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-209",
+    "name": "Command - Create Entity 9",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-9"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-9",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 9
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-210",
+    "name": "Command - Create Entity 10",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-10"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-10",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 10
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-211",
+    "name": "Command - Create Entity 11",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-11"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-11",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 11
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-212",
+    "name": "Command - Create Entity 12",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-12"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-12",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 12
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-213",
+    "name": "Command - Create Entity 13",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-13"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-13",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 13
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-214",
+    "name": "Command - Create Entity 14",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-14"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-14",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 14
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-215",
+    "name": "Command - Create Entity 15",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-15"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-15",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 15
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-216",
+    "name": "Command - Create Entity 16",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-16"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-16",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 16
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-217",
+    "name": "Command - Create Entity 17",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-17"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-17",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 17
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-218",
+    "name": "Command - Create Entity 18",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-18"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-18",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 18
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-219",
+    "name": "Command - Create Entity 19",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-19"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-19",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 19
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-220",
+    "name": "Command - Create Entity 20",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-20"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-20",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 20
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-221",
+    "name": "Command - Create Entity 21",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-21"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-21",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 21
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-222",
+    "name": "Command - Create Entity 22",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-22"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-22",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 22
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-223",
+    "name": "Command - Create Entity 23",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-23"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-23",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 23
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-224",
+    "name": "Command - Create Entity 24",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-24"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-24",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 24
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-225",
+    "name": "Command - Create Entity 25",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-25"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-25",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 25
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-226",
+    "name": "Command - Create Entity 26",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-26"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-26",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 26
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-227",
+    "name": "Command - Create Entity 27",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-27"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-27",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 27
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-228",
+    "name": "Command - Create Entity 28",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-28"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-28",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 28
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-229",
+    "name": "Command - Create Entity 29",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-29"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-29",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 29
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-230",
+    "name": "Command - Create Entity 30",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-30"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-30",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 30
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-231",
+    "name": "Command - Create Entity 31",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-31"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-31",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 31
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-232",
+    "name": "Command - Create Entity 32",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-32"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-32",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 32
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-233",
+    "name": "Command - Create Entity 33",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-33"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-33",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 33
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-234",
+    "name": "Command - Create Entity 34",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-34"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-34",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 34
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-235",
+    "name": "Command - Create Entity 35",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-35"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-35",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 35
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-236",
+    "name": "Command - Create Entity 36",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-36"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-36",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 36
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-237",
+    "name": "Command - Create Entity 37",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-37"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-37",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 37
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-238",
+    "name": "Command - Create Entity 38",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-38"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-38",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 38
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-239",
+    "name": "Command - Create Entity 39",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "create-39"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CMD-ENT-39",
+      "payload": {
+        "type": "TEST_CMD",
+        "payload": {
+          "val": 39
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-240",
+    "name": "Command - Mutate Relation 0",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-0"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-0",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-1",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-241",
+    "name": "Command - Mutate Relation 1",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-1"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-1",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-2",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-242",
+    "name": "Command - Mutate Relation 2",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-2"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-2",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-3",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-243",
+    "name": "Command - Mutate Relation 3",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-3"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-3",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-4",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-244",
+    "name": "Command - Mutate Relation 4",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-4"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-4",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-5",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-245",
+    "name": "Command - Mutate Relation 5",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-5"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-5",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-6",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-246",
+    "name": "Command - Mutate Relation 6",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-6"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-6",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-7",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-247",
+    "name": "Command - Mutate Relation 7",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-7"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-7",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-8",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-248",
+    "name": "Command - Mutate Relation 8",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-8"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-8",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-9",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-249",
+    "name": "Command - Mutate Relation 9",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-9"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-9",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-10",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-250",
+    "name": "Command - Mutate Relation 10",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-10"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-10",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-11",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-251",
+    "name": "Command - Mutate Relation 11",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-11"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-11",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-12",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-252",
+    "name": "Command - Mutate Relation 12",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-12"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-12",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-13",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-253",
+    "name": "Command - Mutate Relation 13",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-13"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-13",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-14",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-254",
+    "name": "Command - Mutate Relation 14",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-14"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-14",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-15",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-255",
+    "name": "Command - Mutate Relation 15",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-15"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-15",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-16",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-256",
+    "name": "Command - Mutate Relation 16",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-16"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-16",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-17",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-257",
+    "name": "Command - Mutate Relation 17",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-17"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-17",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-18",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-258",
+    "name": "Command - Mutate Relation 18",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-18"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-18",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-19",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-259",
+    "name": "Command - Mutate Relation 19",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-19"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-19",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-20",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-260",
+    "name": "Command - Mutate Relation 20",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-20"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-20",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-21",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-261",
+    "name": "Command - Mutate Relation 21",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-21"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-21",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-22",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-262",
+    "name": "Command - Mutate Relation 22",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-22"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-22",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-23",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-263",
+    "name": "Command - Mutate Relation 23",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-23"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-23",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-24",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-264",
+    "name": "Command - Mutate Relation 24",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-24"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-24",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-25",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-265",
+    "name": "Command - Mutate Relation 25",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-25"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-25",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-26",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-266",
+    "name": "Command - Mutate Relation 26",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-26"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-26",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-27",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-267",
+    "name": "Command - Mutate Relation 27",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-27"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-27",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-28",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-268",
+    "name": "Command - Mutate Relation 28",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-28"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-28",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-29",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-269",
+    "name": "Command - Mutate Relation 29",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "rel-29"
+    },
+    "body": {
+      "command": "CREATE_RELATION",
+      "target": "CMD-ENT-29",
+      "payload": {
+        "relationType": "LINK",
+        "toId": "CMD-ENT-30",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-270",
+    "name": "Command - Record Event 0",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-0"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-0",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-271",
+    "name": "Command - Record Event 1",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-1"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-1",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-272",
+    "name": "Command - Record Event 2",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-2"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-2",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-273",
+    "name": "Command - Record Event 3",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-3"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-3",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-274",
+    "name": "Command - Record Event 4",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-4"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-4",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-275",
+    "name": "Command - Record Event 5",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-5"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-5",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-276",
+    "name": "Command - Record Event 6",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-6"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-6",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-277",
+    "name": "Command - Record Event 7",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-7"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-7",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-278",
+    "name": "Command - Record Event 8",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-8"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-8",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-279",
+    "name": "Command - Record Event 9",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-9"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-9",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-280",
+    "name": "Command - Record Event 10",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-10"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-10",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-281",
+    "name": "Command - Record Event 11",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-11"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-11",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-282",
+    "name": "Command - Record Event 12",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-12"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-12",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-283",
+    "name": "Command - Record Event 13",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-13"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-13",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-284",
+    "name": "Command - Record Event 14",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-14"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-14",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-285",
+    "name": "Command - Record Event 15",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-15"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-15",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-286",
+    "name": "Command - Record Event 16",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-16"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-16",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-287",
+    "name": "Command - Record Event 17",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-17"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-17",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-288",
+    "name": "Command - Record Event 18",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-18"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-18",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-289",
+    "name": "Command - Record Event 19",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-19"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-19",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-290",
+    "name": "Command - Record Event 20",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-20"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-20",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-291",
+    "name": "Command - Record Event 21",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-21"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-21",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-292",
+    "name": "Command - Record Event 22",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-22"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-22",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-293",
+    "name": "Command - Record Event 23",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-23"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-23",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-294",
+    "name": "Command - Record Event 24",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-24"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-24",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-295",
+    "name": "Command - Record Event 25",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-25"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-25",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-296",
+    "name": "Command - Record Event 26",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-26"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-26",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-297",
+    "name": "Command - Record Event 27",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-27"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-27",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-298",
+    "name": "Command - Record Event 28",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-28"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-28",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-299",
+    "name": "Command - Record Event 29",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "evt-29"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "CMD-ENT-29",
+      "payload": {
+        "eventType": "PING",
+        "payload": {}
+      }
+    }
+  },
+  {
+    "id": "TC-300",
+    "name": "Workflow - Justice Case 0",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "wf-justice-0"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "JUSTICE-0",
+      "payload": {
+        "type": "JUSTICE.CASE",
+        "payload": {
+          "kind": "REVIEW",
+          "currentStage": "POLICE"
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-301",
+    "name": "Workflow - Justice Case 1",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "wf-justice-1"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "JUSTICE-1",
+      "payload": {
+        "type": "JUSTICE.CASE",
+        "payload": {
+          "kind": "REVIEW",
+          "currentStage": "POLICE"
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-302",
+    "name": "Workflow - Justice Case 2",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "wf-justice-2"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "JUSTICE-2",
+      "payload": {
+        "type": "JUSTICE.CASE",
+        "payload": {
+          "kind": "REVIEW",
+          "currentStage": "POLICE"
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-303",
+    "name": "Workflow - Justice Case 3",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "wf-justice-3"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "JUSTICE-3",
+      "payload": {
+        "type": "JUSTICE.CASE",
+        "payload": {
+          "kind": "REVIEW",
+          "currentStage": "POLICE"
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-304",
+    "name": "Workflow - Justice Case 4",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "wf-justice-4"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "JUSTICE-4",
+      "payload": {
+        "type": "JUSTICE.CASE",
+        "payload": {
+          "kind": "REVIEW",
+          "currentStage": "POLICE"
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-305",
+    "name": "Workflow - Justice Case 5",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "wf-justice-5"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "JUSTICE-5",
+      "payload": {
+        "type": "JUSTICE.CASE",
+        "payload": {
+          "kind": "REVIEW",
+          "currentStage": "POLICE"
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-306",
+    "name": "Workflow - Justice Case 6",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "wf-justice-6"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "JUSTICE-6",
+      "payload": {
+        "type": "JUSTICE.CASE",
+        "payload": {
+          "kind": "REVIEW",
+          "currentStage": "POLICE"
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-307",
+    "name": "Workflow - Justice Case 7",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "wf-justice-7"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "JUSTICE-7",
+      "payload": {
+        "type": "JUSTICE.CASE",
+        "payload": {
+          "kind": "REVIEW",
+          "currentStage": "POLICE"
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-308",
+    "name": "Workflow - Justice Case 8",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "wf-justice-8"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "JUSTICE-8",
+      "payload": {
+        "type": "JUSTICE.CASE",
+        "payload": {
+          "kind": "REVIEW",
+          "currentStage": "POLICE"
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-309",
+    "name": "Workflow - Justice Case 9",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "wf-justice-9"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "JUSTICE-9",
+      "payload": {
+        "type": "JUSTICE.CASE",
+        "payload": {
+          "kind": "REVIEW",
+          "currentStage": "POLICE"
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-310",
+    "name": "Workflow - CAB Change Request 0",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "wf-cab-0"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CAB-0",
+      "payload": {
+        "type": "CAB.WORKFLOW",
+        "payload": {
+          "currentStage": "DRAFT"
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-311",
+    "name": "Workflow - CAB Change Request 1",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "wf-cab-1"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CAB-1",
+      "payload": {
+        "type": "CAB.WORKFLOW",
+        "payload": {
+          "currentStage": "DRAFT"
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-312",
+    "name": "Workflow - CAB Change Request 2",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "wf-cab-2"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CAB-2",
+      "payload": {
+        "type": "CAB.WORKFLOW",
+        "payload": {
+          "currentStage": "DRAFT"
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-313",
+    "name": "Workflow - CAB Change Request 3",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "wf-cab-3"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CAB-3",
+      "payload": {
+        "type": "CAB.WORKFLOW",
+        "payload": {
+          "currentStage": "DRAFT"
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-314",
+    "name": "Workflow - CAB Change Request 4",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "wf-cab-4"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CAB-4",
+      "payload": {
+        "type": "CAB.WORKFLOW",
+        "payload": {
+          "currentStage": "DRAFT"
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-315",
+    "name": "Workflow - CAB Change Request 5",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "wf-cab-5"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CAB-5",
+      "payload": {
+        "type": "CAB.WORKFLOW",
+        "payload": {
+          "currentStage": "DRAFT"
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-316",
+    "name": "Workflow - CAB Change Request 6",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "wf-cab-6"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CAB-6",
+      "payload": {
+        "type": "CAB.WORKFLOW",
+        "payload": {
+          "currentStage": "DRAFT"
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-317",
+    "name": "Workflow - CAB Change Request 7",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "wf-cab-7"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CAB-7",
+      "payload": {
+        "type": "CAB.WORKFLOW",
+        "payload": {
+          "currentStage": "DRAFT"
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-318",
+    "name": "Workflow - CAB Change Request 8",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "wf-cab-8"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CAB-8",
+      "payload": {
+        "type": "CAB.WORKFLOW",
+        "payload": {
+          "currentStage": "DRAFT"
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-319",
+    "name": "Workflow - CAB Change Request 9",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "wf-cab-9"
+    },
+    "body": {
+      "command": "CREATE_ENTITY",
+      "target": "CAB-9",
+      "payload": {
+        "type": "CAB.WORKFLOW",
+        "payload": {
+          "currentStage": "DRAFT"
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-320",
+    "name": "Flow Engine - Resource Flow 0",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "flow-res-0"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "JUSTICE-0",
+      "payload": {
+        "eventType": "FINANCE.ZAKAT",
+        "payload": {
+          "amount": 1000
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-321",
+    "name": "Flow Engine - Resource Flow 1",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "flow-res-1"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "JUSTICE-1",
+      "payload": {
+        "eventType": "FINANCE.ZAKAT",
+        "payload": {
+          "amount": 1000
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-322",
+    "name": "Flow Engine - Resource Flow 2",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "flow-res-2"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "JUSTICE-2",
+      "payload": {
+        "eventType": "FINANCE.ZAKAT",
+        "payload": {
+          "amount": 1000
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-323",
+    "name": "Flow Engine - Resource Flow 3",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "flow-res-3"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "JUSTICE-3",
+      "payload": {
+        "eventType": "FINANCE.ZAKAT",
+        "payload": {
+          "amount": 1000
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-324",
+    "name": "Flow Engine - Resource Flow 4",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "flow-res-4"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "JUSTICE-4",
+      "payload": {
+        "eventType": "FINANCE.ZAKAT",
+        "payload": {
+          "amount": 1000
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-325",
+    "name": "Flow Engine - Resource Flow 5",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "flow-res-5"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "JUSTICE-5",
+      "payload": {
+        "eventType": "FINANCE.ZAKAT",
+        "payload": {
+          "amount": 1000
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-326",
+    "name": "Flow Engine - Resource Flow 6",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "flow-res-6"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "JUSTICE-6",
+      "payload": {
+        "eventType": "FINANCE.ZAKAT",
+        "payload": {
+          "amount": 1000
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-327",
+    "name": "Flow Engine - Resource Flow 7",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "flow-res-7"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "JUSTICE-7",
+      "payload": {
+        "eventType": "FINANCE.ZAKAT",
+        "payload": {
+          "amount": 1000
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-328",
+    "name": "Flow Engine - Resource Flow 8",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "flow-res-8"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "JUSTICE-8",
+      "payload": {
+        "eventType": "FINANCE.ZAKAT",
+        "payload": {
+          "amount": 1000
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-329",
+    "name": "Flow Engine - Resource Flow 9",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 201,
+    "headers": {
+      "idempotency-key": "flow-res-9"
+    },
+    "body": {
+      "command": "RECORD_EVENT",
+      "target": "JUSTICE-9",
+      "payload": {
+        "eventType": "FINANCE.ZAKAT",
+        "payload": {
+          "amount": 1000
+        }
+      }
+    }
+  },
+  {
+    "id": "TC-330",
+    "name": "Command - Invalid Command Type 0",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 400,
+    "headers": {
+      "idempotency-key": "inv-0"
+    },
+    "body": {
+      "command": "UNKNOWN_BLAH",
+      "payload": {}
+    }
+  },
+  {
+    "id": "TC-331",
+    "name": "Command - Invalid Command Type 1",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 400,
+    "headers": {
+      "idempotency-key": "inv-1"
+    },
+    "body": {
+      "command": "UNKNOWN_BLAH",
+      "payload": {}
+    }
+  },
+  {
+    "id": "TC-332",
+    "name": "Command - Invalid Command Type 2",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 400,
+    "headers": {
+      "idempotency-key": "inv-2"
+    },
+    "body": {
+      "command": "UNKNOWN_BLAH",
+      "payload": {}
+    }
+  },
+  {
+    "id": "TC-333",
+    "name": "Command - Invalid Command Type 3",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 400,
+    "headers": {
+      "idempotency-key": "inv-3"
+    },
+    "body": {
+      "command": "UNKNOWN_BLAH",
+      "payload": {}
+    }
+  },
+  {
+    "id": "TC-334",
+    "name": "Command - Invalid Command Type 4",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 400,
+    "headers": {
+      "idempotency-key": "inv-4"
+    },
+    "body": {
+      "command": "UNKNOWN_BLAH",
+      "payload": {}
+    }
+  },
+  {
+    "id": "TC-335",
+    "name": "Command - Invalid Command Type 5",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 400,
+    "headers": {
+      "idempotency-key": "inv-5"
+    },
+    "body": {
+      "command": "UNKNOWN_BLAH",
+      "payload": {}
+    }
+  },
+  {
+    "id": "TC-336",
+    "name": "Command - Invalid Command Type 6",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 400,
+    "headers": {
+      "idempotency-key": "inv-6"
+    },
+    "body": {
+      "command": "UNKNOWN_BLAH",
+      "payload": {}
+    }
+  },
+  {
+    "id": "TC-337",
+    "name": "Command - Invalid Command Type 7",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 400,
+    "headers": {
+      "idempotency-key": "inv-7"
+    },
+    "body": {
+      "command": "UNKNOWN_BLAH",
+      "payload": {}
+    }
+  },
+  {
+    "id": "TC-338",
+    "name": "Command - Invalid Command Type 8",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 400,
+    "headers": {
+      "idempotency-key": "inv-8"
+    },
+    "body": {
+      "command": "UNKNOWN_BLAH",
+      "payload": {}
+    }
+  },
+  {
+    "id": "TC-339",
+    "name": "Command - Invalid Command Type 9",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 400,
+    "headers": {
+      "idempotency-key": "inv-9"
+    },
+    "body": {
+      "command": "UNKNOWN_BLAH",
+      "payload": {}
+    }
+  },
+  {
+    "id": "TC-340",
+    "name": "Command - Invalid Command Type 10",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 400,
+    "headers": {
+      "idempotency-key": "inv-10"
+    },
+    "body": {
+      "command": "UNKNOWN_BLAH",
+      "payload": {}
+    }
+  },
+  {
+    "id": "TC-341",
+    "name": "Command - Invalid Command Type 11",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 400,
+    "headers": {
+      "idempotency-key": "inv-11"
+    },
+    "body": {
+      "command": "UNKNOWN_BLAH",
+      "payload": {}
+    }
+  },
+  {
+    "id": "TC-342",
+    "name": "Command - Invalid Command Type 12",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 400,
+    "headers": {
+      "idempotency-key": "inv-12"
+    },
+    "body": {
+      "command": "UNKNOWN_BLAH",
+      "payload": {}
+    }
+  },
+  {
+    "id": "TC-343",
+    "name": "Command - Invalid Command Type 13",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 400,
+    "headers": {
+      "idempotency-key": "inv-13"
+    },
+    "body": {
+      "command": "UNKNOWN_BLAH",
+      "payload": {}
+    }
+  },
+  {
+    "id": "TC-344",
+    "name": "Command - Invalid Command Type 14",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 400,
+    "headers": {
+      "idempotency-key": "inv-14"
+    },
+    "body": {
+      "command": "UNKNOWN_BLAH",
+      "payload": {}
+    }
+  },
+  {
+    "id": "TC-345",
+    "name": "Command - Invalid Command Type 15",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 400,
+    "headers": {
+      "idempotency-key": "inv-15"
+    },
+    "body": {
+      "command": "UNKNOWN_BLAH",
+      "payload": {}
+    }
+  },
+  {
+    "id": "TC-346",
+    "name": "Command - Invalid Command Type 16",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 400,
+    "headers": {
+      "idempotency-key": "inv-16"
+    },
+    "body": {
+      "command": "UNKNOWN_BLAH",
+      "payload": {}
+    }
+  },
+  {
+    "id": "TC-347",
+    "name": "Command - Invalid Command Type 17",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 400,
+    "headers": {
+      "idempotency-key": "inv-17"
+    },
+    "body": {
+      "command": "UNKNOWN_BLAH",
+      "payload": {}
+    }
+  },
+  {
+    "id": "TC-348",
+    "name": "Command - Invalid Command Type 18",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 400,
+    "headers": {
+      "idempotency-key": "inv-18"
+    },
+    "body": {
+      "command": "UNKNOWN_BLAH",
+      "payload": {}
+    }
+  },
+  {
+    "id": "TC-349",
+    "name": "Command - Invalid Command Type 19",
+    "method": "POST",
+    "route": "/api/v1/command",
+    "requiresAuth": true,
+    "expectedStatus": 400,
+    "headers": {
+      "idempotency-key": "inv-19"
+    },
+    "body": {
+      "command": "UNKNOWN_BLAH",
+      "payload": {}
+    }
+  }
+]

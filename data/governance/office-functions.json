@@ -1,0 +1,11 @@
+{
+  "designPrinciple":"FUNCTIONS_OUTLIVE_PEOPLE",
+  "scales":{"4":"GRAND_DIRECTIONS","12":"NATIONAL_DOMAINS","30":"SPECIALIZED_FUNCTIONS","70":"OPERATIONAL_CAPABILITIES"},
+  "grandDirections":[
+    {"id":"R","name":"REALITY","domains":["knowledge","records","science"]},
+    {"id":"G","name":"GUIDANCE","domains":["education","planning","development"]},
+    {"id":"B","name":"BALANCE","domains":["justice","treasury","security","governance"]},
+    {"id":"L","name":"LIGHT","domains":["welfare","health","restoration","culture"]}
+  ],
+  "nationalDomains":["JUSTICE","TREASURY","SECURITY","FOREIGN_AFFAIRS","EDUCATION","HEALTH","AGRICULTURE","TRADE_INDUSTRY","INFRASTRUCTURE","SCIENCE_TECHNOLOGY","SOCIAL_WELFARE","ENVIRONMENT"]
+}

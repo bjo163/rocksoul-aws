@@ -1,0 +1,51 @@
+{
+  "version": "4.29.0",
+  "protocol": "REVELATION_CORPUS_MANIFEST_V1",
+  "policy": {
+    "quranPrimaryMuhaimin": true,
+    "textualWitnessCorroborationOnly": true,
+    "textualWitnessMayCreateStandaloneMoralDirection": false,
+    "textualWitnessMayReverseQuran": false,
+    "equalWitnessChannelWeights": true,
+    "expectedCountsAreManifestDriven": true,
+    "checksumMismatchFailsInstall": true
+  },
+  "books": {
+    "QURAN": {
+      "path": "data/divine-books/quran/ayahs.jsonl",
+      "seedSourceId": "quran-ayahs",
+      "entityType": "QURAN_AYAH",
+      "recordCount": 6236,
+      "sha256": "65d280618bf241afabd3c05fbbb1af4ec3546fc5b76e07cbc9c421cc964cb6e1",
+      "role": "PRIMARY_MUHAIMIN",
+      "sourceClass": "CANONICAL_REFERENCE"
+    },
+    "TAWRAT": {
+      "path": "data/divine-books/witness-corpora/tawrat.jsonl",
+      "seedSourceId": "tawrat-witness-passages",
+      "entityType": "DIVINE_BOOK.TAWRAT_WITNESS_PASSAGE",
+      "recordCount": 5852,
+      "sha256": "0afddb3c4490492f170d7310b305c4fe9de379b60a9332b6669272d621563988",
+      "role": "CORROBORATIVE_ONLY",
+      "sourceClass": "TEXTUAL_WITNESS"
+    },
+    "ZABUR": {
+      "path": "data/divine-books/witness-corpora/zabur.jsonl",
+      "seedSourceId": "zabur-witness-passages",
+      "entityType": "DIVINE_BOOK.ZABUR_WITNESS_PASSAGE",
+      "recordCount": 2461,
+      "sha256": "b6c28d2b4f9cca75b0f5c9a48825be9fad85cd04e8118c52e8a4d9f6ba093fe9",
+      "role": "CORROBORATIVE_ONLY",
+      "sourceClass": "TEXTUAL_WITNESS"
+    },
+    "INJIL": {
+      "path": "data/divine-books/witness-corpora/injil.jsonl",
+      "seedSourceId": "injil-witness-passages",
+      "entityType": "DIVINE_BOOK.INJIL_WITNESS_PASSAGE",
+      "recordCount": 3779,
+      "sha256": "c2da8f6f5298814f7289d008dee7614ed6f3dcd3f044f88f2cdef5ce8a216905",
+      "role": "CORROBORATIVE_ONLY",
+      "sourceClass": "TEXTUAL_WITNESS"
+    }
+  }
+}

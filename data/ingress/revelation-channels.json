@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "disclaimer": "Programmatic representation only; this registry does not claim actual revelation or supernatural communication.",
+  "channels": [
+    {
+      "id": "QURAN-REFERENCE",
+      "type": "KNOWLEDGE_REMINDER",
+      "sourceClass": "PRIMARY_SCRIPTURE_REFERENCE",
+      "enabled": true,
+      "references": ["Q17:36", "Q55:7-9", "Q82:10-12"]
+    },
+    {
+      "id": "MESSENGER-CHANNEL",
+      "type": "MESSENGER_SYMBOLIC",
+      "sourceClass": "SYMBOLIC_INGRESS",
+      "enabled": true,
+      "agentClass": "MESSENGER",
+      "references": ["Q2:97", "Q42:51"]
+    }
+  ]
+}

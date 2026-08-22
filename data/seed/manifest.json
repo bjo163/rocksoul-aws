@@ -1,0 +1,853 @@
+{
+  "version": "4.30.0",
+  "sources": [
+    {
+      "id": "processes",
+      "path": "data/4-processes.json",
+      "entityType": "PROCESS",
+      "format": "json",
+      "mode": "collection",
+      "kind": "structured"
+    },
+    {
+      "id": "core-sources",
+      "path": "data/4-sources.json",
+      "entityType": "SOURCE",
+      "format": "json",
+      "mode": "collection",
+      "kind": "structured"
+    },
+    {
+      "id": "gateways",
+      "path": "data/7-gateways.json",
+      "entityType": "ACTION_GATE",
+      "format": "json",
+      "mode": "collection",
+      "kind": "structured"
+    },
+    {
+      "id": "quran-surahs",
+      "path": "data/divine-books/quran-surahs.json",
+      "entityType": "QURAN_SURAH",
+      "format": "json",
+      "mode": "collection",
+      "kind": "structured"
+    },
+    {
+      "id": "quran-ayahs",
+      "path": "data/divine-books/quran/ayahs.jsonl",
+      "entityType": "QURAN_AYAH",
+      "format": "jsonl",
+      "mode": "collection",
+      "kind": "structured"
+    },
+    {
+      "id": "tawrat-witness-passages",
+      "path": "data/divine-books/witness-corpora/tawrat.jsonl",
+      "entityType": "DIVINE_BOOK.TAWRAT_WITNESS_PASSAGE",
+      "format": "jsonl",
+      "mode": "collection",
+      "kind": "structured"
+    },
+    {
+      "id": "zabur-witness-passages",
+      "path": "data/divine-books/witness-corpora/zabur.jsonl",
+      "entityType": "DIVINE_BOOK.ZABUR_WITNESS_PASSAGE",
+      "format": "jsonl",
+      "mode": "collection",
+      "kind": "structured"
+    },
+    {
+      "id": "injil-witness-passages",
+      "path": "data/divine-books/witness-corpora/injil.jsonl",
+      "entityType": "DIVINE_BOOK.INJIL_WITNESS_PASSAGE",
+      "format": "jsonl",
+      "mode": "collection",
+      "kind": "structured"
+    },
+    {
+      "id": "revelation-corpus-manifest",
+      "path": "data/divine-books/revelation-corpus-manifest.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "actors",
+      "path": "data/identity/actors.json",
+      "entityType": "ACTOR",
+      "format": "json",
+      "mode": "collection",
+      "kind": "structured"
+    },
+    {
+      "id": "ingress-registry",
+      "path": "data/ingress/revelation-channels.json",
+      "entityType": "INGRESS_REGISTRY",
+      "format": "json",
+      "mode": "single",
+      "kind": "structured"
+    },
+    {
+      "id": "domains",
+      "path": "data/master-data/indonesia-domains.json",
+      "entityType": "DOMAIN",
+      "format": "json",
+      "mode": "collection",
+      "kind": "structured"
+    },
+    {
+      "id": "source-authority",
+      "path": "data/source-authority.json",
+      "entityType": "SOURCE_AUTHORITY",
+      "format": "json",
+      "mode": "single",
+      "kind": "structured"
+    },
+    {
+      "id": "time-systems",
+      "path": "data/time-systems.json",
+      "entityType": "TIME_SYSTEM",
+      "format": "json",
+      "mode": "single",
+      "kind": "structured"
+    },
+    {
+      "id": "snapshot:data/ai/concept-aliases.json",
+      "path": "data/ai/concept-aliases.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/asset/asset-rules.json",
+      "path": "data/asset/asset-rules.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/asset/asset-types.json",
+      "path": "data/asset/asset-types.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/asset/infrastructure-types.json",
+      "path": "data/asset/infrastructure-types.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/backend/rules.json",
+      "path": "data/backend/rules.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/cab/relation-types.json",
+      "path": "data/cab/relation-types.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/cab/types.json",
+      "path": "data/cab/types.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/countries.json",
+      "path": "data/countries.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/digital/cyber-states.json",
+      "path": "data/digital/cyber-states.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/digital/media-taxonomy.json",
+      "path": "data/digital/media-taxonomy.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/digital/type-pack.json",
+      "path": "data/digital/type-pack.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/disaster/types.json",
+      "path": "data/disaster/types.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/divine-books/divine-books.json",
+      "path": "data/divine-books/divine-books.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/divine-books/witnesses-manifest.json",
+      "path": "data/divine-books/witnesses-manifest.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/divine-books/witnesses-structure.json",
+      "path": "data/divine-books/witnesses-structure.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/education/education-domains.json",
+      "path": "data/education/education-domains.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/exceptions.json",
+      "path": "data/exceptions.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/fiscal/nisab-2026-id.json",
+      "path": "data/fiscal/nisab-2026-id.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/fiscal/rules.json",
+      "path": "data/fiscal/rules.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/fiscal/source-registry.json",
+      "path": "data/fiscal/source-registry.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/fiscal/tax-schema.json",
+      "path": "data/fiscal/tax-schema.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/fiscal/zakat-schema.json",
+      "path": "data/fiscal/zakat-schema.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/genesis-taxonomy.json",
+      "path": "data/genesis-taxonomy.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/governance/constitutional-template.json",
+      "path": "data/governance/constitutional-template.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/governance/office-functions.json",
+      "path": "data/governance/office-functions.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/governance/open-government-policy.json",
+      "path": "data/governance/open-government-policy.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/governance/religious-coexistence.json",
+      "path": "data/governance/religious-coexistence.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/health/standards.json",
+      "path": "data/health/standards.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/identity/model-contract.json",
+      "path": "data/identity/model-contract.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/identity/relationship-types.json",
+      "path": "data/identity/relationship-types.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/identity/rid-schema.json",
+      "path": "data/identity/rid-schema.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/justice/roles.json",
+      "path": "data/justice/roles.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/justice/rules.json",
+      "path": "data/justice/rules.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/justice/sources-2026.json",
+      "path": "data/justice/sources-2026.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/kernel/type-catalog.json",
+      "path": "data/kernel/type-catalog.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/knowledge-source-schema.json",
+      "path": "data/knowledge-source-schema.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/knowledge/cross-source-relations.json",
+      "path": "data/knowledge/cross-source-relations.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/knowledge/hadith-collections.json",
+      "path": "data/knowledge/hadith-collections.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/knowledge/hadith-corpus-manifest.json",
+      "path": "data/knowledge/hadith-corpus-manifest.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/knowledge/prophet-scripture-index.json",
+      "path": "data/knowledge/prophet-scripture-index.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/knowledge/prophetic-events.json",
+      "path": "data/knowledge/prophetic-events.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/knowledge/religious-knowledge-schema.json",
+      "path": "data/knowledge/religious-knowledge-schema.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/knowledge/religious-terms.json",
+      "path": "data/knowledge/religious-terms.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/knowledge/source-schema.json",
+      "path": "data/knowledge/source-schema.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/master-data/scope.json",
+      "path": "data/master-data/scope.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/modes.json",
+      "path": "data/modes.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/normative/perspectives.json",
+      "path": "data/normative/perspectives.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/personal/personal-os-contract.json",
+      "path": "data/personal/personal-os-contract.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/privacy/data-classes.json",
+      "path": "data/privacy/data-classes.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/prophets.json",
+      "path": "data/prophets.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/provenance/provenance-schema.json",
+      "path": "data/provenance/provenance-schema.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/publication-gate.json",
+      "path": "data/publication-gate.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/regional/global/profile.json",
+      "path": "data/regional/global/profile.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/regional/indonesia/profile.json",
+      "path": "data/regional/indonesia/profile.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/registries/action-semantics.json",
+      "path": "data/registries/action-semantics.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/resources/types.json",
+      "path": "data/resources/types.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/revelation/asbab-import-manifest.json",
+      "path": "data/revelation/asbab-import-manifest.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/revelation/quran-story-patterns.json",
+      "path": "data/revelation/quran-story-patterns.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/revelation/research-sources.json",
+      "path": "data/revelation/research-sources.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/revelation/revelation-order.json",
+      "path": "data/revelation/revelation-order.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/revelation/revelation-patterns.json",
+      "path": "data/revelation/revelation-patterns.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/revelation/story-candidates.json",
+      "path": "data/revelation/story-candidates.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/revelation/temporal-patterns.json",
+      "path": "data/revelation/temporal-patterns.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/rules/core-invariants.json",
+      "path": "data/rules/core-invariants.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/rules/moral-actions.json",
+      "path": "data/rules/moral-actions.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/rules/smoking.json",
+      "path": "data/rules/smoking.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/scale-matrix.json",
+      "path": "data/scale-matrix.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/scales.json",
+      "path": "data/scales.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/scripture-sources.json",
+      "path": "data/scripture-sources.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/security/roles.json",
+      "path": "data/security/roles.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/semantic/registry.json",
+      "path": "data/semantic/registry.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/shadow/shadow-types.json",
+      "path": "data/shadow/shadow-types.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/space.json",
+      "path": "data/space.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/sync/config.json",
+      "path": "data/sync/config.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/verification/source-types.json",
+      "path": "data/verification/source-types.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/verification/statuses.json",
+      "path": "data/verification/statuses.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/wealth/asset-types.json",
+      "path": "data/wealth/asset-types.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/wealth/wealth-schema.json",
+      "path": "data/wealth/wealth-schema.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/world-states.json",
+      "path": "data/world-states.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "snapshot:data/mizan/quranic-principles.json",
+      "path": "data/mizan/quranic-principles.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "revelation-source-policy",
+      "path": "data/revelation/source-policy.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "revelation-corpus-status",
+      "path": "data/revelation/corpus-status.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "revelation-geography-hypotheses",
+      "path": "data/revelation/geography-hypotheses.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "revelation-scripture-research-map",
+      "path": "data/revelation/scripture-research-map.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "revelation-witness-import-manifest",
+      "path": "data/divine-books/witness-corpora/import-manifest.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "revelation-language-concept-anchors",
+      "path": "data/revelation/language-concept-anchors.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "revelation-scoring-profile",
+      "path": "data/revelation/scoring-profile.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "event-language-profile",
+      "path": "data/events/event-language-profile.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "moral-lifecycle-language-profile",
+      "path": "data/events/moral-lifecycle-language-profile.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "revelation-lifecycle-query-profile",
+      "path": "data/revelation/lifecycle-query-profile.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "revelation-grammar-profile",
+      "path": "data/revelation/grammar-profile.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    },
+    {
+      "id": "revelation-divine-ontology-profile",
+      "path": "data/revelation/divine-ontology-profile.json",
+      "entityType": "DATASET_SNAPSHOT",
+      "format": "json",
+      "mode": "single",
+      "kind": "snapshot"
+    }
+  ]
+}

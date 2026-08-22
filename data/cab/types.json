@@ -1,0 +1,79 @@
+{
+  "types": [
+    {
+      "typeId": "CAB.CHANGE_REQUEST",
+      "entityFamily": "ENTITY",
+      "domain": "CAB"
+    },
+    {
+      "typeId": "CAB.KNOWLEDGE_SHARE",
+      "entityFamily": "EVENT",
+      "domain": "CAB"
+    },
+    {
+      "typeId": "CAB.KNOWLEDGE_CLARIFICATION",
+      "entityFamily": "EVENT",
+      "domain": "CAB"
+    },
+    {
+      "typeId": "CAB.MEDIA_CLAIM_REVIEW",
+      "entityFamily": "EVENT",
+      "domain": "CAB"
+    },
+    {
+      "typeId": "CAB.PROJECT_CHANGE",
+      "entityFamily": "EVENT",
+      "domain": "CAB"
+    },
+    {
+      "typeId": "CAB.POLICY_REVIEW",
+      "entityFamily": "EVENT",
+      "domain": "CAB"
+    },
+    {
+      "typeId": "CAB.RULE_REVIEW",
+      "entityFamily": "EVENT",
+      "domain": "CAB"
+    },
+    {
+      "typeId": "CAB.SCENARIO_REVIEW",
+      "entityFamily": "EVENT",
+      "domain": "CAB"
+    },
+    {
+      "typeId": "VERIFICATION.CASE",
+      "entityFamily": "ENTITY",
+      "domain": "VERIFICATION"
+    },
+    {
+      "typeId": "VERIFICATION.CLAIM",
+      "entityFamily": "EVENT",
+      "domain": "VERIFICATION"
+    },
+    {
+      "typeId": "VERIFICATION.SOURCE_MATCH",
+      "entityFamily": "EVENT",
+      "domain": "VERIFICATION"
+    },
+    {
+      "typeId": "VERIFICATION.TEXT_CHECK",
+      "entityFamily": "EVENT",
+      "domain": "VERIFICATION"
+    },
+    {
+      "typeId": "VERIFICATION.CONTEXT_CHECK",
+      "entityFamily": "EVENT",
+      "domain": "VERIFICATION"
+    },
+    {
+      "typeId": "VERIFICATION.TRANSLATION_CHECK",
+      "entityFamily": "EVENT",
+      "domain": "VERIFICATION"
+    },
+    {
+      "typeId": "KNOWLEDGE.CLARIFICATION_DRAFT",
+      "entityFamily": "EVENT",
+      "domain": "KNOWLEDGE"
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+export function resilienceProfile({hazards=[],plans=[],exercises=[],criticalServices=[]}={}){return{hazardCount:hazards.length,planCount:plans.length,exerciseCount:exercises.length,criticalServices,preparednessScore:(plans.length+exercises.length)/(Math.max(1,hazards.length)*2)}}

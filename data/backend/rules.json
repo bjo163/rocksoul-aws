@@ -1,0 +1,14 @@
+[
+  {
+    "ruleId": "DEMO.ID.PUBLIC.OPEN.2026",
+    "jurisdiction": "ID",
+    "sourceType": "CIVIC",
+    "authority": "MODEL_RULE",
+    "category": "PUBLIC",
+    "key": "OPEN",
+    "effectiveFrom": "2026-01-01",
+    "status": "ACTIVE",
+    "priority": 10,
+    "perspective": "B"
+  }
+]

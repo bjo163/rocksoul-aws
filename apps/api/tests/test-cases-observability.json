@@ -1,0 +1,1152 @@
+[
+  {
+    "id": "TC-350",
+    "name": "Obs - Observe Event 0",
+    "method": "POST",
+    "route": "/api/v1/observe",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-0",
+      "source": "TEST-0",
+      "payload": {
+        "val": 0
+      }
+    }
+  },
+  {
+    "id": "TC-351",
+    "name": "Obs - Observe Event 1",
+    "method": "POST",
+    "route": "/api/v1/observe",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-1",
+      "source": "TEST-1",
+      "payload": {
+        "val": 1
+      }
+    }
+  },
+  {
+    "id": "TC-352",
+    "name": "Obs - Observe Event 2",
+    "method": "POST",
+    "route": "/api/v1/observe",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-2",
+      "source": "TEST-2",
+      "payload": {
+        "val": 2
+      }
+    }
+  },
+  {
+    "id": "TC-353",
+    "name": "Obs - Observe Event 3",
+    "method": "POST",
+    "route": "/api/v1/observe",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-3",
+      "source": "TEST-3",
+      "payload": {
+        "val": 3
+      }
+    }
+  },
+  {
+    "id": "TC-354",
+    "name": "Obs - Observe Event 4",
+    "method": "POST",
+    "route": "/api/v1/observe",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-4",
+      "source": "TEST-4",
+      "payload": {
+        "val": 4
+      }
+    }
+  },
+  {
+    "id": "TC-355",
+    "name": "Obs - Observe Event 5",
+    "method": "POST",
+    "route": "/api/v1/observe",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-5",
+      "source": "TEST-5",
+      "payload": {
+        "val": 5
+      }
+    }
+  },
+  {
+    "id": "TC-356",
+    "name": "Obs - Observe Event 6",
+    "method": "POST",
+    "route": "/api/v1/observe",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-6",
+      "source": "TEST-6",
+      "payload": {
+        "val": 6
+      }
+    }
+  },
+  {
+    "id": "TC-357",
+    "name": "Obs - Observe Event 7",
+    "method": "POST",
+    "route": "/api/v1/observe",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-7",
+      "source": "TEST-7",
+      "payload": {
+        "val": 7
+      }
+    }
+  },
+  {
+    "id": "TC-358",
+    "name": "Obs - Observe Event 8",
+    "method": "POST",
+    "route": "/api/v1/observe",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-8",
+      "source": "TEST-8",
+      "payload": {
+        "val": 8
+      }
+    }
+  },
+  {
+    "id": "TC-359",
+    "name": "Obs - Observe Event 9",
+    "method": "POST",
+    "route": "/api/v1/observe",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-9",
+      "source": "TEST-9",
+      "payload": {
+        "val": 9
+      }
+    }
+  },
+  {
+    "id": "TC-360",
+    "name": "Obs - Observe Event 10",
+    "method": "POST",
+    "route": "/api/v1/observe",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-10",
+      "source": "TEST-10",
+      "payload": {
+        "val": 10
+      }
+    }
+  },
+  {
+    "id": "TC-361",
+    "name": "Obs - Observe Event 11",
+    "method": "POST",
+    "route": "/api/v1/observe",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-11",
+      "source": "TEST-11",
+      "payload": {
+        "val": 11
+      }
+    }
+  },
+  {
+    "id": "TC-362",
+    "name": "Obs - Observe Event 12",
+    "method": "POST",
+    "route": "/api/v1/observe",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-12",
+      "source": "TEST-12",
+      "payload": {
+        "val": 12
+      }
+    }
+  },
+  {
+    "id": "TC-363",
+    "name": "Obs - Observe Event 13",
+    "method": "POST",
+    "route": "/api/v1/observe",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-13",
+      "source": "TEST-13",
+      "payload": {
+        "val": 13
+      }
+    }
+  },
+  {
+    "id": "TC-364",
+    "name": "Obs - Observe Event 14",
+    "method": "POST",
+    "route": "/api/v1/observe",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-14",
+      "source": "TEST-14",
+      "payload": {
+        "val": 14
+      }
+    }
+  },
+  {
+    "id": "TC-365",
+    "name": "Obs - Observe Event 15",
+    "method": "POST",
+    "route": "/api/v1/observe",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-15",
+      "source": "TEST-15",
+      "payload": {
+        "val": 15
+      }
+    }
+  },
+  {
+    "id": "TC-366",
+    "name": "Obs - Observe Event 16",
+    "method": "POST",
+    "route": "/api/v1/observe",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-16",
+      "source": "TEST-16",
+      "payload": {
+        "val": 16
+      }
+    }
+  },
+  {
+    "id": "TC-367",
+    "name": "Obs - Observe Event 17",
+    "method": "POST",
+    "route": "/api/v1/observe",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-17",
+      "source": "TEST-17",
+      "payload": {
+        "val": 17
+      }
+    }
+  },
+  {
+    "id": "TC-368",
+    "name": "Obs - Observe Event 18",
+    "method": "POST",
+    "route": "/api/v1/observe",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-18",
+      "source": "TEST-18",
+      "payload": {
+        "val": 18
+      }
+    }
+  },
+  {
+    "id": "TC-369",
+    "name": "Obs - Observe Event 19",
+    "method": "POST",
+    "route": "/api/v1/observe",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-19",
+      "source": "TEST-19",
+      "payload": {
+        "val": 19
+      }
+    }
+  },
+  {
+    "id": "TC-370",
+    "name": "Obs - Analyze Event 0",
+    "method": "POST",
+    "route": "/api/v1/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-0",
+      "text": "Analyze text 0"
+    }
+  },
+  {
+    "id": "TC-371",
+    "name": "Obs - Analyze Event 1",
+    "method": "POST",
+    "route": "/api/v1/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-1",
+      "text": "Analyze text 1"
+    }
+  },
+  {
+    "id": "TC-372",
+    "name": "Obs - Analyze Event 2",
+    "method": "POST",
+    "route": "/api/v1/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-2",
+      "text": "Analyze text 2"
+    }
+  },
+  {
+    "id": "TC-373",
+    "name": "Obs - Analyze Event 3",
+    "method": "POST",
+    "route": "/api/v1/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-3",
+      "text": "Analyze text 3"
+    }
+  },
+  {
+    "id": "TC-374",
+    "name": "Obs - Analyze Event 4",
+    "method": "POST",
+    "route": "/api/v1/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-4",
+      "text": "Analyze text 4"
+    }
+  },
+  {
+    "id": "TC-375",
+    "name": "Obs - Analyze Event 5",
+    "method": "POST",
+    "route": "/api/v1/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-5",
+      "text": "Analyze text 5"
+    }
+  },
+  {
+    "id": "TC-376",
+    "name": "Obs - Analyze Event 6",
+    "method": "POST",
+    "route": "/api/v1/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-6",
+      "text": "Analyze text 6"
+    }
+  },
+  {
+    "id": "TC-377",
+    "name": "Obs - Analyze Event 7",
+    "method": "POST",
+    "route": "/api/v1/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-7",
+      "text": "Analyze text 7"
+    }
+  },
+  {
+    "id": "TC-378",
+    "name": "Obs - Analyze Event 8",
+    "method": "POST",
+    "route": "/api/v1/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-8",
+      "text": "Analyze text 8"
+    }
+  },
+  {
+    "id": "TC-379",
+    "name": "Obs - Analyze Event 9",
+    "method": "POST",
+    "route": "/api/v1/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-9",
+      "text": "Analyze text 9"
+    }
+  },
+  {
+    "id": "TC-380",
+    "name": "Obs - Analyze Event 10",
+    "method": "POST",
+    "route": "/api/v1/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-10",
+      "text": "Analyze text 10"
+    }
+  },
+  {
+    "id": "TC-381",
+    "name": "Obs - Analyze Event 11",
+    "method": "POST",
+    "route": "/api/v1/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-11",
+      "text": "Analyze text 11"
+    }
+  },
+  {
+    "id": "TC-382",
+    "name": "Obs - Analyze Event 12",
+    "method": "POST",
+    "route": "/api/v1/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-12",
+      "text": "Analyze text 12"
+    }
+  },
+  {
+    "id": "TC-383",
+    "name": "Obs - Analyze Event 13",
+    "method": "POST",
+    "route": "/api/v1/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-13",
+      "text": "Analyze text 13"
+    }
+  },
+  {
+    "id": "TC-384",
+    "name": "Obs - Analyze Event 14",
+    "method": "POST",
+    "route": "/api/v1/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-14",
+      "text": "Analyze text 14"
+    }
+  },
+  {
+    "id": "TC-385",
+    "name": "Obs - Analyze Event 15",
+    "method": "POST",
+    "route": "/api/v1/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-15",
+      "text": "Analyze text 15"
+    }
+  },
+  {
+    "id": "TC-386",
+    "name": "Obs - Analyze Event 16",
+    "method": "POST",
+    "route": "/api/v1/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-16",
+      "text": "Analyze text 16"
+    }
+  },
+  {
+    "id": "TC-387",
+    "name": "Obs - Analyze Event 17",
+    "method": "POST",
+    "route": "/api/v1/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-17",
+      "text": "Analyze text 17"
+    }
+  },
+  {
+    "id": "TC-388",
+    "name": "Obs - Analyze Event 18",
+    "method": "POST",
+    "route": "/api/v1/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-18",
+      "text": "Analyze text 18"
+    }
+  },
+  {
+    "id": "TC-389",
+    "name": "Obs - Analyze Event 19",
+    "method": "POST",
+    "route": "/api/v1/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-19",
+      "text": "Analyze text 19"
+    }
+  },
+  {
+    "id": "TC-390",
+    "name": "Obs - Evaluate Event 0",
+    "method": "POST",
+    "route": "/api/v1/evaluate",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-0",
+      "text": "eval",
+      "criteria": [
+        "test"
+      ]
+    }
+  },
+  {
+    "id": "TC-391",
+    "name": "Obs - Evaluate Event 1",
+    "method": "POST",
+    "route": "/api/v1/evaluate",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-1",
+      "text": "eval",
+      "criteria": [
+        "test"
+      ]
+    }
+  },
+  {
+    "id": "TC-392",
+    "name": "Obs - Evaluate Event 2",
+    "method": "POST",
+    "route": "/api/v1/evaluate",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-2",
+      "text": "eval",
+      "criteria": [
+        "test"
+      ]
+    }
+  },
+  {
+    "id": "TC-393",
+    "name": "Obs - Evaluate Event 3",
+    "method": "POST",
+    "route": "/api/v1/evaluate",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-3",
+      "text": "eval",
+      "criteria": [
+        "test"
+      ]
+    }
+  },
+  {
+    "id": "TC-394",
+    "name": "Obs - Evaluate Event 4",
+    "method": "POST",
+    "route": "/api/v1/evaluate",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-4",
+      "text": "eval",
+      "criteria": [
+        "test"
+      ]
+    }
+  },
+  {
+    "id": "TC-395",
+    "name": "Obs - Evaluate Event 5",
+    "method": "POST",
+    "route": "/api/v1/evaluate",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-5",
+      "text": "eval",
+      "criteria": [
+        "test"
+      ]
+    }
+  },
+  {
+    "id": "TC-396",
+    "name": "Obs - Evaluate Event 6",
+    "method": "POST",
+    "route": "/api/v1/evaluate",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-6",
+      "text": "eval",
+      "criteria": [
+        "test"
+      ]
+    }
+  },
+  {
+    "id": "TC-397",
+    "name": "Obs - Evaluate Event 7",
+    "method": "POST",
+    "route": "/api/v1/evaluate",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-7",
+      "text": "eval",
+      "criteria": [
+        "test"
+      ]
+    }
+  },
+  {
+    "id": "TC-398",
+    "name": "Obs - Evaluate Event 8",
+    "method": "POST",
+    "route": "/api/v1/evaluate",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-8",
+      "text": "eval",
+      "criteria": [
+        "test"
+      ]
+    }
+  },
+  {
+    "id": "TC-399",
+    "name": "Obs - Evaluate Event 9",
+    "method": "POST",
+    "route": "/api/v1/evaluate",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "caseId": "OBS-9",
+      "text": "eval",
+      "criteria": [
+        "test"
+      ]
+    }
+  },
+  {
+    "id": "TC-400",
+    "name": "Obs - Resource Audit 0",
+    "method": "GET",
+    "route": "/api/v1/resource/OBS-0/audit",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-401",
+    "name": "Obs - Resource Audit 1",
+    "method": "GET",
+    "route": "/api/v1/resource/OBS-1/audit",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-402",
+    "name": "Obs - Resource Audit 2",
+    "method": "GET",
+    "route": "/api/v1/resource/OBS-2/audit",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-403",
+    "name": "Obs - Resource Audit 3",
+    "method": "GET",
+    "route": "/api/v1/resource/OBS-3/audit",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-404",
+    "name": "Obs - Resource Audit 4",
+    "method": "GET",
+    "route": "/api/v1/resource/OBS-4/audit",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-405",
+    "name": "Obs - Resource Audit 5",
+    "method": "GET",
+    "route": "/api/v1/resource/OBS-5/audit",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-406",
+    "name": "Obs - Resource Audit 6",
+    "method": "GET",
+    "route": "/api/v1/resource/OBS-6/audit",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-407",
+    "name": "Obs - Resource Audit 7",
+    "method": "GET",
+    "route": "/api/v1/resource/OBS-7/audit",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-408",
+    "name": "Obs - Resource Audit 8",
+    "method": "GET",
+    "route": "/api/v1/resource/OBS-8/audit",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-409",
+    "name": "Obs - Resource Audit 9",
+    "method": "GET",
+    "route": "/api/v1/resource/OBS-9/audit",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-410",
+    "name": "Obs - Resource Audit 10",
+    "method": "GET",
+    "route": "/api/v1/resource/OBS-10/audit",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-411",
+    "name": "Obs - Resource Audit 11",
+    "method": "GET",
+    "route": "/api/v1/resource/OBS-11/audit",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-412",
+    "name": "Obs - Resource Audit 12",
+    "method": "GET",
+    "route": "/api/v1/resource/OBS-12/audit",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-413",
+    "name": "Obs - Resource Audit 13",
+    "method": "GET",
+    "route": "/api/v1/resource/OBS-13/audit",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-414",
+    "name": "Obs - Resource Audit 14",
+    "method": "GET",
+    "route": "/api/v1/resource/OBS-14/audit",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-415",
+    "name": "Obs - Resource Audit 15",
+    "method": "GET",
+    "route": "/api/v1/resource/OBS-15/audit",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-416",
+    "name": "Obs - Resource Audit 16",
+    "method": "GET",
+    "route": "/api/v1/resource/OBS-16/audit",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-417",
+    "name": "Obs - Resource Audit 17",
+    "method": "GET",
+    "route": "/api/v1/resource/OBS-17/audit",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-418",
+    "name": "Obs - Resource Audit 18",
+    "method": "GET",
+    "route": "/api/v1/resource/OBS-18/audit",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-419",
+    "name": "Obs - Resource Audit 19",
+    "method": "GET",
+    "route": "/api/v1/resource/OBS-19/audit",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-420",
+    "name": "Obs - AI Analyze 0",
+    "method": "POST",
+    "route": "/api/v1/ai/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "text": "Hello world 0"
+    }
+  },
+  {
+    "id": "TC-421",
+    "name": "Obs - AI Analyze 1",
+    "method": "POST",
+    "route": "/api/v1/ai/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "text": "Hello world 1"
+    }
+  },
+  {
+    "id": "TC-422",
+    "name": "Obs - AI Analyze 2",
+    "method": "POST",
+    "route": "/api/v1/ai/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "text": "Hello world 2"
+    }
+  },
+  {
+    "id": "TC-423",
+    "name": "Obs - AI Analyze 3",
+    "method": "POST",
+    "route": "/api/v1/ai/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "text": "Hello world 3"
+    }
+  },
+  {
+    "id": "TC-424",
+    "name": "Obs - AI Analyze 4",
+    "method": "POST",
+    "route": "/api/v1/ai/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "text": "Hello world 4"
+    }
+  },
+  {
+    "id": "TC-425",
+    "name": "Obs - AI Analyze 5",
+    "method": "POST",
+    "route": "/api/v1/ai/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "text": "Hello world 5"
+    }
+  },
+  {
+    "id": "TC-426",
+    "name": "Obs - AI Analyze 6",
+    "method": "POST",
+    "route": "/api/v1/ai/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "text": "Hello world 6"
+    }
+  },
+  {
+    "id": "TC-427",
+    "name": "Obs - AI Analyze 7",
+    "method": "POST",
+    "route": "/api/v1/ai/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "text": "Hello world 7"
+    }
+  },
+  {
+    "id": "TC-428",
+    "name": "Obs - AI Analyze 8",
+    "method": "POST",
+    "route": "/api/v1/ai/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "text": "Hello world 8"
+    }
+  },
+  {
+    "id": "TC-429",
+    "name": "Obs - AI Analyze 9",
+    "method": "POST",
+    "route": "/api/v1/ai/analyze",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "text": "Hello world 9"
+    }
+  },
+  {
+    "id": "TC-430",
+    "name": "Query - Entity 0",
+    "method": "POST",
+    "route": "/api/v1/query",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-0"
+    }
+  },
+  {
+    "id": "TC-431",
+    "name": "Query - Entity 1",
+    "method": "POST",
+    "route": "/api/v1/query",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-1"
+    }
+  },
+  {
+    "id": "TC-432",
+    "name": "Query - Entity 2",
+    "method": "POST",
+    "route": "/api/v1/query",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-2"
+    }
+  },
+  {
+    "id": "TC-433",
+    "name": "Query - Entity 3",
+    "method": "POST",
+    "route": "/api/v1/query",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-3"
+    }
+  },
+  {
+    "id": "TC-434",
+    "name": "Query - Entity 4",
+    "method": "POST",
+    "route": "/api/v1/query",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-4"
+    }
+  },
+  {
+    "id": "TC-435",
+    "name": "Query - Entity 5",
+    "method": "POST",
+    "route": "/api/v1/query",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-5"
+    }
+  },
+  {
+    "id": "TC-436",
+    "name": "Query - Entity 6",
+    "method": "POST",
+    "route": "/api/v1/query",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-6"
+    }
+  },
+  {
+    "id": "TC-437",
+    "name": "Query - Entity 7",
+    "method": "POST",
+    "route": "/api/v1/query",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-7"
+    }
+  },
+  {
+    "id": "TC-438",
+    "name": "Query - Entity 8",
+    "method": "POST",
+    "route": "/api/v1/query",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-8"
+    }
+  },
+  {
+    "id": "TC-439",
+    "name": "Query - Entity 9",
+    "method": "POST",
+    "route": "/api/v1/query",
+    "requiresAuth": true,
+    "expectedStatus": 200,
+    "body": {
+      "entityId": "OBS-9"
+    }
+  },
+  {
+    "id": "TC-440",
+    "name": "Metrics & Registry 0",
+    "method": "GET",
+    "route": "/api/v1/metrics",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-441",
+    "name": "Metrics & Registry 1",
+    "method": "GET",
+    "route": "/api/v1/semantic/registry",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-442",
+    "name": "Metrics & Registry 2",
+    "method": "GET",
+    "route": "/api/v1/metrics",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-443",
+    "name": "Metrics & Registry 3",
+    "method": "GET",
+    "route": "/api/v1/semantic/registry",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-444",
+    "name": "Metrics & Registry 4",
+    "method": "GET",
+    "route": "/api/v1/metrics",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-445",
+    "name": "Metrics & Registry 5",
+    "method": "GET",
+    "route": "/api/v1/semantic/registry",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-446",
+    "name": "Metrics & Registry 6",
+    "method": "GET",
+    "route": "/api/v1/metrics",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-447",
+    "name": "Metrics & Registry 7",
+    "method": "GET",
+    "route": "/api/v1/semantic/registry",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-448",
+    "name": "Metrics & Registry 8",
+    "method": "GET",
+    "route": "/api/v1/metrics",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  },
+  {
+    "id": "TC-449",
+    "name": "Metrics & Registry 9",
+    "method": "GET",
+    "route": "/api/v1/semantic/registry",
+    "requiresAuth": true,
+    "expectedStatus": 200
+  }
+]

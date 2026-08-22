@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "dataset_name": "Asbab al-Nuzul research corpus",
+  "expected_shape": {
+    "research_rows": 312,
+    "reported_occasions": 1101,
+    "reported_verses": 644
+  },
+  "sources": [
+    {
+      "id": "RESEARCH-2023",
+      "url": "https://www.researchgate.net/publication/380021072_Evaluating_the_Effect_of_Occasions_of_Revelation_Asbab_al-Nuzul_on_the_Literal_Understanding_of_the_Verses_of_the_Holy_Qur%27an",
+      "status": "REFERENCED_NOT_BUNDLED",
+      "reason": "Runtime has no external network; preserve provenance without synthesizing missing rows."
+    },
+    {
+      "id": "WAHIDI",
+      "url": "https://www.altafsir.com/WahidiAsbabAlnuzul.asp",
+      "status": "REFERENCE_SOURCE",
+      "reason": "Classical source; imported records must preserve per-report provenance."
+    }
+  ],
+  "record_schema": {
+    "ayah_refs": [
+      "string"
+    ],
+    "context": "string",
+    "source_ref": "string",
+    "report_status": "string",
+    "confidence": "string"
+  }
+}

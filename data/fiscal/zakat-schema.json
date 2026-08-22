@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MoonWitness Zakat Assessment Input",
+  "type": "object",
+  "required": ["jurisdiction", "year", "zakatType", "amount"],
+  "properties": {
+    "jurisdiction": {"type":"string"},
+    "year": {"type":"integer"},
+    "zakatType": {"type":"string"},
+    "amount": {"type":"number", "minimum":0},
+    "haul": {"type":"boolean"},
+    "sourceProfile": {"type":"string"}
+  }
+}

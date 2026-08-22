@@ -1,0 +1,9 @@
+[
+  {"id":"G01","name":"SIGHT","class":"SENSORY"},
+  {"id":"G02","name":"HEARING","class":"SENSORY"},
+  {"id":"G03","name":"TOUCH","class":"SENSORY"},
+  {"id":"G04","name":"TASTE","class":"SENSORY"},
+  {"id":"G05","name":"SMELL","class":"SENSORY"},
+  {"id":"G06","name":"MIND","class":"COGNITIVE"},
+  {"id":"G07","name":"HEART","class":"INNER_STATE"}
+]

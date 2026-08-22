@@ -1,0 +1,9 @@
+{
+  "POLICE": ["receive_report","protect","investigate","secure_evidence","submit_case"],
+  "PROSECUTOR": ["review_case","select_charge","prosecute","execute_final_ruling_where_lawful"],
+  "DEFENSE": ["advise","challenge_evidence","present_defense","seek_mitigation","appeal"],
+  "COURT": ["manage_trial","assess_admissible_evidence","find_fact","interpret_law","issue_verdict","sentence"],
+  "CORRECTIONS": ["execute_sentence","rehabilitate","monitor","reintegrate"],
+  "VICTIM_SUPPORT": ["protect_victim","document_loss","restitution","restoration"],
+  "APPEAL": ["review_error","consider_new_evidence","review_legal_error","finalize"]
+}

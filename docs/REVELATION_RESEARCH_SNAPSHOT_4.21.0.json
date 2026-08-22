@@ -1,0 +1,2194 @@
+{
+  "protocol": "REVELATION_SEMANTIC_CORE_V1",
+  "version": "4.21.0",
+  "sourcePolicy": {
+    "version": "4.21.0",
+    "mode": "FOUR_BOOKS_ONLY",
+    "normativeSources": [
+      {
+        "id": "BOOK-QURAN",
+        "canonicalName": "QURAN",
+        "authority": "PRIMARY_MUHAIMIN",
+        "refs": [
+          "Q5:48"
+        ]
+      },
+      {
+        "id": "BOOK-TAWRAT",
+        "canonicalName": "TAWRAT",
+        "authority": "SUPPLEMENTARY_REVELATION_REFERENCE",
+        "refs": [
+          "Q5:44",
+          "Q5:48"
+        ]
+      },
+      {
+        "id": "BOOK-ZABUR",
+        "canonicalName": "ZABUR",
+        "authority": "SUPPLEMENTARY_REVELATION_REFERENCE",
+        "refs": [
+          "Q4:163",
+          "Q17:55"
+        ]
+      },
+      {
+        "id": "BOOK-INJIL",
+        "canonicalName": "INJIL",
+        "authority": "SUPPLEMENTARY_REVELATION_REFERENCE",
+        "refs": [
+          "Q5:46",
+          "Q5:48"
+        ]
+      }
+    ],
+    "excludedFromNormativeReasoning": [
+      "HADITH",
+      "TAFSIR",
+      "ASBAB_REPORT",
+      "SCHOLARLY_INTERPRETATION",
+      "HISTORICAL_CHRONOLOGY",
+      "MEDICAL_SOURCE",
+      "LEGAL_SOURCE",
+      "NEWS",
+      "WEB_RESEARCH"
+    ],
+    "rules": [
+      "External material may not contribute normative weight.",
+      "A textual witness of Tawrat, Zabur, or Injil must be explicitly labelled TEXTUAL_WITNESS and must not be silently equated with the original revelation.",
+      "Quranic metadata that is not stated in the Quran text itself is non-normative metadata.",
+      "Unknown revelation location remains UNDETERMINED rather than being filled from external chronology.",
+      "Every normative result must expose passage provenance."
+    ]
+  },
+  "corpusStatus": {
+    "version": "4.21.0",
+    "books": {
+      "QURAN": {
+        "bookId": "BOOK-QURAN",
+        "runtimeCorpus": "data/divine-books/quran/ayahs.jsonl",
+        "status": "AVAILABLE_CANONICAL_REFERENCE",
+        "language": "AR"
+      },
+      "TAWRAT": {
+        "bookId": "BOOK-TAWRAT",
+        "runtimeCorpus": null,
+        "status": "TEXTUAL_WITNESS_MANIFEST_ONLY",
+        "language": null
+      },
+      "ZABUR": {
+        "bookId": "BOOK-ZABUR",
+        "runtimeCorpus": null,
+        "status": "TEXTUAL_WITNESS_MANIFEST_ONLY",
+        "language": null
+      },
+      "INJIL": {
+        "bookId": "BOOK-INJIL",
+        "runtimeCorpus": null,
+        "status": "TEXTUAL_WITNESS_MANIFEST_ONLY",
+        "language": null
+      }
+    },
+    "rule": "Unavailable corpora must return CORPUS_UNAVAILABLE; they must never be synthesized from memory or substituted by an unrelated source."
+  },
+  "geography": {
+    "protocol": "REVELATION_GEOGRAPHY_V1",
+    "sourceMode": "QURAN_TEXT_ONLY_FOR_QURAN_GEOGRAPHY",
+    "places": {
+      "MAKKAH": {
+        "place": "MAKKAH",
+        "mentionCount": 1,
+        "mentions": [
+          {
+            "place": "MAKKAH",
+            "reference": "Q48:24",
+            "text": "وَهُوَ الَّذي كَفَّ أَيدِيَهُم عَنكُم وَأَيدِيَكُم عَنهُم بِبَطنِ مَكَّةَ مِن بَعدِ أَن أَظفَرَكُم عَلَيهِم ۚ وَكانَ اللَّهُ بِما تَعمَلونَ بَصيرًا",
+            "confidence": "EXPLICIT",
+            "role": "PLACE_EXPLICITLY_NAMED",
+            "explanation": "The place expression is present directly in the Quranic Arabic text."
+          }
+        ],
+        "windowRadius": 2,
+        "contextAyahCount": 5,
+        "contextReferences": [
+          "Q48:22",
+          "Q48:23",
+          "Q48:24",
+          "Q48:25",
+          "Q48:26"
+        ],
+        "topContextTokens": [
+          {
+            "token": "الله",
+            "count": 6
+          },
+          {
+            "token": "كفروا",
+            "count": 4
+          },
+          {
+            "token": "منهم",
+            "count": 2
+          },
+          {
+            "token": "وكان",
+            "count": 2
+          },
+          {
+            "token": "احق",
+            "count": 1
+          },
+          {
+            "token": "اظفركم",
+            "count": 1
+          },
+          {
+            "token": "الادبار",
+            "count": 1
+          },
+          {
+            "token": "التقوى",
+            "count": 1
+          },
+          {
+            "token": "التي",
+            "count": 1
+          },
+          {
+            "token": "الجاهلية",
+            "count": 1
+          },
+          {
+            "token": "الحرام",
+            "count": 1
+          },
+          {
+            "token": "الحمية",
+            "count": 1
+          },
+          {
+            "token": "المسجد",
+            "count": 1
+          },
+          {
+            "token": "المومنين",
+            "count": 1
+          },
+          {
+            "token": "اليما",
+            "count": 1
+          },
+          {
+            "token": "ايديهم",
+            "count": 1
+          },
+          {
+            "token": "ببطن",
+            "count": 1
+          },
+          {
+            "token": "بصيرا",
+            "count": 1
+          },
+          {
+            "token": "بعد",
+            "count": 1
+          },
+          {
+            "token": "بغير",
+            "count": 1
+          },
+          {
+            "token": "بكل",
+            "count": 1
+          },
+          {
+            "token": "بما",
+            "count": 1
+          },
+          {
+            "token": "تبديلا",
+            "count": 1
+          },
+          {
+            "token": "تجد",
+            "count": 1
+          },
+          {
+            "token": "تزيلوا",
+            "count": 1
+          },
+          {
+            "token": "تطيوهم",
+            "count": 1
+          },
+          {
+            "token": "تعلموهم",
+            "count": 1
+          },
+          {
+            "token": "تعملون",
+            "count": 1
+          },
+          {
+            "token": "جعل",
+            "count": 1
+          },
+          {
+            "token": "حمية",
+            "count": 1
+          }
+        ],
+        "boundary": "This is a profile of textual mention context, not proof that these verses were revealed at that location."
+      },
+      "BAKKAH": {
+        "place": "BAKKAH",
+        "mentionCount": 1,
+        "mentions": [
+          {
+            "place": "BAKKAH",
+            "reference": "Q3:96",
+            "text": "إِنَّ أَوَّلَ بَيتٍ وُضِعَ لِلنّاسِ لَلَّذي بِبَكَّةَ مُبارَكًا وَهُدًى لِلعالَمينَ",
+            "confidence": "EXPLICIT",
+            "role": "PLACE_EXPLICITLY_NAMED",
+            "explanation": "The place expression is present directly in the Quranic Arabic text."
+          }
+        ],
+        "windowRadius": 2,
+        "contextAyahCount": 5,
+        "contextReferences": [
+          "Q3:94",
+          "Q3:95",
+          "Q3:96",
+          "Q3:97",
+          "Q3:98"
+        ],
+        "topContextTokens": [
+          {
+            "token": "الله",
+            "count": 4
+          },
+          {
+            "token": "ابراهيم",
+            "count": 2
+          },
+          {
+            "token": "ومن",
+            "count": 2
+          },
+          {
+            "token": "استطاع",
+            "count": 1
+          },
+          {
+            "token": "افترى",
+            "count": 1
+          },
+          {
+            "token": "البيت",
+            "count": 1
+          },
+          {
+            "token": "الظالمون",
+            "count": 1
+          },
+          {
+            "token": "العالمين",
+            "count": 1
+          },
+          {
+            "token": "الكتاب",
+            "count": 1
+          },
+          {
+            "token": "الكذب",
+            "count": 1
+          },
+          {
+            "token": "المشركين",
+            "count": 1
+          },
+          {
+            "token": "الناس",
+            "count": 1
+          },
+          {
+            "token": "اليه",
+            "count": 1
+          },
+          {
+            "token": "امنا",
+            "count": 1
+          },
+          {
+            "token": "اهل",
+            "count": 1
+          },
+          {
+            "token": "اول",
+            "count": 1
+          },
+          {
+            "token": "ايات",
+            "count": 1
+          },
+          {
+            "token": "بايات",
+            "count": 1
+          },
+          {
+            "token": "ببكة",
+            "count": 1
+          },
+          {
+            "token": "بعد",
+            "count": 1
+          },
+          {
+            "token": "بيت",
+            "count": 1
+          },
+          {
+            "token": "بينات",
+            "count": 1
+          },
+          {
+            "token": "تعملون",
+            "count": 1
+          },
+          {
+            "token": "تكفرون",
+            "count": 1
+          },
+          {
+            "token": "حنيفا",
+            "count": 1
+          },
+          {
+            "token": "دخله",
+            "count": 1
+          },
+          {
+            "token": "سبيلا",
+            "count": 1
+          },
+          {
+            "token": "شهيد",
+            "count": 1
+          },
+          {
+            "token": "صدق",
+            "count": 1
+          },
+          {
+            "token": "غني",
+            "count": 1
+          }
+        ],
+        "boundary": "This is a profile of textual mention context, not proof that these verses were revealed at that location."
+      },
+      "UMM_AL_QURA": {
+        "place": "UMM_AL_QURA",
+        "mentionCount": 2,
+        "mentions": [
+          {
+            "place": "UMM_AL_QURA",
+            "reference": "Q6:92",
+            "text": "وَهـٰذا كِتابٌ أَنزَلناهُ مُبارَكٌ مُصَدِّقُ الَّذي بَينَ يَدَيهِ وَلِتُنذِرَ أُمَّ القُرىٰ وَمَن حَولَها ۚ وَالَّذينَ يُؤمِنونَ بِالآخِرَةِ يُؤمِنونَ بِهِ ۖ وَهُم عَلىٰ صَلاتِهِم يُحافِظونَ",
+            "confidence": "EXPLICIT",
+            "role": "PLACE_EXPLICITLY_NAMED",
+            "explanation": "The place expression is present directly in the Quranic Arabic text."
+          },
+          {
+            "place": "UMM_AL_QURA",
+            "reference": "Q42:7",
+            "text": "وَكَذٰلِكَ أَوحَينا إِلَيكَ قُرآنًا عَرَبِيًّا لِتُنذِرَ أُمَّ القُرىٰ وَمَن حَولَها وَتُنذِرَ يَومَ الجَمعِ لا رَيبَ فيهِ ۚ فَريقٌ فِي الجَنَّةِ وَفَريقٌ فِي السَّعيرِ",
+            "confidence": "EXPLICIT",
+            "role": "PLACE_EXPLICITLY_NAMED",
+            "explanation": "The place expression is present directly in the Quranic Arabic text."
+          }
+        ],
+        "windowRadius": 2,
+        "contextAyahCount": 10,
+        "contextReferences": [
+          "Q6:90",
+          "Q6:91",
+          "Q6:92",
+          "Q6:93",
+          "Q6:94",
+          "Q42:5",
+          "Q42:6",
+          "Q42:7",
+          "Q42:8",
+          "Q42:9"
+        ],
+        "topContextTokens": [
+          {
+            "token": "الله",
+            "count": 10
+          },
+          {
+            "token": "ومن",
+            "count": 4
+          },
+          {
+            "token": "انزل",
+            "count": 3
+          },
+          {
+            "token": "شيء",
+            "count": 3
+          },
+          {
+            "token": "وما",
+            "count": 3
+          },
+          {
+            "token": "اتخذوا",
+            "count": 2
+          },
+          {
+            "token": "الا",
+            "count": 2
+          },
+          {
+            "token": "القرى",
+            "count": 2
+          },
+          {
+            "token": "اولياء",
+            "count": 2
+          },
+          {
+            "token": "حولها",
+            "count": 2
+          },
+          {
+            "token": "دونه",
+            "count": 2
+          },
+          {
+            "token": "عليهم",
+            "count": 2
+          },
+          {
+            "token": "قال",
+            "count": 2
+          },
+          {
+            "token": "كنتم",
+            "count": 2
+          },
+          {
+            "token": "والذين",
+            "count": 2
+          },
+          {
+            "token": "والملايكة",
+            "count": 2
+          },
+          {
+            "token": "ولا",
+            "count": 2
+          },
+          {
+            "token": "ولو",
+            "count": 2
+          },
+          {
+            "token": "وهو",
+            "count": 2
+          },
+          {
+            "token": "يومنون",
+            "count": 2
+          },
+          {
+            "token": "اباوكم",
+            "count": 1
+          },
+          {
+            "token": "اجرا",
+            "count": 1
+          },
+          {
+            "token": "اخرجوا",
+            "count": 1
+          },
+          {
+            "token": "اسالكم",
+            "count": 1
+          },
+          {
+            "token": "اظلم",
+            "count": 1
+          },
+          {
+            "token": "افترى",
+            "count": 1
+          },
+          {
+            "token": "اقتده",
+            "count": 1
+          },
+          {
+            "token": "الارض",
+            "count": 1
+          },
+          {
+            "token": "الجمع",
+            "count": 1
+          },
+          {
+            "token": "الجنة",
+            "count": 1
+          }
+        ],
+        "boundary": "This is a profile of textual mention context, not proof that these verses were revealed at that location."
+      },
+      "AL_MADINAH": {
+        "place": "AL_MADINAH",
+        "mentionCount": 14,
+        "mentions": [
+          {
+            "place": "AL_MADINAH",
+            "reference": "Q7:123",
+            "text": "قالَ فِرعَونُ آمَنتُم بِهِ قَبلَ أَن آذَنَ لَكُم ۖ إِنَّ هـٰذا لَمَكرٌ مَكَرتُموهُ فِي المَدينَةِ لِتُخرِجوا مِنها أَهلَها ۖ فَسَوفَ تَعلَمونَ",
+            "confidence": "EXPLICIT",
+            "role": "CITY_MENTION_UNDISAMBIGUATED",
+            "explanation": "The Arabic text explicitly says al-madinah (the city), but scripture-only mode does not assume every occurrence refers to the Prophet's Madinah."
+          },
+          {
+            "place": "AL_MADINAH",
+            "reference": "Q9:101",
+            "text": "وَمِمَّن حَولَكُم مِنَ الأَعرابِ مُنافِقونَ ۖ وَمِن أَهلِ المَدينَةِ ۖ مَرَدوا عَلَى النِّفاقِ لا تَعلَمُهُم ۖ نَحنُ نَعلَمُهُم ۚ سَنُعَذِّبُهُم مَرَّتَينِ ثُمَّ يُرَدّونَ إِلىٰ عَذابٍ عَظيمٍ",
+            "confidence": "CONTEXTUAL",
+            "role": "PROPHETIC_COMMUNITY_CITY_CONTEXT",
+            "explanation": "The verse says al-Madinah and also contains internal Prophetic-community vocabulary. The engine does not use external chronology to identify it."
+          },
+          {
+            "place": "AL_MADINAH",
+            "reference": "Q9:120",
+            "text": "ما كانَ لِأَهلِ المَدينَةِ وَمَن حَولَهُم مِنَ الأَعرابِ أَن يَتَخَلَّفوا عَن رَسولِ اللَّهِ وَلا يَرغَبوا بِأَنفُسِهِم عَن نَفسِهِ ۚ ذٰلِكَ بِأَنَّهُم لا يُصيبُهُم ظَمَأٌ وَلا نَصَبٌ وَلا مَخمَصَةٌ في سَبيلِ اللَّهِ وَلا يَطَئونَ مَوطِئًا يَغيظُ الكُفّارَ وَلا يَنالونَ مِن عَدُوٍّ نَيلًا إِلّا كُتِبَ لَهُم بِهِ عَمَلٌ صالِحٌ ۚ إِنَّ اللَّهَ لا يُضيعُ أَجرَ المُحسِنينَ",
+            "confidence": "CONTEXTUAL",
+            "role": "PROPHETIC_COMMUNITY_CITY_CONTEXT",
+            "explanation": "The verse says al-Madinah and also contains internal Prophetic-community vocabulary. The engine does not use external chronology to identify it."
+          },
+          {
+            "place": "AL_MADINAH",
+            "reference": "Q12:30",
+            "text": "وَقالَ نِسوَةٌ فِي المَدينَةِ امرَأَتُ العَزيزِ تُراوِدُ فَتاها عَن نَفسِهِ ۖ قَد شَغَفَها حُبًّا ۖ إِنّا لَنَراها في ضَلالٍ مُبينٍ",
+            "confidence": "EXPLICIT",
+            "role": "CITY_MENTION_UNDISAMBIGUATED",
+            "explanation": "The Arabic text explicitly says al-madinah (the city), but scripture-only mode does not assume every occurrence refers to the Prophet's Madinah."
+          },
+          {
+            "place": "AL_MADINAH",
+            "reference": "Q15:67",
+            "text": "وَجاءَ أَهلُ المَدينَةِ يَستَبشِرونَ",
+            "confidence": "EXPLICIT",
+            "role": "CITY_MENTION_UNDISAMBIGUATED",
+            "explanation": "The Arabic text explicitly says al-madinah (the city), but scripture-only mode does not assume every occurrence refers to the Prophet's Madinah."
+          },
+          {
+            "place": "AL_MADINAH",
+            "reference": "Q18:19",
+            "text": "وَكَذٰلِكَ بَعَثناهُم لِيَتَساءَلوا بَينَهُم ۚ قالَ قائِلٌ مِنهُم كَم لَبِثتُم ۖ قالوا لَبِثنا يَومًا أَو بَعضَ يَومٍ ۚ قالوا رَبُّكُم أَعلَمُ بِما لَبِثتُم فَابعَثوا أَحَدَكُم بِوَرِقِكُم هـٰذِهِ إِلَى المَدينَةِ فَليَنظُر أَيُّها أَزكىٰ طَعامًا فَليَأتِكُم بِرِزقٍ مِنهُ وَليَتَلَطَّف وَلا يُشعِرَنَّ بِكُم أَحَدًا",
+            "confidence": "EXPLICIT",
+            "role": "CITY_MENTION_UNDISAMBIGUATED",
+            "explanation": "The Arabic text explicitly says al-madinah (the city), but scripture-only mode does not assume every occurrence refers to the Prophet's Madinah."
+          },
+          {
+            "place": "AL_MADINAH",
+            "reference": "Q18:82",
+            "text": "وَأَمَّا الجِدارُ فَكانَ لِغُلامَينِ يَتيمَينِ فِي المَدينَةِ وَكانَ تَحتَهُ كَنزٌ لَهُما وَكانَ أَبوهُما صالِحًا فَأَرادَ رَبُّكَ أَن يَبلُغا أَشُدَّهُما وَيَستَخرِجا كَنزَهُما رَحمَةً مِن رَبِّكَ ۚ وَما فَعَلتُهُ عَن أَمري ۚ ذٰلِكَ تَأويلُ ما لَم تَسطِع عَلَيهِ صَبرًا",
+            "confidence": "EXPLICIT",
+            "role": "CITY_MENTION_UNDISAMBIGUATED",
+            "explanation": "The Arabic text explicitly says al-madinah (the city), but scripture-only mode does not assume every occurrence refers to the Prophet's Madinah."
+          },
+          {
+            "place": "AL_MADINAH",
+            "reference": "Q27:48",
+            "text": "وَكانَ فِي المَدينَةِ تِسعَةُ رَهطٍ يُفسِدونَ فِي الأَرضِ وَلا يُصلِحونَ",
+            "confidence": "EXPLICIT",
+            "role": "CITY_MENTION_UNDISAMBIGUATED",
+            "explanation": "The Arabic text explicitly says al-madinah (the city), but scripture-only mode does not assume every occurrence refers to the Prophet's Madinah."
+          },
+          {
+            "place": "AL_MADINAH",
+            "reference": "Q28:15",
+            "text": "وَدَخَلَ المَدينَةَ عَلىٰ حينِ غَفلَةٍ مِن أَهلِها فَوَجَدَ فيها رَجُلَينِ يَقتَتِلانِ هـٰذا مِن شيعَتِهِ وَهـٰذا مِن عَدُوِّهِ ۖ فَاستَغاثَهُ الَّذي مِن شيعَتِهِ عَلَى الَّذي مِن عَدُوِّهِ فَوَكَزَهُ موسىٰ فَقَضىٰ عَلَيهِ ۖ قالَ هـٰذا مِن عَمَلِ الشَّيطانِ ۖ إِنَّهُ عَدُوٌّ مُضِلٌّ مُبينٌ",
+            "confidence": "EXPLICIT",
+            "role": "CITY_MENTION_UNDISAMBIGUATED",
+            "explanation": "The Arabic text explicitly says al-madinah (the city), but scripture-only mode does not assume every occurrence refers to the Prophet's Madinah."
+          },
+          {
+            "place": "AL_MADINAH",
+            "reference": "Q28:18",
+            "text": "فَأَصبَحَ فِي المَدينَةِ خائِفًا يَتَرَقَّبُ فَإِذَا الَّذِي استَنصَرَهُ بِالأَمسِ يَستَصرِخُهُ ۚ قالَ لَهُ موسىٰ إِنَّكَ لَغَوِيٌّ مُبينٌ",
+            "confidence": "EXPLICIT",
+            "role": "CITY_MENTION_UNDISAMBIGUATED",
+            "explanation": "The Arabic text explicitly says al-madinah (the city), but scripture-only mode does not assume every occurrence refers to the Prophet's Madinah."
+          },
+          {
+            "place": "AL_MADINAH",
+            "reference": "Q28:20",
+            "text": "وَجاءَ رَجُلٌ مِن أَقصَى المَدينَةِ يَسعىٰ قالَ يا موسىٰ إِنَّ المَلَأَ يَأتَمِرونَ بِكَ لِيَقتُلوكَ فَاخرُج إِنّي لَكَ مِنَ النّاصِحينَ",
+            "confidence": "EXPLICIT",
+            "role": "CITY_MENTION_UNDISAMBIGUATED",
+            "explanation": "The Arabic text explicitly says al-madinah (the city), but scripture-only mode does not assume every occurrence refers to the Prophet's Madinah."
+          },
+          {
+            "place": "AL_MADINAH",
+            "reference": "Q33:60",
+            "text": "لَئِن لَم يَنتَهِ المُنافِقونَ وَالَّذينَ في قُلوبِهِم مَرَضٌ وَالمُرجِفونَ فِي المَدينَةِ لَنُغرِيَنَّكَ بِهِم ثُمَّ لا يُجاوِرونَكَ فيها إِلّا قَليلًا",
+            "confidence": "CONTEXTUAL",
+            "role": "PROPHETIC_COMMUNITY_CITY_CONTEXT",
+            "explanation": "The verse says al-Madinah and also contains internal Prophetic-community vocabulary. The engine does not use external chronology to identify it."
+          },
+          {
+            "place": "AL_MADINAH",
+            "reference": "Q36:20",
+            "text": "وَجاءَ مِن أَقصَى المَدينَةِ رَجُلٌ يَسعىٰ قالَ يا قَومِ اتَّبِعُوا المُرسَلينَ",
+            "confidence": "EXPLICIT",
+            "role": "CITY_MENTION_UNDISAMBIGUATED",
+            "explanation": "The Arabic text explicitly says al-madinah (the city), but scripture-only mode does not assume every occurrence refers to the Prophet's Madinah."
+          },
+          {
+            "place": "AL_MADINAH",
+            "reference": "Q63:8",
+            "text": "يَقولونَ لَئِن رَجَعنا إِلَى المَدينَةِ لَيُخرِجَنَّ الأَعَزُّ مِنهَا الأَذَلَّ ۚ وَلِلَّهِ العِزَّةُ وَلِرَسولِهِ وَلِلمُؤمِنينَ وَلـٰكِنَّ المُنافِقينَ لا يَعلَمونَ",
+            "confidence": "CONTEXTUAL",
+            "role": "PROPHETIC_COMMUNITY_CITY_CONTEXT",
+            "explanation": "The verse says al-Madinah and also contains internal Prophetic-community vocabulary. The engine does not use external chronology to identify it."
+          }
+        ],
+        "windowRadius": 2,
+        "contextAyahCount": 65,
+        "contextReferences": [
+          "Q7:121",
+          "Q7:122",
+          "Q7:123",
+          "Q7:124",
+          "Q7:125",
+          "Q9:99",
+          "Q9:100",
+          "Q9:101",
+          "Q9:102",
+          "Q9:103",
+          "Q9:118",
+          "Q9:119",
+          "Q9:120",
+          "Q9:121",
+          "Q9:122",
+          "Q12:28",
+          "Q12:29",
+          "Q12:30",
+          "Q12:31",
+          "Q12:32",
+          "Q15:65",
+          "Q15:66",
+          "Q15:67",
+          "Q15:68",
+          "Q15:69",
+          "Q18:17",
+          "Q18:18",
+          "Q18:19",
+          "Q18:20",
+          "Q18:21",
+          "Q18:80",
+          "Q18:81",
+          "Q18:82",
+          "Q18:83",
+          "Q18:84",
+          "Q27:46",
+          "Q27:47",
+          "Q27:48",
+          "Q27:49",
+          "Q27:50",
+          "Q28:13",
+          "Q28:14",
+          "Q28:15",
+          "Q28:16",
+          "Q28:17",
+          "Q28:18",
+          "Q28:19",
+          "Q28:20",
+          "Q28:21",
+          "Q28:22",
+          "Q33:58",
+          "Q33:59",
+          "Q33:60",
+          "Q33:61",
+          "Q33:62",
+          "Q36:18",
+          "Q36:19",
+          "Q36:20",
+          "Q36:21",
+          "Q36:22",
+          "Q63:6",
+          "Q63:7",
+          "Q63:8",
+          "Q63:9",
+          "Q63:10"
+        ],
+        "topContextTokens": [
+          {
+            "token": "الله",
+            "count": 27
+          },
+          {
+            "token": "قال",
+            "count": 16
+          },
+          {
+            "token": "المدينة",
+            "count": 14
+          },
+          {
+            "token": "ولا",
+            "count": 14
+          },
+          {
+            "token": "عليهم",
+            "count": 10
+          },
+          {
+            "token": "قالوا",
+            "count": 8
+          },
+          {
+            "token": "الا",
+            "count": 7
+          },
+          {
+            "token": "موسى",
+            "count": 5
+          },
+          {
+            "token": "ومن",
+            "count": 5
+          },
+          {
+            "token": "اذا",
+            "count": 4
+          },
+          {
+            "token": "الارض",
+            "count": 4
+          },
+          {
+            "token": "انا",
+            "count": 4
+          },
+          {
+            "token": "ايها",
+            "count": 4
+          },
+          {
+            "token": "فلما",
+            "count": 4
+          },
+          {
+            "token": "فيها",
+            "count": 4
+          },
+          {
+            "token": "قبل",
+            "count": 4
+          },
+          {
+            "token": "قوم",
+            "count": 4
+          },
+          {
+            "token": "منه",
+            "count": 4
+          },
+          {
+            "token": "منهم",
+            "count": 4
+          },
+          {
+            "token": "وكان",
+            "count": 4
+          },
+          {
+            "token": "وما",
+            "count": 4
+          },
+          {
+            "token": "وهم",
+            "count": 4
+          },
+          {
+            "token": "الاعراب",
+            "count": 3
+          },
+          {
+            "token": "انه",
+            "count": 3
+          },
+          {
+            "token": "بما",
+            "count": 3
+          },
+          {
+            "token": "ذات",
+            "count": 3
+          },
+          {
+            "token": "عدو",
+            "count": 3
+          },
+          {
+            "token": "عند",
+            "count": 3
+          },
+          {
+            "token": "لين",
+            "count": 3
+          },
+          {
+            "token": "مبين",
+            "count": 3
+          }
+        ],
+        "boundary": "This is a profile of textual mention context, not proof that these verses were revealed at that location."
+      }
+    },
+    "invariants": {
+      "placeMentionIsRevelationPlace": false,
+      "bakkahEqualsMakkahNotAssumedFromTextAlone": true,
+      "ummAlQuraEqualsMakkahNotAssumedFromTextAlone": true,
+      "everyAlMadinahMeansPropheticMadinah": false,
+      "externalMakkiMadaniClassificationUsed": false
+    }
+  },
+  "divineAttributes": {
+    "protocol": "DIVINE_ATTRIBUTE_DISCOVERY_V1",
+    "method": "CORPUS_SURFACE_DISCOVERY_AFTER_ALLAH_TOKEN",
+    "canonical99Hardcoded": false,
+    "candidates": [
+      {
+        "phrase": "غفور رحيم",
+        "count": 28,
+        "references": [
+          "Q2:173",
+          "Q2:182",
+          "Q2:192",
+          "Q2:199",
+          "Q2:218",
+          "Q2:226",
+          "Q3:89",
+          "Q5:3",
+          "Q5:34",
+          "Q5:39",
+          "Q5:98",
+          "Q8:69",
+          "Q9:5",
+          "Q9:99",
+          "Q9:102",
+          "Q16:115",
+          "Q24:5",
+          "Q24:62",
+          "Q49:14",
+          "Q58:12",
+          "Q60:12",
+          "Q64:14",
+          "Q73:20"
+        ]
+      },
+      {
+        "phrase": "على شيء",
+        "count": 22,
+        "references": [
+          "Q2:20",
+          "Q2:106",
+          "Q2:109",
+          "Q2:148",
+          "Q2:259",
+          "Q3:165",
+          "Q4:33",
+          "Q4:85",
+          "Q4:86",
+          "Q16:77",
+          "Q18:45",
+          "Q22:17",
+          "Q24:45",
+          "Q29:20",
+          "Q33:27",
+          "Q33:52",
+          "Q33:55",
+          "Q34:47",
+          "Q35:1",
+          "Q48:21",
+          "Q65:12"
+        ]
+      },
+      {
+        "phrase": "غفورا رحيما",
+        "count": 15,
+        "references": [
+          "Q4:23",
+          "Q4:96",
+          "Q4:100",
+          "Q4:106",
+          "Q4:110",
+          "Q4:129",
+          "Q4:152",
+          "Q25:70",
+          "Q33:5",
+          "Q33:24",
+          "Q33:50",
+          "Q33:59",
+          "Q33:73",
+          "Q48:14"
+        ]
+      },
+      {
+        "phrase": "بكل شيء",
+        "count": 13,
+        "references": [
+          "Q2:231",
+          "Q2:282",
+          "Q4:32",
+          "Q4:126",
+          "Q5:97",
+          "Q8:75",
+          "Q9:115",
+          "Q29:62",
+          "Q33:40",
+          "Q33:54",
+          "Q48:26",
+          "Q58:7"
+        ]
+      },
+      {
+        "phrase": "بما تعملون",
+        "count": 12,
+        "references": [
+          "Q2:110",
+          "Q2:233",
+          "Q2:237",
+          "Q4:94",
+          "Q4:128",
+          "Q4:135",
+          "Q31:29",
+          "Q33:2",
+          "Q33:9",
+          "Q48:11",
+          "Q48:24"
+        ]
+      },
+      {
+        "phrase": "شديد العقاب",
+        "count": 12,
+        "references": [
+          "Q2:196",
+          "Q2:211",
+          "Q5:2",
+          "Q5:98",
+          "Q8:13",
+          "Q8:25",
+          "Q8:48",
+          "Q59:4",
+          "Q59:7"
+        ]
+      },
+      {
+        "phrase": "عزيز حكيم",
+        "count": 12,
+        "references": [
+          "Q2:209",
+          "Q2:220",
+          "Q2:260",
+          "Q5:38",
+          "Q8:10",
+          "Q8:49",
+          "Q9:71",
+          "Q31:27"
+        ]
+      },
+      {
+        "phrase": "عليما حكيما",
+        "count": 12,
+        "references": [
+          "Q4:11",
+          "Q4:17",
+          "Q4:24",
+          "Q4:92",
+          "Q4:104",
+          "Q4:111",
+          "Q4:170",
+          "Q33:1",
+          "Q48:4",
+          "Q76:30"
+        ]
+      },
+      {
+        "phrase": "واطيعون",
+        "count": 10,
+        "references": [
+          "Q3:50",
+          "Q26:108",
+          "Q26:110",
+          "Q26:126",
+          "Q26:131",
+          "Q26:144",
+          "Q26:150",
+          "Q26:163",
+          "Q26:179",
+          "Q43:63"
+        ]
+      },
+      {
+        "phrase": "يهدي القوم",
+        "count": 10,
+        "references": [
+          "Q5:51",
+          "Q5:67",
+          "Q6:144",
+          "Q9:19",
+          "Q16:107",
+          "Q28:50",
+          "Q46:10",
+          "Q62:5",
+          "Q63:6"
+        ]
+      },
+      {
+        "phrase": "الذين امنوا",
+        "count": 9,
+        "references": [
+          "Q2:213",
+          "Q3:140",
+          "Q3:141",
+          "Q5:9",
+          "Q14:27",
+          "Q24:55",
+          "Q29:11",
+          "Q48:29",
+          "Q58:11"
+        ]
+      },
+      {
+        "phrase": "اله الا",
+        "count": 9,
+        "references": [
+          "Q2:255",
+          "Q3:2",
+          "Q4:87",
+          "Q9:129",
+          "Q20:8",
+          "Q20:14",
+          "Q27:26",
+          "Q28:70",
+          "Q64:13"
+        ]
+      },
+      {
+        "phrase": "الها اخر",
+        "count": 9,
+        "references": [
+          "Q15:96",
+          "Q17:22",
+          "Q17:39",
+          "Q23:117",
+          "Q25:68",
+          "Q26:213",
+          "Q28:88",
+          "Q50:26",
+          "Q51:51"
+        ]
+      },
+      {
+        "phrase": "لكم اله",
+        "count": 9,
+        "references": [
+          "Q7:59",
+          "Q7:65",
+          "Q7:73",
+          "Q7:85",
+          "Q11:50",
+          "Q11:61",
+          "Q11:84",
+          "Q23:23",
+          "Q23:32"
+        ]
+      },
+      {
+        "phrase": "تعلمون",
+        "count": 8,
+        "references": [
+          "Q2:80",
+          "Q2:169",
+          "Q7:28",
+          "Q7:33",
+          "Q7:62",
+          "Q10:68",
+          "Q12:86",
+          "Q12:96"
+        ]
+      },
+      {
+        "phrase": "الذي خلق",
+        "count": 7,
+        "references": [
+          "Q7:54",
+          "Q10:3",
+          "Q14:32",
+          "Q17:99",
+          "Q32:4",
+          "Q46:33",
+          "Q65:12"
+        ]
+      },
+      {
+        "phrase": "العالمين",
+        "count": 7,
+        "references": [
+          "Q5:28",
+          "Q7:54",
+          "Q27:8",
+          "Q28:30",
+          "Q40:64",
+          "Q59:16",
+          "Q81:29"
+        ]
+      },
+      {
+        "phrase": "العزيز الحكيم",
+        "count": 7,
+        "references": [
+          "Q3:126",
+          "Q27:9",
+          "Q34:27",
+          "Q39:1",
+          "Q42:3",
+          "Q45:2",
+          "Q46:2"
+        ]
+      },
+      {
+        "phrase": "سريع الحساب",
+        "count": 7,
+        "references": [
+          "Q3:19",
+          "Q3:199",
+          "Q5:4",
+          "Q14:51",
+          "Q40:17"
+        ]
+      },
+      {
+        "phrase": "سميع عليم",
+        "count": 7,
+        "references": [
+          "Q2:181",
+          "Q2:227",
+          "Q2:244",
+          "Q8:17",
+          "Q8:53",
+          "Q49:1"
+        ]
+      },
+      {
+        "phrase": "فليتوكل المومنون",
+        "count": 7,
+        "references": [
+          "Q3:122",
+          "Q3:160",
+          "Q5:11",
+          "Q9:51",
+          "Q14:11",
+          "Q58:10",
+          "Q64:13"
+        ]
+      },
+      {
+        "phrase": "ولي ولا",
+        "count": 7,
+        "references": [
+          "Q2:107",
+          "Q2:120",
+          "Q6:70",
+          "Q9:116",
+          "Q13:37",
+          "Q29:22",
+          "Q42:31"
+        ]
+      },
+      {
+        "phrase": "بغافل عما",
+        "count": 6,
+        "references": [
+          "Q2:74",
+          "Q2:85",
+          "Q2:140",
+          "Q2:144",
+          "Q2:149",
+          "Q3:99"
+        ]
+      },
+      {
+        "phrase": "ترجع الامور",
+        "count": 6,
+        "references": [
+          "Q2:210",
+          "Q3:109",
+          "Q8:44",
+          "Q22:76",
+          "Q35:4",
+          "Q57:5"
+        ]
+      },
+      {
+        "phrase": "خبير بما",
+        "count": 6,
+        "references": [
+          "Q5:8",
+          "Q24:30",
+          "Q24:53",
+          "Q59:18"
+        ]
+      },
+      {
+        "phrase": "ربي وربكم",
+        "count": 6,
+        "references": [
+          "Q3:51",
+          "Q5:72",
+          "Q5:117",
+          "Q11:56",
+          "Q19:36",
+          "Q43:64"
+        ]
+      },
+      {
+        "phrase": "عليكم ورحمته",
+        "count": 6,
+        "references": [
+          "Q2:64",
+          "Q4:83",
+          "Q24:10",
+          "Q24:14",
+          "Q24:20",
+          "Q24:21"
+        ]
+      },
+      {
+        "phrase": "قرضا حسنا",
+        "count": 6,
+        "references": [
+          "Q2:245",
+          "Q5:12",
+          "Q57:11",
+          "Q57:18",
+          "Q64:17",
+          "Q73:20"
+        ]
+      },
+      {
+        "phrase": "الصابرين",
+        "count": 5,
+        "references": [
+          "Q2:153",
+          "Q2:249",
+          "Q8:46",
+          "Q8:66",
+          "Q37:102"
+        ]
+      },
+      {
+        "phrase": "المتقين",
+        "count": 5,
+        "references": [
+          "Q2:194",
+          "Q5:27",
+          "Q9:36",
+          "Q9:123",
+          "Q16:31"
+        ]
+      },
+      {
+        "phrase": "المخلصين",
+        "count": 5,
+        "references": [
+          "Q37:40",
+          "Q37:74",
+          "Q37:128",
+          "Q37:160",
+          "Q37:169"
+        ]
+      },
+      {
+        "phrase": "عزيزا حكيما",
+        "count": 5,
+        "references": [
+          "Q4:56",
+          "Q4:158",
+          "Q4:165",
+          "Q48:7",
+          "Q48:19"
+        ]
+      },
+      {
+        "phrase": "لكم الايات",
+        "count": 5,
+        "references": [
+          "Q2:219",
+          "Q2:266",
+          "Q24:18",
+          "Q24:58",
+          "Q24:61"
+        ]
+      },
+      {
+        "phrase": "مخلصين الدين",
+        "count": 5,
+        "references": [
+          "Q10:22",
+          "Q29:65",
+          "Q31:32",
+          "Q40:14",
+          "Q98:5"
+        ]
+      },
+      {
+        "phrase": "واطيعوا الرسول",
+        "count": 5,
+        "references": [
+          "Q4:59",
+          "Q5:92",
+          "Q24:54",
+          "Q47:33",
+          "Q64:12"
+        ]
+      },
+      {
+        "phrase": "واعلموا الله",
+        "count": 5,
+        "references": [
+          "Q2:194",
+          "Q2:196",
+          "Q2:231",
+          "Q2:233",
+          "Q2:244"
+        ]
+      },
+      {
+        "phrase": "وكفى بالله",
+        "count": 5,
+        "references": [
+          "Q4:70",
+          "Q4:81",
+          "Q33:3",
+          "Q33:39",
+          "Q33:48"
+        ]
+      },
+      {
+        "phrase": "يبسط الرزق",
+        "count": 5,
+        "references": [
+          "Q13:26",
+          "Q28:82",
+          "Q29:62",
+          "Q30:37",
+          "Q39:52"
+        ]
+      },
+      {
+        "phrase": "يسير",
+        "count": 5,
+        "references": [
+          "Q22:70",
+          "Q29:19",
+          "Q35:11",
+          "Q57:22",
+          "Q64:7"
+        ]
+      },
+      {
+        "phrase": "يوتيه يشاء",
+        "count": 5,
+        "references": [
+          "Q3:73",
+          "Q5:54",
+          "Q57:21",
+          "Q57:29",
+          "Q62:4"
+        ]
+      },
+      {
+        "phrase": "السماوات والارض",
+        "count": 4,
+        "references": [
+          "Q10:6",
+          "Q29:44",
+          "Q30:8",
+          "Q45:22"
+        ]
+      },
+      {
+        "phrase": "الغني الحميد",
+        "count": 4,
+        "references": [
+          "Q31:26",
+          "Q35:15",
+          "Q57:24",
+          "Q60:6"
+        ]
+      },
+      {
+        "phrase": "بغير علم",
+        "count": 4,
+        "references": [
+          "Q22:3",
+          "Q22:8",
+          "Q31:6",
+          "Q31:20"
+        ]
+      },
+      {
+        "phrase": "بما يعملون",
+        "count": 4,
+        "references": [
+          "Q3:120",
+          "Q4:108",
+          "Q8:39",
+          "Q8:47"
+        ]
+      },
+      {
+        "phrase": "سميع بصير",
+        "count": 4,
+        "references": [
+          "Q22:61",
+          "Q22:75",
+          "Q31:28",
+          "Q58:1"
+        ]
+      },
+      {
+        "phrase": "على قلوبهم",
+        "count": 4,
+        "references": [
+          "Q2:7",
+          "Q9:93",
+          "Q16:108",
+          "Q47:16"
+        ]
+      },
+      {
+        "phrase": "عليم بذات",
+        "count": 4,
+        "references": [
+          "Q3:119",
+          "Q5:7",
+          "Q31:23"
+        ]
+      },
+      {
+        "phrase": "عما يشركون",
+        "count": 4,
+        "references": [
+          "Q7:190",
+          "Q27:63",
+          "Q52:43",
+          "Q59:23"
+        ]
+      },
+      {
+        "phrase": "عنهم ورضوا",
+        "count": 4,
+        "references": [
+          "Q5:119",
+          "Q9:100",
+          "Q58:22",
+          "Q98:8"
+        ]
+      },
+      {
+        "phrase": "فما هاد",
+        "count": 4,
+        "references": [
+          "Q13:33",
+          "Q39:23",
+          "Q39:36",
+          "Q40:33"
+        ]
+      },
+      {
+        "phrase": "كذبا كذب",
+        "count": 4,
+        "references": [
+          "Q6:21",
+          "Q7:37",
+          "Q10:17",
+          "Q29:68"
+        ]
+      },
+      {
+        "phrase": "لعلكم تفلحون",
+        "count": 4,
+        "references": [
+          "Q2:189",
+          "Q3:130",
+          "Q3:200",
+          "Q7:69"
+        ]
+      },
+      {
+        "phrase": "لكم اياته",
+        "count": 4,
+        "references": [
+          "Q2:242",
+          "Q3:103",
+          "Q5:89",
+          "Q24:59"
+        ]
+      },
+      {
+        "phrase": "ولكن اكثرهم",
+        "count": 4,
+        "references": [
+          "Q6:111",
+          "Q7:131",
+          "Q10:55",
+          "Q28:13"
+        ]
+      },
+      {
+        "phrase": "وما كان",
+        "count": 4,
+        "references": [
+          "Q2:143",
+          "Q6:136",
+          "Q18:43",
+          "Q28:81"
+        ]
+      },
+      {
+        "phrase": "يسيرا",
+        "count": 4,
+        "references": [
+          "Q4:30",
+          "Q4:169",
+          "Q33:19",
+          "Q33:30"
+        ]
+      },
+      {
+        "phrase": "يضيع اجر",
+        "count": 4,
+        "references": [
+          "Q3:171",
+          "Q9:120",
+          "Q11:115",
+          "Q12:90"
+        ]
+      },
+      {
+        "phrase": "يهدي يشاء",
+        "count": 4,
+        "references": [
+          "Q2:272",
+          "Q6:88",
+          "Q28:56",
+          "Q39:23"
+        ]
+      },
+      {
+        "phrase": "اعلم بما",
+        "count": 3,
+        "references": [
+          "Q11:31",
+          "Q18:26",
+          "Q22:68"
+        ]
+      },
+      {
+        "phrase": "الا الحق",
+        "count": 3,
+        "references": [
+          "Q4:171",
+          "Q7:105",
+          "Q7:169"
+        ]
+      },
+      {
+        "phrase": "الا بالحق",
+        "count": 3,
+        "references": [
+          "Q6:151",
+          "Q17:33",
+          "Q25:68"
+        ]
+      },
+      {
+        "phrase": "الذي اله",
+        "count": 3,
+        "references": [
+          "Q20:98",
+          "Q59:22",
+          "Q59:23"
+        ]
+      },
+      {
+        "phrase": "الذي جعل",
+        "count": 3,
+        "references": [
+          "Q40:61",
+          "Q40:64",
+          "Q40:79"
+        ]
+      },
+      {
+        "phrase": "الذين كفروا",
+        "count": 3,
+        "references": [
+          "Q8:55",
+          "Q22:72",
+          "Q33:25"
+        ]
+      },
+      {
+        "phrase": "المصير",
+        "count": 3,
+        "references": [
+          "Q3:28",
+          "Q24:42",
+          "Q35:18"
+        ]
+      },
+      {
+        "phrase": "الواحد القهار",
+        "count": 3,
+        "references": [
+          "Q12:39",
+          "Q38:65",
+          "Q39:4"
+        ]
+      },
+      {
+        "phrase": "انزل السماء",
+        "count": 3,
+        "references": [
+          "Q22:63",
+          "Q35:27",
+          "Q39:21"
+        ]
+      },
+      {
+        "phrase": "بصير بالعباد",
+        "count": 3,
+        "references": [
+          "Q3:15",
+          "Q40:44"
+        ]
+      },
+      {
+        "phrase": "بها سلطان",
+        "count": 3,
+        "references": [
+          "Q7:71",
+          "Q12:40",
+          "Q53:23"
+        ]
+      },
+      {
+        "phrase": "ثمنا قليلا",
+        "count": 3,
+        "references": [
+          "Q3:199",
+          "Q9:9",
+          "Q16:95"
+        ]
+      },
+      {
+        "phrase": "على رسوله",
+        "count": 3,
+        "references": [
+          "Q9:97",
+          "Q59:6",
+          "Q59:7"
+        ]
+      },
+      {
+        "phrase": "عليم",
+        "count": 3,
+        "references": [
+          "Q2:215",
+          "Q2:273",
+          "Q3:92"
+        ]
+      },
+      {
+        "phrase": "عليم بما",
+        "count": 3,
+        "references": [
+          "Q10:36",
+          "Q16:28",
+          "Q35:8"
+        ]
+      },
+      {
+        "phrase": "غني حميد",
+        "count": 3,
+        "references": [
+          "Q2:267",
+          "Q31:12",
+          "Q64:6"
+        ]
+      },
+      {
+        "phrase": "فلن تجد",
+        "count": 3,
+        "references": [
+          "Q4:52",
+          "Q4:88",
+          "Q4:143"
+        ]
+      },
+      {
+        "phrase": "فمن اضطر",
+        "count": 3,
+        "references": [
+          "Q2:173",
+          "Q6:145",
+          "Q16:115"
+        ]
+      },
+      {
+        "phrase": "كنتم صادقين",
+        "count": 3,
+        "references": [
+          "Q2:23",
+          "Q10:38",
+          "Q11:13"
+        ]
+      },
+      {
+        "phrase": "لذو فضل",
+        "count": 3,
+        "references": [
+          "Q2:243",
+          "Q10:60",
+          "Q40:61"
+        ]
+      },
+      {
+        "phrase": "لطيف خبير",
+        "count": 3,
+        "references": [
+          "Q22:63",
+          "Q31:16"
+        ]
+      },
+      {
+        "phrase": "لعفو غفور",
+        "count": 3,
+        "references": [
+          "Q22:60",
+          "Q58:2"
+        ]
+      },
+      {
+        "phrase": "لهم عذاب",
+        "count": 3,
+        "references": [
+          "Q3:4",
+          "Q9:61",
+          "Q38:26"
+        ]
+      },
+      {
+        "phrase": "ليس بظلام",
+        "count": 3,
+        "references": [
+          "Q3:182",
+          "Q8:51",
+          "Q22:10"
+        ]
+      },
+      {
+        "phrase": "ليظلمهم ولكن",
+        "count": 3,
+        "references": [
+          "Q9:70",
+          "Q29:40",
+          "Q30:9"
+        ]
+      },
+      {
+        "phrase": "ملك السماوات",
+        "count": 3,
+        "references": [
+          "Q2:107",
+          "Q5:40",
+          "Q9:116"
+        ]
+      },
+      {
+        "phrase": "نتلوها عليك",
+        "count": 3,
+        "references": [
+          "Q2:252",
+          "Q3:108",
+          "Q45:6"
+        ]
+      },
+      {
+        "phrase": "ورسوله اوليك",
+        "count": 3,
+        "references": [
+          "Q9:71",
+          "Q58:20",
+          "Q59:8"
+        ]
+      },
+      {
+        "phrase": "ورسوله فان",
+        "count": 3,
+        "references": [
+          "Q8:13",
+          "Q9:63",
+          "Q72:23"
+        ]
+      },
+      {
+        "phrase": "ورسوله ولا",
+        "count": 3,
+        "references": [
+          "Q8:20",
+          "Q8:46",
+          "Q9:29"
+        ]
+      },
+      {
+        "phrase": "وعلى الله",
+        "count": 3,
+        "references": [
+          "Q5:11",
+          "Q14:11",
+          "Q58:10"
+        ]
+      },
+      {
+        "phrase": "وكان الله",
+        "count": 3,
+        "references": [
+          "Q4:39",
+          "Q4:92",
+          "Q4:100"
+        ]
+      },
+      {
+        "phrase": "ولهم عذاب",
+        "count": 3,
+        "references": [
+          "Q9:68",
+          "Q16:104",
+          "Q16:106"
+        ]
+      },
+      {
+        "phrase": "وليا ولا",
+        "count": 3,
+        "references": [
+          "Q4:123",
+          "Q4:173",
+          "Q33:17"
+        ]
+      },
+      {
+        "phrase": "ويبغونها عوجا",
+        "count": 3,
+        "references": [
+          "Q7:45",
+          "Q11:19",
+          "Q14:3"
+        ]
+      },
+      {
+        "phrase": "يجحدون",
+        "count": 3,
+        "references": [
+          "Q6:33",
+          "Q16:71",
+          "Q40:63"
+        ]
+      },
+      {
+        "phrase": "يحب المتقين",
+        "count": 3,
+        "references": [
+          "Q3:76",
+          "Q9:4",
+          "Q9:7"
+        ]
+      },
+      {
+        "phrase": "يحب المقسطين",
+        "count": 3,
+        "references": [
+          "Q5:42",
+          "Q49:9",
+          "Q60:8"
+        ]
+      },
+      {
+        "phrase": "يخلف الميعاد",
+        "count": 3,
+        "references": [
+          "Q3:9",
+          "Q13:31"
+        ]
+      },
+      {
+        "phrase": "يدخل الذين",
+        "count": 3,
+        "references": [
+          "Q22:14",
+          "Q22:23",
+          "Q47:12"
+        ]
+      },
+      {
+        "phrase": "احدا",
+        "count": 2,
+        "references": [
+          "Q72:7",
+          "Q72:18"
+        ]
+      },
+      {
+        "phrase": "اروني ماذا",
+        "count": 2,
+        "references": [
+          "Q35:40",
+          "Q46:4"
+        ]
+      }
+    ],
+    "boundary": "Candidates are corpus-derived surface phrases near the word Allah. They are not automatically declared canonical Names until a separate scripture-grounded validation step establishes that classification."
+  },
+  "research": {
+    "hypotheses": {
+      "version": "4.21.0",
+      "status": "RESEARCH_ONLY",
+      "hypotheses": [
+        {
+          "id": "HYP-MAKKAH-FOUNDATION",
+          "label": "Makkah/Bakkah/Umm al-Qura may cluster around foundation, guidance, worship, warning and orientation to God",
+          "state": "TO_BE_TESTED_FROM_SCRIPTURE",
+          "mustNotBeHardcodedAsTruth": true
+        },
+        {
+          "id": "HYP-MADINAH-FORMATION",
+          "label": "Al-Madinah in the Prophetic community context may cluster around formation, discipline, communal responsibility and implementation",
+          "state": "TO_BE_TESTED_FROM_SCRIPTURE",
+          "mustNotBeHardcodedAsTruth": true
+        }
+      ]
+    },
+    "scriptureMap": {
+      "version": "4.21.0",
+      "status": "RESEARCH_ONLY_NOT_NORMATIVE_WEIGHT",
+      "quran": {
+        "makkahFamily": [
+          {
+            "ref": "Q3:96-97",
+            "placeExpression": "BAKKAH",
+            "observedThemes": [
+              "HOUSE",
+              "BLESSING",
+              "GUIDANCE",
+              "SIGNS",
+              "IBRAHIM",
+              "PILGRIMAGE",
+              "SECURITY"
+            ]
+          },
+          {
+            "ref": "Q6:92",
+            "placeExpression": "UMM_AL_QURA",
+            "observedThemes": [
+              "BOOK",
+              "BLESSING",
+              "CONFIRMATION",
+              "WARNING",
+              "HEREAFTER",
+              "PRAYER"
+            ]
+          },
+          {
+            "ref": "Q42:7",
+            "placeExpression": "UMM_AL_QURA",
+            "observedThemes": [
+              "ARABIC_QURAN",
+              "WARNING",
+              "SURROUNDING_PEOPLE",
+              "DAY_OF_GATHERING"
+            ]
+          },
+          {
+            "ref": "Q48:24",
+            "placeExpression": "MAKKAH",
+            "observedThemes": [
+              "RESTRAINT",
+              "CONFLICT_LIMITATION",
+              "DIVINE_SEEING"
+            ]
+          }
+        ],
+        "madinahPropheticContext": [
+          {
+            "ref": "Q9:101",
+            "observedThemes": [
+              "HYPOCRISY",
+              "KNOWLEDGE_BOUNDARY",
+              "COMMUNITY_INTERIOR"
+            ]
+          },
+          {
+            "ref": "Q9:120",
+            "observedThemes": [
+              "COMMUNAL_DUTY",
+              "MESSENGER",
+              "ENDURANCE",
+              "RECORDED_GOOD_DEED"
+            ]
+          },
+          {
+            "ref": "Q33:60",
+            "observedThemes": [
+              "HYPOCRISY",
+              "DISEASE_OF_HEART",
+              "RUMOR",
+              "SOCIAL_STABILITY"
+            ]
+          },
+          {
+            "ref": "Q63:8",
+            "observedThemes": [
+              "STATUS_CLAIM",
+              "HONOR",
+              "MESSENGER",
+              "BELIEVERS",
+              "HYPOCRITES"
+            ]
+          }
+        ],
+        "analyticalFinding": "The scripture-only direct-place sample supports a Makkah-family profile centered on sanctuary/guidance/warning/orientation, while Prophetic-context al-Madinah is more strongly associated with communal testing, discipline, responsibility and social implementation. 'Education' is better treated as a broader formation hypothesis, not an explicit direct-place label."
+      },
+      "tawratWitnessResearch": [
+        {
+          "ref": "Exod 19:3-6",
+          "themes": [
+            "MOUNTAIN_CALL",
+            "COVENANT",
+            "IDENTITY",
+            "HOLY_NATION"
+          ]
+        },
+        {
+          "ref": "Exod 20:1-17",
+          "themes": [
+            "DIVINE_COMMAND",
+            "TAWHID_ORIENTATION",
+            "LAW",
+            "SOCIAL_BOUNDARIES"
+          ]
+        },
+        {
+          "ref": "Deut 6:6-9",
+          "themes": [
+            "HEART",
+            "TEACH_CHILDREN",
+            "DAILY_REPETITION",
+            "HOUSE",
+            "GATES"
+          ]
+        }
+      ],
+      "zaburWitnessResearch": [
+        {
+          "ref": "Ps 48:1-2",
+          "themes": [
+            "PRAISE",
+            "HOLY_MOUNTAIN",
+            "CITY_OF_GOD"
+          ]
+        },
+        {
+          "ref": "Ps 87:1-7",
+          "themes": [
+            "FOUNDATION",
+            "ZION",
+            "CITY_OF_GOD",
+            "PEOPLE_RECORD"
+          ]
+        },
+        {
+          "ref": "Ps 122:1-9",
+          "themes": [
+            "HOUSE_OF_GOD",
+            "JERUSALEM",
+            "TRIBES",
+            "THANKS",
+            "JUDGMENT",
+            "PEACE"
+          ]
+        }
+      ],
+      "injilWitnessResearch": [
+        {
+          "ref": "Matt 5:1-2",
+          "themes": [
+            "MOUNTAIN",
+            "DISCIPLES",
+            "TEACHING"
+          ]
+        },
+        {
+          "ref": "Matt 28:16-20",
+          "themes": [
+            "GALILEE_MOUNTAIN",
+            "TEACH_ALL_NATIONS",
+            "OBSERVE_COMMANDS"
+          ]
+        },
+        {
+          "ref": "Luke 24:47-49",
+          "themes": [
+            "JERUSALEM_STARTING_POINT",
+            "WITNESS",
+            "MISSION_TO_NATIONS",
+            "WAITING"
+          ]
+        },
+        {
+          "ref": "John 4:21-24",
+          "themes": [
+            "PLACE_NOT_ULTIMATE",
+            "WORSHIP",
+            "SPIRIT",
+            "TRUTH"
+          ]
+        }
+      ],
+      "boundary": "The Tawrat/Zabur/Injil entries are references to the configured textual-witness tradition, not a claim that a modern witness is identical to the original revelation. They carry zero runtime normative weight until a trusted local corpus is loaded and provenance is explicit."
+    }
+  },
+  "boundaries": {
+    "fourBooksOnly": true,
+    "quranPrimaryMuhaimin": true,
+    "externalNormativeWeight": 0,
+    "unavailableCorpusMayBeInvented": false,
+    "revelationLocationMayBeInferredFromPlaceMention": false,
+    "textualWitnessIsOriginalRevelation": false,
+    "researchHypothesisMayBecomeNormativeRuleAutomatically": false
+  }
+}

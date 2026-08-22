@@ -1,0 +1,13 @@
+import fs from 'node:fs';
+import { loadQuranCorpus } from './revelation/quran-corpus.js';
+import { asmaEngineCandidates } from './revelation/asma/asma-engine.js';
+import { scriptureSourcePolicy } from './revelation/scripture-source-policy.js';
+const root=new URL('../',import.meta.url);
+const sources=JSON.parse(fs.readFileSync(new URL('data/4-sources.json',root),'utf8'));
+const gateways=JSON.parse(fs.readFileSync(new URL('data/7-gateways.json',root),'utf8'));
+const processes=JSON.parse(fs.readFileSync(new URL('data/4-processes.json',root),'utf8'));
+const quran=loadQuranCorpus();
+const asma=asmaEngineCandidates();
+const policy=scriptureSourcePolicy();
+if(sources.length!==4||gateways.length!==7||processes.length!==4||quran.length!==6236||asma.length===0||policy.mode!=='FOUR_BOOKS_ONLY') process.exit(1);
+console.log(`VALID: 4 sources, 7 gateways, 4 processes, ${quran.length} Quran ayahs, ${asma.length} revelation-derived Asma surface candidates`);

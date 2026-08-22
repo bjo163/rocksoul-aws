@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["version", "actions", "rights", "wealth"],
+  "properties": {
+    "version": {"type": "string"},
+    "actions": {"type": "object"},
+    "rights": {"type": "object", "additionalProperties": {"type": "array"}},
+    "wealth": {"type": "object", "additionalProperties": {"type": "number"}}
+  }
+}

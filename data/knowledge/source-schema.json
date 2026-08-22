@@ -1,0 +1,22 @@
+{
+  "schema": "KnowledgeRecord.v1",
+  "sharedFields": [
+    "knowledgeId",
+    "type",
+    "tradition",
+    "title",
+    "edition",
+    "language",
+    "collection",
+    "section",
+    "reference",
+    "text",
+    "translation",
+    "authorityClass",
+    "provenance",
+    "metadata",
+    "createdAt",
+    "updatedAt"
+  ],
+  "types": ["QURAN","BIBLE","TORAH","PSALMS","GOSPEL","HADITH","TAFSIR","COMMENTARY","HISTORICAL_TEXT","MANUSCRIPT","EDITION","TRANSLATION","LEGAL_TEXT","SCIENTIFIC_TEXT","NEWS","SCHOLARLY_WORK","SOCIAL_MEDIA","OTHER"]
+}

@@ -1,0 +1,42 @@
+{
+  "version": "4.29.0",
+  "books": {
+    "QURAN": {
+      "bookId": "BOOK-QURAN",
+      "runtimeCorpus": "data/divine-books/quran/ayahs.jsonl",
+      "status": "AVAILABLE_CANONICAL_REFERENCE",
+      "language": "AR",
+      "role": "PRIMARY_MUHAIMIN",
+      "coverage": "FULL_TEXT_6236",
+      "corroborationRole": "PRIMARY"
+    },
+    "TAWRAT": {
+      "bookId": "BOOK-TAWRAT",
+      "runtimeCorpus": "data/divine-books/witness-corpora/tawrat.jsonl",
+      "status": "AVAILABLE_TEXTUAL_WITNESS_CORPUS",
+      "language": "EN",
+      "role": "CORROBORATIVE_ONLY",
+      "coverage": "FULL_TEXT_TEXTUAL_WITNESS_5852",
+      "corroborationRole": "EQUAL_CHANNEL_CONFIDENCE_ONLY"
+    },
+    "ZABUR": {
+      "bookId": "BOOK-ZABUR",
+      "runtimeCorpus": "data/divine-books/witness-corpora/zabur.jsonl",
+      "status": "AVAILABLE_TEXTUAL_WITNESS_CORPUS",
+      "language": "EN",
+      "role": "CORROBORATIVE_ONLY",
+      "coverage": "FULL_TEXT_TEXTUAL_WITNESS_2461",
+      "corroborationRole": "EQUAL_CHANNEL_CONFIDENCE_ONLY"
+    },
+    "INJIL": {
+      "bookId": "BOOK-INJIL",
+      "runtimeCorpus": "data/divine-books/witness-corpora/injil.jsonl",
+      "status": "AVAILABLE_TEXTUAL_WITNESS_CORPUS",
+      "language": "EN",
+      "role": "CORROBORATIVE_ONLY",
+      "coverage": "FULL_TEXT_TEXTUAL_WITNESS_3779",
+      "corroborationRole": "EQUAL_CHANNEL_CONFIDENCE_ONLY"
+    }
+  },
+  "rule": "Quran is the primary/muhaimin full-text runtime corpus. Tawrat/Zabur/Injil are bundled as transmitted textual-witness corpora for corroboration only. They have equal channel weight, contribute confidence only when semantically matched, never create/reverse moral direction, and are never equated with the original revealed books."
+}

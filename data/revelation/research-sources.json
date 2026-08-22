@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "QURAN-TANZIL-METADATA",
+      "class": "STRUCTURAL_PRIMARY_REFERENCE",
+      "title": "Tanzil Quran Metadata / Revelation Order",
+      "url": "https://tanzil.net/docs/Quran_Metadata",
+      "notes": "Provides surah metadata, revelation order, ruku/juz/hizb/manzil/page/sajda structures. Revelation order is for the first revealed ayahs of a surah, not necessarily the whole surah.",
+      "confidence": "HIGH_FOR_METADATA"
+    },
+    {
+      "id": "QURANIC-ARABIC-CORPUS",
+      "class": "LINGUISTIC_REFERENCE",
+      "title": "Quranic Arabic Corpus",
+      "url": "https://corpus.quran.com/download/default.jsp",
+      "notes": "Morphological, syntactic and ontology annotations. Use for semantic/language support, not as a revelation chronology authority.",
+      "confidence": "HIGH_FOR_LINGUISTICS"
+    },
+    {
+      "id": "ASBAB-RESEARCH-312",
+      "class": "RESEARCH_CORPUS",
+      "title": "Evaluating the Effect of Occasions of Revelation (Asbab al-Nuzul)",
+      "url": "https://www.researchgate.net/publication/380021072_Evaluating_the_Effect_of_Occasions_of_Revelation_Asbab_al-Nuzul_on_the_Literal_Understanding_of_the_Verses_of_the_Holy_Qur%27an",
+      "notes": "Research corpus reported as 312 dataset rows and 1,101 occasions for 644 verses. The study states its narrations were taken from selected sources without independently re-grading all reports; therefore it must remain a research layer, not divine text.",
+      "confidence": "RESEARCH_ONLY"
+    },
+    {
+      "id": "AL-WAHIDI-ASBAB",
+      "class": "CLASSICAL_RESEARCH_REFERENCE",
+      "title": "Asbab al-Nuzul by al-Wahidi",
+      "url": "https://www.altafsir.com/WahidiAsbabAlnuzul.asp",
+      "notes": "Classical collection of reported revelation contexts. Individual reports require provenance and may differ in strength.",
+      "confidence": "SOURCE_DEPENDENT"
+    },
+    {
+      "id": "RUKU-METADATA",
+      "class": "STRUCTURAL_REFERENCE",
+      "title": "Quran Metadata Ruku Resource",
+      "url": "https://qul.tarteel.ai/resources/quran-metadata/65",
+      "notes": "Ruku sections are thematic/structural groupings and can be used as passage candidates; they are not claimed to be identical to revelation episodes.",
+      "confidence": "STRUCTURAL"
+    }
+  ]
+}

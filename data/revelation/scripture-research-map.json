@@ -1,0 +1,188 @@
+{
+  "version": "4.26.0",
+  "status": "RESEARCH_ONLY_NOT_NORMATIVE_WEIGHT",
+  "quran": {
+    "makkahFamily": [
+      {
+        "ref": "Q3:96-97",
+        "placeExpression": "BAKKAH",
+        "observedThemes": [
+          "HOUSE",
+          "BLESSING",
+          "GUIDANCE",
+          "SIGNS",
+          "IBRAHIM",
+          "PILGRIMAGE",
+          "SECURITY"
+        ]
+      },
+      {
+        "ref": "Q6:92",
+        "placeExpression": "UMM_AL_QURA",
+        "observedThemes": [
+          "BOOK",
+          "BLESSING",
+          "CONFIRMATION",
+          "WARNING",
+          "HEREAFTER",
+          "PRAYER"
+        ]
+      },
+      {
+        "ref": "Q42:7",
+        "placeExpression": "UMM_AL_QURA",
+        "observedThemes": [
+          "ARABIC_QURAN",
+          "WARNING",
+          "SURROUNDING_PEOPLE",
+          "DAY_OF_GATHERING"
+        ]
+      },
+      {
+        "ref": "Q48:24",
+        "placeExpression": "MAKKAH",
+        "observedThemes": [
+          "RESTRAINT",
+          "CONFLICT_LIMITATION",
+          "DIVINE_SEEING"
+        ]
+      }
+    ],
+    "madinahPropheticContext": [
+      {
+        "ref": "Q9:101",
+        "observedThemes": [
+          "HYPOCRISY",
+          "KNOWLEDGE_BOUNDARY",
+          "COMMUNITY_INTERIOR"
+        ]
+      },
+      {
+        "ref": "Q9:120",
+        "observedThemes": [
+          "COMMUNAL_DUTY",
+          "MESSENGER",
+          "ENDURANCE",
+          "RECORDED_GOOD_DEED"
+        ]
+      },
+      {
+        "ref": "Q33:60",
+        "observedThemes": [
+          "HYPOCRISY",
+          "DISEASE_OF_HEART",
+          "RUMOR",
+          "SOCIAL_STABILITY"
+        ]
+      },
+      {
+        "ref": "Q63:8",
+        "observedThemes": [
+          "STATUS_CLAIM",
+          "HONOR",
+          "MESSENGER",
+          "BELIEVERS",
+          "HYPOCRITES"
+        ]
+      }
+    ],
+    "analyticalFinding": "The scripture-only direct-place sample supports a Makkah-family profile centered on sanctuary/guidance/warning/orientation, while Prophetic-context al-Madinah is more strongly associated with communal testing, discipline, responsibility and social implementation. 'Education' is better treated as a broader formation hypothesis, not an explicit direct-place label."
+  },
+  "tawratWitnessResearch": [
+    {
+      "ref": "Exod 19:3-6",
+      "themes": [
+        "MOUNTAIN_CALL",
+        "COVENANT",
+        "IDENTITY",
+        "HOLY_NATION"
+      ]
+    },
+    {
+      "ref": "Exod 20:1-17",
+      "themes": [
+        "DIVINE_COMMAND",
+        "TAWHID_ORIENTATION",
+        "LAW",
+        "SOCIAL_BOUNDARIES"
+      ]
+    },
+    {
+      "ref": "Deut 6:6-9",
+      "themes": [
+        "HEART",
+        "TEACH_CHILDREN",
+        "DAILY_REPETITION",
+        "HOUSE",
+        "GATES"
+      ]
+    }
+  ],
+  "zaburWitnessResearch": [
+    {
+      "ref": "Ps 48:1-2",
+      "themes": [
+        "PRAISE",
+        "HOLY_MOUNTAIN",
+        "CITY_OF_GOD"
+      ]
+    },
+    {
+      "ref": "Ps 87:1-7",
+      "themes": [
+        "FOUNDATION",
+        "ZION",
+        "CITY_OF_GOD",
+        "PEOPLE_RECORD"
+      ]
+    },
+    {
+      "ref": "Ps 122:1-9",
+      "themes": [
+        "HOUSE_OF_GOD",
+        "JERUSALEM",
+        "TRIBES",
+        "THANKS",
+        "JUDGMENT",
+        "PEACE"
+      ]
+    }
+  ],
+  "injilWitnessResearch": [
+    {
+      "ref": "Matt 5:1-2",
+      "themes": [
+        "MOUNTAIN",
+        "DISCIPLES",
+        "TEACHING"
+      ]
+    },
+    {
+      "ref": "Matt 28:16-20",
+      "themes": [
+        "GALILEE_MOUNTAIN",
+        "TEACH_ALL_NATIONS",
+        "OBSERVE_COMMANDS"
+      ]
+    },
+    {
+      "ref": "Luke 24:47-49",
+      "themes": [
+        "JERUSALEM_STARTING_POINT",
+        "WITNESS",
+        "MISSION_TO_NATIONS",
+        "WAITING"
+      ]
+    },
+    {
+      "ref": "John 4:21-24",
+      "themes": [
+        "PLACE_NOT_ULTIMATE",
+        "WORSHIP",
+        "SPIRIT",
+        "TRUTH"
+      ]
+    }
+  ],
+  "boundary": "The Tawrat/Zabur/Injil entries are references to the configured textual-witness tradition, not a claim that a modern witness is identical to the original revelation. They carry zero runtime normative weight until a trusted local corpus is loaded and provenance is explicit."
+}

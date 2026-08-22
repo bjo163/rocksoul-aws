@@ -1,0 +1,26 @@
+{
+  "version": "4.26.0",
+  "mode": "FOUR_BOOKS_ONLY",
+  "principles": [
+    "Al-Quran is the primary/Muhaimin source for the engine.",
+    "Tawrat, Zabur, and Injil are complementary revelation references when a trusted local corpus/witness is available.",
+    "No hadith, tafsir, scholarly opinion, historical chronology, medical source, legal source, news source, or web research receives normative engine weight.",
+    "A modern textual witness is never silently equated with the original revelation.",
+    "Place mentioned in a passage is not automatically the place where that passage was revealed.",
+    "Unavailable scripture corpus remains unavailable; the engine must not synthesize missing scripture from model memory.",
+    "Divine Names/Attributes are discovered from admitted revelation corpora; no human-curated 99-name catalog is normative or required.",
+    "Language/query adapters have zero normative authority: they may form corpus-search surfaces but may not contain action-to-verse mappings, moral direction, or moral score."
+  ],
+  "normative_source_layers": [
+    "quran_corpus",
+    "tawrat_trusted_witness_when_loaded",
+    "zabur_trusted_witness_when_loaded",
+    "injil_trusted_witness_when_loaded"
+  ],
+  "non_normative_archival_layers": [
+    "historical_reports",
+    "chronology_metadata",
+    "research_datasets",
+    "commentary"
+  ]
+}

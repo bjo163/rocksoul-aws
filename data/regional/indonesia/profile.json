@@ -1,0 +1,10 @@
+{
+  "countryCode":"ID",
+  "jurisdiction":"IDN",
+  "countryName":"Indonesia",
+  "currency":"IDR",
+  "locale":"id-ID",
+  "firstDeployment":true,
+  "healthAdapter":"SATUSEHAT_HL7_FHIR",
+  "masterDataAdapter":"ONE_DATA_INDONESIA_COMPATIBLE"
+}

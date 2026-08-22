@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:moonwitness:human-review-gate",
+  "title": "Human Review Gate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["protocol", "decision", "analyticalDisplayAllowed", "adverseActionBlocked", "requiresHumanReview", "severity", "reasons", "evidenceGap", "recommendedReviewActions", "boundary"],
+  "properties": {
+    "protocol": {"const": "HUMAN_REVIEW_GATE_V1"},
+    "decision": {"enum": ["ALLOW_ANALYTICAL_DISPLAY", "REQUIRE_HUMAN_REVIEW", "BLOCK_ADVERSE_ACTION"]},
+    "analyticalDisplayAllowed": {"const": true},
+    "adverseActionBlocked": {"const": true},
+    "requiresHumanReview": {"type": "boolean"},
+    "severity": {"enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]},
+    "reasons": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["code", "detail", "evidenceRefs"], "properties": {"code": {"type": "string"}, "detail": {"type": "string"}, "evidenceRefs": {"type": "array", "items": {"type": "string"}}}}},
+    "evidenceGap": {"type": "array", "items": {"type": "string"}},
+    "recommendedReviewActions": {"type": "array", "items": {"type": "string"}},
+    "boundary": {"type": "string"}
+  }
+}

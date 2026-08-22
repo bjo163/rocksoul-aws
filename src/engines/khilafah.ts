@@ -1,0 +1,1 @@
+export function createKhilafahModel({actorRole='KHILAFAH_MODEL',jurisdiction='ID',authority='DERIVED_LIMITED'}={}){ return {actorRole,jurisdiction,authority,principles:['AMANAH','JUSTICE','MERCY','TRUTH','STEWARDSHIP'],mode:'REAL'}; }

@@ -1,0 +1,28 @@
+{
+  "name": "@moonwitness/persistence",
+  "version": "4.32.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "tsx --test test/persistence.test.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0"
+  },
+  "peerDependencies": {
+    "better-sqlite3": ">=11",
+    "pg": ">=8"
+  },
+  "peerDependenciesMeta": {
+    "better-sqlite3": {
+      "optional": true
+    },
+    "pg": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "pg": "^8.16.3"
+  }
+}

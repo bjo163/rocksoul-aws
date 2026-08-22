@@ -1,0 +1,45 @@
+{
+  "version": "1.5.0",
+  "zakat": {
+    "ID": {
+      "authority": "BAZNAS RI",
+      "effectiveYear": 2026,
+      "income": {
+        "nisabBasis": "85g_gold_per_year",
+        "annualNisabIdr": 91681728,
+        "monthlyNisabIdr": 7640144,
+        "rate": 0.025,
+        "haul": "1_year_or_configured_monthly_payment_method"
+      },
+      "gold": {
+        "nisabGrams": 85,
+        "rate": 0.025,
+        "haul": "1_year"
+      },
+      "sourceNotes": [
+        "BAZNAS RI 2026 income/professional nisab reference.",
+        "Local authority / methodology may differ; source profile must be explicit."
+      ]
+    }
+  },
+  "tax": {
+    "ID": {
+      "authority": "Directorate General of Taxes / Ministry of Finance",
+      "status": "source_scoped",
+      "notes": [
+        "Tax calculation must use the applicable tax type, tax year, taxpayer status, and current official rule set.",
+        "The engine must not invent a tax rate when the configured rule set is incomplete."
+      ]
+    }
+  },
+  "jizyah": {
+    "DEFAULT": {
+      "classification": "HISTORICAL_SCRIPTURAL_LEGAL_DOMAIN",
+      "modernApplicability": "NOT_AUTOMATIC",
+      "notes": [
+        "Jizyah is a source-scoped historical/scriptural legal concept; it must not be silently treated as a modern universal tax.",
+        "Rate, eligibility, exemptions, institutional form, and jurisdiction require an explicit historical/legal source profile."
+      ]
+    }
+  }
+}

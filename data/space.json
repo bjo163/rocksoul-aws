@@ -1,0 +1,16 @@
+{
+  "regions": [
+    {"id":"EARTH","type":"PLANET"},
+    {"id":"LEO","type":"ORBITAL_REGION"},
+    {"id":"LUNAR","type":"CELESTIAL_REGION"},
+    {"id":"MARS_SYSTEM","type":"PLANETARY_REGION"},
+    {"id":"SOLAR_SYSTEM","type":"STELLAR_SYSTEM"},
+    {"id":"DEEP_SPACE","type":"SPACE_REGION"}
+  ],
+  "objects": [
+    {"id":"SUN","type":"STAR"},
+    {"id":"EARTH","type":"PLANET"},
+    {"id":"MOON","type":"MOON"},
+    {"id":"MARS","type":"PLANET"}
+  ]
+}

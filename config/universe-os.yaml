@@ -1,0 +1,31 @@
+# Human-editable runtime configuration.
+# Semantic meaning and normative evidence stay in data/, not in source code.
+version: 1
+system:
+  mode: production
+  semantic_only: true
+  fail_closed_on_unknown: true
+  require_provenance: true
+  require_evidence_for_resolution: true
+  allow_hardcoded_case_classifier: false
+
+analysis:
+  rgbl:
+    enabled: true
+    order: [R, G, B, L]
+  action_gate:
+    dimensions: 9
+  impact:
+    dimensions: 13
+  time_factor:
+    dimensions: 21
+  causality:
+    dimensions: 8
+
+mizan:
+  expose_technical_score: true
+  expose_trace: true
+  resolution_states: [ALIGNED, MISALIGNED, CONDITIONAL, UNRESOLVED]
+
+provenance:
+  allowed_status: [OBSERVED, SUPPORTED, INFERRED, UNKNOWN, CONFLICTED]

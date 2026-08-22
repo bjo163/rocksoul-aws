@@ -1,0 +1,23 @@
+import assert from 'node:assert/strict';
+import { analyzeArabicRevelationSurface } from '../src/revelation/grammar/revelation-grammar.js';
+
+type C={group:string;text:string;kind:string;check?:(a:any)=>boolean};
+const targets=['المحسنين','الصابرين','المتقين','المقسطين','التوابين','المتطهرين','المؤمنين','العادلين','الصادقين','المصلحين'];
+const cases:C[]=[];
+for(const t of targets) cases.push({group:'DIVINE_POSITIVE',text:`الله يحب ${t}`,kind:'DIVINE_PREDICATE',check:a=>a.frames.some((f:any)=>f.kind==='DIVINE_PREDICATE'&&f.polarity!=='NEGATIVE')});
+for(const t of targets) cases.push({group:'DIVINE_NEGATED',text:`الله لا يحب ${t}`,kind:'DIVINE_PREDICATE',check:a=>a.frames.some((f:any)=>f.kind==='DIVINE_PREDICATE'&&f.polarity==='NEGATIVE')});
+for(const t of targets) cases.push({group:'DIVINE_COMMAND',text:`الله يامر بالعدل ${t}`,kind:'DIVINE_PREDICATE'});
+const verbs=['تاكلوا','تعتدوا','تسرفوا','تظلموا','تكذبوا','تفسدوا','تقتلوا','تسرقوا','تخونوا','تفرقوا'];
+for(const v of verbs) cases.push({group:'PROHIBITION',text:`لا ${v} حقوق الناس`,kind:'PROHIBITION'});
+const cond=['ان جاءكم خبر فتبينوا','اذا حكمتم فاعدلوا','لو تعلمون لتبين لكم','من يعمل خيرا يره','ان رجع فاصلحوا','اذا قلتم فاعدلوا','من تاب واصلح','ان تنازعتم فردوا','اذا دخلتم فسلموا','من يتق الله يجعل'];
+for(const text of cond) cases.push({group:'CONDITION',text,kind:'CONDITION_CANDIDATE',check:a=>a.frames.some((f:any)=>['CONDITION_EXPLICIT','CONDITION_CANDIDATE'].includes(f.kind))});
+for(const t of targets) cases.push({group:'VOCATIVE',text:`يا ايها ${t} اتقوا الله`,kind:'VOCATIVE'});
+for(const t of targets) cases.push({group:'SPEECH',text:`قل ${t} قول الحق`,kind:'SPEECH'});
+for(const t of targets) cases.push({group:'CAUSE',text:`بما فعل ${t} ظهر الاثر`,kind:'CAUSE_CANDIDATE'});
+for(const t of targets) cases.push({group:'PURPOSE',text:`لكي يعلم ${t} الحق`,kind:'PURPOSE_RESULT_CANDIDATE'});
+for(const t of targets) cases.push({group:'COORDINATED',text:`الله يامر بالعدل وينهى عن الفحشاء ${t}`,kind:'COORDINATED_PREDICATE'});
+assert.equal(cases.length,100);
+const rows=cases.map((c,i)=>{const a=analyzeArabicRevelationSurface(c.text,{reference:`TEST:${i+1}`});const ok=c.check?c.check(a):a.frames.some(f=>f.kind===c.kind);return{...c,index:i+1,ok,frames:a.frames.map(f=>f.kind)};});
+const failures=rows.filter(x=>!x.ok); assert.equal(failures.length,0,JSON.stringify(failures.slice(0,10),null,2));
+assert.ok(rows.every(x=>analyzeArabicRevelationSurface(x.text).invariants.normativeAuthority===false));
+console.log(JSON.stringify({ok:true,total:rows.length,groups:Object.fromEntries([...new Set(rows.map(x=>x.group))].map(g=>[g,rows.filter(x=>x.group===g).length]))},null,2));

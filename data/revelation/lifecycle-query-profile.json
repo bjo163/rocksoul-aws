@@ -1,0 +1,17 @@
+{
+  "version": "4.29.0",
+  "protocol": "REVELATION_LIFECYCLE_QUERY_PROFILE_V1",
+  "normativeAuthority": false,
+  "boundary": "These are corpus-search surfaces only. They contain no verse references, lifecycle score, divine acceptance claim, or final judgment.",
+  "stages": {
+    "AWARENESS": {"quranAnchorGroups": [["اعترف", "ذنوب"]], "witnessQueryPhrases": ["acknowledge sin", "confess wrongdoing"]},
+    "REGRET": {"quranAnchorGroups": [["نادمين"], ["ندامة"]], "witnessQueryPhrases": ["regret", "repentance"]},
+    "CESSATION": {"quranAnchorGroups": [["انتهى"]], "witnessQueryPhrases": ["cease", "turn away from wrongdoing"]},
+    "RETURN_REPENTANCE": {"quranAnchorGroups": [["توبوا"], ["تاب"], ["التائبين"]], "witnessQueryPhrases": ["repent", "turn back", "return to God"]},
+    "RESTITUTION": {"quranAnchorGroups": [["الامانات", "اهلها"]], "witnessQueryPhrases": ["restore what belongs", "return to the owner", "restitution"]},
+    "REPAIR": {"quranAnchorGroups": [["اصلح"], ["اصلحوا"]], "witnessQueryPhrases": ["make amends", "reform", "repair"]},
+    "RECONCILIATION": {"quranAnchorGroups": [["اصلحوا", "بين"]], "witnessQueryPhrases": ["reconcile", "make peace"]},
+    "PERSISTENCE": {"quranAnchorGroups": [["يصروا"]], "witnessQueryPhrases": ["persist in wrongdoing", "continue in sin"]},
+    "FORGIVENESS_LANGUAGE": {"quranAnchorGroups": [["غفر"], ["يغفر"]], "witnessQueryPhrases": ["forgive", "forgiveness"]}
+  }
+}

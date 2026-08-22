@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MoonWitness Tax Assessment Input",
+  "type": "object",
+  "required": ["jurisdiction", "taxYear", "taxType", "grossAmount"],
+  "properties": {
+    "jurisdiction": {"type":"string"},
+    "taxYear": {"type":"integer"},
+    "taxType": {"type":"string"},
+    "grossAmount": {"type":"number", "minimum":0},
+    "deductions": {"type":"number", "minimum":0},
+    "zakatPaid": {"type":"number", "minimum":0},
+    "taxpayerProfile": {"type":"object"}
+  }
+}

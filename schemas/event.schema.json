@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:moonwitness:event",
+  "title": "Universal Event",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["id"],
+  "properties": {
+    "id": {"type":"string"},
+    "type": {"type":"string"},
+    "timestamp": {"type":["string","null"]},
+    "actorId": {"type":["string","null"]},
+    "stateBefore": {"type":["object","null"]},
+    "stateAfter": {"type":["object","null"]}
+  }
+}

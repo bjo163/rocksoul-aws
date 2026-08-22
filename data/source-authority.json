@@ -1,0 +1,21 @@
+{
+  "version": "4.26.0",
+  "mode": "FOUR_BOOKS_ONLY",
+  "levels": [
+    "REVELATION_PRIMARY_QURAN",
+    "REVELATION_REFERENCE_TAWRAT",
+    "REVELATION_REFERENCE_ZABUR",
+    "REVELATION_REFERENCE_INJIL",
+    "TEXTUAL_WITNESS",
+    "HUMAN_INFERENCE",
+    "SOFTWARE_ASSUMPTION"
+  ],
+  "normativeBooks": [
+    "QURAN",
+    "TAWRAT",
+    "ZABUR",
+    "INJIL"
+  ],
+  "externalNormativeWeight": 0,
+  "rule": "Normative reasoning is restricted to the four-book revelation policy. Textual witnesses and software inference must retain provenance and may not silently become revelation."
+}

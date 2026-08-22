@@ -1,0 +1,427 @@
+[
+  {
+    "id": "TC-450",
+    "name": "Edge - 404 Route 0",
+    "method": "GET",
+    "route": "/api/v1/does-not-exist-0",
+    "requiresAuth": false,
+    "expectedStatus": 404
+  },
+  {
+    "id": "TC-451",
+    "name": "Edge - 404 Route 1",
+    "method": "GET",
+    "route": "/api/v1/does-not-exist-1",
+    "requiresAuth": false,
+    "expectedStatus": 404
+  },
+  {
+    "id": "TC-452",
+    "name": "Edge - 404 Route 2",
+    "method": "GET",
+    "route": "/api/v1/does-not-exist-2",
+    "requiresAuth": false,
+    "expectedStatus": 404
+  },
+  {
+    "id": "TC-453",
+    "name": "Edge - 404 Route 3",
+    "method": "GET",
+    "route": "/api/v1/does-not-exist-3",
+    "requiresAuth": false,
+    "expectedStatus": 404
+  },
+  {
+    "id": "TC-454",
+    "name": "Edge - 404 Route 4",
+    "method": "GET",
+    "route": "/api/v1/does-not-exist-4",
+    "requiresAuth": false,
+    "expectedStatus": 404
+  },
+  {
+    "id": "TC-455",
+    "name": "Edge - 404 Route 5",
+    "method": "GET",
+    "route": "/api/v1/does-not-exist-5",
+    "requiresAuth": false,
+    "expectedStatus": 404
+  },
+  {
+    "id": "TC-456",
+    "name": "Edge - 404 Route 6",
+    "method": "GET",
+    "route": "/api/v1/does-not-exist-6",
+    "requiresAuth": false,
+    "expectedStatus": 404
+  },
+  {
+    "id": "TC-457",
+    "name": "Edge - 404 Route 7",
+    "method": "GET",
+    "route": "/api/v1/does-not-exist-7",
+    "requiresAuth": false,
+    "expectedStatus": 404
+  },
+  {
+    "id": "TC-458",
+    "name": "Edge - 404 Route 8",
+    "method": "GET",
+    "route": "/api/v1/does-not-exist-8",
+    "requiresAuth": false,
+    "expectedStatus": 404
+  },
+  {
+    "id": "TC-459",
+    "name": "Edge - 404 Route 9",
+    "method": "GET",
+    "route": "/api/v1/does-not-exist-9",
+    "requiresAuth": false,
+    "expectedStatus": 404
+  },
+  {
+    "id": "TC-460",
+    "name": "Edge - 404 Route 10",
+    "method": "GET",
+    "route": "/api/v1/does-not-exist-10",
+    "requiresAuth": false,
+    "expectedStatus": 404
+  },
+  {
+    "id": "TC-461",
+    "name": "Edge - 404 Route 11",
+    "method": "GET",
+    "route": "/api/v1/does-not-exist-11",
+    "requiresAuth": false,
+    "expectedStatus": 404
+  },
+  {
+    "id": "TC-462",
+    "name": "Edge - 404 Route 12",
+    "method": "GET",
+    "route": "/api/v1/does-not-exist-12",
+    "requiresAuth": false,
+    "expectedStatus": 404
+  },
+  {
+    "id": "TC-463",
+    "name": "Edge - 404 Route 13",
+    "method": "GET",
+    "route": "/api/v1/does-not-exist-13",
+    "requiresAuth": false,
+    "expectedStatus": 404
+  },
+  {
+    "id": "TC-464",
+    "name": "Edge - 404 Route 14",
+    "method": "GET",
+    "route": "/api/v1/does-not-exist-14",
+    "requiresAuth": false,
+    "expectedStatus": 404
+  },
+  {
+    "id": "TC-465",
+    "name": "Edge - 404 Route 15",
+    "method": "GET",
+    "route": "/api/v1/does-not-exist-15",
+    "requiresAuth": false,
+    "expectedStatus": 404
+  },
+  {
+    "id": "TC-466",
+    "name": "Edge - 404 Route 16",
+    "method": "GET",
+    "route": "/api/v1/does-not-exist-16",
+    "requiresAuth": false,
+    "expectedStatus": 404
+  },
+  {
+    "id": "TC-467",
+    "name": "Edge - 404 Route 17",
+    "method": "GET",
+    "route": "/api/v1/does-not-exist-17",
+    "requiresAuth": false,
+    "expectedStatus": 404
+  },
+  {
+    "id": "TC-468",
+    "name": "Edge - 404 Route 18",
+    "method": "GET",
+    "route": "/api/v1/does-not-exist-18",
+    "requiresAuth": false,
+    "expectedStatus": 404
+  },
+  {
+    "id": "TC-469",
+    "name": "Edge - 404 Route 19",
+    "method": "GET",
+    "route": "/api/v1/does-not-exist-19",
+    "requiresAuth": false,
+    "expectedStatus": 404
+  },
+  {
+    "id": "TC-470",
+    "name": "Edge - 404 Route 20",
+    "method": "GET",
+    "route": "/api/v1/does-not-exist-20",
+    "requiresAuth": false,
+    "expectedStatus": 404
+  },
+  {
+    "id": "TC-471",
+    "name": "Edge - 404 Route 21",
+    "method": "GET",
+    "route": "/api/v1/does-not-exist-21",
+    "requiresAuth": false,
+    "expectedStatus": 404
+  },
+  {
+    "id": "TC-472",
+    "name": "Edge - 404 Route 22",
+    "method": "GET",
+    "route": "/api/v1/does-not-exist-22",
+    "requiresAuth": false,
+    "expectedStatus": 404
+  },
+  {
+    "id": "TC-473",
+    "name": "Edge - 404 Route 23",
+    "method": "GET",
+    "route": "/api/v1/does-not-exist-23",
+    "requiresAuth": false,
+    "expectedStatus": 404
+  },
+  {
+    "id": "TC-474",
+    "name": "Edge - 404 Route 24",
+    "method": "GET",
+    "route": "/api/v1/does-not-exist-24",
+    "requiresAuth": false,
+    "expectedStatus": 404
+  },
+  {
+    "id": "TC-475",
+    "name": "Edge - 404 Method 0",
+    "method": "POST",
+    "route": "/api/v1/health",
+    "requiresAuth": false,
+    "expectedStatus": 404,
+    "body": {}
+  },
+  {
+    "id": "TC-476",
+    "name": "Edge - 404 Method 1",
+    "method": "POST",
+    "route": "/api/v1/health",
+    "requiresAuth": false,
+    "expectedStatus": 404,
+    "body": {}
+  },
+  {
+    "id": "TC-477",
+    "name": "Edge - 404 Method 2",
+    "method": "POST",
+    "route": "/api/v1/health",
+    "requiresAuth": false,
+    "expectedStatus": 404,
+    "body": {}
+  },
+  {
+    "id": "TC-478",
+    "name": "Edge - 404 Method 3",
+    "method": "POST",
+    "route": "/api/v1/health",
+    "requiresAuth": false,
+    "expectedStatus": 404,
+    "body": {}
+  },
+  {
+    "id": "TC-479",
+    "name": "Edge - 404 Method 4",
+    "method": "POST",
+    "route": "/api/v1/health",
+    "requiresAuth": false,
+    "expectedStatus": 404,
+    "body": {}
+  },
+  {
+    "id": "TC-480",
+    "name": "Edge - 404 Method 5",
+    "method": "POST",
+    "route": "/api/v1/health",
+    "requiresAuth": false,
+    "expectedStatus": 404,
+    "body": {}
+  },
+  {
+    "id": "TC-481",
+    "name": "Edge - 404 Method 6",
+    "method": "POST",
+    "route": "/api/v1/health",
+    "requiresAuth": false,
+    "expectedStatus": 404,
+    "body": {}
+  },
+  {
+    "id": "TC-482",
+    "name": "Edge - 404 Method 7",
+    "method": "POST",
+    "route": "/api/v1/health",
+    "requiresAuth": false,
+    "expectedStatus": 404,
+    "body": {}
+  },
+  {
+    "id": "TC-483",
+    "name": "Edge - 404 Method 8",
+    "method": "POST",
+    "route": "/api/v1/health",
+    "requiresAuth": false,
+    "expectedStatus": 404,
+    "body": {}
+  },
+  {
+    "id": "TC-484",
+    "name": "Edge - 404 Method 9",
+    "method": "POST",
+    "route": "/api/v1/health",
+    "requiresAuth": false,
+    "expectedStatus": 404,
+    "body": {}
+  },
+  {
+    "id": "TC-485",
+    "name": "Edge - 404 Method 10",
+    "method": "POST",
+    "route": "/api/v1/health",
+    "requiresAuth": false,
+    "expectedStatus": 404,
+    "body": {}
+  },
+  {
+    "id": "TC-486",
+    "name": "Edge - 404 Method 11",
+    "method": "POST",
+    "route": "/api/v1/health",
+    "requiresAuth": false,
+    "expectedStatus": 404,
+    "body": {}
+  },
+  {
+    "id": "TC-487",
+    "name": "Edge - 404 Method 12",
+    "method": "POST",
+    "route": "/api/v1/health",
+    "requiresAuth": false,
+    "expectedStatus": 404,
+    "body": {}
+  },
+  {
+    "id": "TC-488",
+    "name": "Edge - 404 Method 13",
+    "method": "POST",
+    "route": "/api/v1/health",
+    "requiresAuth": false,
+    "expectedStatus": 404,
+    "body": {}
+  },
+  {
+    "id": "TC-489",
+    "name": "Edge - 404 Method 14",
+    "method": "POST",
+    "route": "/api/v1/health",
+    "requiresAuth": false,
+    "expectedStatus": 404,
+    "body": {}
+  },
+  {
+    "id": "TC-490",
+    "name": "Edge - 404 Method 15",
+    "method": "POST",
+    "route": "/api/v1/health",
+    "requiresAuth": false,
+    "expectedStatus": 404,
+    "body": {}
+  },
+  {
+    "id": "TC-491",
+    "name": "Edge - 404 Method 16",
+    "method": "POST",
+    "route": "/api/v1/health",
+    "requiresAuth": false,
+    "expectedStatus": 404,
+    "body": {}
+  },
+  {
+    "id": "TC-492",
+    "name": "Edge - 404 Method 17",
+    "method": "POST",
+    "route": "/api/v1/health",
+    "requiresAuth": false,
+    "expectedStatus": 404,
+    "body": {}
+  },
+  {
+    "id": "TC-493",
+    "name": "Edge - 404 Method 18",
+    "method": "POST",
+    "route": "/api/v1/health",
+    "requiresAuth": false,
+    "expectedStatus": 404,
+    "body": {}
+  },
+  {
+    "id": "TC-494",
+    "name": "Edge - 404 Method 19",
+    "method": "POST",
+    "route": "/api/v1/health",
+    "requiresAuth": false,
+    "expectedStatus": 404,
+    "body": {}
+  },
+  {
+    "id": "TC-495",
+    "name": "Edge - 404 Method 20",
+    "method": "POST",
+    "route": "/api/v1/health",
+    "requiresAuth": false,
+    "expectedStatus": 404,
+    "body": {}
+  },
+  {
+    "id": "TC-496",
+    "name": "Edge - 404 Method 21",
+    "method": "POST",
+    "route": "/api/v1/health",
+    "requiresAuth": false,
+    "expectedStatus": 404,
+    "body": {}
+  },
+  {
+    "id": "TC-497",
+    "name": "Edge - 404 Method 22",
+    "method": "POST",
+    "route": "/api/v1/health",
+    "requiresAuth": false,
+    "expectedStatus": 404,
+    "body": {}
+  },
+  {
+    "id": "TC-498",
+    "name": "Edge - 404 Method 23",
+    "method": "POST",
+    "route": "/api/v1/health",
+    "requiresAuth": false,
+    "expectedStatus": 404,
+    "body": {}
+  },
+  {
+    "id": "TC-499",
+    "name": "Edge - 404 Method 24",
+    "method": "POST",
+    "route": "/api/v1/health",
+    "requiresAuth": false,
+    "expectedStatus": 404,
+    "body": {}
+  }
+]

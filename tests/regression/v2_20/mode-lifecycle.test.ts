@@ -1,0 +1,6 @@
+// @ts-nocheck
+import test from 'node:test'; import assert from 'node:assert/strict';
+import {MODES,VISIBILITY,PUBLICATION_STATUS,createPublicationRecord,proposePublicPublication,markVerified,markReviewed,publish,correctPublished,canPublish} from '../../../src/lifecycle/mode-engine.js';
+test('personal defaults private and cannot publish',()=>{const r=createPublicationRecord({ownerId:'RID-001'});assert.equal(r.mode,MODES.PERSONAL);assert.equal(r.visibility,VISIBILITY.PRIVATE);assert.equal(canPublish(MODES.PERSONAL,PUBLICATION_STATUS.PUBLIC_CANDIDATE,true,true),false);});
+test('public guide gates publish',()=>{let r=createPublicationRecord({ownerId:'RID-001',mode:MODES.PUBLIC_GUIDE});r={...r,publicationStatus:PUBLICATION_STATUS.PRIVATE_RESEARCH};r=markVerified(r);r=markReviewed(r);r=proposePublicPublication(r);r=publish(r,{now:'2026-08-19T00:00:00.000Z'});assert.equal(r.publicationStatus,PUBLICATION_STATUS.PUBLISHED);assert.equal(r.visibility,VISIBILITY.PUBLIC);});
+test('published can be corrected',()=>{let r=createPublicationRecord({ownerId:'RID-001',mode:MODES.PUBLIC_GUIDE});r={...r,publicationStatus:PUBLICATION_STATUS.PRIVATE_RESEARCH};r=markVerified(r);r=markReviewed(r);r=proposePublicPublication(r);r=publish(r);r=correctPublished(r);assert.equal(r.publicationStatus,PUBLICATION_STATUS.CORRECTED);assert.equal(r.visibility,VISIBILITY.PUBLIC_CANDIDATE);});

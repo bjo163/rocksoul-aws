@@ -1,0 +1,23 @@
+{
+  "jurisdictions": {
+    "ID": {
+      "name": "Indonesia",
+      "legalSystem": "National Indonesian law",
+      "criminalFrameworkEffective": "2026-01-02",
+      "notes": ["Use current official statutory text and local regulation before real-world reliance."]
+    },
+    "UNSPECIFIED": {"name":"Unspecified","legalSystem":"Unknown","notes":["No legal conclusion without jurisdiction."]}
+  },
+  "religiousRules": [
+    {
+      "id":"REL-SMOKE-001",
+      "topic":"SMOKING",
+      "classification":"HARAM_UNDER_HARM_BASED_AUTHORITIES",
+      "sourceAuthority":"Source-scoped contemporary fatwa registry",
+      "note":"Do not present as universal consensus; record authority and date separately."
+    }
+  ],
+  "civilExamples": [
+    {"id":"CIV-SMOKE-001","jurisdiction":"ID","topic":"SMOKING","status":"CONTEXT_DEPENDENT","note":"Civil restrictions may attach to designated smoke-free areas and local rules; verify current official rule for the exact location."}
+  ]
+}

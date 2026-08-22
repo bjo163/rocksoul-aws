@@ -1,0 +1,9 @@
+[
+  {"role":"CITIZEN","permissions":["READ_SELF","SUBMIT_REQUEST","PUBLIC_READ"]},
+  {"role":"PUBLIC_OFFICIAL","permissions":["READ_ASSIGNED","WRITE_ASSIGNED"]},
+  {"role":"HEALTH_PROVIDER","permissions":["READ_HEALTH_AUTHORIZED","WRITE_HEALTH"]},
+  {"role":"EDUCATION_PROVIDER","permissions":["READ_EDU_AUTHORIZED","WRITE_EDU"]},
+  {"role":"AUDITOR","permissions":["READ_AUDIT","WRITE_AUDIT"]},
+  {"role":"PRIVACY_OFFICER","permissions":["READ_RESTRICTED"]},
+  {"role":"SUPER_ADMIN","permissions":["ADMIN"]}
+]

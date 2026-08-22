@@ -1,0 +1,11 @@
+{
+  "kernel": "UNIFIED_NORMATIVE_KERNEL",
+  "mode": "MULTI_PERSPECTIVE",
+  "canonicalPerspectives": {
+    "R": {"name":"REALITY","question":"Apa yang benar-benar terjadi?","domain":"FACT/EVIDENCE"},
+    "G": {"name":"GUIDANCE","question":"Norma, petunjuk, atau sumber apa yang relevan?","domain":"NORMATIVE_SOURCE"},
+    "B": {"name":"BALANCE","question":"Bagaimana hak, kewajiban, hukum, beban, dan pertanggungjawaban ditempatkan adil?","domain":"JUSTICE"},
+    "L": {"name":"LIGHT","question":"Bagaimana keadaan diperbaiki, dilindungi, dipulihkan, dan diarahkan menuju manfaat?","domain":"REMEDY/WELFARE"}
+  },
+  "principle": "One event graph, one accountability graph, multiple sources, four canonical perspectives."
+}

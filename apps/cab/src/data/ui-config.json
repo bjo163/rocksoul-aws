@@ -1,0 +1,101 @@
+{
+  "menus": [
+    "HOME",
+    "AI PLAYGROUND",
+    "OBSERVATORY",
+    "REVIEW QUEUE",
+    "CAB",
+    "SHADOW",
+    "HEROES",
+    "MISSIONS",
+    "PROJECTS",
+    "KNOWLEDGE",
+    "RESOURCES",
+    "LIFE",
+    "ASMA",
+    "MĪZĀN",
+    "AUDIT"
+  ],
+  "menuDescriptions": {
+    "HOME": "Personal command center for your real-world workspace.",
+    "AI PLAYGROUND": "Analyze a case through Qur’an-grounded epistemic status, semantic vectors, Mīzān, evidence, causality and lifecycle visualization.",
+    "REVIEW QUEUE": "Assign, acknowledge, request evidence, escalate, dispose, and reopen governed human reviews without rewriting source analysis.",
+    "CAB": "Boards for missions, changes, operators and selected references.",
+    "SHADOW": "Operator profile and active reference context.",
+    "HEROES": "Canonical reference catalog.",
+    "MISSIONS": "Mission objectives attached to workspaces.",
+    "PROJECTS": "Projects connected to missions and approved changes.",
+    "KNOWLEDGE": "Sources, claims, evidence, verification and clarification.",
+    "RESOURCES": "Income, wealth, assets and project resources.",
+    "LIFE": "Health, education and personal timeline.",
+    "ASMA": "Semantic knowledge graph and reference analysis.",
+    "MĪZĀN": "Balance, factors, evidence and accountability profile.",
+    "AUDIT": "Provenance, immutable events and decision history.",
+    "OBSERVATORY": "Live world-state, event ledger, graph integrity and recent recorded activity."
+  },
+  "quickActions": [
+    "Simulate AI",
+    "New CAB",
+    "Verify Knowledge",
+    "Open Projects",
+    "Review Asma",
+    "Open Mīzān"
+  ],
+  "aiExamples": [
+    {
+      "label": "Observation",
+      "text": "Describe an event and what is known about it."
+    },
+    {
+      "label": "Decision",
+      "text": "Describe a decision, its purpose, context, and possible effects."
+    },
+    {
+      "label": "Case",
+      "text": "Describe a case with actors, actions, timing, evidence, and uncertainty."
+    }
+  ],
+  "rgblLabels": {
+    "R": "TARGET / REPRESENTATION",
+    "G": "DIRECTION",
+    "B": "PURSUIT / BEHAVIOR",
+    "L": "VALUE ALIGNMENT"
+  },
+  "lifecycleOrder": [
+    "DUNYA",
+    "DYING",
+    "DECEASED",
+    "BARZAKH",
+    "RESURRECTION",
+    "MAHSHAR",
+    "HISAB",
+    "MIZAN",
+    "FINAL_STATE"
+  ],
+  "gateLabels": [
+    "HEARING",
+    "SIGHT",
+    "TOUCH / BODY",
+    "TASTE",
+    "SMELL",
+    "KNOWLEDGE / REASONING",
+    "INTENTIONALITY",
+    "CONTEXT / INFLUENCE",
+    "INHERITED / TRANSMITTED CONTEXT"
+  ],
+  "impactLabels": [
+    "LIFE",
+    "HEALTH",
+    "SAFETY",
+    "DIGNITY",
+    "TRUTH",
+    "TRUST",
+    "PROPERTY",
+    "JUSTICE",
+    "PUBLIC",
+    "SYSTEMIC",
+    "ENVIRONMENT",
+    "REPAIR",
+    "THEOLOGICAL"
+  ]
+}

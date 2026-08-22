@@ -1,0 +1,33 @@
+{
+  "entityType": "KNOWLEDGE.SOURCE",
+  "schema": {
+    "sourceId": "string",
+    "type": "string",
+    "tradition": "string",
+    "title": "string",
+    "edition": "string|null",
+    "language": "string",
+    "collectionId": "string|null",
+    "sectionId": "string|null",
+    "passageId": "string|null",
+    "text": "string",
+    "translation": "string|null",
+    "reference": "string|null",
+    "authorityClass": "string",
+    "provenance": "object"
+  },
+  "allowedTypes": [
+    "QURAN",
+    "BIBLE",
+    "TORAH",
+    "PSALMS",
+    "HADITH",
+    "TAFSIR",
+    "COMMENTARY",
+    "HISTORICAL_TEXT",
+    "LEGAL_TEXT",
+    "SCIENTIFIC_SOURCE",
+    "NEWS",
+    "SCHOLARLY_WORK"
+  ]
+}

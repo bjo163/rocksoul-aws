@@ -1,0 +1,1 @@
+export function scienceTechProfile({research=[],systems=[],aiSystems=[],spaceMissions=[]}={}){return{researchCount:research.length,systemCount:systems.length,aiCount:aiSystems.length,spaceMissionCount:spaceMissions.length}}

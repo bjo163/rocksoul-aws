@@ -1,0 +1,1 @@
+export function environmentalProfile({air='UNKNOWN',water='UNKNOWN',forest=0,pollution=0,restoration=0}={}){return{air,water,forest,pollution,restoration,restorationGap:Math.max(0,(+pollution||0)-(+restoration||0))}}

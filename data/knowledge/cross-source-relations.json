@@ -1,0 +1,347 @@
+[
+  {
+    "id": "MISSION-GUIDANCE-BANI-ISRAIL",
+    "type": "MISSION.REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "name": "Guidance to Bani Israil",
+      "status": "REFERENCE_TAG"
+    }
+  },
+  {
+    "id": "MISSION-FOOD-SECURITY",
+    "type": "MISSION.REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "name": "Food security and provisioning",
+      "status": "REFERENCE_TAG"
+    }
+  },
+  {
+    "id": "MISSION-MARKET-JUSTICE",
+    "type": "MISSION.REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "name": "Market justice and fair measure",
+      "status": "REFERENCE_TAG"
+    }
+  },
+  {
+    "id": "MISSION-JUSTICE",
+    "type": "MISSION.REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "name": "Justice and judgment",
+      "status": "REFERENCE_TAG"
+    }
+  },
+  {
+    "id": "MISSION-TAWHID",
+    "type": "MISSION.REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "name": "Tawhid and anti-idolatry",
+      "status": "REFERENCE_TAG"
+    }
+  },
+  {
+    "id": "MISSION-LAW",
+    "type": "MISSION.REFERENCE",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "name": "Law and guidance",
+      "status": "REFERENCE_TAG"
+    }
+  },
+  {
+    "id": "REL-QURAN-MUSA-TAWRAT",
+    "type": "KNOWLEDGE.CROSS_SOURCE_RELATION",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "relationType": "ASSOCIATES_PROPHET_WITH_BOOK",
+      "fromId": "MUSA",
+      "toId": "BOOK-TAWRAT",
+      "note": "Quran explicitly describes Musa receiving scripture; this relation is a metadata bridge, not a claim that modern editions equal the revealed Tawrat.",
+      "sourceReferences": [
+        "Q2:53",
+        "Q17:2"
+      ]
+    }
+  },
+  {
+    "id": "REL-QURAN-DAWUD-ZABUR",
+    "type": "KNOWLEDGE.CROSS_SOURCE_RELATION",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "relationType": "ASSOCIATES_PROPHET_WITH_BOOK",
+      "fromId": "DAWUD",
+      "toId": "BOOK-ZABUR",
+      "note": "Quran states Dawud was given the Zabur.",
+      "sourceReferences": [
+        "Q4:163",
+        "Q17:55"
+      ]
+    }
+  },
+  {
+    "id": "REL-QURAN-ISA-INJIL",
+    "type": "KNOWLEDGE.CROSS_SOURCE_RELATION",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "relationType": "ASSOCIATES_PROPHET_WITH_BOOK",
+      "fromId": "ISA",
+      "toId": "BOOK-INJIL",
+      "note": "Quran describes Isa as given the Injil.",
+      "sourceReferences": [
+        "Q5:46"
+      ]
+    }
+  },
+  {
+    "id": "REL-QURAN-MUHAMMAD-QURAN",
+    "type": "KNOWLEDGE.CROSS_SOURCE_RELATION",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "relationType": "ASSOCIATES_PROPHET_WITH_BOOK",
+      "fromId": "MUHAMMAD",
+      "toId": "BOOK-QURAN",
+      "note": "Quran is linked to Muhammad as recipient of revelation.",
+      "sourceReferences": [
+        "Q2:97",
+        "Q17:1"
+      ]
+    }
+  },
+  {
+    "id": "REL-QURAN-ISA-MISSION",
+    "type": "KNOWLEDGE.CROSS_SOURCE_RELATION",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "relationType": "HAS_MISSION",
+      "fromId": "ISA",
+      "toId": "MISSION-GUIDANCE-BANI-ISRAIL",
+      "note": "Quran presents Isa as a messenger to Bani Israil.",
+      "sourceReferences": [
+        "Q3:49"
+      ]
+    }
+  },
+  {
+    "id": "REL-QURAN-YUSUF-FOOD",
+    "type": "KNOWLEDGE.CROSS_SOURCE_RELATION",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "relationType": "EVENT_TO_MISSION",
+      "fromId": "EVENT-YUSUF-DREAM",
+      "toId": "MISSION-FOOD-SECURITY",
+      "note": "Yusuf narrative includes planning around food scarcity.",
+      "sourceReferences": [
+        "Q12:43-57"
+      ]
+    }
+  },
+  {
+    "id": "REL-QURAN-SHUAYB-MARKET",
+    "type": "KNOWLEDGE.CROSS_SOURCE_RELATION",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "relationType": "EVENT_TO_MISSION",
+      "fromId": "SHUAYB",
+      "toId": "MISSION-MARKET-JUSTICE",
+      "note": "Shuayb narrative repeatedly addresses measure/weight and market conduct.",
+      "sourceReferences": [
+        "Q7:85",
+        "Q11:84-85",
+        "Q26:181-183"
+      ]
+    }
+  },
+  {
+    "id": "REL-QURAN-DAWUD-JUDGMENT",
+    "type": "KNOWLEDGE.CROSS_SOURCE_RELATION",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "relationType": "EVENT_TO_MISSION",
+      "fromId": "EVENT-DAWUD-JUDGMENT",
+      "toId": "MISSION-JUSTICE",
+      "note": "Dawud is presented in a judgment context.",
+      "sourceReferences": [
+        "Q38:20-26"
+      ]
+    }
+  },
+  {
+    "id": "REL-QURAN-IBRAHIM-TAWHID",
+    "type": "KNOWLEDGE.CROSS_SOURCE_RELATION",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "relationType": "EVENT_TO_MISSION",
+      "fromId": "EVENT-IBRAHIM-IDOL",
+      "toId": "MISSION-TAWHID",
+      "note": "Ibrahim challenges idolatry in Quranic narratives.",
+      "sourceReferences": [
+        "Q21:51-70",
+        "Q26:69-82"
+      ]
+    }
+  },
+  {
+    "id": "REL-QURAN-MUSA-LAW",
+    "type": "KNOWLEDGE.CROSS_SOURCE_RELATION",
+    "schemaVersion": 1,
+    "version": 1,
+    "createdAt": "2026-08-19T23:05:00.000Z",
+    "createdBy": "SYSTEM-001",
+    "updatedAt": "2026-08-19T23:05:00.000Z",
+    "updatedBy": "SYSTEM-001",
+    "status": "ACTIVE",
+    "visibility": "PUBLIC",
+    "provenance": {},
+    "metadata": {},
+    "data": {
+      "relationType": "EVENT_TO_MISSION",
+      "fromId": "EVENT-MUSA-TORAH",
+      "toId": "MISSION-LAW",
+      "note": "Musa receiving scripture is linked to law/guidance context.",
+      "sourceReferences": [
+        "Q2:53",
+        "Q17:2"
+      ]
+    }
+  }
+]

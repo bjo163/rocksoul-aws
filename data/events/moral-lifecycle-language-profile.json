@@ -1,0 +1,18 @@
+{
+  "version": "4.29.0",
+  "protocol": "MORAL_LIFECYCLE_LANGUAGE_PROFILE_V1",
+  "normativeAuthority": false,
+  "boundary": "Language detection only. These phrases may identify reported lifecycle stages but cannot establish divine acceptance, forgiveness, moral direction, or scripture authority.",
+  "signals": {
+    "AWARENESS": ["sadar", "menyadari", "mengakui", "mengaku salah", "saya salah", "aku salah"],
+    "REGRET": ["menyesal", "sangat menyesal", "penyesalan", "merasa bersalah"],
+    "CESSATION": ["berhenti", "tidak lagi", "tidak mengulangi", "berhenti melakukannya", "meninggalkan perbuatan itu"],
+    "RETURN_REPENTANCE": ["bertaubat", "bertaubat kepada allah", "taubat", "kembali kepada allah", "memohon ampun", "minta ampun", "beristighfar"],
+    "RESTITUTION": ["mengembalikan", "memulangkan", "mengganti kerugian", "restitusi", "refund", "mengembalikan hak"],
+    "REPAIR": ["memperbaiki kerusakan", "memperbaiki akibat", "memulihkan kerugian", "memulihkan hak", "membayar ganti rugi", "meminta maaf", "mengoreksi kesalahan"],
+    "RECONCILIATION": ["berdamai", "rekonsiliasi", "korban memaafkan", "dimaafkan korban", "saling memaafkan"],
+    "PERSISTENCE": ["terus melakukannya", "tetap melakukannya", "masih melakukan", "berulang kali", "terus mengulangi"],
+    "RELAPSE": ["mengulangi lagi", "kembali melakukan", "kambuh", "melakukannya lagi setelah berhenti"],
+    "FORGIVENESS_REQUEST": ["memohon ampun", "minta ampun", "memohon pengampunan", "beristighfar"]
+  }
+}
