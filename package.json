@@ -3,10 +3,7 @@
   "version": "4.32.0",
   "private": true,
   "type": "module",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
+  "workspaces": ["apps/*", "packages/*"],
   "scripts": {
     "build:api": "npm --prefix apps/api run build",
     "api:dev": "npm --prefix apps/api run dev",
@@ -33,7 +30,7 @@
     "certify:current": "npm run preflight && npm run final:certify",
     "db:status": "node scripts/transpile-exec.mjs scripts/db-status.ts",
     "persistence:migration:test": "node scripts/transpile-runner.mjs tests/final/persistence/migration-contract.test.ts tests/sql-boundary-contract.test.ts",
-    "test": "npm run test:semantic && npm run test:witness && npm run test:revelation && npm run test:event && npm run test:mizan-adversarial && npm run test:review-gate && npm run test:review-workflow && npm run test:persistence-boundary && npm run test:auth-session && npm run test:api-cookie-session && npm run test:sdk-session && npm run test:ui-shared",
+    "test": "npm run test:semantic && npm run test:witness && npm run test:revelation && npm run test:event && npm run test:mizan-adversarial && npm run test:review-gate && npm run test:review-workflow && npm run test:persistence-boundary && npm run test:auth-session && npm run test:api-cookie-session && npm run test:sdk-session && npm run test:ui-shared && npm run test:production-certification",
     "test:semantic": "node scripts/transpile-runner.mjs tests/automatic-semantic-engine.test.ts tests/ai-mizan-contract.test.ts tests/ai-analyzer-v14.test.ts tests/quranic-mizan.test.ts tests/config-loader.test.ts",
     "db:install": "node scripts/transpile-exec.mjs scripts/db-install.ts",
     "db:check": "node scripts/transpile-exec.mjs scripts/db-postgres-check.ts",
@@ -69,16 +66,12 @@
     "test:api-cookie-session": "node scripts/transpile-runner.mjs tests/api-cookie-session.test.ts tests/xrp-workspace-rid.test.ts tests/rid-object-authorization.test.ts tests/flow-review-recovery.test.ts tests/backend-production-boundary.test.ts",
     "test:sdk-session": "node scripts/transpile-runner.mjs tests/sdk-session-contract.test.ts",
     "test:ui-shared": "node scripts/transpile-runner.mjs tests/shared-ui-contract.test.ts tests/xrp-flow-contract.test.ts tests/ui-accessibility-contract.test.ts tests/governed-ui-contract.test.ts",
+    "test:production-certification": "node scripts/transpile-runner.mjs tests/production-certification-contract.test.ts",
     "test:visual": "playwright test",
     "test:visual:update": "playwright test --update-snapshots",
     "test:lifecycle": "node scripts/transpile-runner.mjs tests/moral-lifecycle-100-cases.test.ts",
     "test:grammar": "node scripts/transpile-runner.mjs tests/revelation-grammar.test.ts tests/revelation-grammar-100-cases.test.ts",
     "test:ontology": "node scripts/transpile-runner.mjs tests/revelation-divine-ontology.test.ts tests/revelation-divine-ontology-100-cases.test.ts"
   },
-  "devDependencies": {
-    "@playwright/test": "^1.62.1",
-    "@types/node": "^22.0.0",
-    "better-sqlite3": "^13.0.3",
-    "typescript": "^5.8.3"
-  }
+  "devDependencies": {"@playwright/test": "^1.62.1", "@types/node": "^22.0.0", "better-sqlite3": "^13.0.3", "typescript": "^5.8.3"}
 }
