@@ -84,7 +84,7 @@ jobs:
           done
           test "$(docker inspect --format '{{.State.Health.Status}}' cosmic-ci-postgres)" = healthy
 
-      - name: Run complete certification in Node 22 Bookworm
+      - name: Run Node certification in Bookworm
         shell: bash
         env:
           PR_BASE_SHA: ${{ env.PR_BASE_SHA }}
@@ -94,7 +94,6 @@ jobs:
           docker run --rm \
             --network host \
             --volume "$GITHUB_WORKSPACE:/work" \
-            --volume /var/run/docker.sock:/var/run/docker.sock \
             --workdir /work \
             --env HOME=/root \
             --env CI=true \
@@ -115,12 +114,11 @@ jobs:
               printf "package-lock-bytes="
               wc -c < package-lock.json
               git config --global --add safe.directory /work
-              apt-get update
-              DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git docker.io
+              apt-get update -qq
+              DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends git >/dev/null
               node --version
               npm --version
               git --version
-              docker version
 
               npm ci --ignore-scripts
               npm run dependency:integrity
@@ -139,10 +137,14 @@ jobs:
               npm run test:postgres
               npm run test:release
               npm run certify:current
-
-              docker build --file Dockerfile --tag cosmic:ci .
-              docker image inspect cosmic:ci --format "{{.Config.Cmd}}"
             '
+
+      - name: Build production Docker image
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker build --file Dockerfile --tag cosmic:ci .
+          docker image inspect cosmic:ci --format '{{.Config.Cmd}}'
 
       - name: Clean up PostgreSQL service
         if: always()
