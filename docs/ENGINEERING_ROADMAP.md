@@ -2,8 +2,6 @@
 
 `dev` is the integration trunk. `main` receives only certified release commits.
 
-The execution controller and task-level backlog are tracked in GitHub Issue #70 (`PROGRAM: dev trunk execution control — 4.33.0 through 5.0.0`). The detailed release tasks are distributed across the linked release issues under that program.
-
 ## 4.33.0 — Certification / Baseline
 
 Exit only when the same `dev` commit passes:
@@ -22,6 +20,8 @@ SQLite is intentionally outside the 4.33.0 supported runtime surface.
 ## 4.33.1 — Hardening / Reliability
 
 Auth/session lifecycle, HTTP boundary, rate limiting, PostgreSQL resilience, Witness durability, structured observability, backup/restore/rollback, developer reproducibility, and CI diagnostics.
+
+Current source already contains several HTTP hardening controls: bounded JSON body parsing, request/header/keep-alive timeouts, security headers, explicit CORS behavior, request IDs, rate-limit headers, bounded local rate-limit buckets, `Retry-After`, and production disclosure guards. Remaining work is contract coverage and production-matrix validation, not re-implementing existing controls.
 
 ## 4.34.0 — Platform API / Data / AI Contracts
 
