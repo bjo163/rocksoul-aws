@@ -28,11 +28,12 @@ Expose port `3000` for both the API and Web services. Coolify/Traefik should ter
 ## First deployment validation
 
 1. PostgreSQL becomes healthy.
-2. API becomes healthy at `/api/v1/health`.
+2. API becomes **ready** at `/api/v1/ready` after the backend has completed its persistence hydration.
 3. API uses `STORAGE_DRIVER=postgres`.
 4. Web container starts on `0.0.0.0:3000`.
 5. Run the API smoke test against the public API hostname.
 6. Verify migrations/seed state before production traffic is enabled.
+7. Confirm `/api/v1/health` is used for authenticated operational diagnostics, while `/api/v1/ready` is used by the container/orchestrator readiness probe.
 
 ## Persistence
 
