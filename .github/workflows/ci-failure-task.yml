@@ -2,13 +2,17 @@ name: CI Failure Task
 
 on:
   workflow_run:
-    workflows: ["MoonWitness Certification", "Documentation Validation"]
+    workflows: ["MoonWitness Certification", "Documentation Validation", "Dependency Audit"]
     types: [completed]
 
 permissions:
   actions: read
   contents: read
   issues: write
+
+concurrency:
+  group: ci-failure-task-${{ github.event.workflow_run.id }}
+  cancel-in-progress: false
 
 jobs:
   create-task:
@@ -47,5 +51,8 @@ jobs:
           if [ -n "$existing" ]; then
             gh issue comment "$existing" --repo "$REPO" --body "$body"
           else
-            gh issue create --repo "$REPO" --title "$title" --body "$body" --label "ci,status:blocked,triage"
+            number=$(gh issue create --repo "$REPO" --title "$title" --body "$body" --json number --jq '.number')
+            for label in ci status:blocked triage; do
+              gh issue edit "$number" --repo "$REPO" --add-label "$label" >/dev/null 2>&1 || true
+            done
           fi
