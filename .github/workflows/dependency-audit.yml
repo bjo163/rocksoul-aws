@@ -19,7 +19,7 @@ concurrency:
 jobs:
   npm-audit:
     name: npm dependency audit
-    runs-on: [self-hosted, linux, x64, cosmic]
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - name: Check out source
