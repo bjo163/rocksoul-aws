@@ -20,12 +20,21 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
       - name: Use Node.js 22
         uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
-      - name: Install dependencies
-        run: npm install --ignore-scripts
+      - name: Install dependencies from canonical lockfile
+        run: npm ci --ignore-scripts
       - name: Audit production dependencies
-        run: npm audit --omit=dev --audit-level=high
+        run: npm audit --omit=dev --audit-level=high --json > npm-audit.json
+      - name: Upload audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-audit-report
+          path: npm-audit.json
+          if-no-files-found: warn
