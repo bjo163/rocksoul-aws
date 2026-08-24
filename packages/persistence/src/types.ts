@@ -1,4 +1,4 @@
-export type PersistenceDriver = 'memory' | 'file' | 'sqlite' | 'postgres';
+export type PersistenceDriver = 'memory' | 'file' | 'postgres';
 
 export interface AuditFields {
   createdAt?: string;
@@ -119,7 +119,6 @@ export interface EventStore {
   get(eventId: string): Promise<EventRecord | null>;
   listByEntity(entityId: string): Promise<EventRecord[]>;
   listAll(): Promise<EventRecord[]>;
-  
   verifyChain(): Promise<ChainVerification>;
 }
 
@@ -178,12 +177,10 @@ export interface PersistenceStore {
 export interface PersistenceConfig {
   driver?: PersistenceDriver;
   fileDir?: string;
-  sqliteFile?: string;
   postgres?: Record<string, unknown>;
   auditActorId?: string;
   correlationId?: string;
 }
-
 
 export interface TransactionContext {
   db: unknown;
