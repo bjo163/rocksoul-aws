@@ -13,7 +13,7 @@
     "@moonwitness/contracts": "4.33.0",
     "@moonwitness/ui": "4.33.0",
     "@vitejs/plugin-react": "^4.3.0",
-    "vite": "^7.1.0",
+    "vite": "^8.2.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
