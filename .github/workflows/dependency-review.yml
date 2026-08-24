@@ -11,6 +11,7 @@ permissions:
 jobs:
   dependency-review:
     name: Review dependency changes
+    if: ${{ github.event.repository.visibility == 'public' }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out source
@@ -19,3 +20,13 @@ jobs:
         uses: actions/dependency-review-action@v4
         with:
           fail-on-severity: high
+
+  private-repository-advisory:
+    name: Dependency review advisory (private repository)
+    if: ${{ github.event.repository.visibility != 'public' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report availability constraint
+        run: |
+          echo "Dependency Review skipped: this repository is private and GitHub Code Security is not available for the current repository plan/configuration."
+          echo "Enable GitHub Code Security/Advanced Security or move the repository to an eligible organization plan to activate dependency review."
