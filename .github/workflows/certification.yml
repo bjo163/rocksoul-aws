@@ -1,24 +1,25 @@
-name: MoonWitness Certification
+name: Cosmic CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, dev]
   pull_request:
-    branches: [main]
+    branches: [main, dev]
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: certification-${{ github.ref }}
+  group: cosmic-ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  postgres:
-    name: PostgreSQL 18 integration
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
+  verify:
+    name: Verify, test, certify, and containerize
+    runs-on: [self-hosted, linux, x64, cosmic]
+    timeout-minutes: 60
+
     services:
       postgres:
         image: postgres:18
@@ -33,6 +34,7 @@ jobs:
           --health-interval 5s
           --health-timeout 5s
           --health-retries 12
+
     env:
       STORAGE_DRIVER: postgres
       PGHOST: 127.0.0.1
@@ -42,10 +44,10 @@ jobs:
       PGDATABASE: moonwitness_ci
 
     steps:
-      - name: Check out source
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Use Node.js 22
+      - name: Setup Node 22
         uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -54,29 +56,35 @@ jobs:
       - name: Install locked dependencies
         run: npm ci
 
-      - name: Run isolated PostgreSQL certification
-        run: npm run test:postgres
+      - name: Rebuild native SQLite binding for runner ABI
+        run: npm rebuild better-sqlite3 --build-from-source
 
-  certify:
-    name: Build, test, and certify
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
+      - name: Dependency integrity
+        run: npm run dependency:integrity
 
-    steps:
-      - name: Check out source
-        uses: actions/checkout@v4
+      - name: Dependency audit
+        run: npm run dependency:audit
 
-      - name: Use Node.js 22
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
+      - name: Documentation check
+        run: npm run docs:check
 
-      - name: Install locked dependencies
-        run: npm ci
+      - name: Architecture check
+        run: npm run architecture:check
 
-      - name: Verify release identity
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Release identity
         run: npm run release:identity
+
+      - name: Release-focused tests
+        run: npm run test:release
+
+      - name: PostgreSQL certification
+        run: npm run test:postgres
 
       - name: Build API
         run: npm run build:api
@@ -84,7 +92,7 @@ jobs:
       - name: Build CAB
         run: npm run build:cab
 
-      - name: Build public web
+      - name: Build Web
         run: npm run build:web
 
       - name: Build XRP
@@ -93,17 +101,8 @@ jobs:
       - name: Build Flow
         run: npm run build:flow
 
-      - name: Run core regression suite
-        run: npm test
-
-      - name: Run API suite
-        run: npm --prefix apps/api test
-
-      - name: Run CAB contracts
-        run: npm run test:cab
-
-      - name: Run public web contracts
-        run: npm run test:web
-
-      - name: Run current certification
+      - name: Final certification
         run: npm run certify:current
+
+      - name: Build Docker image
+        run: docker build -t cosmic:${{ github.sha }} .
