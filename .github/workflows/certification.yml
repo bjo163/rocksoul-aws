@@ -1,8 +1,8 @@
 name: MoonWitness Certification
 
 # Sole PR merge gate: dependency/security checks + quality + release certification + production container build.
-# The runner remains self-hosted (no GitHub-hosted billing); the job runs inside a modern
-# Node/Debian container so native modules such as better-sqlite3 use a compatible glibc.
+# The GitHub runner stays self-hosted. Node/native-module execution happens in a pinned
+# Node 22 Bookworm container on the same VPS, avoiding GitHub-hosted billing and host glibc drift.
 
 on:
   pull_request:
@@ -20,55 +20,22 @@ jobs:
   certify:
     name: Build, test, certify, and containerize
     runs-on: [self-hosted, linux, x64, cosmic]
-    container:
-      image: node:22-bookworm
-      options: >-
-        --volume /var/run/docker.sock:/var/run/docker.sock
-    services:
-      postgres:
-        image: postgres:18.6
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres-ci-only
-          POSTGRES_DB: moonwitness_ci
-        options: >-
-          --health-cmd "pg_isready -U postgres -d moonwitness_ci"
-          --health-interval 5s
-          --health-timeout 5s
-          --health-retries 12
-    env:
-      STORAGE_DRIVER: postgres
-      PGHOST: postgres
-      PGPORT: 5432
-      PGUSER: postgres
-      PGPASSWORD: postgres-ci-only
-      PGDATABASE: moonwitness_ci
-    defaults:
-      run:
-        shell: bash
     timeout-minutes: 60
+    env:
+      CI_PG_PORT: 55432
     steps:
       - name: Check out source with complete history
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - name: Verify container runtime
-        run: |
-          set -euo pipefail
-          node --version
-          git --version
-      - name: Install Docker CLI for production image build
-        run: |
-          set -euo pipefail
-          apt-get update
-          DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends docker.io
-          docker version
+
       - name: Resolve authoritative coding base
         env:
           PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        shell: bash
         run: |
           set -euo pipefail
-          if [[ -n "$PR_BASE_SHA" ]]; then
+          if [[ -n "${PR_BASE_SHA:-}" ]]; then
             BASE_SHA="$PR_BASE_SHA"
           else
             git fetch --no-tags origin main:refs/remotes/origin/main
@@ -79,40 +46,93 @@ jobs:
           git cat-file -e "$BASE_SHA^{commit}"
           echo "PR_BASE_SHA=$BASE_SHA" >> "$GITHUB_ENV"
           echo "Resolved coding base: $BASE_SHA"
-      - name: Install workspace dependencies from canonical lockfile
-        run: npm ci --ignore-scripts
-      - name: Dependency integrity gate
-        run: npm run dependency:integrity
-      - name: Production dependency audit
-        run: npm run dependency:audit
-      - name: Documentation validation
-        run: npm run docs:check
-      - name: Coding standard gate
-        run: npm run lint
-      - name: TypeScript typecheck
-        run: npm run typecheck
-      - name: Verify release identity
-        run: npm run release:identity
-      - name: Build API
-        run: npm run build:api
-      - name: Build CAB
-        run: npm run build:cab
-      - name: Build public web
-        run: npm run build:web
-      - name: Build XRP
-        run: npm run build:xrp
-      - name: Build Flow
-        run: npm run build:flow
-      - name: Run PostgreSQL integration certification
-        run: npm run test:postgres
-      - name: Run release test suite
-        run: npm run test:release
-      - name: Run release certification
-        run: npm run certify:current
-      - name: Build production Docker image
-        run: docker build --file Dockerfile --tag cosmic:ci .
-      - name: Inspect production image metadata
-        run: docker image inspect cosmic:ci --format '{{.Config.Cmd}}'
+
+      - name: Prepare isolated PostgreSQL service
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker rm -f cosmic-ci-postgres >/dev/null 2>&1 || true
+          docker run -d \
+            --name cosmic-ci-postgres \
+            --restart=no \
+            -e POSTGRES_USER=postgres \
+            -e POSTGRES_PASSWORD=postgres-ci-only \
+            -e POSTGRES_DB=moonwitness_ci \
+            -p "${CI_PG_PORT}:5432" \
+            --health-cmd='pg_isready -U postgres -d moonwitness_ci' \
+            --health-interval=2s \
+            --health-timeout=5s \
+            --health-retries=20 \
+            postgres:18.6 >/dev/null
+          for attempt in {1..30}; do
+            status="$(docker inspect --format '{{.State.Health.Status}}' cosmic-ci-postgres 2>/dev/null || true)"
+            if [[ "$status" == healthy ]]; then
+              break
+            fi
+            sleep 2
+          done
+          test "$(docker inspect --format '{{.State.Health.Status}}' cosmic-ci-postgres)" = healthy
+
+      - name: Run complete certification in Node 22 Bookworm
+        shell: bash
+        env:
+          PR_BASE_SHA: ${{ env.PR_BASE_SHA }}
+          PGPORT: ${{ env.CI_PG_PORT }}
+        run: |
+          set -euo pipefail
+          docker run --rm \
+            --network host \
+            --volume "$GITHUB_WORKSPACE:/work" \
+            --volume /var/run/docker.sock:/var/run/docker.sock \
+            --workdir /work \
+            --env HOME=/root \
+            --env CI=true \
+            --env GITHUB_ACTIONS=true \
+            --env PR_BASE_SHA="$PR_BASE_SHA" \
+            --env STORAGE_DRIVER=postgres \
+            --env PGHOST=127.0.0.1 \
+            --env PGPORT="$PGPORT" \
+            --env PGUSER=postgres \
+            --env PGPASSWORD=postgres-ci-only \
+            --env PGDATABASE=moonwitness_ci \
+            node:22-bookworm \
+            bash -lc '
+              set -euo pipefail
+              apt-get update
+              DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git docker.io
+              git config --global --add safe.directory /work
+              node --version
+              npm --version
+              git --version
+              docker version
+
+              npm ci --ignore-scripts
+              npm run dependency:integrity
+              npm run dependency:audit
+              npm run docs:check
+              npm run lint
+              npm run typecheck
+              npm run release:identity
+
+              npm run build:api
+              npm run build:cab
+              npm run build:web
+              npm run build:xrp
+              npm run build:flow
+
+              npm run test:postgres
+              npm run test:release
+              npm run certify:current
+
+              docker build --file Dockerfile --tag cosmic:ci .
+              docker image inspect cosmic:ci --format "{{.Config.Cmd}}"
+            '
+
+      - name: Clean up PostgreSQL service
+        if: always()
+        shell: bash
+        run: docker rm -f cosmic-ci-postgres >/dev/null 2>&1 || true
+
       - name: Upload dependency audit report
         if: always()
         uses: actions/upload-artifact@v4
@@ -120,6 +140,7 @@ jobs:
           name: npm-audit-report
           path: npm-audit.json
           if-no-files-found: warn
+
       - name: Upload documentation validation report
         if: always()
         uses: actions/upload-artifact@v4
