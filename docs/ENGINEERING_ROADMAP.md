@@ -2,6 +2,8 @@
 
 `dev` is the integration trunk. `main` receives only certified release commits.
 
+The execution controller and task-level backlog are tracked in GitHub Issue #70 (`PROGRAM: dev trunk execution control — 4.33.0 through 5.0.0`). The detailed release tasks are distributed across the linked release issues under that program.
+
 ## 4.33.0 — Certification / Baseline
 
 Exit only when the same `dev` commit passes:
