@@ -49,6 +49,9 @@ const tests = [
   'tests/worker-scaleout-contract.test.ts',
   'tests/observability-release-contract.test.ts',
   'tests/reproducible-release-contract.test.ts',
+  'tests/worker-runtime-contract.test.ts',
+  'tests/rate-limiter-contract.test.ts',
+  'tests/api-openapi-surface.test.ts',
 ];
 
 const result = spawnSync(process.execPath, ['scripts/transpile-runner.mjs', ...tests], {
