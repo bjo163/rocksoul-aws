@@ -2,13 +2,13 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
 
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'mw-build-'));
-const copyDirs = ['src', 'packages', 'tests', 'scripts', 'apps'];
+const copyDirs = ['src', 'packages', 'tests', 'scripts', 'apps', 'docs'];
 fs.writeFileSync(path.join(tmp, 'package.json'), JSON.stringify({ type: 'module' }));
 // Windows directory symlinks require developer mode/elevation; junctions do not.
 // Keep the temporary runner portable while preserving the same module resolution.
@@ -17,7 +17,6 @@ fs.symlinkSync(
   path.join(tmp, 'node_modules'),
   process.platform === 'win32' ? 'junction' : 'dir'
 );
-const skip = /node_modules|dist/;
 function walk(dir) {
   const out = [];
   for (const name of fs.readdirSync(dir)) {
