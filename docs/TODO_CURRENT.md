@@ -3,7 +3,10 @@
 This is the active Todo for the current `dev` trunk. Historical audit details remain in `docs/TODO.md`.
 
 ## Current blocker
-- 4.33.0 remains blocked by the remaining 32 API/DDT failures.
+- 4.33.0 remains blocked by the remaining 32 API/DDT failures from the last verified certification run.
+- DDT diagnostics now support targeted TC ranges and failure clustering.
+- The default DDT lane now uses a test-only high rate-limit ceiling so business/engine certification is not contaminated by production abuse thresholds; rate-limit behavior remains a separate security contract.
+- Next verification step: run the targeted diagnostic around the suspected Engine Mode failure range, then re-run the full 999 generated cases plus the 7 focused API/E2E cases for the 1006 total.
 
 ## Release train
 `4.33.0 → 4.33.1 → 4.34.0 → 4.35.0 → 4.36.0 → 5.0.0`
@@ -58,6 +61,8 @@ This is the active Todo for the current `dev` trunk. Historical audit details re
 - ✅ API error/pagination/idempotency contracts.
 - ✅ Authorization, AI governance, queue lifecycle, UI governance, and runtime API configuration contracts.
 - ✅ Witness/recovery, release-evidence, runtime worker/rate-limit, and OpenAPI baseline contracts.
+- ✅ Targeted DDT diagnostic runner with `DDT_FROM` / `DDT_TO` filtering and status/body failure clustering.
+- ✅ DDT test-only rate-limit isolation; production abuse limits remain covered separately.
 - ✅ `dev` is not an automatic CI trigger; `main` is the certification/release path.
 
 ## Rules
