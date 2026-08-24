@@ -24,7 +24,7 @@ jobs:
   private-repository-advisory:
     name: Dependency review advisory (private repository)
     if: ${{ github.event.repository.visibility != 'public' }}
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, cosmic]
     steps:
       - name: Report availability constraint
         run: |
