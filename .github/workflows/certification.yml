@@ -1,10 +1,8 @@
 name: MoonWitness Certification
 
-# Sole PR merge gate: dependency/security checks + quality + release certification + production container build.
-# The GitHub runner stays self-hosted. Node/native-module execution happens in a pinned
-# Node 22 Bookworm container on the same VPS, avoiding GitHub-hosted billing and host glibc drift.
-
 on:
+  push:
+    branches: [main]
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -13,126 +11,99 @@ permissions:
   contents: read
 
 concurrency:
-  group: certification-${{ github.event.pull_request.number || github.ref }}
+  group: certification-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  certify:
-    name: Build, test, certify, and containerize
-    runs-on: [self-hosted, linux, x64, cosmic]
-    timeout-minutes: 60
+  postgres:
+    name: PostgreSQL 18 integration
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres-ci-only
+          POSTGRES_DB: moonwitness_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d moonwitness_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
     env:
-      CI_PG_PORT: 55432
+      STORAGE_DRIVER: postgres
+      PGHOST: 127.0.0.1
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres-ci-only
+      PGDATABASE: moonwitness_ci
+
     steps:
-      - name: Check out source with complete history
-        uses: actions/checkout@v5
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
         with:
-          fetch-depth: 0
+          node-version: 22
+          cache: npm
 
-      - name: Verify checkout workspace
-        shell: bash
-        run: |
-          set -euo pipefail
-          pwd
-          test -f package.json
-          test -f package-lock.json
-          test -f scripts/ci-release-certification.sh
-          git rev-parse HEAD
-          git status --short
-          wc -c package-lock.json
+      - name: Install locked dependencies
+        run: npm ci
 
-      - name: Resolve authoritative coding base
-        env:
-          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [[ -n "${PR_BASE_SHA:-}" ]]; then
-            BASE_SHA="$PR_BASE_SHA"
-          else
-            git fetch --no-tags origin main:refs/remotes/origin/main
-            BASE_SHA="$(git merge-base HEAD refs/remotes/origin/main)"
-          fi
-          test -n "$BASE_SHA"
-          git fetch --no-tags origin "$BASE_SHA"
-          git cat-file -e "$BASE_SHA^{commit}"
-          echo "PR_BASE_SHA=$BASE_SHA" >> "$GITHUB_ENV"
-          echo "Resolved coding base: $BASE_SHA"
+      - name: Run isolated PostgreSQL certification
+        run: npm run test:postgres
 
-      - name: Prepare isolated PostgreSQL service
-        shell: bash
-        run: |
-          set -euo pipefail
-          docker rm -f cosmic-ci-postgres >/dev/null 2>&1 || true
-          docker run -d \
-            --name cosmic-ci-postgres \
-            --restart=no \
-            -e POSTGRES_USER=postgres \
-            -e POSTGRES_PASSWORD=postgres-ci-only \
-            -e POSTGRES_DB=moonwitness_ci \
-            -p "${CI_PG_PORT}:5432" \
-            --health-cmd='pg_isready -U postgres -d moonwitness_ci' \
-            --health-interval=2s \
-            --health-timeout=5s \
-            --health-retries=20 \
-            postgres:18.6 >/dev/null
-          for attempt in {1..30}; do
-            status="$(docker inspect --format '{{.State.Health.Status}}' cosmic-ci-postgres 2>/dev/null || true)"
-            if [[ "$status" == healthy ]]; then
-              break
-            fi
-            sleep 2
-          done
-          test "$(docker inspect --format '{{.State.Health.Status}}' cosmic-ci-postgres)" = healthy
+  certify:
+    name: Build, test, and certify
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
 
-      - name: Run Node certification in Bookworm
-        shell: bash
-        env:
-          PR_BASE_SHA: ${{ env.PR_BASE_SHA }}
-          PGPORT: ${{ env.CI_PG_PORT }}
-        run: |
-          set -euo pipefail
-          docker run --rm \
-            --network host \
-            --volume "$GITHUB_WORKSPACE:/work" \
-            --workdir /work \
-            --env HOME=/root \
-            --env CI=true \
-            --env GITHUB_ACTIONS=true \
-            --env PR_BASE_SHA="$PR_BASE_SHA" \
-            --env STORAGE_DRIVER=postgres \
-            --env PGHOST=127.0.0.1 \
-            --env PGPORT="$PGPORT" \
-            --env PGUSER=postgres \
-            --env PGPASSWORD=postgres-ci-only \
-            --env PGDATABASE=moonwitness_ci \
-            node:22-bookworm \
-            bash -lc 'set -euo pipefail; apt-get update -qq; DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends git >/dev/null; chmod +x scripts/ci-release-certification.sh; ./scripts/ci-release-certification.sh'
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
 
-      - name: Build production Docker image
-        shell: bash
-        run: |
-          set -euo pipefail
-          docker build --file Dockerfile --tag cosmic:ci .
-          docker image inspect cosmic:ci --format '{{.Config.Cmd}}'
-
-      - name: Clean up PostgreSQL service
-        if: always()
-        shell: bash
-        run: docker rm -f cosmic-ci-postgres >/dev/null 2>&1 || true
-
-      - name: Upload dependency audit report
-        if: always()
-        uses: actions/upload-artifact@v4
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
         with:
-          name: npm-audit-report
-          path: npm-audit.json
-          if-no-files-found: warn
+          node-version: 22
+          cache: npm
 
-      - name: Upload documentation validation report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: documentation-validation-report
-          path: docs-link-errors.txt
-          if-no-files-found: warn
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Verify release identity
+        run: npm run release:identity
+
+      - name: Build API
+        run: npm run build:api
+
+      - name: Build CAB
+        run: npm run build:cab
+
+      - name: Build public web
+        run: npm run build:web
+
+      - name: Build XRP
+        run: npm run build:xrp
+
+      - name: Build Flow
+        run: npm run build:flow
+
+      - name: Run core regression suite
+        run: npm test
+
+      - name: Run API suite
+        run: npm --prefix apps/api test
+
+      - name: Run CAB contracts
+        run: npm run test:cab
+
+      - name: Run public web contracts
+        run: npm run test:web
+
+      - name: Run current certification
+        run: npm run certify:current
