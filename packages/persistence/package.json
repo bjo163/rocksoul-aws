@@ -11,16 +11,7 @@
     "tsx": "^4.19.0"
   },
   "peerDependencies": {
-    "better-sqlite3": ">=11",
     "pg": ">=8"
-  },
-  "peerDependenciesMeta": {
-    "better-sqlite3": {
-      "optional": true
-    },
-    "pg": {
-      "optional": true
-    }
   },
   "dependencies": {
     "pg": "^8.16.3"
