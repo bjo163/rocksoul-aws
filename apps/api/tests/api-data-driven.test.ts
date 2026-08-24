@@ -9,6 +9,15 @@ import { createAuthService } from '../../../src/access/auth.js';
 
 process.env.NODE_ENV = 'test';
 
+// The DDT certifies API/business semantics, not abuse-control thresholds. Keep
+// production rate limits enabled in runtime and cover them in dedicated tests;
+// this lane uses a deterministic high ceiling so hundreds of sequential command
+// cases cannot fail because they share one loopback client identity.
+process.env.MW_RATE_LIMIT_PER_MINUTE = process.env.MW_DDT_RATE_LIMIT_PER_MINUTE ?? '100000';
+process.env.MW_AUTH_RATE_LIMIT_PER_MINUTE = process.env.MW_DDT_AUTH_RATE_LIMIT_PER_MINUTE ?? '100000';
+process.env.MW_AI_RATE_LIMIT_PER_MINUTE = process.env.MW_DDT_AI_RATE_LIMIT_PER_MINUTE ?? '100000';
+process.env.MW_WRITE_RATE_LIMIT_PER_MINUTE = process.env.MW_DDT_WRITE_RATE_LIMIT_PER_MINUTE ?? '100000';
+
 // Read all JSON files
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
