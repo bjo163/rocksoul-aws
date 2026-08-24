@@ -30,6 +30,8 @@
     "coding-standard": "node scripts/coding-standard.mjs",
     "lint": "npm run coding-standard",
     "dependency:integrity": "node scripts/dependency-integrity.mjs",
+    "dependency:audit": "node scripts/dependency-audit.mjs",
+    "docs:check": "node scripts/docs-validation.mjs",
     "architecture:check": "node scripts/architecture-boundary.mjs",
     "typecheck": "tsc -p apps/api/tsconfig.json --noEmit && tsc -p apps/cab/tsconfig.json --noEmit && tsc -p apps/web/tsconfig.json --noEmit && tsc -p apps/xrp/tsconfig.json --noEmit && tsc -p apps/flow/tsconfig.json --noEmit",
     "release:check": "node scripts/release-check.mjs",
