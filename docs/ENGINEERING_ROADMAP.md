@@ -2,6 +2,9 @@
 
 `dev` is the integration trunk. `main` receives only certified release commits.
 
+**Active Todo:** `docs/TODO_CURRENT.md`  
+**Historical audit:** `docs/TODO.md`
+
 ## 4.33.0 — Certification / Baseline
 
 Exit only when the same `dev` commit passes:
