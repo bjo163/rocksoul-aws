@@ -107,7 +107,7 @@ jobs:
             --env PGPASSWORD=postgres-ci-only \
             --env PGDATABASE=moonwitness_ci \
             node:22-bookworm \
-            bash -lc 'set -euo pipefail; apt-get update -qq; DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends git >/dev/null; bash scripts/ci-release-certification.sh'
+            bash -lc 'set -euo pipefail; apt-get update -qq; DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends git >/dev/null; chmod +x scripts/ci-release-certification.sh; ./scripts/ci-release-certification.sh'
 
       - name: Build production Docker image
         shell: bash
