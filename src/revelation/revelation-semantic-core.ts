@@ -9,6 +9,7 @@ import { semanticEventEngineSnapshot } from '../events/event-parser.js';
 import { revelationLifecycleSnapshot } from './lifecycle/revelation-lifecycle.js';
 import { revelationGrammarSnapshot } from './grammar/revelation-grammar.js';
 import { divineOntologySnapshot } from './asma/divine-ontology.js';
+import { propheticRelationsSnapshot } from './prophetic-relations.js';
 
 export function revelationResearchObjects() {
   return {
@@ -20,12 +21,13 @@ export function revelationResearchObjects() {
 export function revelationSemanticCoreSnapshot(root=process.cwd()) {
   return {
     protocol:'REVELATION_SEMANTIC_CORE_V2',
-    version:'4.30.0',
+    version:'4.32.0',
     sourcePolicy:scriptureSourcePolicy(),
     corpusStatus:scriptureCorpusStatus(),
     geography:revelationGeographyReport(root),
     asma:asmaEngineSnapshot(root),
     divineOntology:divineOntologySnapshot(root),
+    propheticRelations:propheticRelationsSnapshot(),
     moralGraph:revelationMoralGraph(root),
     fourBookCorpora:fourBookCorpusSnapshot(root),
     nativeBinding:revelationBindingEngineSnapshot(root),
@@ -57,7 +59,10 @@ export function revelationSemanticCoreSnapshot(root=process.cwd()) {
       grammarMayClaimCanonicalRootWithoutProof:false,
       textualWitnessGrammarMayOutvoteQuran:false,
       divineOntologyMayPromoteCanonicalNameAutomatically:false,
-      ontologyClusteringMayCreateNormativeAuthority:false
+      ontologyClusteringMayCreateNormativeAuthority:false,
+      propheticRelationsDoNotInferHistoricalChronology:true,
+      propheticRelationsDoNotCreateDivineAuthority:true,
+      unresolvedPropheticRelationsRemainUnresolved:true
     }
   };
 }

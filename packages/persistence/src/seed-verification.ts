@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile, readdir } from 'node:fs/promises';
 import { relative, resolve } from 'node:path';
 import type { PersistenceStore } from './types.js';
-import { loadSeedManifest } from './bootstrap.js';
+import { loadSeedManifest, type SeedSource } from './bootstrap.js';
 import { sha256Text } from './seed-catalog.js';
 import { getLatestSchemaVersion } from './schema.js';
 
@@ -15,6 +15,18 @@ export interface SeedVerificationSourceResult {
   countOk: boolean;
   status: 'VERIFIED' | 'FAILED';
 }
+
+const CANONICAL_TYPED_DATASETS: SeedSource[] = [
+  { id: 'prophet-profiles', path: 'packages/revelation/data/prophets.json', entityType: 'REVELATION.PROPHET_PROFILE', format: 'json', mode: 'collection', kind: 'structured' },
+  { id: 'prophet-scripture-references', path: 'packages/revelation/data/knowledge/prophet-scripture-index.json', entityType: 'KNOWLEDGE.SCRIPTURE_REFERENCE', format: 'json', mode: 'collection', kind: 'structured' },
+  { id: 'prophetic-events', path: 'packages/revelation/data/knowledge/prophetic-events.json', entityType: 'KNOWLEDGE.PROPHETIC_EVENT', format: 'json', mode: 'collection', kind: 'structured' },
+];
+
+const LEGACY_CANONICAL_DATASET_PATHS = new Set([
+  'data/prophets.json',
+  'data/knowledge/prophet-scripture-index.json',
+  'data/knowledge/prophetic-events.json',
+]);
 
 async function discoverJsonFiles(rootDir: string, manifestIds: Set<string>, manifestPaths: Set<string>) {
   const out: Array<{ id: string; path: string; format: 'json' | 'jsonl' }> = [];
@@ -31,7 +43,7 @@ async function discoverJsonFiles(rootDir: string, manifestIds: Set<string>, mani
       const full = resolve(dir, entry.name);
       const path = relative(rootDir, full).replaceAll('\\', '/');
       const id = `snapshot:${path}`;
-      if (manifestIds.has(id) || manifestPaths.has(path) || path === 'data/identity/actors.json') continue;
+      if (manifestIds.has(id) || manifestPaths.has(path) || LEGACY_CANONICAL_DATASET_PATHS.has(path) || path === 'data/identity/actors.json') continue;
       out.push({ id, path, format: path.endsWith('.jsonl') ? 'jsonl' : 'json' });
     }
   }
@@ -41,11 +53,16 @@ async function discoverJsonFiles(rootDir: string, manifestIds: Set<string>, mani
 
 export async function verifySeedState(rootDir: string, store: PersistenceStore, options: { assertOk?: boolean } = {}) {
   const manifest = await loadSeedManifest(rootDir);
-  const manifestIds = new Set(manifest.sources.map((s) => s.id));
-  const manifestPaths = new Set(manifest.sources.map((s) => s.path.replaceAll('\\','/')));
-  const discovered = await discoverJsonFiles(rootDir, manifestIds, manifestPaths);
+  // These legacy Prophet sources remain in the manifest for historical compatibility, but are no longer canonical or seeded.
+  const manifestSources = manifest.sources.filter((source) => !LEGACY_CANONICAL_DATASET_PATHS.has(source.path.replaceAll('\\', '/')));
+  const manifestIds = new Set(manifestSources.map((s) => s.id));
+  const manifestPaths = new Set(manifestSources.map((s) => s.path.replaceAll('\\', '/')));
+  const canonical = CANONICAL_TYPED_DATASETS.filter((source) => !manifestIds.has(source.id) && !manifestPaths.has(source.path));
+  const discovered = await discoverJsonFiles(rootDir, new Set([...manifestIds, ...canonical.map((source) => source.id)]), new Set([...manifestPaths, ...canonical.map((source) => source.path), ...LEGACY_CANONICAL_DATASET_PATHS]));
   const actorFallback = manifestIds.has('actors') ? [] : [{ id: 'actors', path: 'data/identity/actors.json', format: 'json' as const }];
-  const sources = [...manifest.sources, ...discovered, ...actorFallback];
+  const sourcesById = new Map<string, SeedSource>();
+  for (const source of [...manifestSources, ...canonical, ...discovered, ...actorFallback]) sourcesById.set(source.id, source as SeedSource);
+  const sources = [...sourcesById.values()];
   const entities = await store.entityRepository().list();
   const bySource = new Map<string, typeof entities>();
   for (const entity of entities) {

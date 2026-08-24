@@ -1,0 +1,50 @@
+name: Engineering Task
+description: Track a concrete implementation task
+title: "[TASK] "
+labels: ["task", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for actionable engineering work. Keep one outcome per task.
+  - type: input
+    id: area
+    attributes:
+      label: Area
+      placeholder: API / CAB / XRP / Flow / CI / Security / Docs
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - Critical
+        - High
+        - Normal
+        - Low
+    validations:
+      required: true
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What should be true when this task is complete?
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      placeholder: |
+        - [ ] Code implemented
+        - [ ] Tests pass
+        - [ ] CI passes
+        - [ ] Documentation updated
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies / blockers
+      placeholder: "Link related issues or PRs"

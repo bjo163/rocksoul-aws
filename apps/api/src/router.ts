@@ -1,14 +1,15 @@
 import { IncomingMessage, ServerResponse } from 'node:http';
 import { hasPermission, type ActionPermission } from '../../../src/security/authorization.js';
 
+export type RouteResult = object | { statusCode: number; body: unknown } | undefined;
 export type RouteHandler = (
   request: IncomingMessage,
   response: ServerResponse,
   params: Record<string, string>,
   body: unknown,
   query: URLSearchParams,
-  ctx: any // API Context injected
-) => Promise<unknown> | unknown;
+  ctx: any
+) => Promise<RouteResult> | RouteResult;
 
 export class URLPattern {
   constructor(readonly regex: RegExp, readonly paramNames: string[]) {}
@@ -50,15 +51,16 @@ export function asRecord(value: unknown): Record<string, unknown> {
 }
 
 export function httpError(statusCode: number, error: string, message?: string): { statusCode: number; body: Record<string, unknown> } {
-  return { statusCode, body: { error, ...(message ? { message } : {}) } };
+  const exposeMessage = process.env.NODE_ENV !== 'production';
+  return { statusCode, body: { error, ...(exposeMessage && message ? { message } : {}) } };
 }
 
 export function isHttpError(value: unknown): value is { statusCode: number; body: Record<string, unknown> } {
   return isRecord(value) && typeof value.statusCode === 'number' && isRecord(value.body);
 }
 
-export function isStatusBody(value: unknown): value is { statusCode: number; body: unknown } {
-  return isRecord(value) && typeof value.statusCode === 'number' && 'body' in value;
+export function isStatusBody(value: unknown): value is { statusCode: number; body: Record<string, unknown> } {
+  return isRecord(value) && typeof value.statusCode === 'number' && isRecord(value.body);
 }
 
 export function writeJson(response: ServerResponse, statusCode: number, body: unknown): void {
@@ -111,9 +113,9 @@ export function requestCookie(request: IncomingMessage, name: string): string | 
   return null;
 }
 
-export function idempotencyKey(req: IncomingMessage): string | null { 
-  const raw = req.headers['idempotency-key']; 
-  return typeof raw === 'string' && raw.trim() ? raw.trim() : null; 
+export function idempotencyKey(req: IncomingMessage): string | null {
+  const raw = req.headers['idempotency-key'];
+  return typeof raw === 'string' && raw.trim() ? raw.trim() : null;
 }
 
 export async function requirePermission(req: IncomingMessage, auth: any, permission: ActionPermission) {
@@ -125,6 +127,6 @@ export async function requirePermission(req: IncomingMessage, auth: any, permiss
 }
 
 export async function requireAuthenticated(req: IncomingMessage, auth: any) {
-  const user = await auth.authenticate(bearerToken(req)); 
+  const user = await auth.authenticate(bearerToken(req));
   return user ? { ok: true, user } : { ok: false, error: httpError(401, 'UNAUTHORIZED') };
 }

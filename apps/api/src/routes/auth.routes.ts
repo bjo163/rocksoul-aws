@@ -54,15 +54,13 @@ authRouter.add('POST', '/api/v1/auth/register', async (_req, _reply, _params, bo
   const password = typeof payload.password === 'string' ? payload.password : '';
   if (!username || !password) return httpError(400, 'USERNAME_PASSWORD_REQUIRED');
   if (password.length < 12) return httpError(400, 'PASSWORD_TOO_SHORT', 'Password must contain at least 12 characters');
-  // RID is an authority-bearing identity claim. Public registration may create
-  // an account, but only trusted provisioning may bind that account to a RID.
   if (payload.rid !== undefined && payload.rid !== null && payload.rid !== '') {
     return httpError(400, 'RID_ASSIGNMENT_NOT_ALLOWED', 'RID assignment requires trusted provisioning');
   }
   try {
     return { statusCode: 201, body: await ctx.auth.createUser({ username, password, roles: ['USER'] }) };
-  } catch (error) {
-    return { statusCode: 409, body: { error: 'USER_EXISTS', message: error instanceof Error ? error.message : String(error) } };
+  } catch (_error) {
+    return httpError(409, 'USER_EXISTS');
   }
 });
 

@@ -1,9 +1,10 @@
 import { useEffect, useId, useRef, type ButtonHTMLAttributes, type HTMLAttributes, type InputHTMLAttributes, type PropsWithChildren, type ReactNode } from 'react';
 
-export type ButtonVariant='default'|'ghost'|'danger';
+export type ButtonVariant = 'default' | 'ghost' | 'danger' | 'primary' | 'secondary';
+export type BadgeTone = 'default' | 'success' | 'warning' | 'danger' | 'info' | string;
 export function Button({className='',variant='default',...props}:ButtonHTMLAttributes<HTMLButtonElement>&{variant?:ButtonVariant}){return <button className={`mw-button mw-button-${variant} ${className}`} {...props}/>;}
 export function Input({className='',...props}:InputHTMLAttributes<HTMLInputElement>){return <input className={`mw-input ${className}`} {...props}/>;}
-export function Badge({className='',...props}:PropsWithChildren<HTMLAttributes<HTMLSpanElement>>){return <span className={`mw-badge ${className}`} {...props}/>;}
+export function Badge({className='',tone='default',...props}:PropsWithChildren<HTMLAttributes<HTMLSpanElement>&{tone?:BadgeTone}>){return <span className={`mw-badge mw-badge-${tone} ${className}`} {...props}/>;}
 export function Card({className='',...props}:HTMLAttributes<HTMLDivElement>){return <div className={`mw-card ${className}`} {...props}/>;}
 export function CardHeader({className='',...props}:HTMLAttributes<HTMLDivElement>){return <div className={`mw-card-header ${className}`} {...props}/>;}
 export function CardTitle({className='',...props}:HTMLAttributes<HTMLHeadingElement>){return <h3 className={`mw-card-title ${className}`} {...props}/>;}

@@ -1,4 +1,4 @@
-import { runtimeDataset } from '../persistence/runtime-data.js';
+import { runtimeDatasetOr } from '../persistence/runtime-data.js';
 
 export interface QuranNarrativePattern {
   id: string;
@@ -7,9 +7,12 @@ export interface QuranNarrativePattern {
   arc: string[];
 }
 
+interface QuranNarrativePatternData {
+  patterns: QuranNarrativePattern[];
+}
+
 export async function loadQuranNarrativePatterns(): Promise<QuranNarrativePattern[]> {
-  const raw = runtimeDataset('data/revelation/quran-story-patterns.json') as { patterns: QuranNarrativePattern[] };
-  return raw.patterns;
+  return runtimeDatasetOr<QuranNarrativePatternData>('data/revelation/quran-story-patterns.json', { patterns: [] }).patterns;
 }
 
 export function scoreNarrativePattern(input: { text?: string; concepts?: string[]; references?: string[] }, pattern: QuranNarrativePattern): number {
@@ -23,7 +26,6 @@ export async function matchQuranNarratives(input: { text?: string; concepts?: st
   const patterns = await loadQuranNarrativePatterns();
   return patterns
     .map(pattern => ({ pattern, score: scoreNarrativePattern(input, pattern) }))
-    .filter(row => row.score > 0)
     .sort((a, b) => b.score - a.score)
-    .slice(0, limit);
+    .slice(0, Math.max(0, limit));
 }

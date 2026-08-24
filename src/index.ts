@@ -1,4 +1,3 @@
-// @ts-nocheck
 export * from './core/divine-order-engine.js';
 export * from './core/state-machine.js';
 export * from './revelation/index.js';

@@ -39,10 +39,90 @@ Mizan results should be explainable through the contributing semantic/vector/evi
 
 Evidence records are versioned persistent records with actor and timestamp metadata. The evidence payload, provenance references, and confidence are preserved with the related case and included in audit history; they remain decision-support information, not an authoritative legal or divine determination.
 
+## Canonical provenance contract
+
+The canonical Revelation evidence normalizer is `packages/revelation/src/evidence-provenance.ts`. It adds semantic classification without replacing the existing `EvidenceRecord` contract in `@moonwitness/contracts`.
+
+The following boundaries are mandatory:
+
+```text
+QURAN_EXPLICIT
+  → EXPLICIT grounding
+  → normativeAuthority = true
+  → originalRevelationEquated = false
+
+TEXTUAL_WITNESS_CORROBORATION
+  → CORROBORATIVE grounding
+  → normativeAuthority = false
+  → originalRevelationEquated = false
+
+OBSERVED
+  → OBSERVED grounding
+
+INFERRED / ENGINE_DERIVED / AI_INFERENCE
+  → DERIVED grounding
+
+CONFLICTED
+  → CONFLICTED grounding
+```
+
+Evidence confidence is clamped to `0..1`. Missing or unknown source/status information becomes `UNKNOWN`; it is never promoted to authoritative evidence. A superseded record remains visible as historical evidence and is marked `superseded=true` rather than deleted from semantic history.
+
+## I2 Evidence ↔ Revelation Graph binding
+
+`packages/revelation/src/evidence-graph.ts` provides a pure binding layer between canonical Evidence semantics and an existing Revelation graph. A binding is created only when the evidence reference resolves to an existing graph passage. The binding preserves the evidence class and does not mutate graph nodes, graph lanes, or Revelation grounding.
+
+```text
+QURAN_EXPLICIT
+  → EVIDENCE_SUPPORTS
+  → CORE / QURAN_EXPLICIT
+  → normativeAuthority may remain true
+
+TEXTUAL_WITNESS_CORROBORATION
+  → EVIDENCE_CORROBORATES
+  → non-normative
+
+OBSERVED
+  → EVIDENCE_OBSERVES
+  → non-normative
+
+INFERRED / ENGINE_DERIVED / AI_INFERENCE
+  → EVIDENCE_DERIVED_FROM
+  → non-normative
+
+CONFLICTED
+  → EVIDENCE_CONFLICTS
+  → non-normative
+```
+
+Unresolvable references produce no binding rather than a fabricated Passage, Prophet, Event, or Revelation node. This layer is representational only and must not convert observation, corroboration, inference, or AI output into Revelation authority.
+
+## I3 Explicit Evidence ↔ Prophet / Event / Passage relations
+
+`packages/revelation/src/evidence-relations.ts` defines deterministic typed relations from Evidence to canonical `PASSAGE`, `PROPHET_REFERENCE`, and `PROPHETIC_EVENT` targets.
+
+```text
+QURAN_EXPLICIT
+  → EVIDENCE_SUPPORTS_PASSAGE / EVIDENCE_SUPPORTS_PROPHET_REFERENCE / EVIDENCE_SUPPORTS_EVENT
+
+TEXTUAL_WITNESS_CORROBORATION
+  → EVIDENCE_CORROBORATES_PASSAGE / EVIDENCE_CORROBORATES_PROPHET_REFERENCE / EVIDENCE_CORROBORATES_EVENT
+
+OBSERVED
+  → EVIDENCE_OBSERVES_EVENT
+
+INFERRED / ENGINE_DERIVED / AI_INFERENCE
+  → EVIDENCE_DERIVED_FROM_EVENT
+
+CONFLICTED
+  → EVIDENCE_CONFLICTS_WITH_EVENT
+```
+
+Unsupported target kinds and unknown grounding produce no relation. These bindings are explicit semantic links only; they never mutate target graph lanes, promote derived evidence into Revelation authority, or create missing nodes.
+
 ## v4.20 report/evidence rule
 
 A natural-language case description is a **report to analyze**, not proof that the described event occurred. Unless case evidence is marked verified/corroborated, action findings remain `PROVISIONAL` even when the semantic action and relevant Qur'anic principle are clear. This prevents source authority (a Qur'an reference) from being confused with factual proof about a particular accused person.
-
 
 ## v4.21 Four-book Revelation Core
 
@@ -60,7 +140,6 @@ An Asma candidate is evidence-backed only by its scripture occurrences. Repetiti
 
 A language alias/query surface is not evidence. Evidence begins at the retrieved admitted-Revelation passage. `pureRevelationDerived=true` therefore means the **normative direction after language parsing** is derived from retrieved Revelation structure; it does not mean the software's language parser is revelation. Missing empirical facts remain unresolved.
 
-
 ## v4.27 event-occurrence evidence rule
 
 An action word inside a sentence is not automatically an occurred event. The Semantic Event Interpreter distinguishes occurred, negated, reported/embedded, and context-invalidated actions before Revelation binding. A report such as “Dia dituduh mencuri tanpa bukti” does not establish theft by the accused; the reported theft clause is suppressed as an occurrence while the unsupported-accusation event may be analyzed separately. Permission, mistake, coercion and restoration remain explicit context/evidence fields rather than hidden score modifiers. Event parsing has `normativeAuthority=false`; moral evidence still begins at admitted Revelation passages.
@@ -72,7 +151,6 @@ Lifecycle language signals are evidence about what a speaker/report says happene
 ## v4.29 Grammar evidence
 
 Grammar structure is secondary analytical evidence attached to exact Qur'an passage provenance. A grammar frame cannot create Revelation authority. Negation/polarity must survive into downstream Asma/Moral relations. Candidate condition/cause/root fields must remain labelled as candidates.
-
 
 ## v4.30 ontology evidence rule
 

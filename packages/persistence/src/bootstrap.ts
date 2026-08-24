@@ -42,12 +42,29 @@ function toSeedItems(source: SeedSource, raw: unknown): Array<{ id: string; type
   });
 }
 
-
 const EXCLUDED_SEED_DIRS = new Set(['seed']);
+const CANONICAL_TYPED_DATASETS: SeedSource[] = [
+  { id: 'prophet-profiles', path: 'packages/revelation/data/prophets.json', entityType: 'REVELATION.PROPHET_PROFILE', format: 'json', mode: 'collection', kind: 'structured' },
+  { id: 'prophet-scripture-references', path: 'packages/revelation/data/knowledge/prophet-scripture-index.json', entityType: 'KNOWLEDGE.SCRIPTURE_REFERENCE', format: 'json', mode: 'collection', kind: 'structured' },
+  { id: 'prophetic-events', path: 'packages/revelation/data/knowledge/prophetic-events.json', entityType: 'KNOWLEDGE.PROPHETIC_EVENT', format: 'json', mode: 'collection', kind: 'structured' },
+];
+const LEGACY_CANONICAL_DATASET_PATHS = new Set([
+  'data/prophets.json',
+  'data/knowledge/prophet-scripture-index.json',
+  'data/knowledge/prophetic-events.json',
+]);
+
+function normalizePath(value: string): string {
+  return value.replaceAll('\\', '/');
+}
 
 async function discoverJsonFiles(rootDir: string, currentIds: Set<string>): Promise<SeedSource[]> {
   const dataRoot = resolve(rootDir, 'data');
   const discovered: SeedSource[] = [];
+  const canonicalPaths = new Set([
+    ...CANONICAL_TYPED_DATASETS.map((source) => source.path),
+    ...LEGACY_CANONICAL_DATASET_PATHS,
+  ]);
   async function walk(dir: string): Promise<void> {
     for (const entry of await readdir(dir, { withFileTypes: true })) {
       if (entry.isDirectory()) {
@@ -59,7 +76,8 @@ async function discoverJsonFiles(rootDir: string, currentIds: Set<string>): Prom
       if (!entry.isFile() || !/\.(json|jsonl)$/i.test(entry.name)) continue;
       if (/\.schema\.json$/i.test(entry.name)) continue;
       const full = resolve(dir, entry.name);
-      const rel = relative(rootDir, full).replaceAll('\\', '/');
+      const rel = normalizePath(relative(rootDir, full));
+      if (canonicalPaths.has(rel)) continue;
       const idBase = `snapshot:${rel}`;
       if (currentIds.has(idBase)) continue;
       discovered.push({ id: idBase, path: rel, entityType: 'DATASET_SNAPSHOT', format: rel.endsWith('.jsonl') ? 'jsonl' : 'json', mode: 'single', kind: 'snapshot' });
@@ -76,10 +94,12 @@ function snapshotPayload(source: SeedSource, raw: string): Record<string, unknow
 
 export async function seedIntoPersistenceStore(rootDir: string, store: PersistenceStore, driver: PersistenceConfig['driver'] = store.driver): Promise<{ seeded: number; sources: number }> {
   const manifest = await loadSeedManifest(rootDir);
-  const manifestIds = new Set(manifest.sources.map((source) => source.id));
-  const manifestPaths = new Set(manifest.sources.map((source) => source.path.replaceAll('\\', '/')));
-  const discovered = (await discoverJsonFiles(rootDir, manifestIds)).filter((source) => !manifestPaths.has(source.path.replaceAll('\\', '/')));
-  const allSources = [...manifest.sources, ...discovered];
+  const manifestSources = manifest.sources.filter((source) => !LEGACY_CANONICAL_DATASET_PATHS.has(normalizePath(source.path)));
+  const manifestIds = new Set(manifestSources.map((source) => source.id));
+  const manifestPaths = new Set(manifestSources.map((source) => normalizePath(source.path)));
+  const canonical = CANONICAL_TYPED_DATASETS.filter((source) => !manifestIds.has(source.id) && !manifestPaths.has(source.path));
+  const discovered = (await discoverJsonFiles(rootDir, new Set([...manifestIds, ...canonical.map((source) => source.id)]))).filter((source) => !manifestPaths.has(normalizePath(source.path)));
+  const allSources = [...manifestSources, ...canonical, ...discovered];
   const repo = store.entityRepository();
   let seeded = 0;
   let sources = 0;
@@ -102,9 +122,6 @@ export async function seedIntoPersistenceStore(rootDir: string, store: Persisten
       sources += 1;
     }
   };
-  // PostgreSQL repositories currently use the pool directly, so do not pretend that
-  // PersistenceStore.batch() makes their writes share the same client/transaction.
-  // Local providers do support batching; using it avoids one disk flush per Revelation passage.
   if (driver !== 'postgres' && store.batch) await store.batch(work);
   else await work();
   return { seeded, sources };

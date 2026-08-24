@@ -1,0 +1,15 @@
+import '../../revelation-semantic-core.test.js';
+import '../../revelation-asma-engine.test.js';
+import '../../revelation-divine-ontology.test.js';
+import '../../revelation-divine-ontology-100-cases.test.js';
+import '../../revelation-grammar.test.js';
+import '../../revelation-grammar-100-cases.test.js';
+import '../../revelation-native-binding.test.js';
+import '../../revelation-magnitude.test.js';
+import '../../four-book-corpus.test.js';
+import '../../revelation-10-cases.test.js';
+import '../../revelation-seed-install.test.js';
+import '../../revelation-package-ownership.test.js';
+import '../../revelation-lifecycle-grounding.test.js';
+import '../../knowledge-profile.test.js';
+import '../../people-place-relations.test.js';

@@ -1,6 +1,20 @@
 # MoonWitness OS — Production Certification N1–N6
 
+**Release line:** `4.33.0`
+
 This document is the operational gate for the final production phase. The automated contract suite checks architecture and source-level prerequisites; environment-specific drills remain required before a production certification can be marked complete.
+
+## Evidence states
+
+Use these exact states in certification artifacts:
+
+- `implemented` — source/test/docs contract exists.
+- `ci-pending` — implementation exists but the current head has not completed the required CI gate.
+- `environment-pending` — CI is green but deployment-specific evidence is outstanding.
+- `certified` — automated suite and required target-environment evidence both passed.
+- `blocked` — a required gate has failed or has an unresolved release annotation.
+
+Do not mark a gate `certified` from source inspection alone.
 
 ## N1 — Concurrency / failure drills
 
@@ -68,8 +82,20 @@ Verify public RID-scoped workspace, object authorization, evidence submission se
 ### Flow
 Verify draft-only workflow creation, transactional review intent, Witness-pending state, idempotent request/retry behavior, and prohibition on automatic publication/adverse action.
 
+## CI annotation rule
+
+Every release-candidate CI run must be checked for both errors and warnings. A historical failed run must not be used as current evidence, and a warning must be classified as one of:
+
+1. release blocker — must be fixed before release;
+2. environment/dependency notice — documented with owner and follow-up;
+3. non-actionable informational output.
+
+The release status must link the current run used as certification evidence rather than relying on an older run.
+
 ## Final status rule
 
-`implemented` means source/test/docs contract exists.
-`certification pending` means CI or environment evidence is still outstanding.
-`certified` requires both automated suite success and the required target-environment drill evidence.
+`implemented` means source/test/docs contract exists.  
+`ci-pending` means the current head has not completed CI.  
+`environment-pending` means CI is green but operational evidence remains.  
+`certified` requires both automated suite success and the required target-environment drill evidence.  
+`blocked` means a required gate failed or has an unresolved release annotation.

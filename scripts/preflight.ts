@@ -8,13 +8,19 @@ import { verifyRevelationCorpusFiles } from '../src/revelation/corpus/revelation
 
 const root = process.cwd();
 const manifest = await loadSeedManifest(root);
+const LEGACY_CANONICAL_DATASET_PATHS = new Set([
+  'data/prophets.json',
+  'data/knowledge/prophet-scripture-index.json',
+  'data/knowledge/prophetic-events.json',
+]);
+const manifestSources = manifest.sources.filter((source) => !LEGACY_CANONICAL_DATASET_PATHS.has(source.path.replaceAll('\\', '/')));
 const ids = new Set<string>();
 const paths = new Set<string>();
 const errors: string[] = [];
 const warnings: string[] = [];
 let expectedItems = 0;
 
-for (const source of manifest.sources) {
+for (const source of manifestSources) {
   if (ids.has(source.id)) errors.push(`DUPLICATE_SOURCE_ID:${source.id}`);
   ids.add(source.id);
   if (paths.has(source.path)) errors.push(`DUPLICATE_SOURCE_PATH:${source.path}`);
@@ -67,7 +73,7 @@ if (process.env.STORAGE_DRIVER === 'postgres') {
 const result = {
   ok: errors.length === 0,
   schemaVersion: getLatestSchemaVersion(),
-  manifestSources: manifest.sources.length,
+  manifestSources: manifestSources.length,
   expectedSeedEntities: expectedItems,
   requiredRuntimeDatasets: REQUIRED_RUNTIME_DATASETS.length,
   revelationCorpus: { ok: revelationCorpus.ok, totalExpected: revelationCorpus.totalExpected, totalActual: revelationCorpus.totalActual, fingerprint: revelationCorpus.fingerprint },

@@ -1,11 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
+import { readFile } from 'node:fs/promises';
 
-const boundary = fs.readFileSync('apps/cab/src/components/UniverseBoundary.tsx', 'utf8');
-
-test('CAB Universe renders explicit uncertainty and empty-state boundaries', () => {
-  for (const token of ['UNRESOLVED_PRESENT', 'NO_EVIDENCE', 'INTEGRITY_ALERT', 'missing knowledge', 'Divine, legal, or factual verdict']) {
-    assert.ok(boundary.includes(token), token);
-  }
+test('CAB Universe has explicit uncertainty/empty-state boundary', async () => {
+  const source = await readFile('apps/cab/src/components/UniverseBoundary.tsx', 'utf8');
+  assert.match(source, /UNRESOLVED_PRESENT/);
+  assert.match(source, /NO_EVIDENCE/);
+  assert.match(source, /INTEGRITY_ALERT/);
+  assert.match(source, /data-testid="cab-universe-boundary"/);
+  assert.match(source, /negative proof/i);
 });

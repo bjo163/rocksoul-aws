@@ -18,7 +18,7 @@ for (const e of all) byType.set(e.type, (byType.get(e.type) ?? 0) + 1);
 
 const manifest = await loadSeedManifest(process.cwd());
 const expectedSeed = await seedDatabase(process.cwd(), { driver: 'memory' });
-assert.equal(getLatestSchemaVersion(), 6);
+assert.equal(getLatestSchemaVersion(), 7);
 assert.ok(all.length >= expectedSeed.seeded, `expected at least ${expectedSeed.seeded} entities, got ${all.length}`);
 
 const duplicateIds = all.length - new Set(all.map((e) => e.id)).size;

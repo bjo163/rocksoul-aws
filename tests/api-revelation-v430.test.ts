@@ -34,7 +34,7 @@ test('v4.30 Revelation API exposes Asma, moral graph, event interpreter and mora
 
     const core=await get(base,'/api/v1/revelation/core');
     assert.equal(core.response.status,200);
-    assert.equal(core.body.version,'4.30.0');
+    assert.equal(core.body.version,'4.32.0');
     assert.equal(core.body.asma.protocol,'PURE_REVELATION_ASMA_V2');
     assert.equal(core.body.eventInterpreter.protocol,'SEMANTIC_EVENT_ENGINE_V1');
     assert.equal(core.body.eventInterpreter.normativeAuthority,false);
