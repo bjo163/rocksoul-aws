@@ -1,0 +1,51 @@
+name: CI Failure Task
+
+on:
+  workflow_run:
+    workflows: ["MoonWitness Certification", "Documentation Validation"]
+    types: [completed]
+
+permissions:
+  actions: read
+  contents: read
+  issues: write
+
+jobs:
+  create-task:
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create or update CI failure issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          WORKFLOW: ${{ github.event.workflow_run.name }}
+          RUN_URL: ${{ github.event.workflow_run.html_url }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          title="[CI] ${WORKFLOW} failed on ${HEAD_BRANCH}"
+          existing=$(gh issue list --repo "$REPO" --state open --search "in:title ${title}" --json number --jq '.[0].number')
+          body=$(cat <<EOF
+          ## CI failure
+
+          **Workflow:** ${WORKFLOW}
+          **Branch:** ${HEAD_BRANCH}
+          **Commit:** ${HEAD_SHA}
+          **Run:** ${RUN_URL}
+
+          ## Acceptance criteria
+          - [ ] Root cause identified
+          - [ ] Source/configuration fixed
+          - [ ] Regression test added or verified
+          - [ ] Certification passes
+          - [ ] Related documentation updated if needed
+          EOF
+          )
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --repo "$REPO" --body "$body"
+          else
+            gh issue create --repo "$REPO" --title "$title" --body "$body" --label "ci,status:blocked,triage"
+          fi

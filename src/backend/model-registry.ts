@@ -1,8 +1,66 @@
 // @ts-nocheck
 import { runtimeDataset } from '../persistence/runtime-data.js';
 
+const relationViews = Object.freeze({
+  'HERO_REFERENCE.PROPHET': {
+    primaryDomain: 'REVELATION',
+    status: 'SCRIPTURALLY_GROUNDED_REFERENCE',
+    sourceRule: 'Use explicit/corroborated source links; do not infer unsupported biography.',
+    relations: [
+      'SCRIPTURE_REFERENCE',
+      'PROPHETIC_EVENT',
+      'PASSAGE',
+      'DIVINE_RELATION',
+      'PLACE',
+      'PEOPLE',
+      'MISSION',
+      'EVIDENCE',
+    ],
+    relationLayers: ['REVELATION', 'WORLD', 'KNOWLEDGE'],
+    separation: {
+      core: ['explicit scripture reference', 'scriptural event reference', 'source provenance'],
+      derived: ['historical reconstruction', 'research hypothesis', 'AI inference'],
+      unresolved: ['conflicted identity', 'unsupported chronology', 'unverified tradition'],
+    },
+  },
+  'DIVINE_BOOK': {
+    primaryDomain: 'REVELATION',
+    status: 'SOURCE_OBJECT',
+    relations: ['PASSAGE', 'SOURCE', 'EDITION', 'MANUSCRIPT', 'EVIDENCE'],
+    relationLayers: ['REVELATION', 'KNOWLEDGE'],
+  },
+  'DIVINE_BOOK.SURAH': {
+    primaryDomain: 'REVELATION',
+    status: 'SOURCE_STRUCTURE',
+    relations: ['PASSAGE', 'BOOK', 'CONCEPT', 'PROPHET', 'EVIDENCE'],
+    relationLayers: ['REVELATION', 'KNOWLEDGE'],
+  },
+  'KNOWLEDGE.SCRIPTURE_REFERENCE': {
+    primaryDomain: 'KNOWLEDGE',
+    status: 'PROVENANCE_BRIDGE',
+    relations: ['BOOK', 'PASSAGE', 'PROPHET', 'EVENT', 'CONCEPT'],
+    relationLayers: ['KNOWLEDGE', 'REVELATION', 'WORLD'],
+  },
+  'KNOWLEDGE.PROPHETIC_EVENT': {
+    primaryDomain: 'WORLD',
+    status: 'SCRIPTURALLY_GROUNDED_EVENT',
+    relations: ['PROPHET', 'PASSAGE', 'PLACE', 'PEOPLE', 'EVIDENCE'],
+    relationLayers: ['WORLD', 'REVELATION', 'KNOWLEDGE'],
+  },
+});
+
+function relationViewFor(type) {
+  return relationViews[type.typeId] ?? {
+    primaryDomain: type.domain ?? 'WORLD',
+    status: 'MODEL_DEFINED',
+    relations: ['RELATION', 'EVENT', 'EVIDENCE', 'AUDIT'],
+    relationLayers: [type.domain ?? 'WORLD'],
+  };
+}
+
 function uiSchemaFor(type) {
   const family = type.entityFamily ?? 'ENTITY';
+  const relationship = relationViewFor(type);
   const base = {
     typeId: type.typeId,
     title: type.label ?? type.typeId,
@@ -10,6 +68,7 @@ function uiSchemaFor(type) {
     route: `/m/${encodeURIComponent(type.typeId)}`,
     layout: 'entity',
     sections: ['overview', 'relations', 'events', 'resources', 'assets', 'audit'],
+    relationship,
     fields: type.fields ?? [
       {name: 'type', label: 'Type', kind: 'badge', path: 'type'},
       {name: 'state', label: 'State', kind: 'badge', path: 'state'},
@@ -80,11 +139,15 @@ export class ModelRegistry {
       query: {type: model.typeId},
       ui: model.ui,
       endpoints: {
-        list: `/api/entities?type=${encodeURIComponent(model.typeId)}`,
-        create: '/api/entities',
-        detail: `/api/entities/:id`,
-        graph: `/api/entities/:id/graph`,
+        list: `/api/v1/query?type=${encodeURIComponent(model.typeId)}`,
+        create: '/api/v1/command',
+        detail: '/api/v1/resource/:id',
+        graph: '/api/v1/kernel/graph',
+        evidence: '/api/v1/resource/:id/evidence',
+        audit: '/api/v1/resource/:id/audit',
+        replay: '/api/v1/resource/:id/replay',
       },
+      legacyEndpoints: [],
     };
   }
 }

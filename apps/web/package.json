@@ -1,6 +1,6 @@
 {
   "name": "@moonwitness/web",
-  "version": "4.32.0",
+  "version": "4.33.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -10,7 +10,7 @@
     "test": "cd ../.. && tsx --test tests/public-web-contract.test.ts"
   },
   "dependencies": {
-    "@moonwitness/ui": "4.32.0",
+    "@moonwitness/ui": "4.33.0",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "react-server-dom-webpack": "19.2.8",

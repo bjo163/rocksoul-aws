@@ -1,49 +1,36 @@
-# Universe OS — Canonical Documentation
+# MoonWitness OS — Canonical Documentation
 
-Version: **4.32.0**
+Version: **4.33.0**
 
-This directory is the single authoritative documentation set for the repository. Historical checkpoint reports are retained for audit/history, while the versioned current documents below define the active architecture.
+This directory is the authoritative documentation set for the current release line. Historical release notes and audit snapshots are retained for traceability; `ROADMAP_TODO.md` and `RELEASE_STATUS_4.33.0.md` are the active execution/status references.
 
-The current release keeps the **single-node** Witness/Q-DAG, Moral Lifecycle, and Revelation Grammar baselines and adds a **Deep Divine Ontology** under the Pure Revelation Asma Engine. Qur'an remains primary/Muhaimin; Tawrat, Zabur and Injil remain confidence-only textual-witness corroboration channels. Ontology clusters are non-normative discovery structures and cannot create canonical Divine Names or Divine judgement.
+## Start here
 
-## Documents
+- `RELEASE_STATUS_4.33.0.md` — current architecture state, open release blockers, and production-certification boundary.
+- `ROADMAP_TODO.md` — active roadmap with implementation/certification status.
+- `RELEASE_NOTES_4.33.0.md` — what changed in the Universe/CAB architecture release.
+- `PRODUCTION_CERTIFICATION.md` — N1–N6 operational certification runbook.
 
-- `TODO.md` — prioritized full-repository audit backlog, release blockers, acceptance criteria, and required execution order.
-- `ARCHITECTURE.md` — canonical system architecture and execution flow.
-- `API.md` — canonical Universal API, SDK, authentication, authorization, and transport model.
+## Canonical architecture
+
+- `ARCHITECTURE.md` — system architecture and execution flow.
+- `API.md` — Universal API, authentication, authorization, and transport model.
 - `DATA_MODEL.md` — entity/event/state/case/evidence/audit/idempotency model.
-- `EVIDENCE.md` — source, provenance, confidence, conflict, and semantic evidence rules.
-- `SECURITY.md` — identity, sessions, permissions, audit, and access boundaries.
-- `REVELATION_PATTERNS.md` — Qur'an-first temporal/narrative/revelation-context model.
-- `QURANIC_MIZAN.md` — canonical Qur'an-first analytical/epistemic Mizan protocol and software boundaries.
-- `REVELATION_SEMANTIC_CORE.md` — strict four-book source policy, corpus boundaries, Pure Revelation Asma, moral graph, and geography boundaries.
-- `ASMA_ENGINE.md` — canonical pure-revelation Asma pipeline and its non-99 boundary.
-- `REVELATION_DEEP_INSIGHT_4.21.md` — corpus-grounded Makkah/Madinah and cross-book place/function research, with explicit inference boundaries.
-- `OPERATIONS.md` — installer, seed, persistence, worker, backup/recovery, and deployment guidance.
-- `TESTING.md` — certification layers and how to reproduce the checks.
-- `WITNESS-QDAG.md` — content-addressed multi-parent ledger foundation.
-- `DISTRIBUTED-WITNESS.md` — reusable distributed primitives retained from v4.17; network operation remains deferred in v4.21.
-- `SINGLE_NODE_WITNESS.md` — canonical local ledger, key custody, Mizan commitment, backup, recovery, and diagnostics model.
-- `FOUR_BOOK_CORROBORATION.md` — canonical Quran-primary + three equal textual-witness corroboration policy.
-- `REVELATION_NATIVE_BINDING.md` — canonical non-normative language adapter → runtime corpus retrieval → Revelation-derived direction protocol.
-- `REVELATION_SCORING.md` — canonical Revelation-grounded magnitude, RGBL role, 13 OUT and scoring boundary.
-- `SEMANTIC_EVENT_INTERPRETER.md` — canonical event graph, conflict, sequence, negation, context and restoration protocol.
-- `MORAL_LIFECYCLE_ENGINE.md` — canonical violation→return/repair/relapse lifecycle and divine-acceptance boundary.
-- `HUMAN_REVIEW_GATE.md` — explainability, evidence gaps, conflict blocking, and safe human-review decisions.
-- `REVELATION_GRAMMAR_ENGINE.md` — canonical structural grammar/relation layer, polarity, root-candidate and authority boundaries.
-- `DIVINE_ONTOLOGY_ENGINE.md` — canonical v4.30 corpus-derived Divine ontology, polarity families, target concepts and non-canonical-name boundary.
-- `RELEASE_NOTES_4.32.0.md` — current Human Review, evidence-loop, CAB translation completion, Review Queue, and contract-integration release.
-- `TEST_REPORT_4.32.0.md` — current integration certification and known environment boundaries.
-- `RELEASE_NOTES_4.29.0.md` / `TEST_REPORT_4.29.0.md` — prior Revelation Grammar & Relation checkpoint.
-- `RELEASE_NOTES_4.28.0.md` / `TEST_REPORT_4.28.0.md` — prior Moral Lifecycle Engine checkpoint.
-- `RELEASE_NOTES_4.27.0.md` / `TEST_REPORT_4.27.0.md` — prior Semantic Event Interpreter checkpoint.
-- `RELEASE_NOTES_4.25.0.md` / `TEST_REPORT_4.25.0.md` — prior Native Revelation Binding checkpoint.
-- `RELEASE_NOTES_4.24.0.md` / `TEST_REPORT_4.24.0.md` — previous typed Revelation seed/install checkpoint.
-- `RELEASE_NOTES_4.23.0.md` / `TEST_REPORT_4.23.0.md` — previous four-book corroboration baseline.
-- `RELEASE_NOTES_4.22.0.md` / `TEST_REPORT_4.22.0.md` — prior Pure Revelation Asma checkpoint.
-- `RELEASE_NOTES_4.21.0.md` / `TEST_REPORT_4.21.0.md` — prior Revelation Semantic Core checkpoint.
-- `RELEASE_NOTES_4.20.0.md` — prior Qur'anic Mizan semantic release.
-- `TEST_REPORT_4.20.0.md` — prior Qur'anic Mizan semantic/reference verification report.
-- `RELEASE_NOTES_4.19.0.md` / `TEST_REPORT_4.19.0.md` — prior single-node completion checkpoint.
-- `FINAL_STATUS.md` — current repository status, known environment-dependent limitations, and release boundary.
-- `KNOWLEDGE_SOURCES.json` — machine-readable source/provenance registry for the research/knowledge layer.
+- `EVIDENCE.md` — evidence, provenance, conflict, and semantic evidence rules.
+- `SECURITY.md` — identity, sessions, permissions, audit, key custody, and production boundaries.
+
+## Revelation / Knowledge
+
+- `KNOWLEDGE_ONTOLOGY.md` — frozen node kinds, source classes, epistemic lanes, and relations.
+- `EPISTEMIC_BOUNDARY.md` — CORE/DERIVED/UNRESOLVED and source-class rules.
+- `PROVENANCE_EXPLORER.md` — source → reference → evidence → review → witness → audit trace.
+- `EVIDENCE_HISTORY.md` — immutable supersession/history model.
+- `REANALYSIS_LIFECYCLE.md` — evidence fingerprint and re-analysis state machine.
+- `CAB_UNIVERSE.md` — Universe read model and Observatory projection.
+- `CAB_VISUAL_ACCESSIBILITY.md` — graph accessibility, keyboard semantics, localization and visual contracts.
+- `API_ENTITY_BOUNDARY.md` — API/entity ownership and no-new-API-family rule.
+- `REVELATION_PACKAGE_MIGRATION.md` — package ownership and migration boundary.
+
+## Historical documents
+
+Older `RELEASE_NOTES_*`, `TEST_REPORT_*`, `FINAL_STATUS.md`, and the full `TODO.md` audit remain for historical/audit purposes. They are not the current release status and may describe earlier baselines.

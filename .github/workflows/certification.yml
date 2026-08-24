@@ -1,8 +1,9 @@
 name: MoonWitness Certification
 
+# Sole PR merge gate: canonical lockfile + quality + release certification + production container build.
+# PR context is authoritative for the base SHA; manual dispatch is also supported for diagnosis.
+
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -11,99 +12,65 @@ permissions:
   contents: read
 
 concurrency:
-  group: certification-${{ github.ref }}
+  group: certification-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
-  postgres:
-    name: PostgreSQL 18 integration
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    services:
-      postgres:
-        image: postgres:18
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres-ci-only
-          POSTGRES_DB: moonwitness_ci
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U postgres -d moonwitness_ci"
-          --health-interval 5s
-          --health-timeout 5s
-          --health-retries 12
-    env:
-      STORAGE_DRIVER: postgres
-      PGHOST: 127.0.0.1
-      PGPORT: 5432
-      PGUSER: postgres
-      PGPASSWORD: postgres-ci-only
-      PGDATABASE: moonwitness_ci
-
-    steps:
-      - name: Check out source
-        uses: actions/checkout@v4
-
-      - name: Use Node.js 22
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-
-      - name: Install locked dependencies
-        run: npm ci
-
-      - name: Run isolated PostgreSQL certification
-        run: npm run test:postgres
-
   certify:
-    name: Build, test, and certify
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-
+    name: Build, test, certify, and containerize
+    runs-on: [self-hosted, linux, x64, cosmic]
+    timeout-minutes: 60
     steps:
-      - name: Check out source
-        uses: actions/checkout@v4
-
+      - name: Check out source with complete history
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Resolve authoritative coding base
+        env:
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          if [[ -n "$PR_BASE_SHA" ]]; then
+            BASE_SHA="$PR_BASE_SHA"
+          else
+            git fetch --no-tags origin main:refs/remotes/origin/main
+            BASE_SHA="$(git merge-base HEAD refs/remotes/origin/main)"
+          fi
+          test -n "$BASE_SHA"
+          git fetch --no-tags origin "$BASE_SHA"
+          git cat-file -e "$BASE_SHA^{commit}"
+          echo "PR_BASE_SHA=$BASE_SHA" >> "$GITHUB_ENV"
+          echo "Resolved coding base: $BASE_SHA"
       - name: Use Node.js 22
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
-
-      - name: Install locked dependencies
-        run: npm ci
-
+      - name: Install workspace dependencies from canonical lockfile
+        run: npm ci --ignore-scripts
+      - name: Dependency integrity gate
+        run: npm run dependency:integrity
+      - name: Coding standard gate
+        run: npm run lint
+      - name: TypeScript typecheck
+        run: npm run typecheck
       - name: Verify release identity
         run: npm run release:identity
-
       - name: Build API
         run: npm run build:api
-
       - name: Build CAB
         run: npm run build:cab
-
       - name: Build public web
         run: npm run build:web
-
       - name: Build XRP
         run: npm run build:xrp
-
       - name: Build Flow
         run: npm run build:flow
-
-      - name: Run core regression suite
-        run: npm test
-
-      - name: Run API suite
-        run: npm --prefix apps/api test
-
-      - name: Run CAB contracts
-        run: npm run test:cab
-
-      - name: Run public web contracts
-        run: npm run test:web
-
-      - name: Run current certification
+      - name: Run release test suite
+        run: npm run test:release
+      - name: Run release certification
         run: npm run certify:current
+      - name: Build production Docker image
+        run: docker build --file Dockerfile --tag cosmic:ci .
+      - name: Inspect production image metadata
+        run: docker image inspect cosmic:ci --format '{{.Config.Cmd}}'

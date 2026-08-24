@@ -26,7 +26,7 @@ export function useCivicPreferences(defaultLocale: CivicLocale = 'id') {
 }
 
 export function StatusBadge({ tone = 'neutral', children }: PropsWithChildren<{ tone?: CivicTone }>) { return <span className={`mw-status mw-status-${tone}`}>{children}</span>; }
-export function BoundaryNotice({ children, tone = 'warning' }: PropsWithChildren<{ tone?: 'warning' | 'info' }>) { return <div className={`mw-boundary mw-boundary-${tone}`} role="note"><span aria-hidden="true">◇</span>{children}</div>; }
+export function BoundaryNotice({ children, tone = 'warning' }: PropsWithChildren<{ tone?: CivicTone }>) { return <div className={`mw-boundary mw-boundary-${tone}`} role="note"><span aria-hidden="true">◇</span>{children}</div>; }
 export function IdentityPlate({ identity }: { identity: CivicIdentity }) { return <div className="mw-identity" aria-label={`RID ${identity.rid}`}><span className="mw-identity-orbit" aria-hidden="true"/><span><small>RID</small><strong>{identity.rid}</strong></span>{(identity.role || identity.clearance) && <span className="mw-identity-meta">{identity.role}{identity.role && identity.clearance ? ' · ' : ''}{identity.clearance}</span>}</div>; }
 
 export function PreferenceControls({ theme, locale, onThemeChange, onLocaleChange }: { theme: CivicTheme; locale: CivicLocale; onThemeChange: (theme: CivicTheme) => void; onLocaleChange: (locale: CivicLocale) => void }) {

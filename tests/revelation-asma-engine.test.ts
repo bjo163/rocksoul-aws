@@ -53,7 +53,7 @@ assert.ok(graph.edges.some(x=>x.perspective==='LIGHT'));
 assert.ok(graph.edges.some(x=>x.perspective==='BLUE'));
 
 const core=revelationSemanticCoreSnapshot();
-assert.equal(core.version,'4.30.0');
+assert.equal(core.version,'4.32.0');
 assert.equal(core.boundaries.canonical99IsSourceOfTruth,false);
 assert.equal(core.boundaries.asmaMustBeDiscoveredFromRevelation,true);
 assert.equal(core.asma.protocol,'PURE_REVELATION_ASMA_V2');

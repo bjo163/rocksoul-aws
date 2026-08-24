@@ -34,7 +34,6 @@ assert.equal(geo.invariants.placeMentionIsRevelationPlace,false);
 assert.equal(geo.invariants.bakkahEqualsMakkahNotAssumedFromTextAlone,true);
 assert.equal(geo.invariants.externalMakkiMadaniClassificationUsed,false);
 
-
 const research=revelationResearchObjects();
 assert.equal(research.hypotheses.status,'RESEARCH_ONLY');
 assert.equal(research.scriptureMap.status,'RESEARCH_ONLY_NOT_NORMATIVE_WEIGHT');
@@ -45,7 +44,7 @@ assert.equal(core.research.scriptureMap.quran.makkahFamily.length,4);
 const attrs=mineAsmaCandidates();
 assert.ok(attrs.length>100);
 assert.ok(attrs.some(x=>x.references.length>0));
-assert.equal(core.version,'4.30.0');
+assert.equal(core.version,'4.32.0');
 assert.equal(core.asma.protocol,'PURE_REVELATION_ASMA_V2');
 assert.equal(core.divineOntology.protocol,'PURE_REVELATION_DIVINE_ONTOLOGY_V1');
 assert.equal(core.boundaries.ontologyClusteringMayCreateNormativeAuthority,false);

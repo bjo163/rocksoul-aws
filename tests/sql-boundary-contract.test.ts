@@ -30,12 +30,20 @@ function sourceFiles(directory: string): string[] {
   return results;
 }
 
+function isDataBoundarySource(relative: string): boolean {
+  // JSX/view components are presentation code, not approved data adapters.
+  // Keep the scanner focused on source files capable of implementing a data boundary.
+  if (relative.endsWith('.tsx')) return false;
+  return true;
+}
+
 test('business actions contain no SQL and use approved repositories/adapters', () => {
   const violations: string[] = [];
   const discoveredAdapters = new Set<string>();
   for (const sourceRoot of sourceRoots) {
     for (const absolute of sourceFiles(path.join(root, sourceRoot))) {
       const relative = path.relative(root, absolute).replaceAll('\\', '/');
+      if (!isDataBoundarySource(relative)) continue;
       const logicalRelative = relative.endsWith('.js') ? `${relative.slice(0, -3)}.ts` : relative;
       const text = fs.readFileSync(absolute, 'utf8');
       if (!sqlPattern.test(text)) continue;

@@ -9,7 +9,7 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 export const kernelRouter = new Router();
 
 kernelRouter.add('GET', '/api/v1/health', async (req, _reply, _params, _body, _query, ctx) => {
-  const base = { status: 'ok', release: '4.32.0' };
+  const base = { status: 'ok', release: '4.33.0' };
   if (process.env.NODE_ENV === 'production') {
     const authz = await requirePermission(req, ctx.auth, 'READ_AUDIT');
     if (!authz.ok) return base;

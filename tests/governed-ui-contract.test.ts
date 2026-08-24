@@ -21,7 +21,11 @@ test('CAB composes evidence, review, Witness, audit and world state from shared 
   const reviews=fs.readFileSync('apps/cab/src/components/ReviewQueue.tsx','utf8');
   const observatory=fs.readFileSync('apps/cab/src/components/Observatory.tsx','utf8');
   for(const name of ['EvidenceLedger','ReviewGatePanel','WitnessPanel','AuditTimeline']) assert.ok(workflow.includes(name),name);
-  assert.match(reviews,/ReviewGatePanel/); assert.match(observatory,/WorldStateSnapshot/); assert.match(observatory,/AuditTimeline/);
+  assert.match(reviews,/ReviewGatePanel/);
+  assert.match(observatory,/ObservatoryBase/);
+  assert.match(observatory,/UniverseDrilldown/);
+  assert.match(observatory,/api\.kernelGraph\(\)/);
+  assert.match(observatory,/api\.kernelLedger\(\)/);
 });
 
 test('XRP empty state does not fabricate case metrics or positive evidence',()=>{
