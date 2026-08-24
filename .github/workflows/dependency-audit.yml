@@ -15,7 +15,7 @@ permissions:
 jobs:
   npm-audit:
     name: npm dependency audit
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, cosmic]
     timeout-minutes: 15
     steps:
       - name: Check out source
@@ -30,7 +30,27 @@ jobs:
       - name: Install dependencies from canonical lockfile
         run: npm ci --ignore-scripts
       - name: Audit production dependencies
-        run: npm audit --omit=dev --audit-level=high --json > npm-audit.json
+        shell: bash
+        run: |
+          set -euo pipefail
+          for attempt in 1 2 3; do
+            if npm audit --omit=dev --audit-level=high --json > npm-audit.json; then
+              break
+            fi
+            if [[ "$attempt" -eq 3 ]]; then
+              echo "npm audit failed after 3 attempts; see npm-audit.json for the registry/audit response."
+              cat npm-audit.json
+              exit 1
+            fi
+            sleep 5
+          done
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const report = JSON.parse(fs.readFileSync('npm-audit.json', 'utf8'));
+          const meta = report.metadata?.vulnerabilities ?? {};
+          console.log(`npm audit: ${meta.total ?? 0} total vulnerabilities; high=${meta.high ?? 0}; critical=${meta.critical ?? 0}`);
+          if ((meta.high ?? 0) > 0 || (meta.critical ?? 0) > 0) process.exit(1);
+          NODE
       - name: Upload audit report
         if: always()
         uses: actions/upload-artifact@v4
