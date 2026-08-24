@@ -8,7 +8,7 @@ import ts from 'typescript';
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'mw-build-'));
-const copyDirs = ['src', 'packages', 'tests', 'scripts', 'apps', 'docs'];
+const copyDirs = ['src', 'packages', 'tests', 'scripts', 'apps', 'docs', 'deploy'];
 fs.writeFileSync(path.join(tmp, 'package.json'), JSON.stringify({ type: 'module' }));
 // Windows directory symlinks require developer mode/elevation; junctions do not.
 // Keep the temporary runner portable while preserving the same module resolution.
