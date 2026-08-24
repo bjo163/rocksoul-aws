@@ -39,6 +39,8 @@ CASE LIFECYCLE
         ↓
 PERSISTENCE / EVENT LEDGER / AUDIT
   ├─ PostgreSQL operational projection/query layer
+  ├─ File persistence for standalone/local runtime
+  ├─ Memory persistence for ephemeral tests/development
   ├─ Witness/Q-DAG content-addressed causal history
   ├─ Ed25519 signed checkpoints + witness bundles
   ├─ offline branch reconciliation / explicit causal merge
@@ -75,7 +77,7 @@ packages/
 
 Business actions use `UniverseStore`, `PersistenceClient`, and typed repositories. API routes, CAB, XRP, Flow, and domain/analysis engines do not issue SQL. This is an internal repository/data-mapper architecture (ORM-like), not a dependency on Prisma, TypeORM, or another generated ORM.
 
-SQL is permitted only inside the approved PostgreSQL/SQLite persistence, authentication, idempotency, and Witness projection adapters. Runtime values use driver placeholders (`$1`, `?`, and parameter arrays); SQL string interpolation is prohibited. Versioned schema DDL belongs in `packages/persistence/src/schema.ts`; runtime providers may only bootstrap the migration registry before applying those migrations.
+SQL is permitted only inside the approved PostgreSQL persistence, authentication, idempotency, and Witness projection adapters. Runtime values use driver placeholders (`$1` and parameter arrays); SQL string interpolation is prohibited. Versioned schema DDL belongs in `packages/persistence/src/schema.ts`; runtime providers may only bootstrap the migration registry before applying those migrations.
 
 `npm run test:persistence-boundary` statically inventories every source file containing SQL and fails if SQL escapes an approved adapter, runtime DDL returns, or a statement interpolates runtime values. This preserves database portability without leaking storage concerns into governed business behavior.
 
@@ -139,7 +141,7 @@ EVENT LEDGER / AUDIT
   ↺
 ```
 
-PostgreSQL is the operational persistence/projection target for the current production architecture. The Witness/Q-DAG layer is deliberately storage-independent. **v4.26 operational mode remains single-node**; it retains the v4.19 witness baseline. The canonical witness ledger is the atomically persisted local `witness/qdag.json`; one encrypted local Ed25519 identity signs 1-of-1 checkpoints. PostgreSQL mirrors public Q-DAG/key/checkpoint projections and is only a recovery source when the local Q-DAG is missing. Analyze/evaluate paths write hash-only Mizan commitments into Q-DAG. Peer discovery, federation, gossip, network quorum, and consensus are not active runtime architecture.
+PostgreSQL is the operational persistence/projection target for the current production architecture. File persistence is the portable standalone/local mode, while memory persistence is reserved for ephemeral test/development scenarios. The Witness/Q-DAG layer is deliberately storage-independent. **v4.26 operational mode remains single-node**; it retains the v4.19 witness baseline. The canonical witness ledger is the atomically persisted local `witness/qdag.json`; one encrypted local Ed25519 identity signs 1-of-1 checkpoints. PostgreSQL mirrors public Q-DAG/key/checkpoint projections and is only a recovery source when the local Q-DAG is missing. Analyze/evaluate paths write hash-only Mizan commitments into Q-DAG. Peer discovery, federation, gossip, network quorum, and consensus are not active runtime architecture.
 
 ## 7. Case lifecycle model
 
@@ -174,7 +176,6 @@ These layers must not be silently merged into one undifferentiated truth source.
 - Add operator-facing Observatory UI for witness health, active key state, checkpoint history, and Q-DAG verification.
 - Decide later—based on actual operational requirements—whether a second node or external custody provider is needed.
 - Do not introduce peer discovery, gossip, or consensus until that decision is made.
-
 
 ## Single-node witness data flow — v4.19 baseline retained in v4.20
 
@@ -267,7 +268,6 @@ INJIL  ─┘
 
 The three witness corpora never vote against or overrule the Quran. Their equal weights are engineering confidence weights, not revealed units. The action-language bridge remains non-normative and is explicitly surfaced when it participates in action-to-passage binding.
 
-
 ## v4.24 Revelation installation/data plane
 
 ```text
@@ -277,7 +277,7 @@ revelation-corpus-manifest.json
 seed manifest ──► typed passage entities
         │
         ▼
-Persistence (PostgreSQL in production)
+Persistence (PostgreSQL in production; File for standalone/local operation)
         │
         ├──► runtimeDataset arrays
         │        └──► FourBookCorpus / corroboration
@@ -311,7 +311,6 @@ Q-DAG provenance
 ```
 
 The language adapter cannot contain verse references or moral direction. Tawrat/Zabur/Injil cannot create/reverse direction. This keeps the normative boundary above the engineering NLP and below the downstream scoring layer.
-
 
 ## v4.26 Revelation-grounded RGBL / OUT scoring
 
@@ -364,7 +363,6 @@ This ordering prevents a strong moral engine from confidently judging a sentence
 ## v4.29 Revelation Grammar & Relation layer
 
 `Qur'an corpus → structural grammar frames → Asma explicit relations / passage direction → Moral Graph → native binding → RGBL/Mizan`. Grammar is non-normative. Negation, coordinated predicates, vocative, speech and condition/cause candidates keep ayah provenance. Tawrat/Zabur/Injil remain corroboration channels and do not override Qur'an grammar.
-
 
 ## v4.30 Divine Ontology layer
 
