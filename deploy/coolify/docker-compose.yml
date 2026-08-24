@@ -7,7 +7,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-moonwitness}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
     volumes:
-      - cosmic-postgres:/var/lib/postgresql
+      - cosmic-postgres:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 5s
