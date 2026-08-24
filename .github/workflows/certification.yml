@@ -1,6 +1,6 @@
 name: MoonWitness Certification
 
-# Sole PR merge gate: canonical lockfile + quality + release certification + production container build.
+# Sole PR merge gate: dependency/security checks + quality + release certification + production container build.
 # PR context is authoritative for the base SHA; manual dispatch is also supported for diagnosis.
 
 on:
@@ -50,6 +50,10 @@ jobs:
         run: npm ci --ignore-scripts
       - name: Dependency integrity gate
         run: npm run dependency:integrity
+      - name: Production dependency audit
+        run: npm run dependency:audit
+      - name: Documentation validation
+        run: npm run docs:check
       - name: Coding standard gate
         run: npm run lint
       - name: TypeScript typecheck
@@ -74,3 +78,17 @@ jobs:
         run: docker build --file Dockerfile --tag cosmic:ci .
       - name: Inspect production image metadata
         run: docker image inspect cosmic:ci --format '{{.Config.Cmd}}'
+      - name: Upload dependency audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-audit-report
+          path: npm-audit.json
+          if-no-files-found: warn
+      - name: Upload documentation validation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation-validation-report
+          path: docs-link-errors.txt
+          if-no-files-found: warn
