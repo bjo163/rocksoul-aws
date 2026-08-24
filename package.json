@@ -89,5 +89,5 @@
     "test:grammar": "node scripts/transpile-runner.mjs tests/revelation-grammar.test.ts tests/revelation-grammar-100-cases.test.ts",
     "test:ontology": "node scripts/transpile-runner.mjs tests/revelation-divine-ontology.test.ts tests/revelation-divine-ontology-100-cases.test.ts"
   },
-  "devDependencies": {"@playwright/test": "^1.62.1", "@types/node": "^22.0.0", "better-sqlite3": "^13.0.3", "typescript": "^5.8.3"}
+  "devDependencies": {"@playwright/test": "^1.62.1", "@types/node": "^22.0.0", "typescript": "^5.8.3"}
 }
