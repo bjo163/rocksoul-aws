@@ -20,7 +20,7 @@ test('native HTTP API exposes the universal kernel', async () => {
   assert.equal(body.ledger, true);
   assert.ok(body.environment);
   assert.equal(body.storageDriver, 'file');
-  assert.equal(body.release, '4.32.0');
+  assert.equal(body.release, '4.33.0');
   await app.close();
   await fs.rm(dataDir, { recursive: true, force: true });
 });
