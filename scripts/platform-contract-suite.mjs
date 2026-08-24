@@ -30,6 +30,16 @@ const tests = [
   'tests/api-method-contract.test.ts',
   'tests/environment-contract.test.ts',
   'tests/next-ten-contracts.test.ts',
+  'tests/schema-compatibility-contract.test.ts',
+  'tests/docker-reproducibility-contract.test.ts',
+  'tests/graceful-shutdown-contract.test.ts',
+  'tests/rate-limit-scaleout-contract.test.ts',
+  'tests/lockfile-integrity-contract.test.ts',
+  'tests/migration-rollback-contract.test.ts',
+  'tests/postgres-least-privilege-contract.test.ts',
+  'tests/witness-restart-contract.test.ts',
+  'tests/readiness-dependency-contract.test.ts',
+  'tests/release-version-consistency-contract.test.ts',
 ];
 
 const result = spawnSync(process.execPath, ['scripts/transpile-runner.mjs', ...tests], {
