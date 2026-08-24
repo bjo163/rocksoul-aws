@@ -58,9 +58,6 @@ jobs:
       - name: Install locked dependencies
         run: npm ci
 
-      - name: Rebuild native SQLite binding for runner ABI
-        run: npm rebuild better-sqlite3 --build-from-source
-
       - name: Dependency integrity
         run: npm run dependency:integrity
 
