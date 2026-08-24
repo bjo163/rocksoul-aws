@@ -2,7 +2,7 @@ name: CI Failure Task
 
 on:
   workflow_run:
-    workflows: ["MoonWitness Certification", "Documentation Validation", "Dependency Audit"]
+    workflows: ["MoonWitness Certification"]
     types: [completed]
 
 permissions:
