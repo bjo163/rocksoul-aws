@@ -29,6 +29,17 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Verify checkout workspace
+        shell: bash
+        run: |
+          set -euo pipefail
+          pwd
+          test -f package.json
+          test -f package-lock.json
+          git rev-parse HEAD
+          git status --short
+          wc -c package-lock.json
+
       - name: Resolve authoritative coding base
         env:
           PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
@@ -98,9 +109,14 @@ jobs:
             node:22-bookworm \
             bash -lc '
               set -euo pipefail
+              test -f package.json
+              test -f package-lock.json
+              printf "workspace=%s\\n" "$PWD"
+              printf "package-lock-bytes="
+              wc -c < package-lock.json
+              git config --global --add safe.directory /work
               apt-get update
               DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git docker.io
-              git config --global --add safe.directory /work
               node --version
               npm --version
               git --version
