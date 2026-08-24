@@ -1,5 +1,5 @@
 import { mkdir } from 'node:fs/promises';
-import { dirname, resolve } from 'node:path';
+import { resolve } from 'node:path';
 import { createPersistence } from '../packages/persistence/src/factory.js';
 import { PostgresProvider } from '../packages/persistence/src/postgres.js';
 import { getLatestSchemaVersion } from '../packages/persistence/src/schema.js';
@@ -27,13 +27,15 @@ const postgres = {
   user: process.env.PGUSER ?? config.storage?.postgres?.user ?? 'postgres',
   ...(process.env.PGPASSWORD ? { password: process.env.PGPASSWORD } : {})
 };
-const driver = (arg('driver', process.env.STORAGE_DRIVER ?? config.storage?.driver ?? 'postgres') as 'sqlite' | 'postgres' | 'memory' | 'file');
+const configuredDriver = arg('driver', process.env.STORAGE_DRIVER ?? config.storage?.driver ?? 'postgres');
+if (configuredDriver !== 'postgres' && configuredDriver !== 'memory' && configuredDriver !== 'file') {
+  throw new Error(`Unsupported STORAGE_DRIVER: ${configuredDriver}. Supported drivers: postgres, memory, file`);
+}
+const driver = configuredDriver as 'postgres' | 'memory' | 'file';
 const root = process.cwd();
-const sqliteFile = resolve(root, arg('file', process.env.SQLITE_FILE ?? './data/moonwitness.db')!);
 const fileDir = resolve(root, arg('dir', process.env.PERSISTENCE_DIR ?? './data/runtime')!);
-if (driver === 'sqlite') await mkdir(dirname(sqliteFile), { recursive: true });
 if (driver === 'file') await mkdir(fileDir, { recursive: true });
-const persistenceConfig={ driver, fileDir, sqliteFile, postgres } as const;
+const persistenceConfig = { driver, fileDir, postgres } as const;
 
 // Ensure schema/provider readiness before seed.
 const store = createPersistence(persistenceConfig);
