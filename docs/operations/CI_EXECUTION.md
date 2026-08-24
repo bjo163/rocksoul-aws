@@ -1,14 +1,20 @@
 # CI execution model
 
-`dev` is the integration trunk. The authoritative certification path is the Cosmic self-hosted runner.
+`dev` is the integration/development branch. It does **not** trigger automatic CI.
 
-## Self-hosted fast checks
-The self-hosted Cosmic Linux runner may execute targeted fast checks before the full certification lane. These checks are diagnostic feedback only.
+## Developer validation
+Local targeted/full test commands remain available on `dev` for development and debugging. CI status is not expected for ordinary `dev` pushes.
 
-## Full certification
-`.github/workflows/certification.yml` runs on the `self-hosted` Cosmic Linux runner and covers PostgreSQL, release-focused tests, all application builds, final certification, and Docker build.
+## Authoritative certification
+`.github/workflows/certification.yml` runs only for:
 
-A missing workflow run or missing check on a `dev` commit is an infrastructure/runner visibility problem, not evidence of a passing source tree.
+- pushes to `main`;
+- pull requests targeting `main`;
+- explicit manual dispatch.
+
+The workflow runs on the `self-hosted` Cosmic Linux runner and covers PostgreSQL, release-focused tests, all application builds, final certification, and Docker build.
 
 ## Release rule
-`main` must only receive a commit that has a complete full-certification result for that exact commit.
+`dev` may contain active development work. A release candidate is promoted to `main` only after the `main` pull request/full-certification gate succeeds for the exact commit under review.
+
+A successful local `dev` test run is development evidence, not a release certification artifact.
