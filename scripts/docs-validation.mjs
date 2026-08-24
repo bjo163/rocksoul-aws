@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 const required = [
@@ -53,21 +53,9 @@ function collectMarkdown(root) {
 }
 
 function walk(directory, result) {
-  for (const entry of requireDirectory(directory)) {
+  for (const entry of readdirSync(directory)) {
     const full = path.join(directory, entry);
-    if (entry.endsWith('.md')) result.push(full);
-    else if (isDirectory(full)) walk(full, result);
+    if (entry.endsWith('.md') && statSync(full).isFile()) result.push(full);
+    else if (statSync(full).isDirectory()) walk(full, result);
   }
-}
-
-function requireDirectory(directory) {
-  return (awaitlessReadDir(directory));
-}
-
-function awaitlessReadDir(directory) {
-  return Array.from(import('node:fs').readdirSync(directory));
-}
-
-function isDirectory(file) {
-  return import('node:fs').then ? false : false;
 }
