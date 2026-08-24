@@ -1,7 +1,8 @@
 name: MoonWitness Certification
 
 # Sole PR merge gate: dependency/security checks + quality + release certification + production container build.
-# Use a known modern Linux ABI so native modules such as better-sqlite3 match the test runtime.
+# The runner remains self-hosted (no GitHub-hosted billing); the job runs inside a modern
+# Node/Debian container so native modules such as better-sqlite3 use a compatible glibc.
 
 on:
   pull_request:
@@ -18,13 +19,31 @@ concurrency:
 jobs:
   certify:
     name: Build, test, certify, and containerize
-    runs-on: ubuntu-24.04
+    runs-on: [self-hosted, linux, x64, cosmic]
+    container:
+      image: node:22-bookworm
+      options: >-
+        --volume /var/run/docker.sock:/var/run/docker.sock
+    defaults:
+      run:
+        shell: bash
     timeout-minutes: 60
     steps:
       - name: Check out source with complete history
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
+      - name: Verify container runtime
+        run: |
+          set -euo pipefail
+          node --version
+          git --version
+      - name: Install Docker CLI for production image build
+        run: |
+          set -euo pipefail
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends docker.io
+          docker version
       - name: Resolve authoritative coding base
         env:
           PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
@@ -41,11 +60,6 @@ jobs:
           git cat-file -e "$BASE_SHA^{commit}"
           echo "PR_BASE_SHA=$BASE_SHA" >> "$GITHUB_ENV"
           echo "Resolved coding base: $BASE_SHA"
-      - name: Use Node.js 22
-        uses: actions/setup-node@v5
-        with:
-          node-version: 22
-          cache: npm
       - name: Install workspace dependencies from canonical lockfile
         run: npm ci --ignore-scripts
       - name: Dependency integrity gate
