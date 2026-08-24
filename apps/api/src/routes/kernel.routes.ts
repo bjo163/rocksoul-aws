@@ -26,8 +26,13 @@ kernelRouter.add('GET', '/api/v1/health', async (req, reply, _params, _body, _qu
   };
 });
 
-kernelRouter.add('GET', '/api/v1/features', async (_req, _reply, _params, _body, _query, ctx) => ctx.features.list());
+kernelRouter.add('GET', '/api/v1/ready', async (_req, _reply, _params, _body, _query, ctx) => ({
+  status: 'ready',
+  release: '4.33.0',
+  storageDriver: ctx.universeStore.persistence.store.driver,
+}));
 
+kernelRouter.add('GET', '/api/v1/features', async (_req, _reply, _params, _body, _query, ctx) => ctx.features.list());
 kernelRouter.add('GET', '/api/v1/prophets', async () => runtimeDataset('data/prophets.json') ?? []);
 
 
