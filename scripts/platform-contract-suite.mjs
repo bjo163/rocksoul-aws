@@ -29,6 +29,7 @@ const tests = [
   'tests/release-changelog-contract.test.ts',
   'tests/api-method-contract.test.ts',
   'tests/environment-contract.test.ts',
+  'tests/next-ten-contracts.test.ts',
 ];
 
 const result = spawnSync(process.execPath, ['scripts/transpile-runner.mjs', ...tests], {
