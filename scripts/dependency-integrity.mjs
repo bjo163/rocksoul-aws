@@ -14,4 +14,18 @@ if (missing.length) {
   process.exit(1);
 }
 
-console.log(`Dependency integrity passed: lockfile v${lock.lockfileVersion}, workspaces=${workspaces.join(', ')}`);
+const rootDependencies = root?.dependencies ?? {};
+const forbidden = ['better-sqlite3', 'sqlite3', 'sqlite'];
+const forbiddenPresent = forbidden.filter((name) => Object.prototype.hasOwnProperty.call(rootDependencies, name));
+if (forbiddenPresent.length) {
+  console.error(`Unsupported persistence dependencies remain in lockfile root: ${forbiddenPresent.join(', ')}`);
+  process.exit(1);
+}
+
+const staleEntries = Object.keys(lock.packages ?? {}).filter((key) => /node_modules\/(better-sqlite3|sqlite3)$/.test(key));
+if (staleEntries.length) {
+  console.error(`SQLite native dependency entries remain in package-lock.json: ${staleEntries.join(', ')}`);
+  process.exit(1);
+}
+
+console.log(`Dependency integrity passed: lockfile v${lock.lockfileVersion}, workspaces=${workspaces.join(', ')}, sqlite-free=true`);
