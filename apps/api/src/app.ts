@@ -22,7 +22,7 @@ import { createUnpredictableIngress, triggerIngress } from '../../../src/ingress
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 
-export interface AppOptions { dataDir?: string; persistenceDriver?: 'file' | 'sqlite' | 'postgres'; sqliteFile?: string; }
+export interface AppOptions { dataDir?: string; persistenceDriver?: 'file' | 'postgres'; }
 export interface HttpApp { handler: (request: IncomingMessage, response: ServerResponse) => Promise<void>; start: (port: number, host: string) => Promise<void>; close: () => Promise<void>; server: Server; }
 
 import { loadDatabaseConfig } from '../../../src/config-loader.js';
@@ -51,8 +51,9 @@ export async function buildApp(options: AppOptions = {}): Promise<HttpApp> {
   if (cookieSameSite === 'None' && process.env.NODE_ENV !== 'production' && process.env.MW_COOKIE_SECURE !== '1') throw new Error('MW_COOKIE_SAME_SITE_NONE_REQUIRES_SECURE');
   const yamlConfig = loadDatabaseConfig(path.resolve(here, '../../../'));
   const dataDir = options.dataDir ?? path.resolve(process.env.MOONWITNESS_DATA_DIR ?? '.data');
-  const persistenceDriver = options.persistenceDriver ?? (process.env.STORAGE_DRIVER as 'file' | 'sqlite' | 'postgres' | undefined) ?? yamlConfig.storage?.driver ?? 'file';
-  const universeStore = new UniverseStore({ dataDir: path.join(dataDir, 'universe'), driver: persistenceDriver, sqliteFile: options.sqliteFile ?? process.env.SQLITE_FILE ?? path.join(dataDir, 'universe.sqlite'), postgres: yamlConfig.storage?.postgres });
+  const persistenceDriver = options.persistenceDriver ?? (process.env.STORAGE_DRIVER as 'file' | 'postgres' | undefined) ?? yamlConfig.storage?.driver ?? 'file';
+  if (persistenceDriver !== 'file' && persistenceDriver !== 'postgres') throw new Error(`Unsupported STORAGE_DRIVER: ${persistenceDriver}. Supported drivers: file, postgres`);
+  const universeStore = new UniverseStore({ dataDir: path.join(dataDir, 'universe'), driver: persistenceDriver, postgres: yamlConfig.storage?.postgres });
   await universeStore.persistence.ready();
   await initializeRuntimeData(universeStore.persistence.entities(), { postgres: persistenceDriver === 'postgres' });
   const backend = await loadLegacyBackend(dataDir, universeStore.persistence);
