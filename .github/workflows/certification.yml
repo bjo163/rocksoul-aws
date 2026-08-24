@@ -1,7 +1,7 @@
 name: MoonWitness Certification
 
 # Sole PR merge gate: dependency/security checks + quality + release certification + production container build.
-# PR context is authoritative for the base SHA; manual dispatch is also supported for diagnosis.
+# Use a known modern Linux ABI so native modules such as better-sqlite3 match the test runtime.
 
 on:
   pull_request:
@@ -18,7 +18,7 @@ concurrency:
 jobs:
   certify:
     name: Build, test, certify, and containerize
-    runs-on: [self-hosted, linux, x64, cosmic]
+    runs-on: ubuntu-24.04
     timeout-minutes: 60
     steps:
       - name: Check out source with complete history
