@@ -40,6 +40,15 @@ const tests = [
   'tests/witness-restart-contract.test.ts',
   'tests/readiness-dependency-contract.test.ts',
   'tests/release-version-consistency-contract.test.ts',
+  'tests/v5-platform-freeze.test.ts',
+  'tests/api-compatibility-freeze.test.ts',
+  'tests/security-threat-model-contract.test.ts',
+  'tests/disaster-recovery-contract.test.ts',
+  'tests/product-boundary-contract.test.ts',
+  'tests/ai-governance-release-contract.test.ts',
+  'tests/worker-scaleout-contract.test.ts',
+  'tests/observability-release-contract.test.ts',
+  'tests/reproducible-release-contract.test.ts',
 ];
 
 const result = spawnSync(process.execPath, ['scripts/transpile-runner.mjs', ...tests], {
