@@ -1,19 +1,9 @@
 # CI execution model
 
-Cosmic uses two CI layers on `dev`:
+`dev` is the integration trunk. The authoritative certification path is the Cosmic self-hosted runner.
 
-## Fast gate
-`.github/workflows/dev-fast.yml` runs on a GitHub-hosted Ubuntu runner for quick feedback on:
-
-- dependency integrity
-- documentation and architecture checks
-- typecheck/lint
-- persistence/SQL boundary
-- auth/session contracts
-- shared UI contracts
-- production certification contracts
-
-It is a feedback gate and does not replace full certification.
+## Self-hosted fast checks
+The self-hosted Cosmic Linux runner may execute targeted fast checks before the full certification lane. These checks are diagnostic feedback only.
 
 ## Full certification
 `.github/workflows/certification.yml` runs on the `self-hosted` Cosmic Linux runner and covers PostgreSQL, release-focused tests, all application builds, final certification, and Docker build.
