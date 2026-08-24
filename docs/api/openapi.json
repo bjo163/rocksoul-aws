@@ -1,0 +1,161 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Cosmic Universal API",
+    "version": "4.33.0",
+    "description": "Canonical HTTP contract for the Cosmic /api/v1 surface. This document is intentionally additive and is the first contract baseline for generated clients and staging smoke tests."
+  },
+  "servers": [
+    { "url": "https://api.example.com", "description": "Production/staging placeholder" }
+  ],
+  "tags": [
+    { "name": "health" },
+    { "name": "auth" },
+    { "name": "kernel" },
+    { "name": "ai" }
+  ],
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "tags": ["health"],
+        "summary": "Liveness/diagnostic health",
+        "responses": {
+          "200": {
+            "description": "Service health information",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/HealthResponse" } } }
+          }
+        }
+      }
+    },
+    "/api/v1/ready": {
+      "get": {
+        "tags": ["health"],
+        "summary": "Readiness for traffic",
+        "responses": {
+          "200": { "description": "Service is ready" },
+          "503": { "description": "Service is not ready" }
+        }
+      }
+    },
+    "/api/v1/auth/register": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Register a user",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AuthRegisterRequest" } } } },
+        "responses": { "201": { "description": "User created" }, "400": { "$ref": "#/components/responses/Error" }, "409": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Authenticate and create a session",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AuthLoginRequest" } } } },
+        "responses": { "200": { "description": "Authenticated session" }, "401": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/auth/refresh": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Refresh an authenticated session",
+        "responses": { "200": { "description": "Refreshed session" }, "401": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Logout and revoke the session",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "Logout result" }, "401": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/auth/me": {
+      "get": {
+        "tags": ["auth"],
+        "summary": "Return the current authenticated user",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "Current user" }, "401": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/features": {
+      "get": {
+        "tags": ["kernel"],
+        "summary": "List enabled feature flags",
+        "responses": { "200": { "description": "Feature registry" } }
+      }
+    },
+    "/api/v1/ai/analyze": {
+      "post": {
+        "tags": ["ai"],
+        "summary": "Run semantic/AI analysis",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AnalysisRequest" } } } },
+        "responses": {
+          "200": { "description": "Analysis result" },
+          "400": { "$ref": "#/components/responses/Error" },
+          "401": { "$ref": "#/components/responses/Error" },
+          "429": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" }
+    },
+    "responses": {
+      "Error": {
+        "description": "Machine-readable API error",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ApiError" } } }
+      }
+    },
+    "schemas": {
+      "HealthResponse": {
+        "type": "object",
+        "required": ["status", "release"],
+        "properties": {
+          "status": { "type": "string" },
+          "release": { "type": "string" },
+          "environment": { "type": "string" },
+          "storageDriver": { "type": "string", "enum": ["file", "postgres"] }
+        }
+      },
+      "AuthRegisterRequest": {
+        "type": "object",
+        "required": ["username", "password"],
+        "properties": {
+          "username": { "type": "string", "minLength": 1 },
+          "password": { "type": "string", "minLength": 12 }
+        },
+        "additionalProperties": false
+      },
+      "AuthLoginRequest": {
+        "type": "object",
+        "required": ["username", "password"],
+        "properties": {
+          "username": { "type": "string", "minLength": 1 },
+          "password": { "type": "string", "minLength": 1 }
+        },
+        "additionalProperties": false
+      },
+      "AnalysisRequest": {
+        "type": "object",
+        "properties": {
+          "text": { "type": "string" },
+          "caseId": { "type": "string" },
+          "semanticObservation": { "type": "object" },
+          "options": { "type": "object" }
+        }
+      },
+      "ApiError": {
+        "type": "object",
+        "required": ["error"],
+        "properties": {
+          "error": { "type": "string" },
+          "message": { "type": "string" },
+          "requestId": { "type": "string" },
+          "request_id": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
