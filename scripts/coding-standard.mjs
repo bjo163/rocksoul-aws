@@ -11,8 +11,6 @@ const standardFile = relative('.', 'scripts/coding-standard.mjs');
 const violations = [];
 
 const compatibilityAllowlist = new Map([
-  // The generic Router boundary carries the runtime application context created in app.ts.
-  // Route modules type their concrete context usage; this is the single transport boundary exception.
   ['apps/api/src/router.ts', new Set([11])],
   ['apps/api/src/app.ts', new Set([110, 117, 122, 134])],
 ]);
@@ -75,9 +73,26 @@ async function resolveBase() {
   const baseRef = process.env.PR_BASE_REF || process.env.GITHUB_BASE_REF || 'main';
   const remoteRef = `refs/remotes/origin/${baseRef}`;
 
-  if (await gitFetch(['fetch', '--no-tags', '--prune', 'origin', `refs/heads/${baseRef}:${remoteRef}`])) {
+  const candidates = [
+    remoteRef,
+    `origin/${baseRef}`,
+    baseRef,
+  ];
+
+  for (const candidate of candidates) {
+    const mergeBase = await gitOutput(['merge-base', candidate, 'HEAD']);
+    if (mergeBase) return candidate;
+  }
+
+  if (await gitFetch(['fetch', '--no-tags', '--prune', 'origin', `+refs/heads/${baseRef}:${remoteRef}`])) {
     const mergeBase = await gitOutput(['merge-base', remoteRef, 'HEAD']);
     if (mergeBase) return remoteRef;
+  }
+
+  if (await gitFetch(['fetch', '--no-tags', '--prune', 'origin', 'main'])) {
+    const fallbackRef = baseRef === 'main' ? 'FETCH_HEAD' : `refs/remotes/origin/${baseRef}`;
+    const mergeBase = await gitOutput(['merge-base', fallbackRef, 'HEAD']);
+    if (mergeBase) return fallbackRef;
   }
 
   return null;
