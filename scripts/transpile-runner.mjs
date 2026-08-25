@@ -9,6 +9,14 @@ const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'mw-build-'));
 const copyDirs = ['src', 'packages', 'tests', 'scripts', 'apps', 'docs', 'deploy'];
+const rootFiles = [
+  'Dockerfile',
+  'docker-compose.yml',
+  'package.json',
+  'package-lock.json',
+  'tsconfig.json',
+  'tsconfig.base.json',
+];
 fs.writeFileSync(path.join(tmp, 'package.json'), JSON.stringify({ type: 'module' }));
 // Windows directory symlinks require developer mode/elevation; junctions do not.
 // Keep the temporary runner portable while preserving the same module resolution.
@@ -37,6 +45,11 @@ for (const dir of copyDirs) {
       fs.writeFileSync(target, source);
     } else fs.copyFileSync(file, target);
   }
+}
+for (const file of rootFiles) {
+  const source = path.join(repo, file);
+  if (!fs.existsSync(source)) continue;
+  fs.copyFileSync(source, path.join(tmp, file));
 }
 for (const extra of ['data', 'schemas', 'config']) {
   fs.cpSync(path.join(repo, extra), path.join(tmp, extra), { recursive: true });
