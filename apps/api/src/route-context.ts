@@ -41,7 +41,7 @@ export interface WitnessNodeInput {
 
 export interface WitnessCheckpointReference {
   checkpointId?: string;
-  checkpoint?: { checkpointId?: string; [key: string]: unknown };
+  checkpoint: { checkpointId: string; [key: string]: unknown };
   [key: string]: unknown;
 }
 
