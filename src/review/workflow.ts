@@ -3,7 +3,7 @@ import { randomUUID } from 'node:crypto';
 export type ReviewStatus = 'QUEUED' | 'ASSIGNED' | 'ACKNOWLEDGED' | 'EVIDENCE_REQUESTED' | 'DISPOSED' | 'ESCALATED' | 'REOPENED';
 export type HumanDisposition = 'UPHOLD_GATE' | 'ALLOW_ANALYTICAL_DISPLAY' | 'REQUEST_MORE_EVIDENCE' | 'ESCALATE';
 
-export interface ReviewRecord {
+export interface ReviewRecord extends Record<string, unknown> {
   reviewId: string;
   targetId: string;
   status: ReviewStatus;
