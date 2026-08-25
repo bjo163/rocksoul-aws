@@ -192,6 +192,17 @@ async function runSetup() {
       else if (data.type === 'done') { es.close(); if (data.ok) { log('Database installed.', 'log-ok'); resolve(); } else { log('Database install failed: ' + (data.error || ''), 'log-err'); setStepState(1, 'error'); reject(new Error('DB_INSTALL_FAILED')); } }
     };
     es.onerror = () => { es.close(); log('Connection lost during DB install.', 'log-err'); setStepState(1, 'error'); reject(new Error('SSE_ERROR')); };
+  }).catch((err) => {
+    document.getElementById('actions').innerHTML = '<button class="btn btn-primary" id="btn-retry">Retry</button> <button class="btn btn-danger" id="btn-reset" style="background:var(--color-danger);border-color:var(--color-danger);margin-left:8px;">Reset Database & Reinstall</button>';
+    document.getElementById('btn-retry').onclick = runSetup;
+    document.getElementById('btn-reset').onclick = async () => {
+      document.getElementById('actions').innerHTML = 'Resetting database...';
+      const r = await fetch('/api/step/db/reset', { method: 'POST' });
+      const d = await r.json();
+      if (d.ok) { log('Database reset successfully. Restarting install...', 'log-ok'); runSetup(); }
+      else { log('Reset failed: ' + d.error, 'log-err'); document.getElementById('actions').innerHTML = '<button class="btn btn-primary" onclick="runSetup()">Retry</button>'; }
+    };
+    throw err;
   });
   setStepState(1, 'done');
 
@@ -394,6 +405,25 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
     res.writeHead(200, { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache', 'Connection': 'keep-alive' });
     res.write(`data: ${JSON.stringify({ type: 'detail', text: 'Running db:install...' })}\n\n`);
     await spawnWithSSE(res, 'node', ['--env-file=.env', 'scripts/transpile-exec.mjs', 'scripts/db-install.ts', '--driver=postgres']);
+    return;
+  }
+
+  // Step: db reset
+  if (path === '/api/step/db/reset' && req.method === 'POST') {
+    const { Client } = await import('pg');
+    const fileEnv = loadEnvFile(existsSync(resolve(root, '.env')) ? resolve(root, '.env') : resolve(root, '.env.development.local'));
+    const url = fileEnv.DATABASE_URL || fileEnv.POSTGRES_URL || `postgres://${fileEnv.PGUSER}:${fileEnv.PGPASSWORD}@${fileEnv.PGHOST}:${fileEnv.PGPORT}/${fileEnv.PGDATABASE}`;
+    try {
+      const client = new Client({ connectionString: url });
+      await client.connect();
+      await client.query('DROP SCHEMA public CASCADE; CREATE SCHEMA public;');
+      await client.end();
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ ok: true }));
+    } catch (err: any) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ ok: false, error: err.message }));
+    }
     return;
   }
 
