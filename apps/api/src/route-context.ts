@@ -1,4 +1,4 @@
-import type { AuthSessionContract, JsonObject } from '../../../packages/contracts/src/index.js';
+import type { AuthSessionContract } from '../../../packages/contracts/src/index.js';
 import type { AuthorizationUser } from '../../../src/security/authorization.js';
 import type { UniverseStore } from '../../../src/persistence/universe-store.js';
 import type { Observability } from '../../../src/observability/observability.js';
@@ -39,24 +39,9 @@ export interface WitnessNodeInput {
   nonce?: string;
 }
 
-export interface WitnessCheckpointReference {
-  checkpointId?: string;
-  [key: string]: unknown;
-}
-
-export interface WitnessCommitResult {
-  node: ReturnType<WitnessDag['append']>;
-  checkpoint: WitnessCheckpointReference | null;
-  root: string | null;
-}
-
-export interface WitnessBackupReference {
-  backupId: string;
-  filePath: string;
-  dagRoot: string | null;
-  nodeCount: number;
-  [key: string]: unknown;
-}
+export interface WitnessCheckpointReference { checkpointId?: string; [key: string]: unknown }
+export interface WitnessCommitResult { node: ReturnType<WitnessDag['append']>; checkpoint: WitnessCheckpointReference | null; root: string | null }
+export interface WitnessBackupReference { backupId: string; filePath: string; dagRoot: string | null; nodeCount: number; [key: string]: unknown }
 
 export interface WitnessRouteContext {
   dag: WitnessDag;
