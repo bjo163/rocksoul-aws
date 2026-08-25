@@ -23,7 +23,7 @@ jobs:
     env:
       STORAGE_DRIVER: postgres
       PGHOST: 127.0.0.1
-      PGPORT: 55432
+      PGPORT: 5432
       PGUSER: postgres
       PGPASSWORD: postgres-ci-only
       PGDATABASE: moonwitness_ci
@@ -45,46 +45,31 @@ jobs:
           set -euo pipefail
           docker rm -f cosmic-postgres-ci >/dev/null 2>&1 || true
           docker run -d --name cosmic-postgres-ci \
-            --network host \
             -e POSTGRES_USER=postgres \
             -e POSTGRES_PASSWORD=postgres-ci-only \
             -e POSTGRES_DB=moonwitness_ci \
-            postgres:18 \
-            -c listen_addresses=127.0.0.1 \
-            -c port=55432
+            --health-cmd="pg_isready -U postgres -d moonwitness_ci" \
+            --health-interval=2s \
+            --health-timeout=5s \
+            --health-retries=30 \
+            postgres:18
 
           for i in $(seq 1 60); do
-            if docker exec cosmic-postgres-ci pg_isready -h 127.0.0.1 -p 55432 -U postgres -d moonwitness_ci >/dev/null 2>&1; then
-              echo "PostgreSQL is ready at 127.0.0.1:55432"
+            status=$(docker inspect --format='{{.State.Health.Status}}' cosmic-postgres-ci 2>/dev/null || true)
+            if [ "$status" = "healthy" ]; then
+              echo "PostgreSQL is ready inside cosmic-postgres-ci"
               break
             fi
-            if ! docker inspect --format='{{.State.Running}}' cosmic-postgres-ci 2>/dev/null | grep -q true; then
+            if [ "$status" = "unhealthy" ]; then
               docker logs cosmic-postgres-ci || true
               exit 1
             fi
             sleep 2
           done
 
-          docker exec cosmic-postgres-ci pg_isready -h 127.0.0.1 -p 55432 -U postgres -d moonwitness_ci
-
-          node <<'NODE'
-          const net = require('node:net');
-          const socket = net.createConnection({ host: '127.0.0.1', port: 55432 });
-          socket.setTimeout(5000);
-          socket.on('connect', () => {
-            console.log('PostgreSQL TCP reachable at 127.0.0.1:55432');
-            socket.end();
-          });
-          socket.on('error', (error) => {
-            console.error(error);
-            process.exit(1);
-          });
-          socket.on('timeout', () => {
-            console.error('PostgreSQL TCP connection timed out');
-            socket.destroy();
-            process.exit(1);
-          });
-          NODE
+          status=$(docker inspect --format='{{.State.Health.Status}}' cosmic-postgres-ci)
+          test "$status" = healthy
+          docker exec cosmic-postgres-ci pg_isready -U postgres -d moonwitness_ci
 
       - name: Synchronize lockfile with manifest
         run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
@@ -117,7 +102,20 @@ jobs:
         run: npm run test:release
 
       - name: PostgreSQL certification
-        run: npm run test:postgres
+        run: |
+          set -euo pipefail
+          docker run --rm \
+            --network container:cosmic-postgres-ci \
+            -v "$GITHUB_WORKSPACE:/workspace" \
+            -w /workspace \
+            -e STORAGE_DRIVER=postgres \
+            -e PGHOST=127.0.0.1 \
+            -e PGPORT=5432 \
+            -e PGUSER=postgres \
+            -e PGPASSWORD=postgres-ci-only \
+            -e PGDATABASE=moonwitness_ci \
+            node:22-bookworm \
+            bash -lc 'npm run test:postgres'
 
       - name: Build API
         run: npm run build:api
