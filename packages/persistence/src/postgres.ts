@@ -204,4 +204,23 @@ async function writeAudit(store: { query: (sql: string, params?: unknown[]) => P
   await store.query('INSERT INTO audit_ledger(audit_id,operation,model_type,record_id,actor_id,timestamp,changed_fields,before_json,after_json,correlation_id,reason,previous_hash,hash) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)', [audit.auditId,audit.operation,audit.modelType,audit.recordId,audit.actorId,audit.timestamp,audit.changedFields,JSON.stringify(audit.before??null),JSON.stringify(audit.after??null),audit.correlationId??null,audit.reason??null,audit.previousHash??null,audit.hash??null]);
 }
 
-function normalizeEvent(row:any): EventRecord { return {eventId:row.event_id,entityId:row.entity_id,eventType:row.event_type,payload:row.payload_json,occurredAt:row.occurred_at,recordedAt:row.recorded_at,previousHash:row.previous_hash,eventHash:row.event_hash,actorId:row.actor_id,deviceId:row.device_id,source:row.source,signature:row.signature,...(row.audit_json??{})}; }
+function normalizeEvent(row: Record<string, unknown>): EventRecord {
+  const auditJson = row.audit_json && typeof row.audit_json === 'object' && !Array.isArray(row.audit_json)
+    ? row.audit_json as Record<string, unknown>
+    : {};
+  return {
+    eventId: String(row.event_id ?? ''),
+    entityId: String(row.entity_id ?? ''),
+    eventType: String(row.event_type ?? ''),
+    payload: row.payload_json,
+    occurredAt: String(row.occurred_at ?? ''),
+    recordedAt: String(row.recorded_at ?? ''),
+    previousHash: String(row.previous_hash ?? ''),
+    eventHash: String(row.event_hash ?? ''),
+    actorId: typeof row.actor_id === 'string' ? row.actor_id : row.actor_id == null ? null : String(row.actor_id),
+    deviceId: typeof row.device_id === 'string' ? row.device_id : row.device_id == null ? null : String(row.device_id),
+    source: typeof row.source === 'string' ? row.source : row.source == null ? null : String(row.source),
+    signature: typeof row.signature === 'string' ? row.signature : row.signature == null ? null : String(row.signature),
+    ...auditJson,
+  };
+}
