@@ -45,7 +45,7 @@ Required evidence:
 - limits work correctly behind the chosen reverse proxy/load balancer;
 - distributed enforcement is enabled before more than one API instance is deployed.
 
-The current security model explicitly requires a shared distributed limiter before horizontal multi-instance deployment.
+The current security model explicitly requires a shared distributed limiter before horizontal multi-instance deployment. The selected production deployment topology must document its **multi-instance topology** assumptions and the shared limiter implementation before horizontal scaling is certified.
 
 ## N4 — Key custody / rotation
 
