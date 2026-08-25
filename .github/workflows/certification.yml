@@ -20,21 +20,6 @@ jobs:
     runs-on: [self-hosted, linux, x64, cosmic]
     timeout-minutes: 60
 
-    services:
-      postgres:
-        image: postgres:18
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres-ci-only
-          POSTGRES_DB: moonwitness_ci
-        ports:
-          - 55432:5432
-        options: >-
-          --health-cmd "pg_isready -U postgres -d moonwitness_ci"
-          --health-interval 5s
-          --health-timeout 5s
-          --health-retries 12
-
     env:
       STORAGE_DRIVER: postgres
       PGHOST: 127.0.0.1
@@ -54,6 +39,27 @@ jobs:
         with:
           node-version: 22
           cache: npm
+
+      - name: Start PostgreSQL 18
+        run: |
+          docker rm -f cosmic-postgres-ci >/dev/null 2>&1 || true
+          docker run -d --name cosmic-postgres-ci \
+            -e POSTGRES_USER=postgres \
+            -e POSTGRES_PASSWORD=postgres-ci-only \
+            -e POSTGRES_DB=moonwitness_ci \
+            -p 55432:5432 \
+            --health-cmd="pg_isready -U postgres -d moonwitness_ci" \
+            --health-interval=5s \
+            --health-timeout=5s \
+            --health-retries=12 \
+            postgres:18
+          for i in $(seq 1 30); do
+            status=$(docker inspect --format='{{.State.Health.Status}}' cosmic-postgres-ci 2>/dev/null || true)
+            if [ "$status" = "healthy" ]; then exit 0; fi
+            sleep 2
+          done
+          docker logs cosmic-postgres-ci || true
+          exit 1
 
       - name: Synchronize lockfile with manifest
         run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
@@ -108,3 +114,7 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t cosmic:${{ github.sha }} .
+
+      - name: Cleanup PostgreSQL
+        if: always()
+        run: docker rm -f cosmic-postgres-ci >/dev/null 2>&1 || true
