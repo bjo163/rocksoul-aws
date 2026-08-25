@@ -37,6 +37,28 @@
         }
       }
     },
+    "/api/v1/command": {
+      "post": {
+        "tags": ["kernel"],
+        "summary": "Execute a canonical universe command",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CommandRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Command result" },
+          "400": { "$ref": "#/components/responses/Error" },
+          "401": { "$ref": "#/components/responses/Error" },
+          "403": { "$ref": "#/components/responses/Error" },
+          "409": { "$ref": "#/components/responses/Error" },
+          "429": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
     "/api/v1/auth/register": {
       "post": {
         "tags": ["auth"],
@@ -117,6 +139,16 @@
           "environment": { "type": "string" },
           "storageDriver": { "type": "string", "enum": ["file", "postgres"] }
         }
+      },
+      "CommandRequest": {
+        "type": "object",
+        "required": ["command"],
+        "properties": {
+          "command": { "type": "string", "minLength": 1 },
+          "target": { "type": "string" },
+          "payload": { "type": "object", "additionalProperties": true }
+        },
+        "additionalProperties": false
       },
       "AuthRegisterRequest": {
         "type": "object",
