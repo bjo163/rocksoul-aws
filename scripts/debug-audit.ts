@@ -14,7 +14,7 @@ async function test() {
     }
   });
 
-  const pgStore = store as any;
+  const pgStore = store as unknown as { ready(): Promise<void>; pool: { query(sql: string): Promise<{ rows: Record<string, unknown>[] }> } };
   // wait for it to be ready
   await pgStore.ready();
   const result = await pgStore.pool.query('SELECT * FROM audit_ledger ORDER BY chain_position ASC');
