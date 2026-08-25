@@ -414,6 +414,8 @@ function spawnWithSSE(res: ServerResponse, command: string, args: string[], env?
 }
 
 // ─── HTTP Server ────────────────────────────────────────────────────────────────
+let isInstallingDb = false;
+
 const server = createServer(async (req: IncomingMessage, res: ServerResponse) => {
   const url = new URL(req.url ?? '/', `http://127.0.0.1`);
   const path = url.pathname;
@@ -477,8 +479,6 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
     res.end(JSON.stringify({ ok: true }));
     return;
   }
-
-let isInstallingDb = false;
 
   // Step: inspect whether the database already contains a ledger
   if (path === '/api/step/db/status' && req.method === 'POST') {
