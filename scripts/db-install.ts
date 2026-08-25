@@ -38,13 +38,16 @@ if (driver === 'file') await mkdir(fileDir, { recursive: true });
 const persistenceConfig = { driver, fileDir, postgres } as const;
 
 // Ensure schema/provider readiness before seed.
+console.log('Connecting to database and verifying schema...');
 const store = createPersistence(persistenceConfig);
 if (driver === 'postgres' && store instanceof PostgresProvider) await store.ready();
 else await store.ready?.();
 await store.close();
 
 const seedEnabled=process.env.SEED!=='0';
+if (seedEnabled) console.log('Seeding database with initial data (this may take a moment)...');
 const seed = seedEnabled ? await seedDatabase(root, persistenceConfig) : { seeded: 0, sources: 0 };
+console.log('Verifying revelation corpus files...');
 const corpusFiles=verifyRevelationCorpusFiles(root);
 if(!corpusFiles.ok) throw new Error('REVELATION_CORPUS_FILE_VERIFICATION_FAILED');
 
@@ -63,20 +66,26 @@ if (!seedEnabled) {
   try {
     await verificationStore.ready?.();
     const verification=await verifySeedState(root,verificationStore);
+    console.log('Verifying revelation seed state...');
     const seedVerification=await verifyRevelationSeedDatabase(verificationStore.entityRepository(),root);
     if(!seedVerification.ok) throw new Error('REVELATION_TYPED_SEED_VERIFICATION_FAILED');
+    console.log('Initializing runtime datasets...');
     await initializeRuntimeData(verificationStore.entityRepository(),{postgres:driver==='postgres'});
     const loaded=new Set(runtimeDatasetPaths());
     const runtimeMissing=REQUIRED_RUNTIME_DATASETS.filter(item=>!loaded.has(item));
     const runtimeVerification={ok:runtimeMissing.length===0,mode:driver==='postgres'?'POSTGRES_SINGLE_SOURCE_OF_TRUTH':'SEEDED_LOCAL_RUNTIME',required:REQUIRED_RUNTIME_DATASETS.length,loaded:loaded.size,missing:runtimeMissing};
     if(!runtimeVerification.ok) throw new Error('RUNTIME_DATA_VERIFICATION_FAILED');
+    console.log('Building revelation derived indexes...');
     const indexBuild=await buildRevelationDerivedIndexes(verificationStore.entityRepository(),root);
+    console.log('Verifying indexes...');
     const indexVerification=await verifyRevelationDerivedIndexes(verificationStore.entityRepository(),root);
     if(!indexVerification.ok) throw new Error('REVELATION_DERIVED_INDEX_VERIFICATION_FAILED');
+    console.log('Running smoke tests...');
     const smoke=await runRevelationTenCaseSmoke(root);
     if(!smoke.ok) throw new Error('REVELATION_10_CASE_SMOKE_FAILED');
     const lifecycleSmoke=await runMoralLifecycleSmoke(root);
     if(!lifecycleSmoke.ok) throw new Error('MORAL_LIFECYCLE_10_CASE_SMOKE_FAILED');
+    console.log('Installation complete.');
     console.log(JSON.stringify({ok:true,driver,schemaVersion:getLatestSchemaVersion(),...seed,verification,runtimeVerification,revelation:{corpusFiles,seedVerification,indexBuild,indexVerification,smoke,lifecycleSmoke}},null,2));
   } finally { await verificationStore.close(); }
 }

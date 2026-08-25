@@ -64,6 +64,29 @@ authRouter.add('POST', '/api/v1/auth/register', async (_req, _reply, _params, bo
   }
 });
 
+authRouter.add('POST', '/api/v1/auth/setup', async (req, reply, _params, body, _query, ctx) => {
+  // First-run setup: only allowed when zero users exist
+  if (ctx.auth._users.size > 0) return httpError(403, 'SETUP_ALREADY_COMPLETE');
+  // Double-check against DB for postgres driver
+  if (ctx.auth.pool) {
+    const count = await (ctx.auth as any).pool.query('SELECT count(*)::int AS n FROM auth_users');
+    if (Number(count.rows[0]?.n ?? 0) > 0) return httpError(403, 'SETUP_ALREADY_COMPLETE');
+  }
+  const payload = isRecord(body) ? body : {};
+  const username = typeof payload.username === 'string' ? payload.username.trim() : '';
+  const password = typeof payload.password === 'string' ? payload.password : '';
+  if (!username || !password) return httpError(400, 'USERNAME_PASSWORD_REQUIRED');
+  if (password.length < 12) return httpError(400, 'PASSWORD_TOO_SHORT', 'Password must contain at least 12 characters');
+  try {
+    const user = await ctx.auth.createUser({ username, password, roles: ['ADMIN'] });
+    const session = await ctx.auth.login(username, password);
+    if (!session) return { statusCode: 201, body: { user, session: null } };
+    return presentSession(req, reply, session);
+  } catch (error) {
+    return httpError(409, 'USER_EXISTS', error instanceof Error ? error.message : String(error));
+  }
+});
+
 authRouter.add('POST', '/api/v1/auth/login', async (req, reply, _params, body, _query, ctx) => {
   const payload = isRecord(body) ? body : {};
   const result = await ctx.auth.login(String(payload.username ?? ''), String(payload.password ?? ''));

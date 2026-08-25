@@ -62,6 +62,7 @@
     "test:production-certification": "node scripts/transpile-runner.mjs tests/production-certification-contract.test.ts",
     "test:semantic": "node scripts/transpile-runner.mjs tests/automatic-semantic-engine.test.ts tests/ai-mizan-contract.test.ts tests/ai-analyzer-v14.test.ts tests/quranic-mizan.test.ts tests/config-loader.test.ts",
     "db:install": "node scripts/transpile-exec.mjs scripts/db-install.ts",
+    "setup": "node scripts/transpile-exec.mjs scripts/setup-wizard.ts",
     "db:check": "node scripts/transpile-exec.mjs scripts/db-postgres-check.ts",
     "db:verify": "node scripts/transpile-exec.mjs scripts/db-verify.ts",
     "db:runtime-verify": "node scripts/transpile-exec.mjs scripts/db-runtime-verify.ts",

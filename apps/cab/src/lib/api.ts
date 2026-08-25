@@ -49,6 +49,7 @@ export async function getJSON<T>(url: string, init?: RequestInit): Promise<T> { 
 
 export const api = {
   health: () => getJSON('/api/v1/health'),
+  setup: (body: {username:string; password:string}) => getJSON('/api/v1/auth/setup', {method:'POST', body:JSON.stringify(body)}),
   login: (body: {username:string; password:string}) => getJSON('/api/v1/auth/login', {method:'POST', body:JSON.stringify(body)}),
   logout: () => getJSON('/api/v1/auth/logout', {method:'POST'}),
   me: () => getJSON('/api/v1/auth/me'),

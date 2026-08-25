@@ -27,16 +27,24 @@ const menuDescriptions = uiConfig.menuDescriptions as Record<string, string>;
 function AuthScreen({ onAuth, health, locale, theme, onLocaleChange, onThemeChange }: { onAuth: (data: any) => void; health: any; locale: CivicLocale; theme: CivicTheme; onLocaleChange: (locale: CivicLocale) => void; onThemeChange: (theme: CivicTheme) => void }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const text = useTranslation(locale).auth;
+  const isSetup = health?.needsSetup === true;
 
   async function submit(e: FormEvent) {
     e.preventDefault();
+    if (isSetup && password !== confirmPassword) {
+      setError((text as any).passwordMismatch ?? 'Passwords do not match');
+      return;
+    }
     setBusy(true);
     setError('');
     try {
-      const data: any = await api.login({ username, password });
+      const data: any = isSetup
+        ? await api.setup({ username, password })
+        : await api.login({ username, password });
       saveAuth(data);
       onAuth(data.user);
     } catch (err) {
@@ -54,19 +62,20 @@ function AuthScreen({ onAuth, health, locale, theme, onLocaleChange, onThemeChan
       <Card className="mw-auth-card">
         <CardHeader>
           <div className="mw-brand-mark"><span className="mw-brand-dot" /> MOONWITNESS</div>
-          <div className="mw-eyebrow">{text.eyebrow}</div>
-          <CardTitle>{text.title}</CardTitle>
-          <p className="mw-muted">{text.help}</p>
+          <div className="mw-eyebrow">{isSetup ? ((text as any).setupEyebrow ?? 'FIRST-TIME SETUP') : text.eyebrow}</div>
+          <CardTitle>{isSetup ? ((text as any).setupTitle ?? 'Create administrator account') : text.title}</CardTitle>
+          <p className="mw-muted">{isSetup ? ((text as any).setupHelp ?? 'No accounts exist yet. Create the first administrator to begin.') : text.help}</p>
           <div className="mw-env-row"><Badge>{String(health?.environment ?? text.connecting).toUpperCase()}</Badge><span>{health?.database ?? text.checkingDb}</span></div>
         </CardHeader>
         <CardContent>
           <form onSubmit={submit} className="mw-form">
             <label className="mw-field"><span>{text.username}</span><Input aria-label={text.username} autoComplete="username" placeholder={text.username} value={username} onChange={e => setUsername(e.target.value)} required /></label>
-            <label className="mw-field"><span>{text.password}</span><Input aria-label={text.password} autoComplete="current-password" type="password" placeholder={`${text.password} ${text.passwordHint}`} value={password} onChange={e => setPassword(e.target.value)} required minLength={12} /></label>
+            <label className="mw-field"><span>{text.password}</span><Input aria-label={text.password} autoComplete={isSetup ? 'new-password' : 'current-password'} type="password" placeholder={`${text.password} ${text.passwordHint}`} value={password} onChange={e => setPassword(e.target.value)} required minLength={12} /></label>
+            {isSetup && <label className="mw-field"><span>{(text as any).confirmPassword ?? 'Confirm password'}</span><Input aria-label={(text as any).confirmPassword ?? 'Confirm password'} autoComplete="new-password" type="password" placeholder={(text as any).confirmPassword ?? 'Confirm password'} value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required minLength={12} /></label>}
             {error && <div className="mw-error" role="alert">{error}</div>}
-            <Button type="submit" disabled={busy}>{busy ? text.processing : text.submit}</Button>
+            <Button type="submit" disabled={busy}>{busy ? (isSetup ? ((text as any).setupProcessing ?? 'Creating account…') : text.processing) : (isSetup ? ((text as any).setupSubmit ?? 'Create admin & enter') : text.submit)}</Button>
           </form>
-          <p className="mw-muted mw-auth-toggle">{text.provisioned}</p>
+          {!isSetup && <p className="mw-muted mw-auth-toggle">{text.provisioned}</p>}
         </CardContent>
       </Card>
     </div>
