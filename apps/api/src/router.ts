@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'node:http';
-import { hasPermission, type ActionPermission } from '../../../src/security/authorization.js';
+import { hasPermission, type ActionPermission, type AuthorizationUser } from '../../../src/security/authorization.js';
 
 export const CANONICAL_V1_ROUTES = {
   health: '/api/v1/health',
@@ -12,8 +12,13 @@ export const CANONICAL_V1_ROUTES = {
   analyze: '/api/v1/analyze',
 } as const;
 
+export interface Authenticator {
+  authenticate(token: string): Promise<AuthorizationUser | null>;
+}
+
+export type RouterContext = Record<string, unknown>;
 export type RouteResult = object | { statusCode: number; body: unknown } | undefined;
-export type RouteHandler = (request: IncomingMessage, response: ServerResponse, params: Record<string, string>, body: unknown, query: URLSearchParams, ctx: any) => Promise<RouteResult> | RouteResult;
+export type RouteHandler = (request: IncomingMessage, response: ServerResponse, params: Record<string, string>, body: unknown, query: URLSearchParams, ctx: RouterContext) => Promise<RouteResult> | RouteResult;
 
 export class URLPattern { constructor(readonly regex: RegExp, readonly paramNames: string[]) {} }
 export interface Route { method: string; pattern: URLPattern; paramNames: string[]; handler: RouteHandler; }
@@ -30,7 +35,7 @@ export class Router {
   use(router: Router) { this.routes.push(...router.routes); }
 }
 
-export function isRecord(value: unknown): value is Record<string, any> { return typeof value === 'object' && value !== null && !Array.isArray(value); }
+export function isRecord(value: unknown): value is Record<string, unknown> { return typeof value === 'object' && value !== null && !Array.isArray(value); }
 export function asRecord(value: unknown): Record<string, unknown> { return isRecord(value) ? value : {}; }
 export function httpError(statusCode: number, error: string, message?: string): { statusCode: number; body: Record<string, unknown> } { const exposeMessage = process.env.NODE_ENV !== 'production'; return { statusCode, body: { error, ...(exposeMessage && message ? { message } : {}) } }; }
 export function isHttpError(value: unknown): value is { statusCode: number; body: Record<string, unknown> } { return isRecord(value) && typeof value.statusCode === 'number' && isRecord(value.body); }
@@ -41,5 +46,5 @@ export async function readJsonBody(request: IncomingMessage): Promise<unknown> {
 export function bearerToken(request: IncomingMessage): string { const header = String(request.headers.authorization ?? ''); if (header.startsWith('Bearer ')) return header.slice(7); return requestCookie(request, 'mw_access') ?? ''; }
 export function requestCookie(request: IncomingMessage, name: string): string | null { const raw = typeof request.headers.cookie === 'string' ? request.headers.cookie : ''; for (const part of raw.split(';')) { const separator = part.indexOf('='); if (separator < 0) continue; const key = part.slice(0, separator).trim(); if (key !== name) continue; try { return decodeURIComponent(part.slice(separator + 1).trim()); } catch { return null; } } return null; }
 export function idempotencyKey(req: IncomingMessage): string | null { const raw = req.headers['idempotency-key']; return typeof raw === 'string' && raw.trim() ? raw.trim() : null; }
-export async function requirePermission(req: IncomingMessage, auth: any, permission: ActionPermission) { const token = bearerToken(req); const user = await auth.authenticate(token); if (!user) return { ok: false, error: httpError(401, 'UNAUTHORIZED') }; if (!hasPermission(user, permission)) return { ok: false, error: httpError(403, 'PERMISSION_DENIED', permission) }; return { ok: true, user }; }
-export async function requireAuthenticated(req: IncomingMessage, auth: any) { const user = await auth.authenticate(bearerToken(req)); return user ? { ok: true, user } : { ok: false, error: httpError(401, 'UNAUTHORIZED') }; }
+export async function requirePermission(req: IncomingMessage, auth: Authenticator, permission: ActionPermission) { const token = bearerToken(req); const user = await auth.authenticate(token); if (!user) return { ok: false, error: httpError(401, 'UNAUTHORIZED') }; if (!hasPermission(user, permission)) return { ok: false, error: httpError(403, 'PERMISSION_DENIED', permission) }; return { ok: true, user }; }
+export async function requireAuthenticated(req: IncomingMessage, auth: Authenticator) { const user = await auth.authenticate(bearerToken(req)); return user ? { ok: true, user } : { ok: false, error: httpError(401, 'UNAUTHORIZED') }; }
