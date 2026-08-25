@@ -2,9 +2,9 @@ import crypto from 'node:crypto';
 import { hashEvent } from './hash.js';
 import type { AuditRecord } from './types.js';
 
-export function makeAuditRecord(input: Omit<AuditRecord, 'auditId'>): AuditRecord {
+export function makeAuditRecord(input: Omit<AuditRecord, 'auditId'>, previousHash?: string): AuditRecord {
   const auditId = `AUD-${crypto.randomUUID()}`;
-  return { auditId, ...input };
+  return { auditId, ...input, ...(previousHash !== undefined ? { previousHash } : {}) };
 }
 
 export function changedFields(before: Record<string, unknown> | null | undefined, after: Record<string, unknown> | null | undefined): string[] {
