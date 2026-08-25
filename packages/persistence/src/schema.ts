@@ -60,6 +60,12 @@ export const MIGRATIONS: Migration[] = [
     description: 'Durable revocable sessions with rotating refresh-token hashes',
     postgresSql: `CREATE TABLE IF NOT EXISTS auth_sessions (session_id TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES auth_users(user_id) ON DELETE CASCADE, refresh_token_hash TEXT UNIQUE NOT NULL, created_at TIMESTAMPTZ NOT NULL, refresh_expires_at TIMESTAMPTZ NOT NULL, last_seen_at TIMESTAMPTZ NOT NULL, revoked_at TIMESTAMPTZ, rotation_counter INTEGER NOT NULL DEFAULT 1); CREATE INDEX IF NOT EXISTS idx_auth_sessions_user ON auth_sessions(user_id, revoked_at); CREATE INDEX IF NOT EXISTS idx_auth_sessions_refresh ON auth_sessions(refresh_token_hash);`,
   },
+  {
+    id: '0008_audit_changed_fields_compat',
+    version: 8,
+    description: 'Compatibility column for runtime audit changed-fields payloads',
+    postgresSql: `ALTER TABLE audit_ledger ADD COLUMN IF NOT EXISTS changed_fields JSONB NOT NULL DEFAULT '[]';`,
+  },
 ];
 
 export function getLatestSchemaVersion(): number {
