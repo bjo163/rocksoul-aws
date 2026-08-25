@@ -69,8 +69,19 @@ export const MIGRATIONS: Migration[] = [
   {
     id: '0009_audit_changed_fields_array',
     version: 9,
-    description: 'Store audit changed-fields using native PostgreSQL text arrays',
-    postgresSql: `ALTER TABLE audit_ledger ALTER COLUMN changed_fields DROP DEFAULT; ALTER TABLE audit_ledger ALTER COLUMN changed_fields TYPE TEXT[] USING CASE WHEN changed_fields IS NULL THEN ARRAY[]::TEXT[] ELSE ARRAY(SELECT jsonb_array_elements_text(changed_fields)) END; ALTER TABLE audit_ledger ALTER COLUMN changed_fields SET DEFAULT ARRAY[]::TEXT[]; ALTER TABLE audit_ledger ALTER COLUMN changed_fields SET NOT NULL;`,
+    description: 'Normalize runtime audit changed-fields compatibility column to PostgreSQL text array',
+    postgresSql: `
+      ALTER TABLE audit_ledger ADD COLUMN IF NOT EXISTS changed_fields_text TEXT[];
+      UPDATE audit_ledger
+      SET changed_fields_text = COALESCE(
+        ARRAY(SELECT jsonb_array_elements_text(changed_fields)),
+        ARRAY[]::TEXT[]
+      );
+      ALTER TABLE audit_ledger DROP COLUMN IF EXISTS changed_fields;
+      ALTER TABLE audit_ledger RENAME COLUMN changed_fields_text TO changed_fields;
+      ALTER TABLE audit_ledger ALTER COLUMN changed_fields SET DEFAULT '{}';
+      ALTER TABLE audit_ledger ALTER COLUMN changed_fields SET NOT NULL;
+    `,
   },
 ];
 
