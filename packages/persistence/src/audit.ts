@@ -8,7 +8,15 @@ declare global {
 
 export function makeAuditRecord(input: Omit<AuditRecord, 'auditId'>, previousHash?: string): AuditRecord {
   const auditId = `AUD-${crypto.randomUUID()}`;
-  return { auditId, ...input, ...(previousHash !== undefined ? { previousHash } : {}) };
+  const record: AuditRecord = {
+    auditId,
+    ...input,
+    ...(previousHash !== undefined ? { previousHash } : {}),
+  };
+  return {
+    ...record,
+    hash: hashAudit(record, previousHash ?? ''),
+  };
 }
 
 export function changedFields(before: Record<string, unknown> | null | undefined, after: Record<string, unknown> | null | undefined): string[] {
