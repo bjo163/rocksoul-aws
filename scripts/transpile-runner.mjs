@@ -25,6 +25,13 @@ fs.symlinkSync(
   path.join(tmp, 'node_modules'),
   process.platform === 'win32' ? 'junction' : 'dir'
 );
+// Release-evidence contracts inspect the repository HEAD. Keep the real Git metadata
+// visible without copying or mutating it so the isolated filesystem still resolves
+// `git rev-parse HEAD` to the exact source checkout being tested.
+const gitDir = path.join(repo, '.git');
+if (fs.existsSync(gitDir)) {
+  fs.symlinkSync(gitDir, path.join(tmp, '.git'), process.platform === 'win32' ? 'junction' : 'dir');
+}
 function walk(dir) {
   const out = [];
   for (const name of fs.readdirSync(dir)) {
