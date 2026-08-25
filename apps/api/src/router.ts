@@ -36,7 +36,23 @@ export function asRecord(value: unknown): Record<string, unknown> { return isRec
 export function httpError(statusCode: number, error: string, message?: string): { statusCode: number; body: Record<string, unknown> } { const exposeMessage = process.env.NODE_ENV !== 'production'; return { statusCode, body: { error, ...(exposeMessage && message ? { message } : {}) } }; }
 export function isHttpError(value: unknown): value is { statusCode: number; body: Record<string, unknown> } { return isRecord(value) && typeof value.statusCode === 'number' && isRecord(value.body); }
 export function isStatusBody(value: unknown): value is { statusCode: number; body: Record<string, unknown> } { return isRecord(value) && typeof value.statusCode === 'number' && isRecord(value.body); }
-export function writeJson(response: ServerResponse, statusCode: number, body: unknown): void { const payload = JSON.stringify(body ?? null); response.statusCode = statusCode; response.setHeader('content-type', 'application/json; charset=utf-8'); response.setHeader('content-length', Buffer.byteLength(payload)); response.end(payload); }
+function isNumericResponseKey(value: string): boolean { return /^(?:0|[1-9]\d*)$/.test(value); }
+function restoreArrayLikeResponse(value: Record<string, unknown>): unknown[] | null {
+  if (!Object.prototype.hasOwnProperty.call(value, 'request_id')) return null;
+  const keys = Object.keys(value).filter((key) => key !== 'request_id');
+  if (keys.length === 0 || !keys.every(isNumericResponseKey)) return null;
+  const indexes = keys.map(Number).sort((a, b) => a - b);
+  for (let index = 0; index < indexes.length; index += 1) if (indexes[index] !== index) return null;
+  return indexes.map((index) => value[String(index)]);
+}
+export function writeJson(response: ServerResponse, statusCode: number, body: unknown): void {
+  const normalized = isRecord(body) ? restoreArrayLikeResponse(body) ?? body : body;
+  const payload = JSON.stringify(normalized ?? null);
+  response.statusCode = statusCode;
+  response.setHeader('content-type', 'application/json; charset=utf-8');
+  response.setHeader('content-length', Buffer.byteLength(payload));
+  response.end(payload);
+}
 export class HttpBodyError extends Error { constructor(readonly statusCode: 400 | 413, readonly code: 'MALFORMED_JSON' | 'REQUEST_BODY_TOO_LARGE', message: string) { super(message); } }
 export async function readJsonBody(request: IncomingMessage): Promise<unknown> { const method = (request.method ?? 'GET').toUpperCase(); if (method === 'GET' || method === 'HEAD') return undefined; const maxBytes = Number(process.env.MW_MAX_BODY_BYTES ?? 1024 * 1024); const chunks: Buffer[] = []; let total = 0; for await (const chunk of request) { const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk); total += buffer.length; if (total > maxBytes) throw new HttpBodyError(413, 'REQUEST_BODY_TOO_LARGE', `Request body exceeds ${maxBytes} bytes`); chunks.push(buffer); } if (chunks.length === 0) return undefined; const text = Buffer.concat(chunks).toString('utf8').trim(); if (!text) return undefined; try { return JSON.parse(text); } catch { throw new HttpBodyError(400, 'MALFORMED_JSON', 'Request body must be valid JSON'); } }
 export function bearerToken(request: IncomingMessage): string { const header = String(request.headers.authorization ?? ''); if (header.startsWith('Bearer ')) return header.slice(7); return requestCookie(request, 'mw_access') ?? ''; }
