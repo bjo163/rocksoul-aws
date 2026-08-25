@@ -31,6 +31,10 @@ export interface DagVerification {
   reason?: 'HASH_MISMATCH' | 'MISSING_PARENT' | 'CYCLE' | 'DUPLICATE_NODE_ID';
 }
 
+export interface DagIntegrity extends DagVerification {
+  ok: boolean;
+}
+
 function canonical(value: unknown): string {
   if (value === null || typeof value !== 'object') return JSON.stringify(value);
   if (Array.isArray(value)) return `[${value.map(canonical).join(',')}]`;
@@ -220,9 +224,10 @@ export class WitnessDag {
     return { valid: true, nodes: this.#nodes.size, heads: this.heads(), root: this.root() };
   }
 
-  /** Backward-compatible integrity alias used by recovery contracts and older callers. */
-  integrity(): DagVerification {
-    return this.verify();
+  /** Backward-compatible integrity API. */
+  integrity(): DagIntegrity {
+    const verification = this.verify();
+    return { ...verification, ok: verification.valid };
   }
 
   snapshot(): { version: 1; nodes: DagNode[]; checkpoint: DagCheckpoint } {
