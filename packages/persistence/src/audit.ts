@@ -28,3 +28,29 @@ export function hashAudit(record: AuditRecord, previousHash: string): string {
     source: 'AUDIT',
   }, previousHash);
 }
+
+export function normalizeAudit(row: Record<string, unknown>): AuditRecord {
+  return {
+    auditId: String(row.audit_id ?? ''),
+    operation: row.operation === 'UPDATE' || row.operation === 'DELETE' ? row.operation : 'CREATE',
+    modelType: String(row.model_type ?? ''),
+    recordId: String(row.record_id ?? ''),
+    actorId: String(row.actor_id ?? ''),
+    timestamp: String(row.timestamp ?? ''),
+    changedFields: Array.isArray(row.changed_fields)
+      ? row.changed_fields.filter((value): value is string => typeof value === 'string')
+      : Array.isArray(row.changed_fields_json)
+        ? row.changed_fields_json.filter((value): value is string => typeof value === 'string')
+        : [],
+    before: isRecord(row.before_json) ? row.before_json : null,
+    after: isRecord(row.after_json) ? row.after_json : null,
+    correlationId: row.correlation_id == null ? null : String(row.correlation_id),
+    reason: row.reason == null ? null : String(row.reason),
+    previousHash: row.previous_hash == null ? undefined : String(row.previous_hash),
+    hash: row.hash == null ? undefined : String(row.hash),
+  };
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
