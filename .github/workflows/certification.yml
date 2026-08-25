@@ -116,7 +116,7 @@ jobs:
             -e PGPASSWORD=postgres-ci-only \
             -e PGDATABASE=moonwitness_ci \
             node:22-bookworm \
-            bash -lc 'npm ci --ignore-scripts --no-audit --no-fund && npm run test:postgres'
+            bash -lc 'npm run test:postgres'
           docker cp "$GITHUB_WORKSPACE/." cosmic-postgres-test:/workspace
           docker start -a cosmic-postgres-test
 
@@ -139,7 +139,9 @@ jobs:
         run: npm run certify:current
 
       - name: Build Docker image
-        run: docker build -t cosmic:${{ github.sha }} .
+        run: |
+          docker pull ghcr.io/${{ github.repository }}:latest || true
+          docker build --cache-from ghcr.io/${{ github.repository }}:latest -t cosmic:${{ github.sha }} .
 
       - name: Cleanup PostgreSQL
         if: always()
