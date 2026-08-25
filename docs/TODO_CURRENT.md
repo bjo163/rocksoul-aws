@@ -3,11 +3,11 @@
 This is the active Todo for the current `dev` trunk. Historical audit details remain in `docs/TODO.md`.
 
 ## Current blocker
-- 4.33.0 remains blocked by the remaining 32 API/DDT failures from the last verified certification run.
+- 4.33.0 remains blocked by full release certification; the most recent verified run reached `test:release` and exposed a real SQLite migration-schema contract violation, now fixed in `packages/persistence/src/schema.ts`.
 - DDT diagnostics now support targeted TC ranges and failure clustering.
 - The default DDT lane uses a test-only high rate-limit ceiling so business/engine certification is not contaminated by production abuse thresholds; rate-limit behavior remains a separate security contract.
 - `npm run ddt:debug -- --from=900 --to=999` is the standard targeted diagnostic entry point.
-- Next verification: reproduce the suspected Engine Mode cluster, fix root cause, then re-run all 1006 cases.
+- Next verification: certify the PostgreSQL-only schema change, continue through PostgreSQL/build/Docker gates, then reproduce and fix any remaining 1006-case DDT failures.
 
 ## Release train
 `4.33.0 → 4.33.1 → 4.34.0 → 4.35.0 → 4.36.0 → 5.0.0`
@@ -18,7 +18,7 @@ This is the active Todo for the current `dev` trunk. Historical audit details re
 - [ ] #23/#44 — fix 32 DDT root causes; target 1006/1006 PASS with no coverage reduction.
 - [ ] #35 — final release gate: PostgreSQL, typecheck, lint, builds, Docker, dependency, OpenAPI, Coolify, release identity.
 - [ ] #45 — SBOM/provenance/artifact integrity.
-- [ ] #46 — PostgreSQL schema/migration inventory and drift detection.
+- [ ] #46 — PostgreSQL schema/migration inventory and drift detection; migration schema is now PostgreSQL-only.
 - [ ] #62 — File/PostgreSQL persistence conformance.
 - [ ] #63 — audit/event replay, tamper, sequence-gap, export verification.
 
@@ -57,6 +57,7 @@ This is the active Todo for the current `dev` trunk. Historical audit details re
 - [ ] #43 — platform contract freeze, compatibility/deprecation, schema/event/job policy, threat model, security review, DR rehearsal, upgrade rehearsal, reproducible RC certification.
 
 ## Implemented / contract-covered
+- ✅ PostgreSQL-only migration schema: `packages/persistence/src/schema.ts` no longer carries SQLite migration SQL.
 - ✅ SQLite outside the supported runtime surface; supported drivers are `memory`, `file`, and `postgres`.
 - ✅ HTTP security baseline and contract coverage.
 - ✅ API error/pagination/idempotency contracts.
