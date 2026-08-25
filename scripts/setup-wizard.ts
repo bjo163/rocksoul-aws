@@ -420,9 +420,9 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
       await client.end();
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ ok: true }));
-    } catch (err: any) {
+    } catch (err: unknown) {
       res.writeHead(500, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ ok: false, error: err.message }));
+      res.end(JSON.stringify({ ok: false, error: err instanceof Error ? err.message : String(err) }));
     }
     return;
   }
@@ -507,7 +507,7 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
   res.end(JSON.stringify({ error: 'NOT_FOUND' }));
 });
 
-function readBody(req: IncomingMessage): Promise<any> {
+function readBody(req: IncomingMessage): Promise<Record<string, unknown>> {
   return new Promise((resolve) => {
     let body = '';
     req.on('data', (chunk: Buffer) => { body += chunk.toString(); });

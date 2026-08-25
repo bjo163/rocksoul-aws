@@ -30,21 +30,21 @@ function AuthScreen({ onAuth, health, locale, theme, onLocaleChange, onThemeChan
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
-  const text = useTranslation(locale).auth;
+  const text = useTranslation(locale).auth as Record<string, string>;
   const isSetup = health?.needsSetup === true;
 
   async function submit(e: FormEvent) {
     e.preventDefault();
     if (isSetup && password !== confirmPassword) {
-      setError((text as any).passwordMismatch ?? 'Passwords do not match');
+      setError(text.passwordMismatch ?? 'Passwords do not match');
       return;
     }
     setBusy(true);
     setError('');
     try {
-      const data: any = isSetup
+      const data = (isSetup
         ? await api.setup({ username, password })
-        : await api.login({ username, password });
+        : await api.login({ username, password })) as { user: unknown; [key: string]: unknown };
       saveAuth(data);
       onAuth(data.user);
     } catch (err) {
@@ -62,18 +62,18 @@ function AuthScreen({ onAuth, health, locale, theme, onLocaleChange, onThemeChan
       <Card className="mw-auth-card">
         <CardHeader>
           <div className="mw-brand-mark"><span className="mw-brand-dot" /> MOONWITNESS</div>
-          <div className="mw-eyebrow">{isSetup ? ((text as any).setupEyebrow ?? 'FIRST-TIME SETUP') : text.eyebrow}</div>
-          <CardTitle>{isSetup ? ((text as any).setupTitle ?? 'Create administrator account') : text.title}</CardTitle>
-          <p className="mw-muted">{isSetup ? ((text as any).setupHelp ?? 'No accounts exist yet. Create the first administrator to begin.') : text.help}</p>
+          <div className="mw-eyebrow">{isSetup ? (text.setupEyebrow ?? 'FIRST-TIME SETUP') : text.eyebrow}</div>
+          <CardTitle>{isSetup ? (text.setupTitle ?? 'Create administrator account') : text.title}</CardTitle>
+          <p className="mw-muted">{isSetup ? (text.setupHelp ?? 'No accounts exist yet. Create the first administrator to begin.') : text.help}</p>
           <div className="mw-env-row"><Badge>{String(health?.environment ?? text.connecting).toUpperCase()}</Badge><span>{health?.database ?? text.checkingDb}</span></div>
         </CardHeader>
         <CardContent>
           <form onSubmit={submit} className="mw-form">
             <label className="mw-field"><span>{text.username}</span><Input aria-label={text.username} autoComplete="username" placeholder={text.username} value={username} onChange={e => setUsername(e.target.value)} required /></label>
             <label className="mw-field"><span>{text.password}</span><Input aria-label={text.password} autoComplete={isSetup ? 'new-password' : 'current-password'} type="password" placeholder={`${text.password} ${text.passwordHint}`} value={password} onChange={e => setPassword(e.target.value)} required minLength={12} /></label>
-            {isSetup && <label className="mw-field"><span>{(text as any).confirmPassword ?? 'Confirm password'}</span><Input aria-label={(text as any).confirmPassword ?? 'Confirm password'} autoComplete="new-password" type="password" placeholder={(text as any).confirmPassword ?? 'Confirm password'} value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required minLength={12} /></label>}
+            {isSetup && <label className="mw-field"><span>{text.confirmPassword ?? 'Confirm password'}</span><Input aria-label={text.confirmPassword ?? 'Confirm password'} autoComplete="new-password" type="password" placeholder={text.confirmPassword ?? 'Confirm password'} value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required minLength={12} /></label>}
             {error && <div className="mw-error" role="alert">{error}</div>}
-            <Button type="submit" disabled={busy}>{busy ? (isSetup ? ((text as any).setupProcessing ?? 'Creating account…') : text.processing) : (isSetup ? ((text as any).setupSubmit ?? 'Create admin & enter') : text.submit)}</Button>
+            <Button type="submit" disabled={busy}>{busy ? (isSetup ? (text.setupProcessing ?? 'Creating account…') : text.processing) : (isSetup ? (text.setupSubmit ?? 'Create admin & enter') : text.submit)}</Button>
           </form>
           {!isSetup && <p className="mw-muted mw-auth-toggle">{text.provisioned}</p>}
         </CardContent>
@@ -82,15 +82,15 @@ function AuthScreen({ onAuth, health, locale, theme, onLocaleChange, onThemeChan
   );
 }
 
-function HomeOverview({ user, health, models, reviews, locale, onAction }: any) {
-  const copy = useTranslation(locale).home;
-  const cards = [
-    [copy.identity, user?.rid ?? copy.noRid, 'ACTOR'],
+function HomeOverview({ user, health, models, reviews, locale, onAction }: { user?: Record<string, unknown>, health?: Record<string, unknown>, models?: Model[], reviews?: Record<string, unknown>[], locale: CivicLocale, onAction?: (action: string) => void }) {
+  const copy = useTranslation(locale).home as Record<string, string>;
+  const cards: [string, React.ReactNode, string][] = [
+    [copy.identity, (user?.rid as string) ?? copy.noRid, 'ACTOR'],
     [copy.system, health?.ok ? copy.online : copy.degraded, 'HEALTH'],
-    [copy.reviews, reviews.filter((review: any) => review.status !== 'DISPOSED').length, 'REVIEW'],
-    [copy.registry, models.length, 'REGISTRY'],
+    [copy.reviews, reviews?.filter((review: Record<string, unknown>) => review.status !== 'DISPOSED').length, 'REVIEW'],
+    [copy.registry, models?.length, 'REGISTRY'],
     [copy.runtime, String(health?.environment ?? 'unknown').toUpperCase(), 'RUNTIME'],
-    [copy.database, health?.database ?? copy.local, 'POSTGRES'],
+    [copy.database, (health?.database as string) ?? copy.local, 'POSTGRES'],
   ];
   const shellText = useTranslation(locale).shell;
   const actionLabels: Record<string, string> = {

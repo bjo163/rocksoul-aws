@@ -65,11 +65,12 @@ authRouter.add('POST', '/api/v1/auth/register', async (_req, _reply, _params, bo
 });
 
 authRouter.add('POST', '/api/v1/auth/setup', async (req, reply, _params, body, _query, ctx) => {
+  const authService = ctx.auth as unknown as { _users?: Map<string, unknown>; pool?: { query: (sql: string) => Promise<{rows: {n: string | number}[]}> } };
   // First-run setup: only allowed when zero users exist
-  if (ctx.auth._users.size > 0) return httpError(403, 'SETUP_ALREADY_COMPLETE');
+  if (authService._users && authService._users.size > 0) return httpError(403, 'SETUP_ALREADY_COMPLETE');
   // Double-check against DB for postgres driver
-  if (ctx.auth.pool) {
-    const count = await (ctx.auth as any).pool.query('SELECT count(*)::int AS n FROM auth_users');
+  if (authService.pool) {
+    const count = await authService.pool.query('SELECT count(*)::int AS n FROM auth_users');
     if (Number(count.rows[0]?.n ?? 0) > 0) return httpError(403, 'SETUP_ALREADY_COMPLETE');
   }
   const payload = isRecord(body) ? body : {};

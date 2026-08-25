@@ -20,7 +20,7 @@ kernelRouter.add('GET', '/api/v1/health', async (req, reply, _params, _body, _qu
   return {
     ...base,
     ...(ctx.backend.app.health() as Record<string, unknown>),
-    needsSetup: ctx.auth._users.size === 0,
+    needsSetup: ((ctx.auth as unknown as { _users?: Map<string, unknown> })._users?.size ?? 0) === 0,
     environment: process.env.MOONWITNESS_ENV ?? process.env.NODE_ENV ?? 'development',
     database: process.env.PGDATABASE ?? null,
     storageDriver: ctx.universeStore.persistence.store.driver,
