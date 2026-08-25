@@ -20,3 +20,10 @@ test('public web declares public metadata and system boundary',()=>{
   assert.match(layout,/description/);
   assert.match(layout,/x-forwarded-host/);
 });
+
+test('public web exposes the current release status without stale certification claims',()=>{
+  assert.match(app,/4\.33\.0 — certification pending/);
+  assert.match(app,/CERTIFICATION PENDING/);
+  assert.doesNotMatch(app,/v4\.32|4\.32\.0/);
+  assert.doesNotMatch(app,/1,007 API checks/);
+});
