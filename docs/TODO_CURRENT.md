@@ -56,6 +56,18 @@ This is the active Todo for the current `dev` trunk. Historical audit details re
 - [ ] Restart API/Web and verify durable PostgreSQL state survives.
 - [ ] Execute backup/restore smoke before calling staging production-ready.
 
+### N5-WEB — Public web deployment (parallel)
+- [x] Public `apps/web` exists as a separate application surface.
+- [x] Public website status copy synchronized to 4.33.0 certification-pending state.
+- [x] Web contract prevents regression to the old 4.32 release status.
+- [x] GitHub Pages workflow exists as fallback deployment.
+- [x] Cloudflare Pages workflow added as primary deployment path for project `cosmic-web`.
+- [ ] Configure repository secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`.
+- [ ] Execute Cloudflare Pages build/deploy from `dev`.
+- [ ] Run public HTTPS smoke test and verify static assets/base path.
+- [ ] Keep GitHub Pages fallback available.
+- [ ] Close #72 only after live deployment and smoke evidence exist.
+
 ### N6 — 4.33.1 hardening
 - [ ] Auth/session replay, rotation, revocation, restart, clock-skew.
 - [ ] Production fail-closed CORS/JWT/cookie/proxy checks.
@@ -105,6 +117,7 @@ This is the active Todo for the current `dev` trunk. Historical audit details re
 - [ ] #46 — PostgreSQL schema/migration inventory and drift detection; migration schema is now PostgreSQL-only.
 - [ ] #62 — File/PostgreSQL persistence conformance.
 - [ ] #63 — audit/event replay, tamper, sequence-gap, export verification.
+- [x] #72 — Cloudflare Pages primary deployment workflow created; live deployment remains pending repository secrets and smoke evidence.
 
 ## P1 — 4.33.1
 - [ ] #59 — auth/session replay, rotation, revocation, restart, clock-skew.
