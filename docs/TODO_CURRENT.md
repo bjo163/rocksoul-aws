@@ -3,11 +3,84 @@
 This is the active Todo for the current `dev` trunk. Historical audit details remain in `docs/TODO.md`.
 
 ## Current blocker
-- 4.33.0 remains blocked by full release certification; the most recent verified run reached `test:release` and exposed a real SQLite migration-schema contract violation, now fixed in `packages/persistence/src/schema.ts`.
+- 4.33.0 remains blocked by full release certification; the most recent verified release-focused failure was the obsolete `sqliteSql` migration field, fixed in `packages/persistence/src/schema.ts`.
+- Certification Run #658 for the schema fix was **cancelled**, so it provides no pass/fail evidence for the fix.
 - DDT diagnostics now support targeted TC ranges and failure clustering.
 - The default DDT lane uses a test-only high rate-limit ceiling so business/engine certification is not contaminated by production abuse thresholds; rate-limit behavior remains a separate security contract.
 - `npm run ddt:debug -- --from=900 --to=999` is the standard targeted diagnostic entry point.
-- Next verification: certify the PostgreSQL-only schema change, continue through PostgreSQL/build/Docker gates, then reproduce and fix any remaining 1006-case DDT failures.
+
+## NEXT EXECUTION PLAN — do these in order
+
+### N0 — Re-certify the current head
+- [ ] Trigger/obtain a fresh PR-to-main self-hosted certification after the PostgreSQL-only schema fix.
+- [ ] Require architecture, lint, typecheck, release identity, release-focused tests, PostgreSQL, all builds, final certification, and Docker to pass on the **same SHA**.
+- [ ] Treat cancelled/interrupted runs as **no evidence**, not as pass or fail.
+
+### N1 — If release-focused tests fail again
+- [ ] Capture the exact failing contract and first causal error.
+- [ ] Classify it as runner/build-sandbox vs production/source behavior.
+- [ ] Fix the narrowest shared root cause.
+- [ ] Add/retain a regression contract; never weaken expected security or coverage.
+- [ ] Re-certify the exact fix SHA.
+
+### N2 — 1006-case API certification
+- [ ] Capture exact failing `TC-*` IDs from the current full DDT.
+- [ ] Group by engine, command, HTTP status, and error signature.
+- [ ] Identify the first causal stateful failure in each cluster.
+- [ ] Fix each root cause and add regression coverage.
+- [ ] Re-run the full sequential suite after each cluster.
+- [ ] Exit only at **1006/1006 PASS, 0 skipped, 0 todo**.
+
+### N3 — Persistence and schema certification
+- [ ] Run PostgreSQL migration from an empty database.
+- [ ] Verify latest schema version and invariants.
+- [ ] Add expected-vs-live schema drift detection.
+- [ ] Run representative 4.x upgrade migration test.
+- [ ] Run File/PostgreSQL persistence conformance suite.
+- [ ] Verify replay/audit/idempotency after restart.
+
+### N4 — Release provenance
+- [ ] Generate SBOM for the certified dependency graph.
+- [ ] Record Git SHA/version in build metadata.
+- [ ] Record image digest and release artifact checksums.
+- [ ] Attach same-SHA certification evidence.
+- [ ] Verify lockfile/manifests are reproducible.
+
+### N5 — Deployment certification
+- [ ] Validate Coolify Compose from clean checkout.
+- [ ] Verify PostgreSQL readiness dependency and `/api/v1/ready`.
+- [ ] Verify no direct public API port exposure.
+- [ ] Execute HTTPS staging smoke.
+- [ ] Restart API/Web and verify durable PostgreSQL state survives.
+- [ ] Execute backup/restore smoke before calling staging production-ready.
+
+### N6 — 4.33.1 hardening
+- [ ] Auth/session replay, rotation, revocation, restart, clock-skew.
+- [ ] Production fail-closed CORS/JWT/cookie/proxy checks.
+- [ ] PostgreSQL timeout/pool/recovery/backup/rollback drill.
+- [ ] Witness restart/checkpoint/backup/integrity certification.
+- [ ] Structured logs, metrics, redaction, DB/queue/Witness diagnostics.
+- [ ] Graceful shutdown and rollback rehearsal.
+
+### N7 — 4.34 → 4.36 platform progression
+- [ ] Complete OpenAPI route/schema parity.
+- [ ] Generate/verify SDK against staging.
+- [ ] Freeze API compatibility/deprecation harness.
+- [ ] Finalize AI provider bounds/evaluation/provenance.
+- [ ] Finish worker PostgreSQL lease/retry/DLQ production path.
+- [ ] Run concurrency/performance baselines.
+- [ ] Execute real Coolify staging for Web/CAB/XRP/Flow.
+- [ ] Browser/API governance/accessibility/localization smoke.
+
+### N8 — 5.0.0 release candidate
+- [ ] Freeze public API/SDK/event/job compatibility.
+- [ ] Freeze schema migration/rollback policy.
+- [ ] Finalize deployment topology/resource requirements.
+- [ ] Complete threat model/security review.
+- [ ] Complete DR and upgrade rehearsal from latest 4.x.
+- [ ] Produce reproducible RC provenance package.
+- [ ] Run final self-hosted RC certification.
+- [ ] Merge only the exact certified SHA to `main`.
 
 ## Release train
 `4.33.0 → 4.33.1 → 4.34.0 → 4.35.0 → 4.36.0 → 5.0.0`
