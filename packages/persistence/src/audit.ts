@@ -2,6 +2,10 @@ import crypto from 'node:crypto';
 import { hashEvent } from './hash.js';
 import type { AuditRecord } from './types.js';
 
+declare global {
+  var normalizeAudit: (row: Record<string, unknown>) => AuditRecord;
+}
+
 export function makeAuditRecord(input: Omit<AuditRecord, 'auditId'>, previousHash?: string): AuditRecord {
   const auditId = `AUD-${crypto.randomUUID()}`;
   return { auditId, ...input, ...(previousHash !== undefined ? { previousHash } : {}) };
@@ -54,3 +58,5 @@ export function normalizeAudit(row: Record<string, unknown>): AuditRecord {
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
+
+globalThis.normalizeAudit = normalizeAudit;
