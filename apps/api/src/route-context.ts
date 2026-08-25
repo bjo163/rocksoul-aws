@@ -9,11 +9,12 @@ import type { loadLegacyBackend } from './legacy-bridge.js';
 import type { WitnessTransportService } from '../../../src/ledger/witness-transport.js';
 import type { WitnessDag } from '../../../src/ledger/witness-dag.js';
 import type { LocalWitnessDagStore } from '../../../src/ledger/local-dag-store.js';
-import type { PostgresWitnessProjectionStore } from '../../../src/ledger/postgres-witness-projection-store.js';
+import type { PostgresWitnessProjectionStore } from '../../../src/ledger/witness-projection-store.js';
 import type { SingleNodeWitnessKeyStore } from '../../../src/ledger/single-node-keystore.js';
 import type { LocalCheckpointStore } from '../../../src/ledger/local-checkpoint-store.js';
 import type { WitnessBackupManager } from '../../../src/ledger/witness-backup.js';
 import type { WitnessObservability } from '../../../src/ledger/witness-observability.js';
+import { createDefaultSemanticProvider } from '../../../src/ai/provider.js';
 
 export interface Authenticator {
   authenticate(token: string): Promise<AuthorizationUser | null>;
@@ -29,7 +30,7 @@ export interface WitnessNodeInput {
   recordId?: string;
   recordType?: string;
   nodeId?: string;
-  kind: string;
+  kind?: string;
   payload?: unknown;
   [key: string]: unknown;
   parents?: string[];
@@ -55,7 +56,7 @@ export interface WitnessBackupReference {
   filePath?: string;
   dagRoot?: string | null;
   nodeCount?: number;
-  manifest?: {
+  manifest: {
     backupId: string;
     createdAt: string;
     qdagRoot: string | null;
@@ -90,7 +91,7 @@ export interface WitnessRouteContext {
 }
 
 export interface RouteIdempotency {
-  execute<T>(key: string | null, requestHash: string, work: () => Promise<{ statusCode: number; body: T }>): Promise<{ statusCode: number; body: T }>;
+  execute(key: string | null, requestHash: string, work: () => Promise<{ statusCode: number; body: unknown }>): Promise<{ statusCode: number; body: unknown }>;
   close(): Promise<void>;
 }
 
