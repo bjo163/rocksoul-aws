@@ -8,7 +8,7 @@ import ts from 'typescript';
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'mw-build-'));
-const copyDirs = ['src', 'packages', 'tests', 'scripts', 'apps', 'docs', 'deploy'];
+const copyDirs = ['.github', 'src', 'packages', 'tests', 'scripts', 'apps', 'docs', 'deploy'];
 const rootFiles = [
   'Dockerfile',
   'docker-compose.yml',
