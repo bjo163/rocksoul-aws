@@ -104,9 +104,10 @@ jobs:
       - name: PostgreSQL certification
         run: |
           set -euo pipefail
-          docker run --rm \
+          docker rm -f cosmic-postgres-test >/dev/null 2>&1 || true
+          docker create \
+            --name cosmic-postgres-test \
             --network container:cosmic-postgres-ci \
-            -v "$GITHUB_WORKSPACE:/workspace" \
             -w /workspace \
             -e STORAGE_DRIVER=postgres \
             -e PGHOST=127.0.0.1 \
@@ -115,7 +116,9 @@ jobs:
             -e PGPASSWORD=postgres-ci-only \
             -e PGDATABASE=moonwitness_ci \
             node:22-bookworm \
-            bash -lc 'npm run test:postgres'
+            bash -lc 'npm ci --ignore-scripts --no-audit --no-fund && npm run test:postgres'
+          docker cp "$GITHUB_WORKSPACE/." cosmic-postgres-test:/workspace
+          docker start -a cosmic-postgres-test
 
       - name: Build API
         run: npm run build:api
@@ -140,4 +143,6 @@ jobs:
 
       - name: Cleanup PostgreSQL
         if: always()
-        run: docker rm -f cosmic-postgres-ci >/dev/null 2>&1 || true
+        run: |
+          docker rm -f cosmic-postgres-test >/dev/null 2>&1 || true
+          docker rm -f cosmic-postgres-ci >/dev/null 2>&1 || true
