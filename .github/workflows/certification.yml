@@ -104,5 +104,5 @@ jobs:
       - name: Final certification
         run: npm run certify:current
 
-      - name: Build Docker image
-        run: docker build -t cosmic:${{ github.sha }} .
+      - name: Build Docker image from clean local context
+        run: ./scripts/docker-build.sh
