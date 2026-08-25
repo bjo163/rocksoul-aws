@@ -6,9 +6,6 @@ import type { PersistentJobQueue } from '../../../src/jobs/job-queue.js';
 import type { SemanticRegistry } from '../../../src/semantic/semantic-registry.js';
 import type { createFeatureRegistry } from '../../../src/access/feature-registry.js';
 import type { loadLegacyBackend } from './legacy-bridge.js';
-import type { PostgresIdempotencyStore } from '../../../src/persistence/postgres-idempotency.js';
-import type { IdempotencyStore } from '../../../src/persistence/idempotency.js';
-import type { createDefaultSemanticProvider } from '../../../src/ai/provider.js';
 import type { WitnessTransportService } from '../../../src/ledger/witness-transport.js';
 import type { WitnessDag } from '../../../src/ledger/witness-dag.js';
 import type { LocalWitnessDagStore } from '../../../src/ledger/local-dag-store.js';
@@ -97,7 +94,6 @@ export interface RouteIdempotency {
   close(): Promise<void>;
 }
 
-export type RouteIdempotencyStore = IdempotencyStore | PostgresIdempotencyStore;
 export type FeatureRegistry = ReturnType<typeof createFeatureRegistry>;
 export type LegacyBackend = Awaited<ReturnType<typeof loadLegacyBackend>>;
 export type SemanticProvider = ReturnType<typeof createDefaultSemanticProvider>;
@@ -108,7 +104,7 @@ export interface RouteContext {
   observability: Observability;
   auth: Authenticator;
   features: FeatureRegistry;
-  idempotency: RouteIdempotency & RouteIdempotencyStore;
+  idempotency: RouteIdempotency;
   jobs: PersistentJobQueue;
   semanticRegistry: SemanticRegistry;
   semanticProvider: SemanticProvider;
