@@ -3,33 +3,35 @@
 This is the active Todo for the current `dev` trunk. Historical audit details remain in `docs/TODO.md`.
 
 ## Current blocker
-- 4.33.0 remains blocked by full release certification; the most recent verified release-focused failure was the obsolete `sqliteSql` migration field, fixed in `packages/persistence/src/schema.ts`.
-- Certification Run #658 for the schema fix was **cancelled**, so it provides no pass/fail evidence for the fix.
-- DDT diagnostics now support targeted TC ranges and failure clustering.
-- The default DDT lane uses a test-only high rate-limit ceiling so business/engine certification is not contaminated by production abuse thresholds; rate-limit behavior remains a separate security contract.
-- `npm run ddt:debug -- --from=900 --to=999` is the standard targeted diagnostic entry point.
+- 4.33.0 remains blocked by full release certification.
+- Latest verified release-focused run #662 passed dependency integrity/audit, docs, architecture, lint, typecheck, release identity, and the broad release-contract suites.
+- Run #662 then failed only at `tests/migration-rollback-contract.test.js` because `docs/operations/POSTGRES_RECOVERY.md` lacked explicit `offline` and `destructive restore` wording.
+- That documentation contract mismatch is fixed in commit `64e9d461b053ddbd06364cd72a32ead747a082bf`.
+- Fresh certification is required; PostgreSQL/build/final/Docker gates remain unevaluated until release tests pass.
+- Run #658 was cancelled and provides no certification evidence.
+- DDT diagnostics support targeted TC ranges and failure clustering.
 
 ## NEXT EXECUTION PLAN — do these in order
 
-### N0 — Re-certify the current head
-- [ ] Trigger/obtain a fresh PR-to-main self-hosted certification after the PostgreSQL-only schema fix.
-- [ ] Require architecture, lint, typecheck, release identity, release-focused tests, PostgreSQL, all builds, final certification, and Docker to pass on the **same SHA**.
-- [ ] Treat cancelled/interrupted runs as **no evidence**, not as pass or fail.
+### N0 — Re-certify current head
+- [ ] Obtain fresh PR-to-main self-hosted certification for the recovery-runbook fix.
+- [ ] Require architecture, lint, typecheck, release identity, release-focused tests, PostgreSQL, all builds, final certification, and Docker to pass on the same SHA.
+- [ ] Treat cancelled/interrupted runs as no evidence.
 
 ### N1 — If release-focused tests fail again
-- [ ] Capture the exact failing contract and first causal error.
-- [ ] Classify it as runner/build-sandbox vs production/source behavior.
+- [ ] Capture exact failing contract and first causal error.
+- [ ] Classify runner/build-sandbox vs source/runtime behavior.
 - [ ] Fix the narrowest shared root cause.
-- [ ] Add/retain a regression contract; never weaken expected security or coverage.
+- [ ] Keep regression coverage intact.
 - [ ] Re-certify the exact fix SHA.
 
 ### N2 — 1006-case API certification
 - [ ] Capture exact failing `TC-*` IDs from the current full DDT.
 - [ ] Group by engine, command, HTTP status, and error signature.
-- [ ] Identify the first causal stateful failure in each cluster.
+- [ ] Identify first causal stateful failure in each cluster.
 - [ ] Fix each root cause and add regression coverage.
 - [ ] Re-run the full sequential suite after each cluster.
-- [ ] Exit only at **1006/1006 PASS, 0 skipped, 0 todo**.
+- [ ] Exit only at 1006/1006 PASS, 0 skipped, 0 todo.
 
 ### N3 — Persistence and schema certification
 - [ ] Run PostgreSQL migration from an empty database.
@@ -82,6 +84,15 @@ This is the active Todo for the current `dev` trunk. Historical audit details re
 - [ ] Run final self-hosted RC certification.
 - [ ] Merge only the exact certified SHA to `main`.
 
+## V5 stable package boundary workstream
+- ✅ `docs/architecture/PACKAGE_BOUNDARIES_V5.md` defines extraction/freeze policy without changing runtime structure during 4.33.0 certification.
+- 🟢 Freeze candidate: `@moonwitness/contracts`.
+- 🟢 Stable API: `@moonwitness/ui` and `@moonwitness/sdk`.
+- 🟡 Stable contract / evolving adapters: persistence.
+- 🟡 Extract after 4.33.0: `@moonwitness/protocol`, `@moonwitness/evidence`, `@moonwitness/review`.
+- 🔴 Keep internal/evolving for now: kernel internals, engines, AI, governance implementation, Revelation internals, Witness internals, worker internals, domain adapters.
+- Rule: do not perform large package moves until the 4.33.0 certification gate is green; extraction must preserve the current dependency direction and release evidence.
+
 ## Release train
 `4.33.0 → 4.33.1 → 4.34.0 → 4.35.0 → 4.36.0 → 5.0.0`
 
@@ -130,7 +141,7 @@ This is the active Todo for the current `dev` trunk. Historical audit details re
 - [ ] #43 — platform contract freeze, compatibility/deprecation, schema/event/job policy, threat model, security review, DR rehearsal, upgrade rehearsal, reproducible RC certification.
 
 ## Implemented / contract-covered
-- ✅ PostgreSQL-only migration schema: `packages/persistence/src/schema.ts` no longer carries SQLite migration SQL.
+- ✅ PostgreSQL-only migration schema; `packages/persistence/src/schema.ts` no longer carries SQLite migration SQL.
 - ✅ SQLite outside the supported runtime surface; supported drivers are `memory`, `file`, and `postgres`.
 - ✅ HTTP security baseline and contract coverage.
 - ✅ API error/pagination/idempotency contracts.
@@ -140,6 +151,7 @@ This is the active Todo for the current `dev` trunk. Historical audit details re
 - ✅ `npm run ddt:debug` wrapper for deterministic local diagnosis.
 - ✅ DDT test-only rate-limit isolation; production abuse limits remain covered separately.
 - ✅ `dev` is not an automatic CI trigger; `main` is the certification/release path.
+- ✅ PostgreSQL recovery runbook explicitly states restore is offline and there is no remote destructive restore API.
 
 ## Rules
 1. Do not delete or weaken certification coverage to obtain green results.
