@@ -16,6 +16,13 @@ function canonicalize(value: unknown): unknown {
   return value;
 }
 
+function canonicalTimestamp(value: string | Date | null | undefined): string {
+  if (value instanceof Date) return value.toISOString();
+  const text = String(value ?? '');
+  const parsed = new Date(text);
+  return Number.isNaN(parsed.getTime()) ? text : parsed.toISOString();
+}
+
 export function canonicalJson(value: unknown): string {
   return JSON.stringify(canonicalize(value));
 }
@@ -26,7 +33,7 @@ export function canonicalEventPayload(event: EventRecord, previousHash = ''): st
     entityId: event.entityId,
     eventType: event.eventType,
     payload: event.payload ?? {},
-    occurredAt: event.occurredAt,
+    occurredAt: canonicalTimestamp(event.occurredAt),
     actorId: event.actorId ?? null,
     deviceId: event.deviceId ?? null,
     source: event.source ?? null,
