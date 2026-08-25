@@ -14,7 +14,9 @@ Local targeted/full test commands remain available on `dev` for development and 
 
 The workflow runs on the `self-hosted` Cosmic Linux runner and covers PostgreSQL, release-focused tests, all application builds, final certification, and Docker build.
 
-## Release rule
-`dev` may contain active development work. A release candidate is promoted to `main` only after the `main` pull request/full-certification gate succeeds for the exact commit under review.
+## Release evidence rule
+A release candidate is promoted to `main` only after the `main` pull request/full-certification gate succeeds for the exact commit under review.
 
-A successful local `dev` test run is development evidence, not a release certification artifact.
+**Main release evidence must include the complete full-certification result for that exact commit.**
+
+A successful local `dev` test run is development evidence, not a release certification artifact. Historical or partial CI results do not satisfy the main release evidence requirement.
