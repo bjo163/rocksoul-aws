@@ -43,7 +43,7 @@ push dev
 
 ## Release rule
 
-Hosted fast checks may exist as supplemental diagnostics, but they never replace the self-hosted certification lane. `main` must only receive a release commit whose full certification evidence references the exact same commit SHA.
+Hosted fast checks may exist as supplemental diagnostics, but they never replace the self-hosted certification lane. `main` must only receive a release commit whose full certification evidence references the exact same commit SHA. The authoritative release evidence is **same-SHA evidence**: the certification result and release artifact must identify the exact same commit SHA, with no substitution from a floating branch or historical run.
 
 ## Failure evidence
 
