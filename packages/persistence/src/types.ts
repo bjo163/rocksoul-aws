@@ -159,7 +159,7 @@ export interface JobRepository {
 }
 
 export interface PersistenceStore {
-  batch?<T>(work: () => Promise<T> | T): Promise<T>;
+  batch<T>(work: () => Promise<T> | T): Promise<T>;
   ready?(): Promise<void>;
   driver?: PersistenceDriver;
   entityRepository(): EntityRepository;
