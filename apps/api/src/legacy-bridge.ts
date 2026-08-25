@@ -11,6 +11,7 @@ export interface BackendAppLike {
   resolveRule(input: Record<string, unknown>): unknown;
   graph(entityId: string): unknown;
   health(): unknown;
+  ready(): unknown;
 }
 
 export interface ModelRegistryLike {
