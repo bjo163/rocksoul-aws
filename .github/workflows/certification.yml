@@ -45,38 +45,45 @@ jobs:
           set -euo pipefail
           docker rm -f cosmic-postgres-ci >/dev/null 2>&1 || true
           docker run -d --name cosmic-postgres-ci \
+            --network host \
             -e POSTGRES_USER=postgres \
             -e POSTGRES_PASSWORD=postgres-ci-only \
             -e POSTGRES_DB=moonwitness_ci \
-            --health-cmd="pg_isready -U postgres -d moonwitness_ci" \
-            --health-interval=2s \
-            --health-timeout=5s \
-            --health-retries=30 \
-            postgres:18
+            postgres:18 \
+            -c listen_addresses=127.0.0.1 \
+            -c port=55432
+
           for i in $(seq 1 60); do
-            status=$(docker inspect --format='{{.State.Health.Status}}' cosmic-postgres-ci 2>/dev/null || true)
-            if [ "$status" = "healthy" ]; then break; fi
-            if [ "$status" = "unhealthy" ]; then
+            if docker exec cosmic-postgres-ci pg_isready -h 127.0.0.1 -p 55432 -U postgres -d moonwitness_ci >/dev/null 2>&1; then
+              echo "PostgreSQL is ready at 127.0.0.1:55432"
+              break
+            fi
+            if ! docker inspect --format='{{.State.Running}}' cosmic-postgres-ci 2>/dev/null | grep -q true; then
               docker logs cosmic-postgres-ci || true
               exit 1
             fi
             sleep 2
           done
-          status=$(docker inspect --format='{{.State.Health.Status}}' cosmic-postgres-ci)
-          test "$status" = healthy
-          postgres_ip=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' cosmic-postgres-ci)
-          test -n "$postgres_ip"
-          echo "PGHOST=$postgres_ip" >> "$GITHUB_ENV"
-          echo "PGPORT=5432" >> "$GITHUB_ENV"
-          echo "PostgreSQL container IP: $postgres_ip"
-          node - "$postgres_ip" <<'NODE'
+
+          docker exec cosmic-postgres-ci pg_isready -h 127.0.0.1 -p 55432 -U postgres -d moonwitness_ci
+
+          node <<'NODE'
           const net = require('node:net');
-          const host = process.argv[2];
-          const socket = net.createConnection({ host, port: 5432 });
+          const socket = net.createConnection({ host: '127.0.0.1', port: 55432 });
           socket.setTimeout(5000);
-          socket.on('connect', () => { console.log(`PostgreSQL TCP reachable at ${host}:5432`); socket.end(); });
-          socket.on('error', (error) => { console.error(error); process.exit(1); });
-          socket.on('timeout', () => { console.error('PostgreSQL TCP connection timed out'); socket.destroy(); process.exit(1); });
+          socket.on('connect', () => {
+            console.log('PostgreSQL TCP reachable at 127.0.0.1:55432');
+            socket.end();
+          });
+          socket.on('error', (error) => {
+            console.error(error);
+            process.exit(1);
+          });
+          socket.on('timeout', () => {
+            console.error('PostgreSQL TCP connection timed out');
+            socket.destroy();
+            process.exit(1);
+          });
           NODE
 
       - name: Synchronize lockfile with manifest
