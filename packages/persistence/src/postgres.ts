@@ -94,7 +94,14 @@ export class PostgresProvider implements PersistenceStore {
       client.release();
     }
   }
-  async close(): Promise<void> { await this.readyPromise; await this.pool.end(); }
+  async close(): Promise<void> {
+    try {
+      await this.readyPromise;
+    } catch {
+      // Initialization failures are surfaced by ready(); close() remains cleanup-safe.
+    }
+    await this.pool.end();
+  }
 
   entityRepository() {
     return {
@@ -146,7 +153,6 @@ export class PostgresProvider implements PersistenceStore {
     };
   }
 
-
   evidenceRepository() {
     const pool = { query: (sql: string, params?: unknown[]) => this.query(sql, params) };
     return {
@@ -162,65 +168,40 @@ export class PostgresProvider implements PersistenceStore {
       get: async (entityId: string, projectionType: string) => { const result = await this.query('SELECT * FROM projections WHERE entity_id = $1 AND projection_type = $2', [entityId, projectionType]); const row = result.rows[0]; return row ? { projectionId: row.projection_id, entityId: row.entity_id, projectionType: row.projection_type, version: row.version, payload: row.payload_json, updatedAt: row.updated_at, ...(row.audit_json??{}) } as ProjectionRecord : null; },
     };
   }
-  auditStore() { const pool = { query: (sql: string, params?: unknown[]) => this.query(sql, params) }; return { append: async (record: AuditRecord) => { const execute = () => writeAudit(pool, record); return this.txStorage.getStore() ? await execute() : await this.batch(execute); }, listByRecord: async (recordId:string) => { const r=await this.query('SELECT * FROM audit_ledger WHERE record_id=$1 ORDER BY chain_position',[recordId]); return r.rows.map(normalizeAudit); }, listAll: async () => { const r=await this.query('SELECT * FROM audit_ledger ORDER BY chain_position'); return r.rows.map(normalizeAudit); }, verify: async () => { const r=await this.query('SELECT * FROM audit_ledger ORDER BY chain_position'); let previous=''; for(const row of r.rows){const rec=normalizeAudit(row); if(row.previous_hash!==previous || hashAudit(rec,previous)!==row.hash) return {valid:false,count:r.rows.length,head:previous||null}; previous=row.hash;} return {valid:true,count:r.rows.length,head:previous||null}; } }; }
-  
+
+  auditStore() {
+    const store = this;
+    return {
+      append: async (record: AuditRecord) => {
+        await store.query('INSERT INTO audit_ledger(audit_id,operation,model_type,record_id,actor_id,timestamp,changed_fields,before_json,after_json,correlation_id,reason,previous_hash,hash) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)', [record.auditId,record.operation,record.modelType,record.recordId,record.actorId,record.timestamp,record.changedFields,JSON.stringify(record.before??null),JSON.stringify(record.after??null),record.correlationId??null,record.reason??null,record.previousHash??null,record.hash??null]); return record; },
+      listByRecord: async (recordId: string) => { const result = await store.query('SELECT * FROM audit_ledger WHERE record_id=$1 ORDER BY timestamp,audit_id',[recordId]); return result.rows.map((row)=>({auditId:row.audit_id,operation:row.operation,modelType:row.model_type,recordId:row.record_id,actorId:row.actor_id,timestamp:row.timestamp,changedFields:row.changed_fields,before:row.before_json,after:row.after_json,correlationId:row.correlation_id,reason:row.reason,previousHash:row.previous_hash,hash:row.hash})); },
+      listAll: async () => { const result = await store.query('SELECT * FROM audit_ledger ORDER BY timestamp,audit_id'); return result.rows.map((row)=>({auditId:row.audit_id,operation:row.operation,modelType:row.model_type,recordId:row.record_id,actorId:row.actor_id,timestamp:row.timestamp,changedFields:row.changed_fields,before:row.before_json,after:row.after_json,correlationId:row.correlation_id,reason:row.reason,previousHash:row.previous_hash,hash:row.hash})); },
+      verify: async () => { const result = await store.query('SELECT * FROM audit_ledger ORDER BY timestamp,audit_id'); let previous=''; for(const row of result.rows){ if(row.previous_hash!==previous)return{valid:false,count:result.rows.length,head:previous||null}; if(hashAudit({auditId:row.audit_id,operation:row.operation,modelType:row.model_type,recordId:row.record_id,actorId:row.actor_id,timestamp:row.timestamp,changedFields:row.changed_fields,before:row.before_json,after:row.after_json,correlationId:row.correlation_id,reason:row.reason},previous)!==row.hash)return{valid:false,count:result.rows.length,head:previous||null}; previous=row.hash; } return{valid:true,count:result.rows.length,head:previous||null}; },
+    };
+  }
+
   traceRepository() {
     return {
-      put: async (trace: import('./types.js').SystemTraceRecord) => {
-        await this.query(
-          'INSERT INTO system_traces(request_id,correlation_id,route,status_code,duration_ms,error_message,started_at,completed_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8) ON CONFLICT(request_id) DO UPDATE SET correlation_id=EXCLUDED.correlation_id,route=EXCLUDED.route,status_code=EXCLUDED.status_code,duration_ms=EXCLUDED.duration_ms,error_message=EXCLUDED.error_message,started_at=EXCLUDED.started_at,completed_at=EXCLUDED.completed_at',
-          [trace.requestId, trace.correlationId, trace.route, trace.statusCode ?? null, trace.durationMs ?? null, trace.error ?? null, trace.startedAt, trace.completedAt ?? null]
-        );
-      },
-      list: async (limit: number = 100) => {
-        const result = await this.query('SELECT * FROM system_traces ORDER BY started_at DESC, request_id DESC LIMIT $1', [limit]);
-        return result.rows.map((r: any) => ({ requestId: r.request_id, correlationId: r.correlation_id, route: r.route, statusCode: r.status_code, durationMs: r.duration_ms, error: r.error_message, startedAt: r.started_at, completedAt: r.completed_at }));
-      }
+      put: async (trace: SystemTraceRecord) => { await this.query('INSERT INTO system_traces(request_id,correlation_id,route,status_code,duration_ms,error,started_at,completed_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8)', [trace.requestId,trace.correlationId,trace.route,trace.statusCode??null,trace.durationMs??null,trace.error??null,trace.startedAt,trace.completedAt??null]); },
+      list: async (limit = 100) => { const result = await this.query('SELECT * FROM system_traces ORDER BY started_at DESC LIMIT $1',[limit]); return result.rows.map((row)=>({requestId:row.request_id,correlationId:row.correlation_id,route:row.route,statusCode:row.status_code,durationMs:row.duration_ms,error:row.error,startedAt:row.started_at,completedAt:row.completed_at})); },
     };
   }
 
   jobRepository() {
     return {
-      put: async (job: SystemJobRecord) => {
-        await this.query(`INSERT INTO system_jobs(id, type, status, payload_json, result_json, error_message, created_at, updated_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8) ON CONFLICT(id) DO UPDATE SET status=EXCLUDED.status, payload_json=EXCLUDED.payload_json, result_json=EXCLUDED.result_json, error_message=EXCLUDED.error_message, updated_at=EXCLUDED.updated_at`, [job.id, job.type, job.status, job.payload_json, job.result_json ?? null, job.error_message ?? null, job.created_at, job.updated_at]);
-      },
-      get: async (id: string) => {
-        const result = await this.query('SELECT * FROM system_jobs WHERE id = $1', [id]);
-        if (result.rows.length === 0) return null;
-        const row = result.rows[0];
-        return { id: row.id, type: row.type, status: row.status, payload_json: row.payload_json, result_json: row.result_json, error_message: row.error_message, created_at: row.created_at, updated_at: row.updated_at } as SystemJobRecord;
-      },
-      list: async (status?: string) => {
-        const result = status ? await this.query('SELECT * FROM system_jobs WHERE status = $1 ORDER BY created_at ASC', [status]) : await this.query('SELECT * FROM system_jobs ORDER BY created_at ASC');
-        return result.rows.map((r: any) => ({ id: r.id, type: r.type, status: r.status, payload_json: r.payload_json, result_json: r.result_json, error_message: r.error_message, created_at: r.created_at, updated_at: r.updated_at } as SystemJobRecord));
-      },
-      processAvailable: async (maxJobs: number, processor: (job: SystemJobRecord) => Promise<SystemJobRecord>) => {
-        const completed: SystemJobRecord[] = [];
-        const result = await this.query(`UPDATE system_jobs SET status = 'RUNNING', updated_at = NOW() WHERE id IN (SELECT id FROM system_jobs WHERE status = 'QUEUED' ORDER BY created_at ASC FOR UPDATE SKIP LOCKED LIMIT $1) RETURNING *`, [Math.max(1, maxJobs)]);
-        
-        for (const row of result.rows) {
-          let job = { id: row.id, type: row.type, status: row.status, payload_json: row.payload_json, result_json: row.result_json, error_message: row.error_message, created_at: row.created_at, updated_at: row.updated_at } as SystemJobRecord;
-          try {
-            const resultJob = await processor(job);
-            job = resultJob;
-          } catch (error) {
-            job.status = 'FAILED';
-            job.error_message = error instanceof Error ? error.message : String(error);
-            job.updated_at = new Date().toISOString();
-          }
-          await this.query('UPDATE system_jobs SET status = $1, result_json = $2, error_message = $3, updated_at = $4 WHERE id = $5', [job.status, job.result_json ?? null, job.error_message ?? null, job.updated_at, job.id]);
-          completed.push(job);
-        }
-        return completed;
-      }
+      put: async (job: SystemJobRecord) => { await this.query('INSERT INTO system_jobs(id,type,status,payload_json,result_json,error_message,created_at,updated_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8) ON CONFLICT(id) DO UPDATE SET status=EXCLUDED.status,result_json=EXCLUDED.result_json,error_message=EXCLUDED.error_message,updated_at=EXCLUDED.updated_at',[job.id,job.type,job.status,job.payload_json,job.result_json??null,job.error_message??null,job.created_at,job.updated_at]); },
+      get: async (id:string) => { const r=await this.query('SELECT * FROM system_jobs WHERE id=$1',[id]); const row=r.rows[0]; return row?{id:row.id,type:row.type,status:row.status,payload_json:row.payload_json,result_json:row.result_json,error_message:row.error_message,created_at:row.created_at,updated_at:row.updated_at}:null; },
+      list: async (status?: string) => { const r=status?await this.query('SELECT * FROM system_jobs WHERE status=$1 ORDER BY created_at',[status]):await this.query('SELECT * FROM system_jobs ORDER BY created_at'); return r.rows.map((row)=>({id:row.id,type:row.type,status:row.status,payload_json:row.payload_json,result_json:row.result_json,error_message:row.error_message,created_at:row.created_at,updated_at:row.updated_at})); },
+      processAvailable: async (maxJobs:number, processor:(job:SystemJobRecord)=>Promise<SystemJobRecord>) => { const jobs=await this.query('SELECT * FROM system_jobs WHERE status=$1 ORDER BY created_at LIMIT $2',['QUEUED',maxJobs]); const out:SystemJobRecord[]=[]; for(const row of jobs.rows){const job={id:row.id,type:row.type,status:row.status,payload_json:row.payload_json,result_json:row.result_json,error_message:row.error_message,created_at:row.created_at,updated_at:row.updated_at} as SystemJobRecord; out.push(await processor(job));} return out; },
     };
   }
 }
 
-function normalizeAudit(row:any): AuditRecord { return {auditId:row.audit_id,operation:row.operation,modelType:row.model_type,recordId:row.record_id,actorId:row.actor_id,timestamp:row.timestamp,changedFields:row.changed_fields_json,before:row.before_json,after:row.after_json,correlationId:row.correlation_id ?? undefined,reason:row.reason ?? undefined,previousHash:row.previous_hash ?? undefined,hash:row.hash ?? undefined}; }
-
-async function writeAudit(pool:any,input:Omit<AuditRecord,'auditId'>):Promise<AuditRecord>{await pool.query('SELECT pg_advisory_xact_lock($1)',[837462903]);const previous=await pool.query('SELECT hash FROM audit_ledger ORDER BY chain_position DESC LIMIT 1');const previousHash=previous.rows[0]?.hash??'';const record=makeAuditRecord(input);const hash=hashAudit(record,previousHash);await pool.query('INSERT INTO audit_ledger(audit_id,operation,model_type,record_id,actor_id,timestamp,changed_fields_json,before_json,after_json,previous_hash,hash,correlation_id,reason) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)',[record.auditId,record.operation,record.modelType,record.recordId,record.actorId,record.timestamp,JSON.stringify(record.changedFields),record.before?JSON.stringify(record.before):null,record.after?JSON.stringify(record.after):null,previousHash,hash,record.correlationId??null,record.reason??null]); return {...record,previousHash,hash};}
-
-function normalizeEvent(row: any): EventRecord {
-  return { eventId: row.event_id, entityId: row.entity_id, eventType: row.event_type, payload: row.payload_json, occurredAt: row.occurred_at, recordedAt: row.recorded_at, previousHash: row.previous_hash, eventHash: row.event_hash, actorId: row.actor_id, deviceId: row.device_id, source: row.source, signature: row.signature, ...(row.audit_json??{}) };
+async function writeAudit(store: { query: (sql: string, params?: unknown[]) => Promise<PgResult> }, record: Omit<AuditRecord, 'auditId'|'hash'|'previousHash'>): Promise<void> {
+  const previous = await store.query('SELECT hash FROM audit_ledger ORDER BY timestamp DESC, audit_id DESC LIMIT 1');
+  const previousHash = previous.rows[0]?.hash ?? '';
+  const audit = makeAuditRecord(record, previousHash);
+  await store.query('INSERT INTO audit_ledger(audit_id,operation,model_type,record_id,actor_id,timestamp,changed_fields,before_json,after_json,correlation_id,reason,previous_hash,hash) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)', [audit.auditId,audit.operation,audit.modelType,audit.recordId,audit.actorId,audit.timestamp,audit.changedFields,JSON.stringify(audit.before??null),JSON.stringify(audit.after??null),audit.correlationId??null,audit.reason??null,audit.previousHash??null,audit.hash??null]);
 }
+
+function normalizeEvent(row:any): EventRecord { return {eventId:row.event_id,entityId:row.entity_id,eventType:row.event_type,payload:row.payload_json,occurredAt:row.occurred_at,recordedAt:row.recorded_at,previousHash:row.previous_hash,eventHash:row.event_hash,actorId:row.actor_id,deviceId:row.device_id,source:row.source,signature:row.signature,...(row.audit_json??{})}; }
