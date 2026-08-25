@@ -105,6 +105,12 @@ export async function verifySeedState(rootDir: string, store: PersistenceStore, 
     audit,
     report,
   };
-  if (options.assertOk !== false) assert.equal(result.ok, true);
+  if (options.assertOk !== false) {
+    if (!result.ok) {
+      const msg = JSON.stringify({ failedSources, eventChain, audit }, null, 2);
+      console.error('VERIFY SEED STATE FAILED:', msg);
+      throw new Error(`VERIFY_SEED_STATE_FAILED: ${msg}`);
+    }
+  }
   return result;
 }

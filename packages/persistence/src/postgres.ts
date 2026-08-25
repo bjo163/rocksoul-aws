@@ -176,7 +176,24 @@ export class PostgresProvider implements PersistenceStore {
         await store.query('INSERT INTO audit_ledger(audit_id,operation,model_type,record_id,actor_id,timestamp,changed_fields,before_json,after_json,correlation_id,reason,previous_hash,hash) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)', [record.auditId,record.operation,record.modelType,record.recordId,record.actorId,record.timestamp,record.changedFields,JSON.stringify(record.before??null),JSON.stringify(record.after??null),record.correlationId??null,record.reason??null,record.previousHash??null,record.hash??null]); return record; },
       listByRecord: async (recordId:string) => { const result=await store.query('SELECT * FROM audit_ledger WHERE record_id=$1 ORDER BY timestamp,audit_id',[recordId]); return result.rows.map(normalizeAudit); },
       listAll: async () => { const result=await store.query('SELECT * FROM audit_ledger ORDER BY timestamp,audit_id'); return result.rows.map(normalizeAudit); },
-      verify: async () => { const result = await store.query('SELECT * FROM audit_ledger ORDER BY chain_position ASC'); let previous=''; for(const row of result.rows){const record=normalizeAudit(row); if(row.previous_hash!==previous || hashAudit(record,previous)!==row.hash)return{valid:false,count:result.rows.length,head:previous||null}; previous=row.hash;} return{valid:true,count:result.rows.length,head:previous||null}; },
+      verify: async () => {
+        const result = await store.query('SELECT * FROM audit_ledger ORDER BY chain_position ASC');
+        let previous = '';
+        for (const row of result.rows) {
+          const record = normalizeAudit(row);
+          if (row.previous_hash !== previous) {
+            console.error('AUDIT CHAIN MISMATCH:', { expectedPrev: previous, actualPrev: row.previous_hash, record });
+            return { valid: false, count: result.rows.length, head: previous || null };
+          }
+          const computed = hashAudit(record, previous);
+          if (computed !== row.hash) {
+            console.error('AUDIT HASH MISMATCH:', { computed, actual: row.hash, record });
+            return { valid: false, count: result.rows.length, head: previous || null };
+          }
+          previous = row.hash;
+        }
+        return { valid: true, count: result.rows.length, head: previous || null };
+      },
     };
   }
 
@@ -200,7 +217,7 @@ export class PostgresProvider implements PersistenceStore {
 async function writeAudit(store: { query: (sql: string, params?: unknown[]) => Promise<PgResult> }, record: Omit<AuditRecord, 'auditId'|'hash'|'previousHash'>): Promise<void> {
   const previous = await store.query('SELECT hash FROM audit_ledger ORDER BY chain_position DESC LIMIT 1');
   const previousHash = previous.rows[0]?.hash ?? '';
-  const audit = makeAuditRecord({ ...record, previousHash });
+  const audit = makeAuditRecord(record, previousHash);
   await store.query('INSERT INTO audit_ledger(audit_id,operation,model_type,record_id,actor_id,timestamp,changed_fields,before_json,after_json,correlation_id,reason,previous_hash,hash) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)', [audit.auditId,audit.operation,audit.modelType,audit.recordId,audit.actorId,audit.timestamp,audit.changedFields,JSON.stringify(audit.before??null),JSON.stringify(audit.after??null),audit.correlationId??null,audit.reason??null,audit.previousHash??null,audit.hash??null]);
 }
 

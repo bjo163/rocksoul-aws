@@ -61,8 +61,8 @@ export function normalizeAudit(row: Record<string, unknown>): AuditRecord {
         : [],
     before: isRecord(row.before_json) ? row.before_json : null,
     after: isRecord(row.after_json) ? row.after_json : null,
-    correlationId: row.correlation_id == null ? null : String(row.correlation_id),
-    reason: row.reason == null ? null : String(row.reason),
+    correlationId: row.correlation_id == null ? undefined : String(row.correlation_id),
+    reason: row.reason == null ? undefined : String(row.reason),
     previousHash: row.previous_hash == null ? undefined : String(row.previous_hash),
     hash: row.hash == null ? undefined : String(row.hash),
   };
