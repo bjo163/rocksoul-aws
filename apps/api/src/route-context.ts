@@ -12,7 +12,7 @@ import type { createDefaultSemanticProvider } from '../../../src/ai/provider.js'
 import type { WitnessTransportService } from '../../../src/ledger/witness-transport.js';
 import type { WitnessDag } from '../../../src/ledger/witness-dag.js';
 import type { LocalWitnessDagStore } from '../../../src/ledger/local-dag-store.js';
-import type { PostgresWitnessProjectionStore } from '../../../src/ledger/witness-projection-store.js';
+import type { PostgresWitnessProjectionStore } from '../../../src/ledger/postgres-witness-projection-store.js';
 import type { SingleNodeWitnessKeyStore } from '../../../src/ledger/single-node-keystore.js';
 import type { LocalCheckpointStore } from '../../../src/ledger/local-checkpoint-store.js';
 import type { WitnessBackupManager } from '../../../src/ledger/witness-backup.js';
@@ -30,18 +30,45 @@ export interface Authenticator {
 
 export interface WitnessNodeInput {
   recordId?: string;
+  recordType?: string;
   nodeId?: string;
   kind: string;
-  payload: unknown;
+  payload?: unknown;
+  [key: string]: unknown;
   parents?: string[];
   occurredAt?: string;
   actorId?: string | null;
   nonce?: string;
 }
 
-export interface WitnessCheckpointReference { checkpointId?: string; [key: string]: unknown }
-export interface WitnessCommitResult { node: ReturnType<WitnessDag['append']>; checkpoint: WitnessCheckpointReference | null; root: string | null }
-export interface WitnessBackupReference { backupId: string; filePath: string; dagRoot: string | null; nodeCount: number; [key: string]: unknown }
+export interface WitnessCheckpointReference {
+  checkpointId?: string;
+  checkpoint?: { checkpointId?: string; [key: string]: unknown };
+  [key: string]: unknown;
+}
+
+export interface WitnessCommitResult {
+  node: ReturnType<WitnessDag['append']>;
+  checkpoint: WitnessCheckpointReference | null;
+  root: string | null;
+}
+
+export interface WitnessBackupReference {
+  backupId?: string;
+  filePath?: string;
+  dagRoot?: string | null;
+  nodeCount?: number;
+  manifest?: {
+    backupId: string;
+    createdAt: string;
+    qdagRoot: string | null;
+    nodeCount: number;
+    files: string[];
+    passwordIncluded: boolean;
+    [key: string]: unknown;
+  };
+  [key: string]: unknown;
+}
 
 export interface WitnessRouteContext {
   dag: WitnessDag;
@@ -65,7 +92,12 @@ export interface WitnessRouteContext {
   diagnostics(): Promise<unknown>;
 }
 
-export type RouteIdempotency = IdempotencyStore | PostgresIdempotencyStore;
+export interface RouteIdempotency {
+  execute<T>(key: string | null, requestHash: string, work: () => Promise<{ statusCode: number; body: T }>): Promise<{ statusCode: number; body: T }>;
+  close(): Promise<void>;
+}
+
+export type RouteIdempotencyStore = IdempotencyStore | PostgresIdempotencyStore;
 export type FeatureRegistry = ReturnType<typeof createFeatureRegistry>;
 export type LegacyBackend = Awaited<ReturnType<typeof loadLegacyBackend>>;
 export type SemanticProvider = ReturnType<typeof createDefaultSemanticProvider>;
@@ -76,7 +108,7 @@ export interface RouteContext {
   observability: Observability;
   auth: Authenticator;
   features: FeatureRegistry;
-  idempotency: RouteIdempotency;
+  idempotency: RouteIdempotency & RouteIdempotencyStore;
   jobs: PersistentJobQueue;
   semanticRegistry: SemanticRegistry;
   semanticProvider: SemanticProvider;
