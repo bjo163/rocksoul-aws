@@ -1,5 +1,5 @@
-import type { AuthSession, UniverseCommandRequest } from '../../../packages/contracts/src/index.js';
-import type { ActionPermission, AuthorizationUser } from '../../../src/security/authorization.js';
+import type { AuthSessionContract, JsonObject } from '../../../packages/contracts/src/index.js';
+import type { AuthorizationUser } from '../../../src/security/authorization.js';
 import type { UniverseStore } from '../../../src/persistence/universe-store.js';
 import type { Observability } from '../../../src/observability/observability.js';
 import type { PersistentJobQueue } from '../../../src/jobs/job-queue.js';
@@ -20,12 +20,42 @@ import type { WitnessObservability } from '../../../src/ledger/witness-observabi
 
 export interface Authenticator {
   authenticate(token: string): Promise<AuthorizationUser | null>;
-  login(username: string, password: string): Promise<AuthSession | null>;
-  refresh(refreshToken: string): Promise<AuthSession | null>;
+  login(username: string, password: string): Promise<AuthSessionContract | null>;
+  refresh(refreshToken: string): Promise<AuthSessionContract | null>;
   logout(token: string): Promise<boolean>;
   createUser(input: { username: string; password: string; rid?: string; roles: string[] }): Promise<AuthorizationUser>;
   assignRid(userId: string, rid: string): Promise<AuthorizationUser>;
   getOnlineUsers(): Promise<unknown[]>;
+}
+
+export interface WitnessNodeInput {
+  recordId?: string;
+  nodeId?: string;
+  kind: string;
+  payload: unknown;
+  parents?: string[];
+  occurredAt?: string;
+  actorId?: string | null;
+  nonce?: string;
+}
+
+export interface WitnessCheckpointReference {
+  checkpointId?: string;
+  [key: string]: unknown;
+}
+
+export interface WitnessCommitResult {
+  node: ReturnType<WitnessDag['append']>;
+  checkpoint: WitnessCheckpointReference | null;
+  root: string | null;
+}
+
+export interface WitnessBackupReference {
+  backupId: string;
+  filePath: string;
+  dagRoot: string | null;
+  nodeCount: number;
+  [key: string]: unknown;
 }
 
 export interface WitnessRouteContext {
@@ -42,11 +72,11 @@ export interface WitnessRouteContext {
   keyPasswordSource: string;
   refreshTransportIdentity(): Promise<unknown>;
   persistKeys(): Promise<void>;
-  appendMizan(input: Parameters<WitnessDag['append']>[0]): Promise<ReturnType<WitnessDag['append']>>;
-  commitMizan(input: Parameters<WitnessDag['append']>[0]): Promise<{ node: ReturnType<WitnessDag['append']>; checkpoint: unknown; root: string | null }>;
-  commit(input: { nodeId?: string; kind: string; payload: Record<string, unknown>; actorId?: string | null }): Promise<{ node: ReturnType<WitnessDag['append']>; checkpoint: unknown; root: string | null }>;
-  createCheckpoint(at?: string): Promise<unknown>;
-  createBackup(at?: string): Promise<unknown>;
+  appendMizan(input: WitnessNodeInput): Promise<ReturnType<WitnessDag['append']>>;
+  commitMizan(input: WitnessNodeInput): Promise<WitnessCommitResult>;
+  commit(input: WitnessNodeInput): Promise<WitnessCommitResult>;
+  createCheckpoint(at?: string): Promise<WitnessCheckpointReference>;
+  createBackup(at?: string): Promise<WitnessBackupReference>;
   diagnostics(): Promise<unknown>;
 }
 
