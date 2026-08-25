@@ -47,6 +47,8 @@ The MoonWitness Control Plane implementation and its required contracts/tests re
 `certification pending` means CI or environment evidence is still outstanding.  
 `certified` requires automated suite success plus required target-environment evidence.
 
+For main release evidence, the record must include the **complete full-certification result for that exact commit** under review. Historical or partial results are not sufficient evidence for release promotion.
+
 No production tag should be created while any required release gate is red, pending, or inferred only from historical CI.
 
 ## Epistemic boundary
