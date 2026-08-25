@@ -10,7 +10,7 @@ The certification workflow requires:
 runs-on: [self-hosted, linux, x64, cosmic]
 ```
 
-The runner must provide Node 22, npm, Git, Docker, Docker Compose, and enough disk/RAM/temp space for the full certification matrix.
+The runner must provide Node 26, npm 11, Git, Docker, Docker Compose, and enough disk/RAM/temp space for the full certification matrix.
 
 ## Certification flow
 
@@ -33,7 +33,7 @@ push dev
 
 - Runner online and idle/available.
 - Correct labels present.
-- Node 22 selected.
+- Node 26 and npm 11 selected.
 - Docker daemon available to the runner account.
 - PostgreSQL 18 container can start.
 - Workspace cleanup removes stale generated test files.

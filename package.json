@@ -3,6 +3,10 @@
   "version": "4.33.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=26 <27",
+    "npm": ">=11 <12"
+  },
   "workspaces": ["apps/*", "packages/*"],
   "scripts": {
     "build:api": "npm --prefix apps/api run build",
@@ -108,5 +112,5 @@
     "test:grammar": "node scripts/transpile-runner.mjs tests/revelation-grammar.test.ts tests/revelation-grammar-100-cases.test.ts",
     "test:ontology": "node scripts/transpile-runner.mjs tests/revelation-divine-ontology.test.ts tests/revelation-divine-ontology-100-cases.test.ts"
   },
-  "devDependencies": {"@playwright/test": "^1.62.1", "@types/node": "^22.0.0", "typescript": "^5.8.3"}
+  "devDependencies": {"@playwright/test": "^1.62.1", "@types/node": "^26.0.0", "typescript": "^5.8.3"}
 }
