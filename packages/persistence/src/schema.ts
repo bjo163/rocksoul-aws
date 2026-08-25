@@ -66,6 +66,12 @@ export const MIGRATIONS: Migration[] = [
     description: 'Compatibility column for runtime audit changed-fields payloads',
     postgresSql: `ALTER TABLE audit_ledger ADD COLUMN IF NOT EXISTS changed_fields JSONB NOT NULL DEFAULT '[]';`,
   },
+  {
+    id: '0009_audit_changed_fields_array',
+    version: 9,
+    description: 'Store audit changed-fields using native PostgreSQL text arrays',
+    postgresSql: `ALTER TABLE audit_ledger ALTER COLUMN changed_fields DROP DEFAULT; ALTER TABLE audit_ledger ALTER COLUMN changed_fields TYPE TEXT[] USING CASE WHEN changed_fields IS NULL THEN ARRAY[]::TEXT[] ELSE ARRAY(SELECT jsonb_array_elements_text(changed_fields)) END; ALTER TABLE audit_ledger ALTER COLUMN changed_fields SET DEFAULT ARRAY[]::TEXT[]; ALTER TABLE audit_ledger ALTER COLUMN changed_fields SET NOT NULL;`,
+  },
 ];
 
 export function getLatestSchemaVersion(): number {
