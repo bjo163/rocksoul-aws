@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vinext dev --host 127.0.0.1 --port 4174",
-    "build": "vinext build",
+    "build": "node ../../scripts/vinext-build.mjs",
     "preview": "vinext start --host 127.0.0.1 --port 4174",
     "test": "cd ../.. && tsx --test tests/public-web-contract.test.ts"
   },
