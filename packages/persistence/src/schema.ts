@@ -83,6 +83,26 @@ export const MIGRATIONS: Migration[] = [
       ALTER TABLE audit_ledger ALTER COLUMN changed_fields SET NOT NULL;
     `,
   },
+  {
+    id: '0010_audit_legacy_changed_fields_sync',
+    version: 10,
+    description: 'Synchronize legacy changed_fields_json from runtime changed_fields array',
+    postgresSql: `
+      CREATE OR REPLACE FUNCTION sync_audit_changed_fields_json() RETURNS trigger
+      LANGUAGE plpgsql AS $$
+      BEGIN
+        NEW.changed_fields_json := to_jsonb(COALESCE(NEW.changed_fields, ARRAY[]::TEXT[]));
+        RETURN NEW;
+      END;
+      $$;
+      DROP TRIGGER IF EXISTS trg_sync_audit_changed_fields_json ON audit_ledger;
+      CREATE TRIGGER trg_sync_audit_changed_fields_json
+      BEFORE INSERT OR UPDATE ON audit_ledger
+      FOR EACH ROW EXECUTE FUNCTION sync_audit_changed_fields_json();
+      UPDATE audit_ledger
+      SET changed_fields_json = to_jsonb(COALESCE(changed_fields, ARRAY[]::TEXT[]));
+    `,
+  },
 ];
 
 export function getLatestSchemaVersion(): number {
