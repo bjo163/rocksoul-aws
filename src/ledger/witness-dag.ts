@@ -220,6 +220,11 @@ export class WitnessDag {
     return { valid: true, nodes: this.#nodes.size, heads: this.heads(), root: this.root() };
   }
 
+  /** Backward-compatible integrity alias used by recovery contracts and older callers. */
+  integrity(): DagVerification {
+    return this.verify();
+  }
+
   snapshot(): { version: 1; nodes: DagNode[]; checkpoint: DagCheckpoint } {
     return { version: 1, nodes: this.list(), checkpoint: this.checkpoint() };
   }
