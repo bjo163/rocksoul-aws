@@ -400,11 +400,23 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
     return;
   }
 
+let isInstallingDb = false;
+
   // Step: db install (SSE)
   if (path === '/api/step/db' && req.method === 'GET') {
+    if (isInstallingDb) {
+      res.writeHead(429, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'DB_INSTALL_IN_PROGRESS' }));
+      return;
+    }
+    isInstallingDb = true;
     res.writeHead(200, { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache', 'Connection': 'keep-alive' });
     res.write(`data: ${JSON.stringify({ type: 'detail', text: 'Running db:install...' })}\n\n`);
-    await spawnWithSSE(res, 'node', ['--env-file=.env', 'scripts/transpile-exec.mjs', 'scripts/db-install.ts', '--driver=postgres']);
+    try {
+      await spawnWithSSE(res, 'node', ['--env-file=.env', 'scripts/transpile-exec.mjs', 'scripts/db-install.ts', '--driver=postgres']);
+    } finally {
+      isInstallingDb = false;
+    }
     return;
   }
 

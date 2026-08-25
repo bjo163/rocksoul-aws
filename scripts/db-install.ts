@@ -40,12 +40,27 @@ const persistenceConfig = { driver, fileDir, postgres } as const;
 // Ensure schema/provider readiness before seed.
 console.log('Connecting to database and verifying schema...');
 const store = createPersistence(persistenceConfig);
-if (driver === 'postgres' && store instanceof PostgresProvider) await store.ready();
-else await store.ready?.();
+let isSeeded = false;
+if (driver === 'postgres' && store instanceof PostgresProvider) {
+  await store.ready();
+  const count = await store.pool.query('SELECT count(*)::int AS n FROM audit_ledger');
+  if (Number(count.rows[0]?.n ?? 0) > 0) isSeeded = true;
+} else {
+  await store.ready?.();
+  // Assume seeded if we can fetch from audit ledger (memory/file)
+  try {
+    const res = await store.query({ from: 'audit_ledger', limit: 1 });
+    if (res && res.length > 0) isSeeded = true;
+  } catch { /* ignore */ }
+}
 await store.close();
 
-const seedEnabled=process.env.SEED!=='0';
-if (seedEnabled) console.log('Seeding database with initial data (this may take a moment)...');
+const seedEnabled = process.env.SEED !== '0' && !isSeeded;
+if (isSeeded && process.env.SEED !== '0') {
+  console.log('Database is already populated. Skipping initial seeding to protect ledger integrity.');
+} else if (seedEnabled) {
+  console.log('Seeding database with initial data (this may take a moment)...');
+}
 const seed = seedEnabled ? await seedDatabase(root, persistenceConfig) : { seeded: 0, sources: 0 };
 console.log('Verifying revelation corpus files...');
 const corpusFiles=verifyRevelationCorpusFiles(root);
