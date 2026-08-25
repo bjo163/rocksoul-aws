@@ -11,6 +11,16 @@ This directory is the authoritative documentation set for the current release li
 - `RELEASE_NOTES_4.33.0.md` — what changed in the Universe/CAB architecture release.
 - `PRODUCTION_CERTIFICATION.md` — N1–N6 operational certification runbook.
 
+## Start / CI execution model
+
+`dev` is the integration/development branch. It does **not** trigger automatic certification CI.
+
+Local targeted/full test commands remain available on `dev` for development and debugging. CI status is not expected for ordinary `dev` pushes.
+
+The authoritative certification workflow runs for pushes to `main`, pull requests targeting `main`, and explicit manual dispatch on the self-hosted Cosmic Linux runner. A release candidate is promoted to `main` only after the `main` pull request/full-certification gate succeeds for the exact commit under review.
+
+**Main release evidence must include the complete full-certification result for that exact commit.** A successful local `dev` test run, historical CI run, or partial certification result is not a release certification artifact.
+
 ## Canonical architecture
 
 - `ARCHITECTURE.md` — system architecture and execution flow.
