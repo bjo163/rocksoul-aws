@@ -41,6 +41,11 @@ export function hashAudit(record: AuditRecord, previousHash: string): string {
   }, previousHash);
 }
 
+function normalizeTimestamp(value: unknown): string {
+  if (value instanceof Date) return value.toISOString();
+  return String(value ?? '');
+}
+
 export function normalizeAudit(row: Record<string, unknown>): AuditRecord {
   return {
     auditId: String(row.audit_id ?? ''),
@@ -48,7 +53,7 @@ export function normalizeAudit(row: Record<string, unknown>): AuditRecord {
     modelType: String(row.model_type ?? ''),
     recordId: String(row.record_id ?? ''),
     actorId: String(row.actor_id ?? ''),
-    timestamp: String(row.timestamp ?? ''),
+    timestamp: normalizeTimestamp(row.timestamp),
     changedFields: Array.isArray(row.changed_fields)
       ? row.changed_fields.filter((value): value is string => typeof value === 'string')
       : Array.isArray(row.changed_fields_json)
