@@ -20,6 +20,8 @@ Do not introduce destructive schema changes and application changes in the same 
 
 ## Recovery sequence
 
+Recovery and restore are **offline** operational procedures. There is **no remote destructive restore API**.
+
 1. Stop application traffic or place the application into maintenance mode.
 2. Preserve the current PostgreSQL state before attempting repair.
 3. Restore into a disposable PostgreSQL instance first.
