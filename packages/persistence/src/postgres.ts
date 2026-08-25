@@ -215,6 +215,8 @@ export class PostgresProvider implements PersistenceStore {
 }
 
 async function writeAudit(store: { query: (sql: string, params?: unknown[]) => Promise<PgResult> }, record: Omit<AuditRecord, 'auditId'|'hash'|'previousHash'>): Promise<void> {
+  // Hash creation and insertion must share one serialized transaction across all provider instances.
+  await store.query('SELECT pg_advisory_xact_lock($1)', [837462902]);
   const previous = await store.query('SELECT hash FROM audit_ledger ORDER BY chain_position DESC LIMIT 1');
   const previousHash = previous.rows[0]?.hash ?? '';
   const audit = makeAuditRecord(record, previousHash);
@@ -233,8 +235,8 @@ function normalizeEvent(row: Record<string, unknown>): EventRecord {
     entityId: String(row.entity_id ?? ''),
     eventType: String(row.event_type ?? ''),
     payload,
-    occurredAt: String(row.occurred_at ?? ''),
-    recordedAt: String(row.recorded_at ?? ''),
+    occurredAt: normalizePostgresTimestamp(row.occurred_at),
+    recordedAt: normalizePostgresTimestamp(row.recorded_at),
     previousHash: String(row.previous_hash ?? ''),
     eventHash: String(row.event_hash ?? ''),
     actorId: typeof row.actor_id === 'string' ? row.actor_id : row.actor_id == null ? null : String(row.actor_id),
@@ -243,4 +245,8 @@ function normalizeEvent(row: Record<string, unknown>): EventRecord {
     signature: typeof row.signature === 'string' ? row.signature : row.signature == null ? null : String(row.signature),
     ...auditJson,
   };
+}
+
+function normalizePostgresTimestamp(value: unknown): string {
+  return value instanceof Date ? value.toISOString() : String(value ?? '');
 }

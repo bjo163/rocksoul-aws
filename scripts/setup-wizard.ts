@@ -2,8 +2,9 @@ import { createServer, type IncomingMessage, type ServerResponse } from 'node:ht
 import { spawn, type ChildProcess } from 'node:child_process';
 import { readFileSync, existsSync, copyFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import type { ClientConfig } from 'pg';
 
-const root = process.cwd();
+const root = resolve(process.env.MW_REPO_ROOT ?? process.cwd());
 
 // ─── HTML UI ────────────────────────────────────────────────────────────────────
 const HTML = `<!DOCTYPE html>
@@ -51,6 +52,9 @@ h1{font-size:22px;font-weight:600;margin-bottom:4px}
 .btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none}
 .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
 .btn-ghost:hover{border-color:var(--accent);color:var(--text)}
+.btn-danger{background:rgba(248,113,113,.12);color:var(--error);border:1px solid rgba(248,113,113,.45)}
+.btn-danger:hover{background:rgba(248,113,113,.2);transform:translateY(-1px)}
+.choice-description{color:var(--muted);font-size:13px;line-height:1.6}
 .log-panel{padding:0 32px 20px}
 .log-box{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 16px;max-height:160px;overflow-y:auto;font-family:'Cascadia Code','Fira Code',monospace;font-size:12px;color:var(--muted);line-height:1.6;white-space:pre-wrap}
 .log-box .log-ok{color:var(--success)}
@@ -87,7 +91,7 @@ h1{font-size:22px;font-weight:600;margin-bottom:4px}
 <script>
 const STEPS = [
   { id:'env', title:'Environment', detail:'Check .env configuration' },
-  { id:'db', title:'Database Install', detail:'Schema, seed, and verify' },
+  { id:'db', title:'Database Setup', detail:'Reuse, reset, or install' },
   { id:'admin', title:'Create Admin', detail:'First administrator account' },
   { id:'build', title:'Build Applications', detail:'API, Web, CAB, XRP, Flow' },
   { id:'start', title:'Start Services', detail:'Launch all applications' },
@@ -154,6 +158,28 @@ function showForm(title, fields) {
   });
 }
 
+function showChoice(title, description, choices) {
+  return new Promise((resolve) => {
+    const section = document.getElementById('form-section');
+    const titleEl = document.getElementById('form-title');
+    const fieldsEl = document.getElementById('form-fields');
+    const actions = document.getElementById('actions');
+    section.style.display = '';
+    titleEl.textContent = title;
+    fieldsEl.innerHTML = '<p class="choice-description">' + description + '</p>';
+    actions.innerHTML = choices.map(choice =>
+      '<button class="btn ' + choice.className + '" id="choice-' + choice.id + '">' + choice.label + '</button>'
+    ).join('');
+    choices.forEach(choice => {
+      document.getElementById('choice-' + choice.id).onclick = () => {
+        section.style.display = 'none';
+        actions.innerHTML = '';
+        resolve(choice.id);
+      };
+    });
+  });
+}
+
 async function runSetup() {
   document.getElementById('actions').innerHTML = '';
 
@@ -180,30 +206,67 @@ async function runSetup() {
   }
   setStepState(0, 'done');
 
-  // Step 1: DB Install (SSE)
+  // Step 1: Database choice/install
   currentStep = 1; renderSteps();
-  log('Installing database...', 'log-info');
-  await new Promise((resolve, reject) => {
-    const es = new EventSource('/api/step/db');
-    es.onmessage = (e) => {
-      const data = JSON.parse(e.data);
-      if (data.type === 'log') log(data.text);
-      else if (data.type === 'detail') setDetail('db', data.text);
-      else if (data.type === 'done') { es.close(); if (data.ok) { log('Database installed.', 'log-ok'); resolve(); } else { log('Database install failed: ' + (data.error || ''), 'log-err'); setStepState(1, 'error'); reject(new Error('DB_INSTALL_FAILED')); } }
-    };
-    es.onerror = () => { es.close(); log('Connection lost during DB install.', 'log-err'); setStepState(1, 'error'); reject(new Error('SSE_ERROR')); };
-  }).catch((err) => {
-    document.getElementById('actions').innerHTML = '<button class="btn btn-primary" id="btn-retry">Retry</button> <button class="btn btn-danger" id="btn-reset" style="background:var(--color-danger);border-color:var(--color-danger);margin-left:8px;">Reset Database & Reinstall</button>';
-    document.getElementById('btn-retry').onclick = runSetup;
-    document.getElementById('btn-reset').onclick = async () => {
-      document.getElementById('actions').innerHTML = 'Resetting database...';
-      const r = await fetch('/api/step/db/reset', { method: 'POST' });
-      const d = await r.json();
-      if (d.ok) { log('Database reset successfully. Restarting install...', 'log-ok'); runSetup(); }
-      else { log('Reset failed: ' + d.error, 'log-err'); document.getElementById('actions').innerHTML = '<button class="btn btn-primary" onclick="runSetup()">Retry</button>'; }
-    };
-    throw err;
-  });
+  log('Checking database status...', 'log-info');
+  const dbStatusRes = await fetch('/api/step/db/status', { method: 'POST' });
+  const dbStatus = await dbStatusRes.json();
+  if (!dbStatus.ok) {
+    log('Database status check failed: ' + (dbStatus.error || 'Unknown error'), 'log-err');
+    setStepState(1, 'error');
+    throw new Error('DB_STATUS_FAILED');
+  }
+
+  let shouldInstall = !dbStatus.populated;
+  if (dbStatus.populated) {
+    setDetail('db', 'Existing database detected');
+    let action;
+    while (true) {
+      action = await showChoice(
+        'Existing Database Found',
+        'The audit ledger contains ' + dbStatus.auditEntries + ' entries. Keep it to preserve existing data, or reset the public schema and install from scratch.',
+        [
+          { id: 'reuse', label: 'Use Existing Database', className: 'btn-primary' },
+          { id: 'reinstall', label: 'Reset & Reinstall', className: 'btn-danger' },
+        ]
+      );
+      if (action !== 'reinstall' || window.confirm('Permanently delete all data in the public schema and reinstall the database?')) break;
+      log('Database reset cancelled.', 'log-info');
+    }
+    if (action === 'reuse') {
+      log('Using existing database. Installer skipped.', 'log-ok');
+      setDetail('db', 'Existing database selected');
+    } else {
+      log('Resetting existing database...', 'log-info');
+      const resetRes = await fetch('/api/step/db/reset', { method: 'POST' });
+      const resetData = await resetRes.json();
+      if (!resetData.ok) {
+        log('Database reset failed: ' + (resetData.error || 'Unknown error'), 'log-err');
+        setStepState(1, 'error');
+        throw new Error('DB_RESET_FAILED');
+      }
+      log('Database reset complete.', 'log-ok');
+      shouldInstall = true;
+    }
+  }
+
+  if (shouldInstall) {
+    log('Installing database...', 'log-info');
+    await new Promise((resolve, reject) => {
+      const es = new EventSource('/api/step/db');
+      es.onmessage = (e) => {
+        const data = JSON.parse(e.data);
+        if (data.type === 'log') log(data.text);
+        else if (data.type === 'detail') setDetail('db', data.text);
+        else if (data.type === 'done') { es.close(); if (data.ok) { log('Database installed.', 'log-ok'); resolve(); } else { log('Database install failed: ' + (data.error || ''), 'log-err'); setStepState(1, 'error'); reject(new Error('DB_INSTALL_FAILED')); } }
+      };
+      es.onerror = () => { es.close(); log('Connection lost during DB install.', 'log-err'); setStepState(1, 'error'); reject(new Error('SSE_ERROR')); };
+    }).catch((err) => {
+      document.getElementById('actions').innerHTML = '<button class="btn btn-primary" id="btn-retry">Retry</button>';
+      document.getElementById('btn-retry').onclick = runSetup;
+      throw err;
+    });
+  }
   setStepState(1, 'done');
 
   // Step 2: Create Admin
@@ -301,6 +364,21 @@ function writeEnvFile(filePath: string, values: Record<string, string>): void {
     }
   }
   writeFileSync(filePath, lines.join('\n'));
+}
+
+function loadPostgresClientConfig(): ClientConfig {
+  const localEnvPath = resolve(root, '.env.development.local');
+  const envPath = existsSync(localEnvPath) ? localEnvPath : resolve(root, '.env');
+  const fileEnv = loadEnvFile(envPath);
+  const connectionString = fileEnv.DATABASE_URL || fileEnv.POSTGRES_URL;
+  if (connectionString) return { connectionString };
+  return {
+    host: fileEnv.PGHOST || 'localhost',
+    port: Number(fileEnv.PGPORT || 5432),
+    database: fileEnv.PGDATABASE || 'moonwitness',
+    user: fileEnv.PGUSER || 'postgres',
+    password: fileEnv.PGPASSWORD,
+  };
 }
 
 // ─── Process runner with SSE ────────────────────────────────────────────────────
@@ -402,6 +480,31 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
 
 let isInstallingDb = false;
 
+  // Step: inspect whether the database already contains a ledger
+  if (path === '/api/step/db/status' && req.method === 'POST') {
+    const { Client } = await import('pg');
+    const client = new Client(loadPostgresClientConfig());
+    try {
+      await client.connect();
+      const table = await client.query("SELECT to_regclass('public.audit_ledger') AS table_name");
+      if (!table.rows[0]?.table_name) {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ ok: true, populated: false, auditEntries: 0 }));
+        return;
+      }
+      const count = await client.query('SELECT count(*)::int AS count FROM audit_ledger');
+      const auditEntries = Number(count.rows[0]?.count ?? 0);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ ok: true, populated: auditEntries > 0, auditEntries }));
+    } catch (err: unknown) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ ok: false, error: err instanceof Error ? err.message : String(err) }));
+    } finally {
+      await client.end().catch(() => undefined);
+    }
+    return;
+  }
+
   // Step: db install (SSE)
   if (path === '/api/step/db' && req.method === 'GET') {
     if (isInstallingDb) {
@@ -423,18 +526,17 @@ let isInstallingDb = false;
   // Step: db reset
   if (path === '/api/step/db/reset' && req.method === 'POST') {
     const { Client } = await import('pg');
-    const fileEnv = loadEnvFile(existsSync(resolve(root, '.env')) ? resolve(root, '.env') : resolve(root, '.env.development.local'));
-    const url = fileEnv.DATABASE_URL || fileEnv.POSTGRES_URL || `postgres://${fileEnv.PGUSER}:${fileEnv.PGPASSWORD}@${fileEnv.PGHOST}:${fileEnv.PGPORT}/${fileEnv.PGDATABASE}`;
+    const client = new Client(loadPostgresClientConfig());
     try {
-      const client = new Client({ connectionString: url });
       await client.connect();
       await client.query('DROP SCHEMA public CASCADE; CREATE SCHEMA public;');
-      await client.end();
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ ok: true }));
     } catch (err: unknown) {
       res.writeHead(500, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ ok: false, error: err instanceof Error ? err.message : String(err) }));
+    } finally {
+      await client.end().catch(() => undefined);
     }
     return;
   }
