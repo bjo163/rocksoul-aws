@@ -1,4 +1,4 @@
-import * as Astronomy from 'astronomy-engine';
+import { astronomyEngineProvider, type EphemerisProvider, type HorizonRefraction } from './ephemeris-provider.js';
 
 export interface TSELocation {
   name?: string;
@@ -16,6 +16,14 @@ export interface TSEInput {
   activity?: { type: string; description?: string };
   nightModel?: 'SUNSET_TO_SUNRISE' | 'SUNSET_TO_FAJR';
   nightBoundary?: { endTimestamp: string | Date; label?: 'FAJR' | 'SUNRISE' | 'CUSTOM' };
+  provider?: EphemerisProvider;
+  calculation?: { horizonRefraction?: HorizonRefraction; riseSetSearchDays?: number };
+}
+
+export interface TSEEventState {
+  status: 'RESOLVED' | 'UNRESOLVED';
+  utc: string | null;
+  reason?: 'UNSUPPORTED' | 'NO_EVENT_IN_SEARCH_WINDOW';
 }
 
 export interface TSETemporalState {
@@ -29,6 +37,8 @@ export interface TSETemporalState {
     sunriseUtc: string | null;
     sunsetUtc: string | null;
     solarNoonApproxUtc: string | null;
+    sunrise: TSEEventState;
+    sunset: TSEEventState;
   };
   lunar: {
     altitudeDeg: number;
@@ -38,6 +48,8 @@ export interface TSETemporalState {
     elongationDeg: number;
     moonriseUtc: string | null;
     moonsetUtc: string | null;
+    moonrise: TSEEventState;
+    moonset: TSEEventState;
   };
   night: {
     model: NonNullable<TSEInput['nightModel']>;
@@ -66,6 +78,9 @@ export interface TSETemporalState {
   provenance: {
     provider: string;
     providerVersion: string;
+    algorithmVersion: string;
+    calculationConvention: { canonicalTime: 'UTC'; horizonRefraction: HorizonRefraction; riseSet: 'ASTRONOMY_ENGINE_STANDARD_UPPER_LIMB'; searchDays: number };
+    providerCapabilities: EphemerisProvider['capabilities'];
     timezone: string;
     nightDefinition: string;
     scoreIsNotDivineReward: true;
@@ -78,8 +93,8 @@ function asDate(value: string | Date): Date {
   return date;
 }
 
-function iso(value: Astronomy.AstroTime | null): string | null {
-  return value ? value.date.toISOString() : null;
+function eventState(value: Date | null, supported: boolean): TSEEventState {
+  return value ? { status: 'RESOLVED', utc: value.toISOString() } : { status: 'UNRESOLVED', utc: null, reason: supported ? 'NO_EVENT_IN_SEARCH_WINDOW' : 'UNSUPPORTED' };
 }
 
 function clamp(value: number, min = 0, max = 1): number {
@@ -115,59 +130,37 @@ function localMidnightUtc(localDate: string, timezone: string): Date {
   return new Date(naive.getTime() - offset * 60000);
 }
 
-function observer(location: TSELocation): Astronomy.Observer {
-  return new Astronomy.Observer(location.latitude, location.longitude, location.elevationMeters ?? 0);
-}
-
-function horizontal(body: Astronomy.Body, date: Date, obs: Astronomy.Observer) {
-  const eq = Astronomy.Equator(body, date, obs, true, true);
-  return Astronomy.Horizon(date, obs, eq.ra, eq.dec, 'normal');
-}
-
-function sunAt(date: Date, obs: Astronomy.Observer) {
-  return horizontal(Astronomy.Body.Sun, date, obs);
-}
-
-function moonAt(date: Date, obs: Astronomy.Observer) {
-  return horizontal(Astronomy.Body.Moon, date, obs);
-}
-
-function nearestEvent(date: Date, obs: Astronomy.Observer, body: Astronomy.Body, direction: number, limitDays: number): Astronomy.AstroTime | null {
-  return Astronomy.SearchRiseSet(body, obs, direction, date, limitDays, 0);
-}
-
-function altitudeCrossing(start: Date, obs: Astronomy.Observer, altitude: number, direction: number): Astronomy.AstroTime | null {
-  return Astronomy.SearchAltitude(Astronomy.Body.Sun, obs, direction, start, 1, altitude);
-}
-
-function solarNoonApprox(sunrise: Astronomy.AstroTime | null, sunset: Astronomy.AstroTime | null): string | null {
+function solarNoonApprox(sunrise: Date | null, sunset: Date | null): string | null {
   if (!sunrise || !sunset) return null;
-  return new Date((sunrise.date.getTime() + sunset.date.getTime()) / 2).toISOString();
+  return new Date((sunrise.getTime() + sunset.getTime()) / 2).toISOString();
 }
 
-function buildNight(date: Date, input: TSEInput, obs: Astronomy.Observer): TSETemporalState['night'] {
+function buildNight(date: Date, input: TSEInput, provider: EphemerisProvider, searchDays: number): TSETemporalState['night'] {
   const model = input.nightModel ?? 'SUNSET_TO_FAJR';
   if (model === 'SUNSET_TO_FAJR' && !input.nightBoundary?.endTimestamp) {
     throw new Error('TSE_FAJR_REQUIRED_FOR_SUNSET_TO_FAJR');
+  }
+  if (!provider.capabilities.sunRiseSet) {
+    return { model, startUtc: null, endUtc: null, durationMinutes: null, fractionElapsed: null, segment: 'UNRESOLVED', finalThird: false };
   }
   const localDay = localDateString(date, input.location.timezone);
   const midnight = localMidnightUtc(localDay, input.location.timezone);
   const prevDay = new Date(midnight.getTime() - 86400000);
   const noon = new Date(midnight.getTime() + 12 * 3600000);
   const nextDay = new Date(midnight.getTime() + 86400000);
-  const prevSunset = nearestEvent(prevDay, obs, Astronomy.Body.Sun, -1, 1.5);
-  const currentSunrise = nearestEvent(midnight, obs, Astronomy.Body.Sun, 1, 1.5);
-  const currentSunset = nearestEvent(noon, obs, Astronomy.Body.Sun, -1, 1.5);
-  const nextSunrise = nearestEvent(nextDay, obs, Astronomy.Body.Sun, 1, 1.5);
+  const prevSunset = provider.riseSet('SUN', input.location, -1, prevDay, searchDays);
+  const currentSunrise = provider.riseSet('SUN', input.location, 1, midnight, searchDays);
+  const currentSunset = provider.riseSet('SUN', input.location, -1, noon, searchDays);
+  const nextSunrise = provider.riseSet('SUN', input.location, 1, nextDay, searchDays);
 
   let start: Date | null = null;
   let end: Date | null = null;
-  if (prevSunset && currentSunrise && date >= prevSunset.date && date <= currentSunrise.date) {
-    start = prevSunset.date;
-    end = model === 'SUNSET_TO_FAJR' ? asDate(input.nightBoundary!.endTimestamp) : currentSunrise.date;
-  } else if (currentSunset && nextSunrise && date >= currentSunset.date && date <= nextSunrise.date) {
-    start = currentSunset.date;
-    end = model === 'SUNSET_TO_FAJR' ? asDate(input.nightBoundary!.endTimestamp) : nextSunrise.date;
+  if (prevSunset && currentSunrise && date >= prevSunset && date <= currentSunrise) {
+    start = prevSunset;
+    end = model === 'SUNSET_TO_FAJR' ? asDate(input.nightBoundary!.endTimestamp) : currentSunrise;
+  } else if (currentSunset && nextSunrise && date >= currentSunset && date <= nextSunrise) {
+    start = currentSunset;
+    end = model === 'SUNSET_TO_FAJR' ? asDate(input.nightBoundary!.endTimestamp) : nextSunrise;
   }
 
   if (!start || !end || end.getTime() <= start.getTime() || date < start || date > end) {
@@ -189,26 +182,29 @@ function buildNight(date: Date, input: TSEInput, obs: Astronomy.Observer): TSETe
 
 export function calculateTemporalState(input: TSEInput): TSETemporalState {
   const date = asDate(input.timestamp);
-  const obs = observer(input.location);
-  const sun = sunAt(date, obs);
-  const moon = moonAt(date, obs);
+  const provider = input.provider ?? astronomyEngineProvider;
+  const horizonRefraction = input.calculation?.horizonRefraction ?? 'normal';
+  const searchDays = input.calculation?.riseSetSearchDays ?? 1.5;
+  if (!Number.isFinite(searchDays) || searchDays <= 0) throw new Error('TSE_RISE_SET_SEARCH_DAYS_INVALID');
+  const sun = provider.position('SUN', date, input.location, horizonRefraction);
+  const moon = provider.position('MOON', date, input.location, horizonRefraction);
   const localDay = localDateString(date, input.location.timezone);
   const midnight = localMidnightUtc(localDay, input.location.timezone);
   const noon = new Date(midnight.getTime() + 12 * 3600000);
-  const sunrise = nearestEvent(midnight, obs, Astronomy.Body.Sun, 1, 1.5);
-  const sunset = nearestEvent(noon, obs, Astronomy.Body.Sun, -1, 1.5);
-  const moonrise = nearestEvent(midnight, obs, Astronomy.Body.Moon, 1, 1.5);
-  const moonset = nearestEvent(noon, obs, Astronomy.Body.Moon, -1, 1.5);
-  const illumination = Astronomy.Illumination(Astronomy.Body.Moon, date);
-  const phaseAngleDeg = illumination.phase_angle;
-  const elongationDeg = Astronomy.AngleFromSun(Astronomy.Body.Moon, date);
+  const sunrise = provider.capabilities.sunRiseSet ? provider.riseSet('SUN', input.location, 1, midnight, searchDays) : null;
+  const sunset = provider.capabilities.sunRiseSet ? provider.riseSet('SUN', input.location, -1, noon, searchDays) : null;
+  const moonrise = provider.capabilities.moonRiseSet ? provider.riseSet('MOON', input.location, 1, midnight, searchDays) : null;
+  const moonset = provider.capabilities.moonRiseSet ? provider.riseSet('MOON', input.location, -1, noon, searchDays) : null;
+  const illumination = provider.lunarIllumination(date);
+  const phaseAngleDeg = illumination.phaseAngleDeg;
+  const elongationDeg = illumination.elongationDeg;
 
   const dayStart = localMidnightUtc(localDay, input.location.timezone);
-  const sun45Ascending = altitudeCrossing(dayStart, obs, 45, 1);
-  const sun45Descending = altitudeCrossing(new Date(midnight.getTime() + 12 * 3600000), obs, 45, -1);
-  const sun45DistanceDeg = Math.abs(sun.altitude - 45);
-  const moon45DistanceDeg = Math.abs(moon.altitude - 45);
-  const night = buildNight(date, input, obs);
+  const sun45Ascending = provider.capabilities.altitudeCrossing ? provider.altitudeCrossing('SUN', input.location, 1, dayStart, searchDays, 45) : null;
+  const sun45Descending = provider.capabilities.altitudeCrossing ? provider.altitudeCrossing('SUN', input.location, -1, new Date(midnight.getTime() + 12 * 3600000), searchDays, 45) : null;
+  const sun45DistanceDeg = Math.abs(sun.altitudeDeg - 45);
+  const moon45DistanceDeg = Math.abs(moon.altitudeDeg - 45);
+  const night = buildNight(date, input, provider, searchDays);
 
   const finalThirdSignal = night.finalThird ? 30 : 0;
   const nightSignal = night.segment !== 'DAY' && night.segment !== 'UNRESOLVED' ? 10 : 0;
@@ -227,33 +223,40 @@ export function calculateTemporalState(input: TSEInput): TSETemporalState {
     location: input.location,
     activity: input.activity,
     solar: {
-      altitudeDeg: Number(sun.altitude.toFixed(6)),
-      azimuthDeg: Number(sun.azimuth.toFixed(6)),
-      sunriseUtc: iso(sunrise),
-      sunsetUtc: iso(sunset),
-      solarNoonApproxUtc: solarNoonApprox(sunrise, sunset)
+      altitudeDeg: Number(sun.altitudeDeg.toFixed(6)),
+      azimuthDeg: Number(sun.azimuthDeg.toFixed(6)),
+      sunriseUtc: sunrise?.toISOString() ?? null,
+      sunsetUtc: sunset?.toISOString() ?? null,
+      solarNoonApproxUtc: solarNoonApprox(sunrise, sunset),
+      sunrise: eventState(sunrise, provider.capabilities.sunRiseSet),
+      sunset: eventState(sunset, provider.capabilities.sunRiseSet)
     },
     lunar: {
-      altitudeDeg: Number(moon.altitude.toFixed(6)),
-      azimuthDeg: Number(moon.azimuth.toFixed(6)),
+      altitudeDeg: Number(moon.altitudeDeg.toFixed(6)),
+      azimuthDeg: Number(moon.azimuthDeg.toFixed(6)),
       illuminationFraction: clamp((1 + Math.cos((phaseAngleDeg * Math.PI) / 180)) / 2),
       phaseAngleDeg: Number(phaseAngleDeg.toFixed(6)),
       elongationDeg: Number(elongationDeg.toFixed(6)),
-      moonriseUtc: iso(moonrise),
-      moonsetUtc: iso(moonset)
+      moonriseUtc: moonrise?.toISOString() ?? null,
+      moonsetUtc: moonset?.toISOString() ?? null,
+      moonrise: eventState(moonrise, provider.capabilities.moonRiseSet),
+      moonset: eventState(moonset, provider.capabilities.moonRiseSet)
     },
     night,
     markers: {
-      sun45AscendingUtc: iso(sun45Ascending),
-      sun45DescendingUtc: iso(sun45Descending),
+      sun45AscendingUtc: sun45Ascending?.toISOString() ?? null,
+      sun45DescendingUtc: sun45Descending?.toISOString() ?? null,
       sun45DistanceDeg: Number(sun45DistanceDeg.toFixed(6)),
       moon45DistanceDeg: Number(moon45DistanceDeg.toFixed(6)),
       moon45AtCurrent: moon45DistanceDeg <= 0.25
     },
     scoring: { rawScore, confidence: providerConfidence, confidenceAdjustedScore, classification, hypothesisSignalScore, activityIndependent: true },
     provenance: {
-      provider: 'astronomy-engine',
-      providerVersion: '2.1.19',
+      provider: provider.id,
+      providerVersion: provider.version,
+      algorithmVersion: provider.algorithmVersion,
+      calculationConvention: { canonicalTime: 'UTC', horizonRefraction, riseSet: 'ASTRONOMY_ENGINE_STANDARD_UPPER_LIMB', searchDays },
+      providerCapabilities: provider.capabilities,
       timezone: input.location.timezone,
       nightDefinition: input.nightModel ?? 'SUNSET_TO_FAJR',
       scoreIsNotDivineReward: true

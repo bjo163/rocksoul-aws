@@ -85,3 +85,19 @@ test('TSE fails closed when Fajr is required but not supplied', () => {
     nightModel: 'SUNSET_TO_FAJR'
   }), /TSE_FAJR_REQUIRED_FOR_SUNSET_TO_FAJR/);
 });
+
+test('TSE records provider conventions and keeps polar no-event states explicit', () => {
+  const polar = calculateTemporalState({
+    timestamp: '2026-06-21T12:00:00Z',
+    location: { name: 'Tromsø', latitude: 69.6492, longitude: 18.9553, timezone: 'Europe/Oslo' },
+    nightModel: 'SUNSET_TO_SUNRISE',
+  });
+
+  assert.equal(polar.provenance.provider, 'astronomy-engine');
+  assert.equal(polar.provenance.calculationConvention.canonicalTime, 'UTC');
+  assert.equal(polar.provenance.calculationConvention.horizonRefraction, 'normal');
+  assert.equal(polar.provenance.providerCapabilities.sunRiseSet, true);
+  assert.equal(polar.solar.sunrise.status, 'UNRESOLVED');
+  assert.equal(polar.solar.sunset.status, 'UNRESOLVED');
+  assert.equal(polar.solar.sunrise.utc, null);
+});
