@@ -11,6 +11,7 @@ export const CANONICAL_V1_ROUTES = {
   command: '/api/v1/command',
   query: '/api/v1/query',
   analyze: '/api/v1/analyze',
+  mizan: '/api/v1/mizan',
 } as const;
 
 export type RouteResult = object | { statusCode: number; body: unknown } | undefined;
