@@ -11,6 +11,7 @@ It includes built-in middleware for **CORS** and **Rate Limiting** directly atop
 ```text
 POST /api/v1/observe
 POST /api/v1/analyze
+POST /api/v1/mizan
 POST /api/v1/evaluate
 POST /api/v1/query
 POST /api/v1/command
@@ -37,6 +38,8 @@ GET  /api/v1/jobs/:id
 POST /api/v1/ingress/reminder
 POST /api/v1/ingress/reminder/trigger
 ```
+
+`POST /api/v1/mizan` is the direct Mizan engine boundary. It requires `EVALUATE`, accepts the shared `MizanInput` contract, validates vectors/numeric fields before evaluation, and delegates calculation to the existing `src/engines/mizan.ts` through `src/services/mizan-service.ts`. It does not perform case persistence, Revelation scorecard orchestration, or Witness commitment. Use `/api/v1/analyze` for the complete analysis lifecycle.
 
 Legacy graph routes may remain for development compatibility, but new clients must use the Universal API. In production they are disabled unless `MOONWITNESS_LEGACY_API=enabled`; when explicitly enabled they require authenticated `READ_AUDIT` (read) or `COMMAND` (write) authority. They are not a public XRP data surface.
 
