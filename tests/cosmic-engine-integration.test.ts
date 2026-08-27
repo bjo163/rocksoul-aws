@@ -11,4 +11,9 @@ test('engine facade supports Moonwitness integration without UI or platform stat
   });
   assert.equal(result.mizan?.timeFactor?.schema, 'MIZAN_TEMPORAL_CONTEXT_V1');
   assert.equal(result.temporalReasoning?.astronomicalFacts?.timestampUtc, '2026-08-27T20:00:00.000Z');
+  const observation = await engine.analyzeSemantic('Saya memeriksa sumber sebelum membagikan klaim.');
+  assert.equal(observation.protocol, 'COSMIC_SEMANTIC_OBSERVATION_V1');
+  assert.equal(observation.metadata.configurationFingerprint, 'cosmic-registry-semantic-v1');
+  assert.equal('mizan' in observation, false);
+  assert.equal('revelationAsma' in observation, false);
 });

@@ -1,8 +1,12 @@
 {
   "name": "@moonwitness/cosmic-engine",
   "version": "4.33.0",
+  "description": "Host-neutral Cosmic facade for temporal facts, candidate semantic observations, Mizan context, and explanations",
   "private": true,
   "type": "module",
   "main": "./src/index.ts",
-  "types": "./src/index.ts"
+  "types": "./src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit --target ES2022 --module NodeNext --moduleResolution NodeNext --skipLibCheck src/index.ts"
+  }
 }

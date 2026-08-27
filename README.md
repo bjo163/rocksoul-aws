@@ -1,7 +1,31 @@
-# cosmic
+# Cosmic Engine
 
-MoonWitness Cosmic engine and API monorepo. The repository contains the analysis brain, semantic engines, Mizan, Revelation/knowledge engines, event/lifecycle processing, persistence, contracts, SDK, audit/provenance, and witness infrastructure.
+Cosmic is an engine/API-first research runtime for deterministic temporal
+astronomy, semantic event interpretation, evidence-aware Mizan analysis, and
+bounded AI explanation. It has no frontend application and is intended to be
+embedded by a host such as Moonwitness.
 
-The primary runtime application is the backend API under `apps/api`. Frontend applications are maintained outside this repository and consume the API/engine contracts.
+## Release surface
 
-See [`docs/README.md`](docs/README.md) for project documentation and [`docs/TODO.md`](docs/TODO.md) for the current engineering roadmap.
+The supported engine surface is:
+
+- `packages/tse-engine` — provider-neutral temporal facts, hypotheses, and
+  scoring;
+- `packages/cosmic-engine` — a host-neutral facade for temporal state,
+  candidate-only semantic observation, Mizan projection, and explanation;
+- `data/` and `tests/` — versioned runtime profiles and regression evidence.
+
+`apps/api` and the legacy domain folders remain compatibility/integration code.
+They are not required by the engine facade and are not part of the embedded
+engine release artifact.
+
+## Verification
+
+```text
+npm run test:tse
+npm run typecheck:engine
+npm run release:check
+```
+
+See [`docs/README.md`](docs/README.md) for documentation and
+[`docs/RELEASE_CHECKLIST.md`](docs/RELEASE_CHECKLIST.md) for the release gate.

@@ -31,8 +31,19 @@ test('TSE produces a deterministic temporal state for the Cosmic reference case'
   assert.equal(state.night.finalThird, true);
   assert.equal(state.scoring.activityIndependent, true);
   assert.equal(state.provenance.provider, 'astronomy-engine');
+  assert.equal(state.scoring.astronomicalDataStatus, 'RESOLVED');
+  assert.equal(state.scoring.dataQuality, 1);
+  assert.equal(state.provenance.providerConfidence, 0.98);
   assert.ok(Number.isFinite(state.solar.altitudeDeg));
   assert.ok(Number.isFinite(state.lunar.altitudeDeg));
+});
+
+test('TSE hypothesis signals never leak into the base temporal score', () => {
+  const state = stateFor('PRAYER');
+  const nearFull = Math.min(Math.abs(state.lunar.phaseAngleDeg), Math.abs(180 - state.lunar.phaseAngleDeg)) <= 5 ? 5 : 0;
+  const expectedBase = 20 + (state.night.finalThird ? 30 : 0) + (state.night.segment !== 'DAY' && state.night.segment !== 'UNRESOLVED' ? 10 : 0) + nearFull;
+  assert.equal(state.scoring.rawScore, expectedBase);
+  assert.equal(state.scoring.hypothesisSignalScore >= 0, true);
 });
 
 test('TSE is activity-neutral: world, amal, dosa, and crime share the same temporal facts', () => {
@@ -86,6 +97,19 @@ test('TSE fails closed when Fajr is required but not supplied', () => {
   }), /TSE_FAJR_REQUIRED_FOR_SUNSET_TO_FAJR/);
 });
 
+test('TSE rejects invalid coordinates and IANA timezone identifiers', () => {
+  assert.throws(() => calculateTemporalState({
+    timestamp,
+    location: { latitude: 91, longitude: 107, timezone: 'Asia/Jakarta' },
+    nightModel: 'SUNSET_TO_SUNRISE'
+  }), /TSE_LATITUDE_INVALID/);
+  assert.throws(() => calculateTemporalState({
+    timestamp,
+    location: { latitude: -6, longitude: 107, timezone: 'Not/An_IANA_Zone' },
+    nightModel: 'SUNSET_TO_SUNRISE'
+  }), /TSE_TIMEZONE_INVALID/);
+});
+
 test('TSE records provider conventions and keeps polar no-event states explicit', () => {
   const polar = calculateTemporalState({
     timestamp: '2026-06-21T12:00:00Z',
@@ -100,4 +124,7 @@ test('TSE records provider conventions and keeps polar no-event states explicit'
   assert.equal(polar.solar.sunrise.status, 'UNRESOLVED');
   assert.equal(polar.solar.sunset.status, 'UNRESOLVED');
   assert.equal(polar.solar.sunrise.utc, null);
+  assert.equal(polar.scoring.astronomicalDataStatus, 'UNRESOLVED');
+  assert.equal(polar.scoring.confidenceAdjustedScore, null);
+  assert.ok(polar.scoring.dataQuality < 1);
 });

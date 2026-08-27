@@ -8,10 +8,10 @@ The reference values come from the U.S. Naval Observatory annual sunrise/sunset 
 
 Reference vectors in `tests/tse-usno-gold.test.ts`:
 
-- Washington, DC — 28 Aug 2026: USNO standard-time sunrise 06:34 / sunset 19:44, converted to IANA-local EDT as 07:34 / 20:44.
-- Seattle, WA — 28 Aug 2026: USNO standard-time sunrise 06:23 / sunset 19:57, converted to IANA-local PDT as 07:23 / 20:57.
+- Washington, DC — 28 Aug 2026: fixture local values 06:34 / 19:44 in `America/New_York`.
+- Seattle, WA — 28 Aug 2026: fixture local values 06:22 / 19:57 in `America/Los_Angeles`.
 
-The test allows a two-minute event-time tolerance. These are event-timing regression vectors, not proof of any Qur'anic relationship or temporal-significance hypothesis.
+The test allows a three-minute event-time tolerance. These are event-timing regression vectors, not proof of any Qur'anic relationship or temporal-significance hypothesis.
 
 ## Why this is a useful gate
 

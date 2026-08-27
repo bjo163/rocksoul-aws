@@ -70,15 +70,18 @@ export interface TSETemporalState {
   scoring: {
     rawScore: number;
     confidence: number;
-    confidenceAdjustedScore: number;
+    confidenceAdjustedScore: number | null;
     classification: 'LOW' | 'MODERATE' | 'HIGH';
     hypothesisSignalScore: number;
+    astronomicalDataStatus: 'RESOLVED' | 'UNRESOLVED';
+    dataQuality: number;
     activityIndependent: true;
   };
   provenance: {
     provider: string;
     providerVersion: string;
     algorithmVersion: string;
+    providerConfidence: number;
     calculationConvention: { canonicalTime: 'UTC'; horizonRefraction: HorizonRefraction; riseSet: 'ASTRONOMY_ENGINE_STANDARD_UPPER_LIMB'; searchDays: number };
     providerCapabilities: EphemerisProvider['capabilities'];
     timezone: string;
@@ -91,6 +94,19 @@ function asDate(value: string | Date): Date {
   const date = value instanceof Date ? new Date(value.getTime()) : new Date(value);
   if (Number.isNaN(date.getTime())) throw new Error('TSE_INVALID_TIMESTAMP');
   return date;
+}
+
+function validateInput(input: TSEInput): void {
+  if (!input || !input.location) throw new Error('TSE_LOCATION_REQUIRED');
+  const { latitude, longitude, timezone } = input.location;
+  if (!Number.isFinite(latitude) || latitude < -90 || latitude > 90) throw new Error('TSE_LATITUDE_INVALID');
+  if (!Number.isFinite(longitude) || longitude < -180 || longitude > 180) throw new Error('TSE_LONGITUDE_INVALID');
+  if (!timezone || typeof timezone !== 'string') throw new Error('TSE_TIMEZONE_REQUIRED');
+  try {
+    new Intl.DateTimeFormat('en-US', { timeZone: timezone }).format();
+  } catch {
+    throw new Error('TSE_TIMEZONE_INVALID');
+  }
 }
 
 function eventState(value: Date | null, supported: boolean): TSEEventState {
@@ -181,6 +197,7 @@ function buildNight(date: Date, input: TSEInput, provider: EphemerisProvider, se
 }
 
 export function calculateTemporalState(input: TSEInput): TSETemporalState {
+  validateInput(input);
   const date = asDate(input.timestamp);
   const provider = input.provider ?? astronomyEngineProvider;
   const horizonRefraction = input.calculation?.horizonRefraction ?? 'normal';
@@ -211,11 +228,25 @@ export function calculateTemporalState(input: TSEInput): TSETemporalState {
   const sun45Signal = sun45DistanceDeg <= 0.25 ? 10 : 0;
   const moon45Signal = moon45DistanceDeg <= 0.25 ? 10 : 0;
   const nearFullSignal = Math.min(Math.abs(phaseAngleDeg), Math.abs(180 - phaseAngleDeg)) <= 5 ? 5 : 0;
-  const rawScore = Math.min(100, 20 + finalThirdSignal + nightSignal + sun45Signal + moon45Signal + nearFullSignal);
-  const providerConfidence = 0.98;
-  const confidenceAdjustedScore = Number((rawScore * providerConfidence).toFixed(4));
-  const classification = rawScore >= 70 ? 'HIGH' : rawScore >= 40 ? 'MODERATE' : 'LOW';
+  // Hypothesis signals are reported independently and must never alter the
+  // base temporal score. This keeps research predicates from becoming hidden
+  // relevance bonuses.
   const hypothesisSignalScore = sun45Signal + moon45Signal;
+  const requiredEvents = [sunrise, sunset, moonrise, moonset, sun45Ascending, sun45Descending];
+  const resolvedEvents = requiredEvents.filter((event) => event !== null).length;
+  const dataQuality = Number((resolvedEvents / requiredEvents.length).toFixed(6));
+  const astronomicalDataStatus = dataQuality === 1 ? 'RESOLVED' : 'UNRESOLVED';
+  const baseRawScore = Math.min(100, 20 + finalThirdSignal + nightSignal + nearFullSignal);
+  const rawScore = astronomicalDataStatus === 'RESOLVED' ? baseRawScore : 0;
+  const providerConfidence = provider.confidence ?? 1;
+  if (!Number.isFinite(providerConfidence) || providerConfidence < 0 || providerConfidence > 1) {
+    throw new Error('TSE_PROVIDER_CONFIDENCE_INVALID');
+  }
+  const confidence = Number((providerConfidence * dataQuality).toFixed(6));
+  const confidenceAdjustedScore = astronomicalDataStatus === 'RESOLVED'
+    ? Number((rawScore * confidence).toFixed(4))
+    : null;
+  const classification = rawScore >= 70 ? 'HIGH' : rawScore >= 40 ? 'MODERATE' : 'LOW';
 
   return {
     protocol: 'TEMPORAL_SIGNIFICANCE_ENGINE_V1',
@@ -250,11 +281,21 @@ export function calculateTemporalState(input: TSEInput): TSETemporalState {
       moon45DistanceDeg: Number(moon45DistanceDeg.toFixed(6)),
       moon45AtCurrent: moon45DistanceDeg <= 0.25
     },
-    scoring: { rawScore, confidence: providerConfidence, confidenceAdjustedScore, classification, hypothesisSignalScore, activityIndependent: true },
+    scoring: {
+      rawScore,
+      confidence,
+      confidenceAdjustedScore,
+      classification,
+      hypothesisSignalScore,
+      astronomicalDataStatus,
+      dataQuality,
+      activityIndependent: true
+    },
     provenance: {
       provider: provider.id,
       providerVersion: provider.version,
       algorithmVersion: provider.algorithmVersion,
+      providerConfidence,
       calculationConvention: { canonicalTime: 'UTC', horizonRefraction, riseSet: 'ASTRONOMY_ENGINE_STANDARD_UPPER_LIMB', searchDays },
       providerCapabilities: provider.capabilities,
       timezone: input.location.timezone,

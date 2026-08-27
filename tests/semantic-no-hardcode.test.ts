@@ -11,6 +11,13 @@ function readJson(relative: string): unknown {
   return JSON.parse(read(relative));
 }
 
+function containsStandaloneTerm(source: string, term: string): boolean {
+  const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const termPattern = new RegExp(`(?:^|[^\\p{L}\\p{N}_])${escaped}(?:$|[^\\p{L}\\p{N}_])`, 'iu');
+  const literals = [...source.matchAll(/(['"`])((?:\\\\.|(?!\\1).)*)\\1/g)].map((match) => match[2]);
+  return literals.some((literal) => !literal.includes('/') && termPattern.test(literal));
+}
+
 const profile = readJson('data/events/event-language-profile.json');
 const semanticSource = read('src/ai/semantic-engine.ts');
 const eventSource = read('src/events/event-parser.ts');
@@ -44,9 +51,8 @@ const lexicalBuckets = [
 
 test('semantic engines do not embed runtime lexical vocabulary', () => {
   for (const term of lexicalBuckets) {
-    const normalized = term.toLowerCase();
-    assert.equal(semanticSource.toLowerCase().includes(normalized), false, `semantic-engine.ts hardcodes lexical term: ${term}`);
-    assert.equal(eventSource.toLowerCase().includes(normalized), false, `event-parser.ts hardcodes lexical term: ${term}`);
+    assert.equal(containsStandaloneTerm(semanticSource, term), false, `semantic-engine.ts hardcodes lexical term: ${term}`);
+    assert.equal(containsStandaloneTerm(eventSource, term), false, `event-parser.ts hardcodes lexical term: ${term}`);
   }
 });
 

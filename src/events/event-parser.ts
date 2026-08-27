@@ -90,8 +90,11 @@ export function parseSemanticEventGraph(text:string):SemanticEventGraph{
   for(let i=0;i<clauses.length;i++){
     const c=clauses[i]; const ctxSignals={mistake:hits(c.text,p.context?.mistake),coercion:hits(c.text,p.context?.coercion),permission:hits(c.text,p.context?.permission),capacityLimited:hits(c.text,p.context?.capacityLimited),emergency:hits(c.text,p.context?.emergency)};
     const reportingSignals=hits(c.text,p.reporting?.verbs); const unverified=hits(c.text,p.reporting?.unverified); let candidates=actionCandidates(c.text);
-    const unsupportedAccusation=structuralAction('unsupportedAccusation'); const reportedVerbs=vocabulary()?.reportedActiveVerbs??[];
-    if(reportingSignals.length && unverified.length && unsupportedAccusation && reportedVerbs.some((v:string)=>has(c.text,v)) && !candidates.some(x=>x.action===unsupportedAccusation)) candidates.push({action:unsupportedAccusation,score:.82,matchedAlias:'STRUCTURAL:UNSUPPORTED_ACCUSATION',source:'STRUCTURAL'});
+    const unsupportedAccusation=structuralAction('unsupportedAccusation');
+    // A reported accusation must remain represented even when the embedded
+    // alleged action is suppressed as an unverified claim. Otherwise the
+    // parser loses the actual accusation and incorrectly returns UNRESOLVED.
+    if(reportingSignals.length && unverified.length && unsupportedAccusation && !candidates.some(x=>x.action===unsupportedAccusation)) candidates.push({action:unsupportedAccusation,score:.82,matchedAlias:'STRUCTURAL:UNSUPPORTED_ACCUSATION',source:'STRUCTURAL'});
     candidates=candidates.map(x=>negatedNear(c.text,x.matchedAlias)?{...x,suppressed:true,suppressionReason:'NEGATED_ACTION'}:x);
     const hasPermission=ctxSignals.permission.length>0, hasMistake=ctxSignals.mistake.length>0;
     const takingAction=structuralAction('propertyTaking');

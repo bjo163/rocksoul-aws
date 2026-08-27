@@ -22,6 +22,8 @@ export interface EphemerisProvider {
   readonly id: string;
   readonly version: string;
   readonly algorithmVersion: string;
+  /** Provider-level confidence is metadata, not a theological or moral score. */
+  readonly confidence?: number;
   readonly capabilities: EphemerisCapabilities;
   position(body: EphemerisBody, date: Date, location: EphemerisLocation, refraction: HorizonRefraction): { altitudeDeg: number; azimuthDeg: number };
   riseSet(body: EphemerisBody, location: EphemerisLocation, direction: 1 | -1, start: Date, limitDays: number): Date | null;
@@ -42,6 +44,7 @@ export const astronomyEngineProvider: EphemerisProvider = {
   id: 'astronomy-engine',
   version: '2.1.19',
   algorithmVersion: 'astronomy-engine-2.1.19',
+  confidence: 0.98,
   capabilities: {
     sunPosition: true,
     moonPosition: true,

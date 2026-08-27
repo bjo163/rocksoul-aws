@@ -3,10 +3,83 @@ import { createDefaultSemanticProvider } from '../../../src/ai/provider.js';
 import { evaluateMizanService } from '../../../src/services/mizan-service.js';
 import { calculateTemporalState, toMizanTemporalContext, type TSEInput } from '../../tse-engine/src/index.js';
 
+export type CosmicSemanticObservationStatus = 'AVAILABLE' | 'UNAVAILABLE';
+
+export interface CosmicSemanticObservation {
+  protocol: 'COSMIC_SEMANTIC_OBSERVATION_V1';
+  status: CosmicSemanticObservationStatus;
+  metadata: {
+    provider: string;
+    configurationFingerprint: string;
+    capabilities: string[];
+  };
+  candidates: Array<{
+    label: string;
+    kind: 'ENTITY' | 'EVENT' | 'ACTION' | 'CLAIM' | 'SOURCE_HINT';
+    confidence?: number;
+    evidenceHints?: string[];
+  }>;
+  intentionSignals: string[];
+  diagnostics: string[];
+}
+
 export { calculateTemporalState, toMizanTemporalContext } from '../../tse-engine/src/index.js';
 export { evaluateMizanService } from '../../../src/services/mizan-service.js';
 export type { MizanInput, MizanResult, MizanTemporalContext } from '../../../src/contracts/mizan.js';
 export type { TSEInput, TSETemporalState } from '../../tse-engine/src/index.js';
+
+type UnknownRecord = Record<string, unknown>;
+
+function asRecord(value: unknown): UnknownRecord {
+  return value && typeof value === 'object' ? value as UnknownRecord : {};
+}
+
+/**
+ * Convert the internal registry result into a provider-safe observation.
+ * Authority, evidence status, scores, and Revelation decisions are deliberately
+ * omitted; the host must resolve those against its canonical graph.
+ */
+export function toCosmicSemanticObservation(raw: UnknownRecord): CosmicSemanticObservation {
+  const candidates: CosmicSemanticObservation['candidates'] = [];
+  for (const itemValue of Array.isArray(raw.actionCandidates) ? raw.actionCandidates : []) {
+    const item = asRecord(itemValue);
+    const label = String(item?.action ?? '').trim();
+    if (!label) continue;
+    candidates.push({
+      label,
+      kind: 'ACTION',
+      confidence: Number.isFinite(Number(item.score)) ? Math.max(0, Math.min(1, Number(item.score))) : undefined,
+      evidenceHints: item.matchedAlias ? [String(item.matchedAlias)] : undefined
+    });
+  }
+  for (const itemValue of Array.isArray(raw.entities) ? raw.entities : []) {
+    const item = asRecord(itemValue);
+    const label = String(item?.label ?? item?.name ?? item?.id ?? '').trim();
+    if (label) candidates.push({ label, kind: 'ENTITY' });
+  }
+  const claim = asRecord(raw.claim);
+  if (typeof claim.text === 'string' && claim.text.trim()) {
+    candidates.push({ label: claim.text.trim(), kind: 'CLAIM', evidenceHints: Array.isArray(claim.referenceCandidates) ? claim.referenceCandidates.map(String) : undefined });
+  }
+  const signals: string[] = [];
+  const epistemic = asRecord(raw.epistemicSignals);
+  if (epistemic.intentional) signals.push('DECLARED_INTENT_SIGNAL');
+  if (epistemic.mistake) signals.push('MISTAKE_SIGNAL');
+  if (epistemic.coercion) signals.push('COERCION_SIGNAL');
+  if (!signals.length) signals.push('UNKNOWN');
+  return {
+    protocol: 'COSMIC_SEMANTIC_OBSERVATION_V1',
+    status: raw.status === 'UNKNOWN' ? 'UNAVAILABLE' : 'AVAILABLE',
+    metadata: {
+      provider: 'cosmic-registry-semantic',
+      configurationFingerprint: 'cosmic-registry-semantic-v1',
+      capabilities: ['deterministic', 'offline', 'candidate-extraction']
+    },
+    candidates,
+    intentionSignals: signals,
+    diagnostics: ['Candidates are non-authoritative and require canonical host resolution.']
+  };
+}
 
 /**
  * Minimal integration facade for Moonwitness and other hosts.
@@ -19,7 +92,7 @@ export function createCosmicEngine(root = process.cwd()) {
       return calculateTemporalState(input);
     },
     async analyzeSemantic(text: string) {
-      return semanticProvider.analyze(text);
+      return toCosmicSemanticObservation(await semanticProvider.analyze(text));
     },
     evaluateMizan: evaluateMizanService,
     async analyze(text: string, temporalInput?: TSEInput) {

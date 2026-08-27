@@ -271,7 +271,16 @@ export class RegistrySemanticProvider {
       scale,
       evidence: [], alternatives: composition.viableCandidates.slice(1), conflicts: eventInterpretation.conflicts, timeline: eventGraph.nodes.map((n: Loose) => ({ sequence: n.sequence, phase: n.occurrence, relation: n.connector, eventId: n.id, actionCandidates: n.actions.filter((a: Loose) => !a.suppressed).map((a: Loose) => a.action) })),
       eventGraph, eventInterpretation, moralLifecycle,
-      revelationAsma: { engine: 'PURE_REVELATION_ASMA_V1', actionBinding: revelationBinding.status, status: revelationBinding.pureNormativeDerivation ? 'REVELATION_BOUND' : 'UNRESOLVED_FOR_ACTION', normativeAuthority: true },
+      // This is a language/corpus candidate surface. Canonical authority is
+      // assigned only after the host Witness graph resolves and verifies the
+      // underlying evidence.
+      revelationAsma: {
+        engine: 'PURE_REVELATION_ASMA_V1',
+        actionBinding: revelationBinding.status,
+        status: revelationBinding.pureNormativeDerivation ? 'REVELATION_BOUND' : 'UNRESOLVED_FOR_ACTION',
+        normativeAuthority: false,
+        boundary: 'Semantic provider output is candidate-only; it cannot assign Revelation authority.'
+      },
       quality,
       sourcePolicy: { mode: scriptureSourcePolicy()?.mode ?? 'FOUR_BOOKS_ONLY', normativeBooks, externalNormativeWeight: 0 },
       legacyBridge: { actionAliasUsed: Boolean(selected), normativeAuthority: false, verseMappingUsed: false, magnitudeUsed: false, eventParserUsed: true, note: 'Alias registries and event-language profiles are language parsing bridges only. They do not contain verse mappings, moral direction, RGBL magnitude, or OUT impact values.' },
