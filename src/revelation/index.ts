@@ -4,6 +4,7 @@ export * from './revelation-geography.js';
 export * from './asma/index.js';
 export * from './moral-graph/index.js';
 export * from './revelation-semantic-core.js';
+export * from './temporal-significance.js';
 
 export * from './corpus/index.js';
 export * from './corroboration/index.js';
