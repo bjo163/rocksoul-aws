@@ -13,13 +13,12 @@ import { revelationMoralGraph } from '../../../../src/revelation/moral-graph/rev
 import { fourBookCorpusSnapshot } from '../../../../src/revelation/corpus/four-book-corpus.js';
 import { revelationLifecycleSnapshot } from '../../../../src/revelation/lifecycle/revelation-lifecycle.js';
 import { revelationGrammarSnapshot } from '../../../../src/revelation/grammar/revelation-grammar.js';
-import { assertHumanReviewGate } from '../../../../src/contracts/runtime-validation.js';
 import { createReview, transitionReview, type ReviewRecord } from '../../../../src/review/workflow.js';
 import { buildXrpWorkspace } from '../xrp-workspace.js';
 import { denyForeignRidWrite, requireScopedEntity } from '../access-control.js';
 import { sha256 } from '../../../../src/ledger/witness-dag.js';
 import { hasPermission } from '../../../../src/security/authorization.js';
-import { runAnalysisWorkflow, runObservationWorkflow, toEvidenceObservations } from '@moonwitness/orchestrator';
+import { runAnalysisWorkflow, runEvaluationWorkflow, runObservationWorkflow } from '@moonwitness/orchestrator';
 
 export const v1Router = new Router();
 
@@ -236,27 +235,36 @@ v1Router.add('POST', '/api/v1/evaluate', async (req, _reply, _params, body, _que
   }
   const input = isRecord(p.input) ? p.input : {};
   const evaluationId = typeof p.target === 'string' && p.target ? p.target : `EVAL-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
-  const persistedEvidence = await ctx.universeStore.listCaseEvidence(evaluationId);
   const text = typeof input.text === 'string' ? input.text : (typeof p.text === 'string' ? p.text : '');
   if (!text) return httpError(400, 'TEXT_REQUIRED');
   const options = isRecord(input.options) ? { ...input.options } : {};
-  if (p.semanticObservation) options.semanticObservation = p.semanticObservation;
-  options.persistedEvidence = toEvidenceObservations(persistedEvidence);
-  const analysis = isRecord(options.semanticObservation) ? buildAiAnalysis(text, options) : await analyzeWithProvider(text, { ...options, provider: ctx.semanticProvider });
   const actorId=authz.user?.userId ?? 'SERVICE-API-001';
   const eventId=`EVT-MIZAN-${evaluationId}-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
   try {
-    await ctx.universeStore.persistence.asActor(actorId).appendEvent({
-      eventId, entityId: typeof p.target === 'string' && p.target ? p.target : evaluationId, eventType: 'MIZAN.EVALUATION', payload: { evaluationId, mizan: (analysis as any).mizan ?? null, semantic: (analysis as any).semanticVector ?? (analysis as any).semantic ?? null, lifecycle: (analysis as any).lifecycle ?? null, reviewGate: (analysis as any).reviewGate ?? null, revelationScorecard: (analysis as any).revelationScorecard ?? null }, actorId
+    const workflow = await runEvaluationWorkflow({
+      evaluationId,
+      actorId,
+      eventId,
+      text,
+      options,
+      semanticObservation: isRecord(p.semanticObservation) ? p.semanticObservation : undefined,
+      modelVersion: '4.32.0',
+      source: '/api/v1/evaluate',
+    }, {
+      listEvidence: (id) => ctx.universeStore.listCaseEvidence(id),
+      analyze: async ({ text: analysisText, options: analysisOptions, semanticObservation }) => semanticObservation
+        ? buildAiAnalysis(analysisText, analysisOptions)
+        : analyzeWithProvider(analysisText, { ...analysisOptions, provider: ctx.semanticProvider }),
+      appendEvent: (event) => ctx.universeStore.persistence.asActor(actorId).appendEvent(event),
+      commitWitness: (witness) => ctx.witness.commitMizan(witness),
     });
+    return workflow;
   } catch (error) {
+    const code = error instanceof Error ? (error as Error & { code?: unknown }).code : undefined;
+    if (code === 'INVALID_ANALYSIS_CONTRACT') return httpError(500, 'INVALID_ANALYSIS_CONTRACT', error instanceof Error ? error.message : String(error));
+    if (code === 'WITNESS_ROOT_MISSING') return httpError(500, 'EVALUATION_PERSISTENCE_FAILED', error instanceof Error ? error.message : String(error));
     return httpError(500, 'EVALUATION_PERSISTENCE_FAILED', error instanceof Error ? error.message : String(error));
   }
-  const witness=await ctx.witness.commitMizan({ recordId:eventId, recordType:'EVALUATION', actorId, text, mizan:(analysis as any).mizan ?? null, semantic:(analysis as any).semanticVector ?? (analysis as any).semantic ?? null, lifecycle:{caseLifecycle:(analysis as any).lifecycle ?? null,moralLifecycle:(analysis as any).moralLifecycle ?? null}, reviewGate:(analysis as any).reviewGate ?? null, modelVersion:'4.32.0', source:'/api/v1/evaluate' });
-  const reviewGate=(analysis as any).reviewGate ?? null;
-  try { assertHumanReviewGate(reviewGate); } catch (error) { return httpError(500, 'INVALID_ANALYSIS_CONTRACT', error instanceof Error ? error.message : String(error)); }
-  const status=reviewGate?.decision === 'BLOCK_ADVERSE_ACTION' ? 'BLOCKED' : reviewGate?.requiresHumanReview ? 'REVIEW_REQUIRED' : 'RESOLVED';
-  return { id: evaluationId, kind: 'EVALUATION', status, witness:{ nodeId:witness.node.nodeId, hash:witness.node.hash, root:witness.root, checkpointId:witness.checkpoint?.checkpoint.checkpointId ?? null }, mizan: (analysis as any).mizan ?? null, semantic: (analysis as any).semanticVector ?? (analysis as any).semantic ?? null, lifecycle: (analysis as any).lifecycle ?? null, reviewGate, revelationScorecard: (analysis as any).revelationScorecard ?? null };
 });
 
 v1Router.add('POST', '/api/v1/query', async (req, _reply, _params, body, query, ctx) => {

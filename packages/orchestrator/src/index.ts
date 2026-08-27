@@ -1,4 +1,4 @@
-import type { WitnessReference } from '@moonwitness/contracts';
+import { assertHumanReviewGate, type WitnessReference } from '@moonwitness/contracts';
 
 export type WorkflowRecord = Record<string, unknown>;
 
@@ -77,6 +77,47 @@ export interface ObservationWorkflowResult {
   entityId: string;
   version: number;
   event: unknown;
+}
+
+export interface EvaluationWorkflowInput {
+  evaluationId: string;
+  actorId: string;
+  eventId: string;
+  text: string;
+  options?: WorkflowRecord;
+  semanticObservation?: WorkflowRecord;
+  modelVersion: string;
+  source: string;
+}
+
+export interface EvaluationWorkflowPorts {
+  listEvidence(evaluationId: string): Promise<WorkflowEvidence[]>;
+  analyze(input: { text: string; options: WorkflowRecord; semanticObservation?: WorkflowRecord }): Promise<WorkflowRecord>;
+  appendEvent(input: { eventId: string; entityId: string; eventType: 'MIZAN.EVALUATION'; payload: WorkflowRecord; actorId: string }): Promise<unknown>;
+  commitWitness(input: {
+    recordId: string;
+    recordType: 'EVALUATION';
+    actorId: string;
+    text: string;
+    mizan: unknown;
+    semantic: unknown;
+    lifecycle: WorkflowRecord;
+    reviewGate: unknown;
+    modelVersion: string;
+    source: string;
+  }): Promise<{ node: { nodeId: string; hash: string }; root: string | null; checkpoint: { checkpoint: { checkpointId: string } } | null }>;
+}
+
+export interface EvaluationWorkflowResult {
+  id: string;
+  kind: 'EVALUATION';
+  status: 'RESOLVED' | 'REVIEW_REQUIRED' | 'BLOCKED';
+  witness: WitnessReference;
+  mizan: unknown;
+  semantic: unknown;
+  lifecycle: unknown;
+  reviewGate: unknown;
+  revelationScorecard: unknown;
 }
 
 export interface AnalysisCaseAggregate {
@@ -163,7 +204,11 @@ export async function runAnalysisWorkflow(input: AnalysisWorkflowInput, ports: A
     modelVersion: input.modelVersion,
     source: input.source,
   });
-  if (!committed.root) throw new Error('WITNESS_ROOT_MISSING');
+  if (!committed.root) {
+    const failure = new Error('WITNESS_ROOT_MISSING');
+    Object.assign(failure, { code: 'WITNESS_ROOT_MISSING' });
+    throw failure;
+  }
 
   return {
     caseId: input.caseId,
@@ -206,4 +251,70 @@ export async function runObservationWorkflow(input: ObservationWorkflowInput, po
   });
 
   return { id: input.eventId, kind: 'OBSERVATION', status: 'RECORDED', entityId: input.entityId, version, event: { eventId: input.eventId, entityId: input.entityId, eventType: 'OBSERVATION', payload: eventPayload, actorId: input.actorId, recordedAt: updatedAt } };
+}
+
+/**
+ * Evaluates an observation and commits the analytical result only after its
+ * human-review gate is structurally valid. Evidence remains an input signal;
+ * this workflow does not assign divine or irreversible authority.
+ */
+export async function runEvaluationWorkflow(input: EvaluationWorkflowInput, ports: EvaluationWorkflowPorts): Promise<EvaluationWorkflowResult> {
+  const persistedEvidence = await ports.listEvidence(input.evaluationId);
+  const options: WorkflowRecord = {
+    ...(input.options ?? {}),
+    persistedEvidence: toEvidenceObservations(persistedEvidence),
+  };
+  const semanticObservation = input.semanticObservation ?? (options.semanticObservation && typeof options.semanticObservation === 'object' ? options.semanticObservation as WorkflowRecord : undefined);
+  if (semanticObservation) options.semanticObservation = semanticObservation;
+  const analysis = await ports.analyze({ text: input.text, options, semanticObservation });
+  const reviewGate = analysis.reviewGate ?? null;
+  try {
+    assertHumanReviewGate(reviewGate);
+  } catch (error) {
+    const failure = new Error(error instanceof Error ? error.message : String(error));
+    Object.assign(failure, { code: 'INVALID_ANALYSIS_CONTRACT' });
+    throw failure;
+  }
+
+  const eventPayload = {
+    evaluationId: input.evaluationId,
+    mizan: analysis.mizan ?? null,
+    semantic: analysis.semanticVector ?? analysis.semantic ?? null,
+    lifecycle: analysis.lifecycle ?? null,
+    reviewGate,
+    revelationScorecard: analysis.revelationScorecard ?? null,
+  };
+  await ports.appendEvent({ eventId: input.eventId, entityId: input.evaluationId, eventType: 'MIZAN.EVALUATION', payload: eventPayload, actorId: input.actorId });
+  const committed = await ports.commitWitness({
+    recordId: input.eventId,
+    recordType: 'EVALUATION',
+    actorId: input.actorId,
+    text: input.text,
+    mizan: eventPayload.mizan,
+    semantic: eventPayload.semantic,
+    lifecycle: { caseLifecycle: eventPayload.lifecycle, moralLifecycle: analysis.moralLifecycle ?? null },
+    reviewGate,
+    modelVersion: input.modelVersion,
+    source: input.source,
+  });
+  if (!committed.root) throw new Error('WITNESS_ROOT_MISSING');
+  const status = reviewGate.decision === 'BLOCK_ADVERSE_ACTION'
+    ? 'BLOCKED'
+    : reviewGate.requiresHumanReview ? 'REVIEW_REQUIRED' : 'RESOLVED';
+  return {
+    id: input.evaluationId,
+    kind: 'EVALUATION',
+    status,
+    witness: {
+      nodeId: committed.node.nodeId,
+      hash: committed.node.hash,
+      root: committed.root,
+      checkpointId: committed.checkpoint?.checkpoint.checkpointId ?? null,
+    },
+    mizan: eventPayload.mizan,
+    semantic: eventPayload.semantic,
+    lifecycle: eventPayload.lifecycle,
+    reviewGate,
+    revelationScorecard: eventPayload.revelationScorecard,
+  };
 }

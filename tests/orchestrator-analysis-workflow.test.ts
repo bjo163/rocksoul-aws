@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { runAnalysisWorkflow, runObservationWorkflow } from '../packages/orchestrator/src/index.js';
+import { runAnalysisWorkflow, runEvaluationWorkflow, runObservationWorkflow } from '../packages/orchestrator/src/index.js';
 
 test('analysis workflow coordinates evidence, engine, persistence, and witness through ports', async () => {
   const calls: string[] = [];
@@ -56,4 +56,45 @@ test('observation workflow writes a versioned case and event atomically through 
 
   assert.deepEqual(calls, ['loadEntity', 'batch:start', 'saveEntity', 'appendEvent', 'batch:end']);
   assert.deepEqual(result, { id: 'EVT-OBS-1', kind: 'OBSERVATION', status: 'RECORDED', entityId: 'CASE-OBS-1', version: 3, event: { eventId: 'EVT-OBS-1', entityId: 'CASE-OBS-1', eventType: 'OBSERVATION', payload: { observation: { text: 'raw observation' }, context: { channel: 'test' }, source: 'API' }, actorId: 'ACTOR-1', recordedAt: '2026-08-28T00:00:00.000Z' } });
+});
+
+test('evaluation workflow validates the review gate before committing evidence-backed results', async () => {
+  const calls: string[] = [];
+  const reviewGate = {
+    protocol: 'HUMAN_REVIEW_GATE_V1' as const,
+    decision: 'REQUIRE_HUMAN_REVIEW' as const,
+    analyticalDisplayAllowed: true as const,
+    adverseActionBlocked: true as const,
+    requiresHumanReview: true,
+    severity: 'MEDIUM' as const,
+    reasons: [],
+    evidenceGap: ['SOURCE_REVIEW'],
+    recommendedReviewActions: ['REQUEST_REVIEW'],
+    boundary: 'Analytical only; no divine judgement.',
+  };
+  const result = await runEvaluationWorkflow({
+    evaluationId: 'EVAL-1', actorId: 'ACTOR-1', eventId: 'EVT-EVAL-1', text: 'Evaluate this claim.',
+    options: { mode: 'full' }, semanticObservation: { protocol: 'COSMIC_SEMANTIC_OBSERVATION_V1' }, modelVersion: '4.33.0', source: 'test',
+  }, {
+    async listEvidence() { calls.push('listEvidence'); return [{ evidenceId: 'EVD-1', status: 'OBSERVED', sourceType: 'USER', payload: { note: 'unverified' } }]; },
+    async analyze(input) { calls.push('analyze'); assert.equal((input.options.persistedEvidence as Array<{ id: string }>)[0]?.id, 'EVD-1'); return { mizan: { status: 'PROVISIONAL' }, semanticVector: { action: 'VERIFY_CLAIM' }, lifecycle: { state: 'OPEN' }, moralLifecycle: { state: 'REVIEW' }, reviewGate }; },
+    async appendEvent(input) { calls.push('appendEvent'); assert.equal(input.entityId, 'EVAL-1'); assert.equal(input.payload.reviewGate, reviewGate); },
+    async commitWitness(input) { calls.push('commitWitness'); assert.equal(input.recordId, 'EVT-EVAL-1'); return { node: { nodeId: 'NODE-EVAL-1', hash: 'HASH-EVAL-1' }, root: 'ROOT-EVAL-1', checkpoint: null }; },
+  });
+
+  assert.deepEqual(calls, ['listEvidence', 'analyze', 'appendEvent', 'commitWitness']);
+  assert.equal(result.status, 'REVIEW_REQUIRED');
+  assert.equal(result.reviewGate, reviewGate);
+  assert.deepEqual(result.witness, { nodeId: 'NODE-EVAL-1', hash: 'HASH-EVAL-1', root: 'ROOT-EVAL-1', checkpointId: null });
+});
+
+test('evaluation workflow fails closed before persistence for an invalid review gate', async () => {
+  const calls: string[] = [];
+  await assert.rejects(() => runEvaluationWorkflow({ evaluationId: 'EVAL-BAD', actorId: 'ACTOR-1', eventId: 'EVT-BAD', text: 'Bad gate.', modelVersion: '4.33.0', source: 'test' }, {
+    async listEvidence() { calls.push('listEvidence'); return []; },
+    async analyze() { calls.push('analyze'); return { mizan: null, reviewGate: { decision: 'ALLOW_ANALYTICAL_DISPLAY' } }; },
+    async appendEvent() { calls.push('appendEvent'); },
+    async commitWitness() { calls.push('commitWitness'); return { node: { nodeId: 'N', hash: 'H' }, root: 'R', checkpoint: null }; },
+  }), /HumanReviewGate/);
+  assert.deepEqual(calls, ['listEvidence', 'analyze']);
 });
