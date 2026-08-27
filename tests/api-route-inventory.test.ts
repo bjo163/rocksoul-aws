@@ -13,6 +13,7 @@ const required = [
   ['/api/v1/command', 'POST'],
   ['/api/v1/query', 'POST'],
   ['/api/v1/analyze', 'POST'],
+  ['/api/v1/mizan', 'POST'],
 ];
 
 test('canonical API routes remain present in native router', () => {
