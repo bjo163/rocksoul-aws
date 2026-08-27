@@ -10,6 +10,7 @@ type Loose = Record<string, any>;
 type SemanticEngineData = {
   aliases: { entities?: Record<string, string[]>; actions?: Record<string, string[]> };
   ontology: Loose;
+  language: Loose;
 };
 
 const clamp = (value: unknown, fallback = 0) => { const n = Number(value); return Number.isFinite(n) ? Math.max(-1, Math.min(1, n)) : fallback; };
@@ -27,9 +28,11 @@ let cached: { root: string; revision: number; data: SemanticEngineData } | null 
 function loadData(root: string): SemanticEngineData {
   const aliases = readJson(root, 'data/ai/concept-aliases.json', {});
   const semanticRegistry = readJson(root, 'data/semantic/registry.json', {});
+  const language = readJson(root, 'data/events/event-language-profile.json', {});
   return {
     aliases: { entities: aliases.entities ?? {}, actions: aliases.actions ?? {} },
-    ontology: semanticRegistry
+    ontology: semanticRegistry,
+    language
   };
 }
 function getData(root = process.cwd()): SemanticEngineData {
@@ -57,11 +60,11 @@ function countSignal(text: string, signals: unknown): number {
   return (Array.isArray(signals) ? signals : []).filter((x: unknown) => t.includes(compact(String(x)))).length;
 }
 
-function hasNegationNear(text: string, alias: string): boolean {
+function hasNegationNear(text: string, alias: string, language: Loose): boolean {
   const t = compact(text); const a = compact(alias); const index = t.indexOf(a);
   if (index < 0) return false;
-  const window = t.slice(Math.max(0, index - 28), index);
-  return /(^|\s)(tidak|bukan|jangan|belum|tanpa)(\s|$)/.test(window);
+  const window = t.slice(Math.max(0, index - 48), index);
+  return countSignal(window, language?.context?.negation ?? language?.semanticVocabulary?.negation) > 0;
 }
 
 function findActionCandidates(text: string, data: SemanticEngineData): Array<{ action: string; score: number; matchedAlias: string; negated: boolean }> {
@@ -73,7 +76,8 @@ function findActionCandidates(text: string, data: SemanticEngineData): Array<{ a
       if (score > best.score) best = { score, alias };
     }
     if (best.score >= 0.34) {
-      candidates.push({ action, score: hasNegationNear(text, best.alias) ? best.score * 0.15 : best.score, matchedAlias: best.alias, negated: hasNegationNear(text, best.alias) });
+      const negated = hasNegationNear(text, best.alias, data.language);
+      candidates.push({ action, score: negated ? best.score * 0.15 : best.score, matchedAlias: best.alias, negated });
     }
   }
   return candidates.sort((a, b) => b.score - a.score);
@@ -88,11 +92,12 @@ function inferEntities(text: string, data: SemanticEngineData): Loose[] {
   return out;
 }
 
-function inferClaim(text: string): Loose {
+function inferClaim(text: string, language: Loose): Loose {
   const raw = String(text ?? '');
   const quoted = raw.match(/["“”](.*?)["“”]/);
   const refs = [...raw.matchAll(/\b(?:Q\s*)?\d{1,3}:\d{1,3}(?:-\d{1,3})?\b/gi)].map(m => m[0].replace(/^Q\s*/i, ''));
-  return { text: quoted?.[1] ?? null, referenceCandidates: refs, sourceCandidates: /\b(quran|al[- ]quran|taurat|torah|injil|bible|hadith|hadis|tafsir)\b/i.test(raw) ? ['SCRIPTURE_OR_RELIGIOUS_SOURCE'] : [] };
+  const sourceTerms = language?.semanticVocabulary?.scriptureSourceTerms ?? [];
+  return { text: quoted?.[1] ?? null, referenceCandidates: refs, sourceCandidates: countSignal(raw, sourceTerms) > 0 ? ['SCRIPTURE_OR_RELIGIOUS_SOURCE'] : [] };
 }
 
 function inferDomains(text: string, ontology: Loose): Record<string, number> {
@@ -104,15 +109,15 @@ function inferDomains(text: string, ontology: Loose): Record<string, number> {
   return result;
 }
 
-
-function inferGates(text: string, ontology: Loose, confidence: number): number[] {
+function inferGates(text: string, ontology: Loose, confidence: number, language: Loose): number[] {
   const axes = ontology?.vectors?.actionGate?.axes ?? []; const t = compact(text);
   const signals = ontology?.contextSignals ?? {};
+  const verificationSignals = language?.semanticVocabulary?.verificationSignals ?? [];
   return Array.from({ length: Number(ontology?.vectors?.actionGate?.length ?? 9) }, (_, i) => {
     const axis = axes[i] ?? {}; const aliases = Array.isArray(axis.aliases) ? axis.aliases : [];
     const hits = aliases.filter((x: string) => t.includes(compact(x))).length;
     if (axis.strategy === 'KNOWLEDGE') {
-      const verified = countSignal(t, ['bukti','data','cek','verifikasi','cross check','kroscek','memastikan']) > 0;
+      const verified = countSignal(t, verificationSignals) > 0;
       return clamp01(verified ? Math.max(0.75, confidence) : hits ? Math.max(0.35, confidence * 0.65) : 0);
     }
     if (axis.strategy === 'INTENTION') {
@@ -142,26 +147,29 @@ function inferTime(text: string, ontology: Loose): Loose {
   return { status: 'INFERRED', recurrence: recurring ? 'RECURRING' : 'SINGLE_OR_UNSPECIFIED', tense: future ? 'FUTURE' : past ? 'PAST' : 'PRESENT_OR_UNSPECIFIED', intensity: recurring ? 0.8 : 0.35 };
 }
 
-function inferCausality(text: string, confidence: number): Loose {
-  const causal = /\bkarena|sehingga|akibat|menyebabkan|supaya|agar|demi\b/.test(compact(text));
+function inferCausality(text: string, confidence: number, language: Loose): Loose {
+  const causal = countSignal(compact(text), language?.semanticVocabulary?.causalSignals ?? language?.causalConnectors) > 0;
   return { causal_strength: causal ? Math.min(1, confidence + 0.05) : confidence * 0.55, confidence, status: 'INFERRED' };
 }
 
 function inferScale(text: string, ontology: Loose): Loose {
   const t = compact(text); const signals = ontology?.scaleSignals ?? {};
   const ranked = Object.entries(signals).map(([scope, aliases]) => ({ scope, hits: (Array.isArray(aliases) ? aliases : []).filter((x: string) => t.includes(compact(x))).length })).sort((a, b) => b.hits - a.hits);
-  const scope = ranked[0]?.hits ? ranked[0].scope : 'SELF'; const reachByScope = ontology?.scopeReach ?? {};
-  return { scope, reach: Number(reachByScope[scope] ?? reachByScope.SELF ?? 0.2), intent: 0.7, quality: 0.6, context: 0.6, evidence: 0.2 };
+  const defaultScope = String(ontology?.scaleDefaults?.scope ?? Object.keys(ontology?.scopeReach ?? {})[0] ?? 'SELF');
+  const scope = ranked[0]?.hits ? ranked[0].scope : defaultScope; const reachByScope = ontology?.scopeReach ?? {};
+  return { scope, reach: Number(reachByScope[scope] ?? reachByScope[defaultScope] ?? 0.2), intent: Number(ontology?.scaleDefaults?.intent ?? 0.7), quality: Number(ontology?.scaleDefaults?.quality ?? 0.6), context: Number(ontology?.scaleDefaults?.context ?? 0.6), evidence: Number(ontology?.scaleDefaults?.evidence ?? 0.2) };
 }
 
-function inferComposition(text: string, candidates: Array<{ action: string; score: number; matchedAlias: string; negated: boolean }>, ontology: Loose): Loose {
+function inferComposition(text: string, candidates: Array<{ action: string; score: number; matchedAlias: string; negated: boolean }>, ontology: Loose, language: Loose): Loose {
   const t = compact(text);
-  const negations = (Array.isArray(ontology?.contextSignals?.negation) ? ontology.contextSignals.negation : []).filter((x: string) => t.includes(compact(x)));
-  const restitution = (Array.isArray(ontology?.contextSignals?.restitution) ? ontology.contextSignals.restitution : []).filter((x: string) => t.includes(compact(x)));
-  const beneficial = (Array.isArray(ontology?.contextSignals?.beneficial) ? ontology.contextSignals.beneficial : []).filter((x: string) => t.includes(compact(x)));
-  const support = (Array.isArray(ontology?.contextSignals?.support) ? ontology.contextSignals.support : []).filter((x: string) => t.includes(compact(x)));
-  const outcome = restitution.length ? 'RESTITUTION_OR_RETURN' : beneficial.length || support.length ? 'BENEFICIAL_OR_SUPPORTIVE' : 'UNSPECIFIED';
-  const rejected = candidates.filter(c => c.negated || ((c.action === 'THEFT' || c.action === 'CORRUPTION' || c.action === 'DEFAMATION' || c.action === 'LYING') && restitution.length > 0));
+  const negations = (Array.isArray(ontology?.contextSignals?.negation) ? ontology.contextSignals.negation : language?.context?.negation ?? []).filter((x: string) => t.includes(compact(x)));
+  const restitution = (Array.isArray(ontology?.contextSignals?.restitution) ? ontology.contextSignals.restitution : language?.context?.restitution ?? []).filter((x: string) => t.includes(compact(x)));
+  const beneficial = (Array.isArray(ontology?.contextSignals?.beneficial) ? ontology.contextSignals.beneficial : language?.context?.beneficial ?? []).filter((x: string) => t.includes(compact(x)));
+  const support = (Array.isArray(ontology?.contextSignals?.support) ? ontology.contextSignals.support : language?.context?.support ?? []).filter((x: string) => t.includes(compact(x)));
+  const policy = language?.semanticPolicy ?? {};
+  const outcome = restitution.length ? String(policy?.composition?.restitutionOutcome ?? 'RESTITUTION_OR_RETURN') : beneficial.length || support.length ? String(policy?.composition?.beneficialOutcome ?? 'BENEFICIAL_OR_SUPPORTIVE') : String(policy?.composition?.unspecifiedOutcome ?? 'UNSPECIFIED');
+  const negativeActions = new Set<string>(Array.isArray(policy?.composition?.negativeActionsWhenRestitution) ? policy.composition.negativeActionsWhenRestitution : []);
+  const rejected = candidates.filter(c => c.negated || (negativeActions.has(c.action) && restitution.length > 0));
   const viable = candidates.filter(c => !rejected.some(r => r.action === c.action));
   return {
     actor: null,
@@ -187,7 +195,7 @@ export class RegistrySemanticProvider {
     const raw = String(text ?? '').trim();
     if (!raw) return { status: 'UNKNOWN', intention: { label: 'UNRESOLVED', confidence: 0, rgbl: { R: 0, G: 0, B: 0, L: 0 } } };
     const candidates = findActionCandidates(raw, this.data);
-    const composition = inferComposition(raw, candidates, this.data.ontology);
+    const composition = inferComposition(raw, candidates, this.data.ontology, this.data.language);
     const selected = composition.viableCandidates[0];
     const eventGraph = parseSemanticEventGraph(raw);
     const eventInterpretation = interpretSemanticEventGraph({ graph: eventGraph, semanticRegistry: this.data.ontology, root: this.root });
@@ -197,13 +205,15 @@ export class RegistrySemanticProvider {
     const legacySemanticConfidence = selected ? Math.max(0, Math.min(0.96, 0.50 + directScore * 0.42 - contextPenalty)) : 0;
     const semanticConfidence = Math.max(legacySemanticConfidence, Number(eventInterpretation?.composite?.confidence ?? 0));
     const entities = inferEntities(raw, this.data);
-    const claim = inferClaim(raw);
+    const claim = inferClaim(raw, this.data.language);
     const scale = inferScale(raw, this.data.ontology);
     const baseEpistemicSignals = inferEpistemicSignals(raw, this.data.ontology);
     const epistemicSignals: Loose = { ...baseEpistemicSignals, mistake: baseEpistemicSignals.mistake || eventGraph.summary.hasMistake, coercion: baseEpistemicSignals.coercion || eventGraph.summary.hasCoercion, capacityLimited: baseEpistemicSignals.capacityLimited || eventGraph.nodes.some((n: Loose) => n.context?.capacityLimited), permission: eventGraph.summary.hasPermission, responsibilityFactor: eventInterpretation.composite.violationResponsibilityFactor };
     const interpretedActions = eventInterpretation.events.map((e: Loose) => e.action);
     const eventGraphHasActionSurface = eventGraph.nodes.some((n: Loose) => Array.isArray(n.actions) && n.actions.length > 0);
-    const action = interpretedActions.length > 1 ? 'COMPOSITE_EVENT' : interpretedActions[0] ?? (eventGraphHasActionSurface ? 'UNRESOLVED' : selected?.action) ?? 'UNRESOLVED';
+    const compositeLabel = String(this.data.language?.semanticPolicy?.compositeAction ?? 'COMPOSITE_EVENT');
+    const unresolvedLabel = String(this.data.language?.semanticPolicy?.unresolvedAction ?? 'UNRESOLVED');
+    const action = interpretedActions.length > 1 ? compositeLabel : interpretedActions[0] ?? (eventGraphHasActionSurface ? unresolvedLabel : selected?.action) ?? unresolvedLabel;
     const status = interpretedActions.length || eventGraphHasActionSurface || selected ? 'INFERRED' : 'UNKNOWN';
     const useEventInterpretation = eventInterpretation.events.length > 0 || eventGraphHasActionSurface;
     const revelationBinding = useEventInterpretation ? eventInterpretation.binding : bindActionToRevelation({ action, text: raw, root: this.root });
@@ -211,10 +221,12 @@ export class RegistrySemanticProvider {
     const vector = revelationSignals.rgbl;
     const impacts = revelationSignals.impactVector;
     const domains = inferDomains(raw, this.data.ontology);
-    const gates = inferGates(raw, this.data.ontology, semanticConfidence);
+    const gates = inferGates(raw, this.data.ontology, semanticConfidence, this.data.language);
     const reflectionSignals = this.data.ontology?.modeSignals?.REFLECTION ?? [];
     const explicitReflection = Array.isArray(reflectionSignals) && reflectionSignals.some((signal: string) => compact(raw).includes(compact(signal)));
-    const mode = explicitReflection || revelationBinding.direction === 'POSITIVE' ? 'REFLECTION' : revelationBinding.direction === 'NEGATIVE' ? 'DEVIATION' : 'UNKNOWN';
+    const positiveDirection = String(this.data.language?.semanticPolicy?.positiveDirection ?? 'POSITIVE');
+    const negativeDirection = String(this.data.language?.semanticPolicy?.negativeDirection ?? 'NEGATIVE');
+    const mode = explicitReflection || revelationBinding.direction === positiveDirection ? 'REFLECTION' : revelationBinding.direction === negativeDirection ? 'DEVIATION' : 'UNKNOWN';
     const quality = selected ? Math.min(1, 0.45 + directScore * 0.5) : 0;
     const quranGrounding = {
       coverage: revelationBinding.coverage,
@@ -225,6 +237,8 @@ export class RegistrySemanticProvider {
       source: revelationBinding.status,
       pureNormativeDerivation: revelationBinding.pureNormativeDerivation
     };
+    const normativeBooks = Array.isArray(this.data.language?.semanticPolicy?.normativeBooks) ? this.data.language.semanticPolicy.normativeBooks : [];
+    const intentionEvidenceRefs = Array.isArray(this.data.language?.semanticPolicy?.intentionEvidenceRefs) ? this.data.language.semanticPolicy.intentionEvidenceRefs : [];
     return {
       status, mode, action,
       actionMatch: selected ? { alias: selected.matchedAlias, score: selected.score } : null,
@@ -238,7 +252,7 @@ export class RegistrySemanticProvider {
         state: epistemicSignals.mistake ? 'MISTAKE_SIGNAL' : epistemicSignals.coercion ? 'COERCION_SIGNAL' : epistemicSignals.intentional ? 'DECLARED_INTENT_SIGNAL' : status,
         confidence: semanticConfidence,
         heartKnown: false,
-        evidence_refs: ['Q33:5','Q2:225'],
+        evidence_refs: intentionEvidenceRefs,
         rgbl: { R: clamp(vector.R), G: clamp(vector.G), B: clamp(vector.B), L: clamp(vector.L) },
         chain: (['R', 'G', 'B', 'L'] as const).map((axis, index, all) => ({ axis, value: clamp(vector[axis]), status, confidence: Math.max(0, semanticConfidence - index * 0.03), evidence_refs: [], derives_from: all.slice(0, index) }))
       },
@@ -252,20 +266,20 @@ export class RegistrySemanticProvider {
       revelationSignals,
       epistemicSignals,
       timeFactor: inferTime(raw, this.data.ontology),
-      causality: inferCausality(raw, semanticConfidence),
+      causality: inferCausality(raw, semanticConfidence, this.data.language),
       domainVector: domains,
       scale,
       evidence: [], alternatives: composition.viableCandidates.slice(1), conflicts: eventInterpretation.conflicts, timeline: eventGraph.nodes.map((n: Loose) => ({ sequence: n.sequence, phase: n.occurrence, relation: n.connector, eventId: n.id, actionCandidates: n.actions.filter((a: Loose) => !a.suppressed).map((a: Loose) => a.action) })),
       eventGraph, eventInterpretation, moralLifecycle,
       revelationAsma: { engine: 'PURE_REVELATION_ASMA_V1', actionBinding: revelationBinding.status, status: revelationBinding.pureNormativeDerivation ? 'REVELATION_BOUND' : 'UNRESOLVED_FOR_ACTION', normativeAuthority: true },
       quality,
-      sourcePolicy: { mode: scriptureSourcePolicy()?.mode ?? 'FOUR_BOOKS_ONLY', normativeBooks: ['QURAN','TAWRAT','ZABUR','INJIL'], externalNormativeWeight: 0 },
+      sourcePolicy: { mode: scriptureSourcePolicy()?.mode ?? 'FOUR_BOOKS_ONLY', normativeBooks, externalNormativeWeight: 0 },
       legacyBridge: { actionAliasUsed: Boolean(selected), normativeAuthority: false, verseMappingUsed: false, magnitudeUsed: false, eventParserUsed: true, note: 'Alias registries and event-language profiles are language parsing bridges only. They do not contain verse mappings, moral direction, RGBL magnitude, or OUT impact values.' },
       sourceNotes: interpretedActions.length
-        ? [`EventGraph state=${eventInterpretation.state}`, `events=${interpretedActions.join(',')}`, `eventCount=${eventGraph.summary.eventCount}`, 'Normative source policy=FOUR_BOOKS_ONLY']
+        ? [`EventGraph state=${eventInterpretation.state}`, `events=${interpretedActions.join(',')}`, `eventCount=${eventGraph.summary.eventCount}`, `Normative source policy=${normativeBooks.join(',')}`]
         : selected
-          ? [`Registry candidate=${selected.action}`, `alias=${selected.matchedAlias}`, `score=${selected.score.toFixed(3)}`, `contextOutcome=${composition.outcome}`, 'Normative source policy=FOUR_BOOKS_ONLY']
-          : ['No viable event/action candidate; semantic result remains unresolved.', 'Normative source policy=FOUR_BOOKS_ONLY']
+          ? [`Registry candidate=${selected.action}`, `alias=${selected.matchedAlias}`, `score=${selected.score.toFixed(3)}`, `contextOutcome=${composition.outcome}`, `Normative source policy=${normativeBooks.join(',')}`]
+          : ['No viable event/action candidate; semantic result remains unresolved.', `Normative source policy=${normativeBooks.join(',')}`]
     };
   }
 }
