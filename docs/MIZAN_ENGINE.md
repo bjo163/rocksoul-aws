@@ -33,10 +33,13 @@ src/engines/mizan.ts   <-- single source of truth for scoring
 
 Full analysis remains the existing `/api/v1/analyze` flow. It can build semantic observations, collect evidence, run Mizan and downstream Revelation/review/provenance logic, persist the case, and commit a witness record.
 
-A future direct endpoint can call the Mizan service boundary without changing the underlying formula:
+The direct Mizan endpoint is now active:
 
 ```text
 POST /api/v1/mizan
+        |
+        v
+require EVALUATE permission
         |
         v
 validate MizanInput
@@ -45,10 +48,10 @@ validate MizanInput
 evaluateMizanService()
         |
         v
-MizanResult
+MizanResult + meta
 ```
 
-The direct endpoint is intentionally separate from full case orchestration so MoonWitness can use Mizan as a reusable engine.
+The direct endpoint is intentionally separate from full case orchestration so MoonWitness can use Mizan as a reusable engine without invoking the entire analysis pipeline.
 
 ## Persistence
 
