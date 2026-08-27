@@ -12,7 +12,6 @@ Current workspace packages:
 | `@moonwitness/persistence` | storage/providers/repositories | stable |
 | `@moonwitness/data-access` | actor-aware data access | stable |
 | `@moonwitness/sdk` | API/client contracts | stable |
-| `@moonwitness/ui` | shared governed UI | stable |
 
 See [`docs/PACKAGE_STANDARD.md`](../docs/PACKAGE_STANDARD.md) before creating a new package.
 
