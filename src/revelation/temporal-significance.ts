@@ -92,13 +92,19 @@ function verifiedEvidence(references: string[], corpus: QuranAyah[]) {
   };
 }
 
-function inferSignificance(phase: TemporalPhase, evidenceCount: number, matchedText: boolean): { level: string; strength: number } {
-  if (!evidenceCount) return { level: 'UNRESOLVED', strength: 0 };
-  const phaseBase: Record<TemporalPhase, number> = { NIGHT: 0.75, DAWN: 0.7, DAY: 0.45, EVENING: 0.5, UNKNOWN: 0 };
-  const base = phaseBase[phase] ?? 0;
-  const evidenceBoost = Math.min(0.2, Math.max(0, evidenceCount - 1) * 0.05);
-  const textBoost = matchedText ? 0.05 : 0;
-  return { level: base >= 0.7 ? 'STRONG_CONTEXT' : base >= 0.5 ? 'MODERATE_CONTEXT' : 'WEAK_CONTEXT', strength: Number(Math.min(1, base + evidenceBoost + textBoost).toFixed(4)) };
+function inferEvidenceStrength(verifiedCount: number, missingCount: number, phaseCount: number): number {
+  const total = verifiedCount + missingCount;
+  if (!verifiedCount || !total) return 0;
+  const coverage = verifiedCount / total;
+  const diversity = Math.min(1, phaseCount / 2);
+  return Number((coverage * (0.7 + diversity * 0.3)).toFixed(4));
+}
+
+function classifyStrength(strength: number): string {
+  if (strength >= 0.75) return 'STRONG_CONTEXT_SUPPORT';
+  if (strength >= 0.45) return 'SUPPORTED_CONTEXT';
+  if (strength > 0) return 'LIMITED_CONTEXT_SUPPORT';
+  return 'UNRESOLVED';
 }
 
 export interface TemporalSignificanceInput {
@@ -113,24 +119,25 @@ export function evaluateTemporalSignificance(input: TemporalSignificanceInput = 
   const root = input.root ?? process.cwd();
   const { profile, patterns } = loadProfile(root);
   const text = String(input.text ?? '');
+  const explicitTextPhases = textPhases(text, profile);
   const clock = input.hour !== undefined && input.minute !== undefined
     ? { hour: Number(input.hour), minute: Number(input.minute), source: 'TEXT' as const }
     : parseClock(input.timestamp ?? text);
-  const phases = new Set<TemporalPhase>(textPhases(text, profile));
+  const phases = new Set<TemporalPhase>(explicitTextPhases);
   if (clock) phases.add(phaseFromClock(clock.hour, clock.minute, profile));
   phases.delete('UNKNOWN');
   const phaseList = [...phases];
   const evidence = referencesForPhases(phaseList, profile, patterns);
   const corpusEvidence = verifiedEvidence(evidence.references, loadQuranCorpus(root));
-  const significance = inferSignificance(phaseList[0] ?? 'UNKNOWN', corpusEvidence.verifiedRefs.length, textPhases(text, profile).length > 0);
+  const strength = inferEvidenceStrength(corpusEvidence.verifiedRefs.length, corpusEvidence.missingRefs.length, phaseList.length);
   return {
     protocol: 'TEMPORAL_SIGNIFICANCE_ENGINE_V1',
     version: profile.version,
     clock: clock ? { hour: clock.hour, minute: clock.minute, source: clock.source } : null,
     phases: phaseList,
     significance: {
-      level: significance.level,
-      strength: significance.strength,
+      level: classifyStrength(strength),
+      strength,
       source: corpusEvidence.verifiedRefs.length ? 'QURAN_CORPUS_TEMPORAL_PATTERNS' : 'UNRESOLVED',
       notRewardQuantity: true
     },
@@ -140,7 +147,7 @@ export function evaluateTemporalSignificance(input: TemporalSignificanceInput = 
       missingRefs: corpusEvidence.missingRefs.map((ref) => `Q${ref}`),
       passages: corpusEvidence.passages.map((ayah) => ({ reference: `Q${ayah.reference}`, text: ayah.text }))
     },
-    boundary: 'This engine derives temporal context/significance from configured time normalization plus retrieved Quran corpus evidence. It does not infer a divine reward multiplier.',
+    boundary: 'Temporal phase mapping is an engineering normalization. Significance is an evidence-strength signal from configured temporal patterns and the bundled Quran corpus; it is not a divine reward multiplier.',
     profile: {
       source: 'data/revelation/temporal-significance.json',
       temporalPatternSource: 'data/revelation/temporal-patterns.json'
