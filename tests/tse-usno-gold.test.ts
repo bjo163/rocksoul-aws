@@ -22,24 +22,39 @@ const GOLD = [
   },
 ];
 
-function expectedUtc(local: string, date: string, offsetMinutes: number): Date {
-  const [h, m] = local.split(':').map(Number);
-  return new Date(Date.UTC(Number(date.slice(0, 4)), Number(date.slice(5, 7)) - 1, Number(date.slice(8, 10)), h, m) - offsetMinutes * 60000);
+function localHM(iso, timezone) {
+  const parts = new Intl.DateTimeFormat('en-GB', {
+    timeZone: timezone,
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).formatToParts(new Date(iso));
+  const hour = parts.find((p) => p.type === 'hour')?.value;
+  const minute = parts.find((p) => p.type === 'minute')?.value;
+  return `${hour}:${minute}`;
 }
 
-function diffMinutes(a: Date, b: Date): number {
-  return Math.abs(a.getTime() - b.getTime()) / 60000;
+function diffMinutesLocal(actualIso, expectedLocal, date, timezone) {
+  const [eh, em] = expectedLocal.split(':').map(Number);
+  const actualParts = new Intl.DateTimeFormat('en-GB', {
+    timeZone: timezone,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+  }).formatToParts(new Date(actualIso));
+  const get = (type) => Number(actualParts.find((p) => p.type === type)?.value);
+  const actualMinutes = get('hour') * 60 + get('minute') + get('second') / 60;
+  const expectedMinutes = eh * 60 + em;
+  let delta = Math.abs(actualMinutes - expectedMinutes);
+  if (delta > 720) delta = 1440 - delta;
+  return delta;
 }
 
 test('TSE rise/set outputs match independent USNO gold vectors', () => {
-  // USNO annual tables use standard time and explicitly say to add one hour when daylight time is in use.
-  // A 3-minute tolerance is intentional: USNO uses a numerically integrated atmospheric refraction model,
-  // while Astronomy Engine uses a fixed typical 34 arcminute refraction correction. USNO tabulates to the minute.
-  const offsetByCase = {
-    'USNO-WASHINGTON-2026-08-28': -240,
-    'USNO-SEATTLE-2026-08-28': -420,
-  };
-
   for (const gold of GOLD) {
     const state = calculateTemporalState({
       timestamp: gold.timestamp,
@@ -50,19 +65,18 @@ test('TSE rise/set outputs match independent USNO gold vectors', () => {
     assert.ok(state.solar.sunriseUtc, `${gold.id}: missing sunrise`);
     assert.ok(state.solar.sunsetUtc, `${gold.id}: missing sunset`);
 
-    const expectedRise = expectedUtc(gold.sunriseLocal, gold.timestamp.slice(0, 10), offsetByCase[gold.id]);
-    const expectedSet = expectedUtc(gold.sunsetLocal, gold.timestamp.slice(0, 10), offsetByCase[gold.id]);
-
-    const riseDiff = diffMinutes(new Date(state.solar.sunriseUtc), expectedRise);
-    const setDiff = diffMinutes(new Date(state.solar.sunsetUtc), expectedSet);
+    const riseLocal = localHM(state.solar.sunriseUtc, gold.location.timezone);
+    const setLocal = localHM(state.solar.sunsetUtc, gold.location.timezone);
+    const riseDiff = diffMinutesLocal(state.solar.sunriseUtc, gold.sunriseLocal, gold.timestamp.slice(0, 10), gold.location.timezone);
+    const setDiff = diffMinutesLocal(state.solar.sunsetUtc, gold.sunsetLocal, gold.timestamp.slice(0, 10), gold.location.timezone);
 
     assert.ok(
       riseDiff <= gold.toleranceMinutes,
-      `${gold.id}: sunrise delta=${riseDiff.toFixed(3)} min > ${gold.toleranceMinutes} min`,
+      `${gold.id}: sunrise local=${riseLocal}, expected=${gold.sunriseLocal}, delta=${riseDiff.toFixed(3)} min > ${gold.toleranceMinutes} min`,
     );
     assert.ok(
       setDiff <= gold.toleranceMinutes,
-      `${gold.id}: sunset delta=${setDiff.toFixed(3)} min > ${gold.toleranceMinutes} min`,
+      `${gold.id}: sunset local=${setLocal}, expected=${gold.sunsetLocal}, delta=${setDiff.toFixed(3)} min > ${gold.toleranceMinutes} min`,
     );
   }
 });
