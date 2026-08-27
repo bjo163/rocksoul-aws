@@ -50,7 +50,7 @@ function splitClauses(raw:string):Array<{text:string;connector:string|null}>{
 function leadingSubject(text:string):string|null{
   const raw=text.trim(); const pronouns=(vocabulary()?.subjectPronouns??[]).map(String).sort((a:string,b:string)=>b.length-a.length); const pronounPattern=pronouns.length?pronouns.map((x:string)=>x.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|'):'';
   const pattern=pronounPattern?`^(${pronounPattern})\\b`:'^$a'; const re=new RegExp(pattern,'u'); const m=raw.match(re); if(m)return m[1]??null;
-  const generic=String(vocabulary()?.genericPersonSubjectPattern??'^(?:seorang\\s+[\\p{L}\x27-]+|[A-Z][\\p{L}\x27-]{1,30})\\b'); return raw.match(new RegExp(generic,'u'))?.[0]??null;
+  const generic=String(vocabulary()?.genericPersonSubjectPattern??''); return generic?raw.match(new RegExp(generic,'u'))?.[0]??null;
 }
 function extractActor(text:string):string|null{ const suppressed=termRegex('passiveSuppressionSignals'); if(suppressed?.test(text))return null; return leadingSubject(text); }
 function extractPatient(text:string):string|null{
@@ -64,7 +64,7 @@ function extractObject(text:string):string|null{
   const re=new RegExp(`\\b${verbPattern.source}\\s+([^,.;]+?)(?=\\s+(?:${stopPattern?.source??'$^'})\\b|$)`,'i'); return text.match(re)?.[1]?.trim()??null;
 }
 function extractOwner(text:string):string|null{
-  const markers=vocabulary()?.ownerMarkers; const markerPattern=regexFromTerms(markers); const m=markerPattern?text.match(new RegExp(`\\b${markerPattern.source}\\s+([\\p{L}][\\p{L}'-]{0,30}|orang(?:\\s+lain)?)\\b`,'iu')):null; if(m)return m[1];
+  const markers=vocabulary()?.ownerMarkers; const markerPattern=regexFromTerms(markers); const personPattern=String(vocabulary()?.ownerPersonPattern??''); const m=markerPattern&&personPattern?text.match(new RegExp(`\\b${markerPattern.source}\\s+([\\p{L}][\\p{L}'-]{0,30}|${personPattern})\\b`,'iu')):null; if(m)return m[1];
   const rightful=profile().ownership?.return; const rightfulPattern=regexFromTerms(rightful); if(rightfulPattern?.test(text))return 'RIGHTFUL_OWNER'; return null;
 }
 function knowledge(text:string):{state:KnowledgeState;signals:string[]}{
@@ -113,7 +113,8 @@ export function parseSemanticEventGraph(text:string):SemanticEventGraph{
       context:{mistake:ctxSignals.mistake.length>0,coercion:ctxSignals.coercion.length>0,permission:ctxSignals.permission.length>0,capacityLimited:ctxSignals.capacityLimited.length>0,emergency:ctxSignals.emergency.length>0,signals:uniq(Object.values(ctxSignals).flat())},
       intention:intent,reporting:{reported:reportingSignals.length>0,unverified:unverified.length>0,signals:uniq([...reportingSignals,...unverified])},actions:candidates,restoration,lifecycleSignals,confidence});
   }
-  const relations:SemanticEventGraph['relations']=[]; for(let i=1;i<nodes.length;i++)relations.push({from:nodes[i-1].id,to:nodes[i].id,type:((profile().sequenceConnectors??[]).filter((x:string)=>['tetapi','namun'].includes(norm(x))).includes(norm(nodes[i].connector??'')))?'CONTRAST':'SEQUENCE'});
+  const contrastConnectors=new Set<string>((Array.isArray(p.contrastConnectors)?p.contrastConnectors:[]).map((x:string)=>norm(x)));
+  const relations:SemanticEventGraph['relations']=[]; for(let i=1;i<nodes.length;i++)relations.push({from:nodes[i-1].id,to:nodes[i].id,type:contrastConnectors.has(norm(nodes[i].connector??''))?'CONTRAST':'SEQUENCE'});
   const negativeActionPresent=nodes.some(n=>n.actions.some(a=>!a.suppressed&&negativeActions.has(a.action)));
   const positiveActionPresent=nodes.some(n=>n.actions.some(a=>!a.suppressed&&positiveActions.has(a.action)));
   return {protocol:'SEMANTIC_EVENT_GRAPH_V1',version:'4.29.0',text:raw,nodes,relations,summary:{eventCount:nodes.length,assertedCount:nodes.filter(n=>n.occurrence==='ASSERTED').length,reportedCount:nodes.filter(n=>n.occurrence==='REPORTED').length,negatedCount:nodes.filter(n=>n.occurrence==='NEGATED').length,restorationCount:nodes.filter(n=>n.restoration).length,hasMistake:nodes.some(n=>n.context.mistake),hasCoercion:nodes.some(n=>n.context.coercion),hasPermission:nodes.some(n=>n.context.permission),hasPrincipleConflictCandidate:negativeActionPresent&&positiveActionPresent},boundary:'This graph parses described events, sequence, knowledge and context. It is a language/epistemic model only and has no normative authority.'};
