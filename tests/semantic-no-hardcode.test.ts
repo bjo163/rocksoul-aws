@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import fs from 'node:fs';
-import JSON5 from 'node:module';
 import path from 'node:path';
 
 function read(relative: string): string {
