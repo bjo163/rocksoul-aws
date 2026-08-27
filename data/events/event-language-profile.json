@@ -52,7 +52,8 @@
     "intentionSignals": ["sengaja", "berniat", "bermaksud"],
     "extractionStopWords": ["tanpa", "karena", "agar", "supaya", "demi", "lalu", "kemudian", "tetapi", "namun", "dengan", "kepada"],
     "explicitTakingTerms": ["mencuri", "curi"],
-    "genericPersonSubjectPattern": "^(?:seorang\\s+[\\p{L}\\x27-]+|[A-Z][\\p{L}\\x27-]{1,30})\\b"
+    "genericPersonSubjectPattern": "^(?:seorang\\s+[\\p{L}\\x27-]+|[A-Z][\\p{L}\\x27-]{1,30})\\b",
+    "ownerPersonPattern": "(?:orang(?:\\s+lain)?)"
   },
   "semanticPolicy": {
     "compositeAction": "COMPOSITE_EVENT",
