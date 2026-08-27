@@ -302,3 +302,7 @@ export function phaseName(angle: number): string {
   if (a < 292.5) return 'LAST_QUARTER';
   return 'WANING_CRESCENT';
 }
+
+export * from './ephemeris-provider.js';
+export * from './hypothesis-registry.js';
+export * from './temporal-scoring.js';

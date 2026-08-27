@@ -3,6 +3,34 @@ export type MizanScale = Record<string, unknown>;
 export type MizanFactors = Record<string, number>;
 export type MizanDomainVector = Record<string, number>;
 
+/** Provider-produced temporal facts that Mizan may consume but must never recalculate. */
+export interface MizanTemporalContext {
+  schema: 'MIZAN_TEMPORAL_CONTEXT_V1';
+  timestampUtc: string;
+  location: Record<string, unknown>;
+  temporalState: Record<string, unknown>;
+  signals: Record<string, unknown>;
+  provenance: Record<string, unknown>;
+  safeguards: {
+    scoreIsNotDivineReward: true;
+    activityIndependent: true;
+    hypothesesAreNotRevealedRules: true;
+  };
+}
+
+export function isMizanTemporalContext(value: unknown): value is MizanTemporalContext {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+  const context = value as Record<string, unknown>;
+  const safeguards = context.safeguards as Record<string, unknown> | undefined;
+  return context.schema === 'MIZAN_TEMPORAL_CONTEXT_V1'
+    && typeof context.timestampUtc === 'string'
+    && Boolean(context.temporalState) && typeof context.temporalState === 'object'
+    && Boolean(context.provenance) && typeof context.provenance === 'object'
+    && safeguards?.scoreIsNotDivineReward === true
+    && safeguards?.activityIndependent === true
+    && safeguards?.hypothesesAreNotRevealedRules === true;
+}
+
 export interface MizanInput {
   semantic?: Record<string, number>;
   semanticVector?: Record<string, unknown>;
@@ -10,7 +38,7 @@ export interface MizanInput {
   scale?: MizanScale;
   actionGateVector?: MizanVector;
   impactVector?: MizanVector;
-  timeFactor?: Record<string, unknown>;
+  timeFactor?: Record<string, unknown> | MizanTemporalContext;
   causality?: Record<string, unknown>;
   domainVector?: MizanDomainVector;
   semanticObservation?: Record<string, unknown>;
