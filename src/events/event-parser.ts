@@ -50,7 +50,7 @@ function splitClauses(raw:string):Array<{text:string;connector:string|null}>{
 function leadingSubject(text:string):string|null{
   const raw=text.trim(); const pronouns=(vocabulary()?.subjectPronouns??[]).map(String).sort((a:string,b:string)=>b.length-a.length); const pronounPattern=pronouns.length?pronouns.map((x:string)=>x.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|'):'';
   const pattern=pronounPattern?`^(${pronounPattern})\\b`:'^$a'; const re=new RegExp(pattern,'u'); const m=raw.match(re); if(m)return m[1]??null;
-  const generic=String(vocabulary()?.genericPersonSubjectPattern??''); return generic?raw.match(new RegExp(generic,'u'))?.[0]??null;
+  const generic=String(vocabulary()?.genericPersonSubjectPattern??''); return generic ? (raw.match(new RegExp(generic,'u'))?.[0] ?? null) : null;
 }
 function extractActor(text:string):string|null{ const suppressed=termRegex('passiveSuppressionSignals'); if(suppressed?.test(text))return null; return leadingSubject(text); }
 function extractPatient(text:string):string|null{

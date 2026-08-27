@@ -1,0 +1,11 @@
+{
+  "name": "@moonwitness/tse-engine",
+  "version": "0.1.0-cosmic-spike",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "dependencies": {
+    "astronomy-engine": "2.1.19"
+  }
+}
