@@ -53,6 +53,12 @@ MizanResult + meta
 
 The direct endpoint is intentionally separate from full case orchestration so MoonWitness can use Mizan as a reusable engine without invoking the entire analysis pipeline.
 
+## Data-driven semantic boundary
+
+Semantic language is runtime data, not source-code vocabulary. `data/events/event-language-profile.json` owns lexical signals, context phrases, structural action mappings, action groups, source terms, and other language rules consumed by the semantic and event parsers. `data/ai/concept-aliases.json` and the semantic registry remain the action/entity vocabulary sources.
+
+`src/ai/semantic-engine.ts` and `src/events/event-parser.ts` perform matching, normalization, parsing, and composition against those datasets; they must not embed domain-specific lexical lists or action policy mappings. The regression suite includes `tests/semantic-no-hardcode.test.ts` to guard this boundary and `tests/semantic-mizan-matrix.test.ts` to exercise contextual cases from semantic extraction through Mizan evaluation.
+
 ## Persistence
 
 PostgreSQL and witness/provenance persistence remain part of Cosmic. Removing frontend applications does not remove state needed for evidence, events, entities, auditability, and witness chains.
