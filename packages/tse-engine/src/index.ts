@@ -153,10 +153,11 @@ function buildNight(date: Date, input: TSEInput, obs: Astronomy.Observer): TSETe
   const localDay = localDateString(date, input.location.timezone);
   const midnight = localMidnightUtc(localDay, input.location.timezone);
   const prevDay = new Date(midnight.getTime() - 86400000);
+  const noon = new Date(midnight.getTime() + 12 * 3600000);
   const nextDay = new Date(midnight.getTime() + 86400000);
   const prevSunset = nearestEvent(prevDay, obs, Astronomy.Body.Sun, -1, 1.5);
   const currentSunrise = nearestEvent(midnight, obs, Astronomy.Body.Sun, 1, 1.5);
-  const currentSunset = nearestEvent(midnight, obs, Astronomy.Body.Sun, -1, 1.5);
+  const currentSunset = nearestEvent(noon, obs, Astronomy.Body.Sun, -1, 1.5);
   const nextSunrise = nearestEvent(nextDay, obs, Astronomy.Body.Sun, 1, 1.5);
 
   let start: Date | null = null;
@@ -193,10 +194,11 @@ export function calculateTemporalState(input: TSEInput): TSETemporalState {
   const moon = moonAt(date, obs);
   const localDay = localDateString(date, input.location.timezone);
   const midnight = localMidnightUtc(localDay, input.location.timezone);
-  const sunrise = nearestEvent(new Date(midnight.getTime() - 86400000), obs, Astronomy.Body.Sun, 1, 2);
-  const sunset = nearestEvent(midnight, obs, Astronomy.Body.Sun, -1, 2);
-  const moonrise = nearestEvent(new Date(midnight.getTime() - 86400000), obs, Astronomy.Body.Moon, 1, 2);
-  const moonset = nearestEvent(midnight, obs, Astronomy.Body.Moon, -1, 2);
+  const noon = new Date(midnight.getTime() + 12 * 3600000);
+  const sunrise = nearestEvent(midnight, obs, Astronomy.Body.Sun, 1, 1.5);
+  const sunset = nearestEvent(noon, obs, Astronomy.Body.Sun, -1, 1.5);
+  const moonrise = nearestEvent(midnight, obs, Astronomy.Body.Moon, 1, 1.5);
+  const moonset = nearestEvent(noon, obs, Astronomy.Body.Moon, -1, 1.5);
   const illumination = Astronomy.Illumination(Astronomy.Body.Moon, date);
   const phaseAngleDeg = illumination.phase_angle;
   const elongationDeg = Astronomy.AngleFromSun(Astronomy.Body.Moon, date);
