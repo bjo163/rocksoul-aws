@@ -13,6 +13,8 @@ The supported engine surface is:
   scoring;
 - `packages/cosmic-engine` — a host-neutral facade for temporal state,
   candidate-only semantic observation, Mizan projection, and explanation;
+- `packages/orchestrator` — reusable analysis workflows with injected host
+  ports for persistence, witness, review, and jobs;
 - `data/` and `tests/` — versioned runtime profiles and regression evidence.
 
 `apps/api` and the legacy domain folders remain compatibility/integration code.
@@ -29,3 +31,5 @@ npm run release:check
 
 See [`docs/README.md`](docs/README.md) for documentation and
 [`docs/RELEASE_CHECKLIST.md`](docs/RELEASE_CHECKLIST.md) for the release gate.
+The package dependency rules are documented in
+[`docs/PACKAGE_ARCHITECTURE.md`](docs/PACKAGE_ARCHITECTURE.md).

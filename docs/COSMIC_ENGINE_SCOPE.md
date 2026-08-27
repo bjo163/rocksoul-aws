@@ -31,6 +31,10 @@ The host should:
 Cosmic must not create a second database, witness ledger, authentication layer,
 or API platform inside the host.
 
+`@moonwitness/orchestrator` is an optional companion package. It coordinates
+engine calls through injected ports, but does not contain concrete HTTP,
+authentication, persistence, queue, or Witness implementations.
+
 ## Explicit non-goals
 
 The following are not Cosmic engine responsibilities: UI rendering, user

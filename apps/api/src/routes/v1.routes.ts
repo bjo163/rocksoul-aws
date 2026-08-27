@@ -19,19 +19,9 @@ import { buildXrpWorkspace } from '../xrp-workspace.js';
 import { denyForeignRidWrite, requireScopedEntity } from '../access-control.js';
 import { sha256 } from '../../../../src/ledger/witness-dag.js';
 import { hasPermission } from '../../../../src/security/authorization.js';
+import { runAnalysisWorkflow, toEvidenceObservations } from '@moonwitness/orchestrator';
 
 export const v1Router = new Router();
-
-function evidenceObservation(evidence: any[]): any[] {
-  return evidence.map((item) => ({
-    ...(item?.payload && typeof item.payload === 'object' ? item.payload : {}),
-    id: item.evidenceId,
-    status: item.status ?? 'UNKNOWN',
-    type: item.sourceType,
-    reference: item.reference,
-    confidence: item.confidence,
-  }));
-}
 
 function publicJob(job: any): Record<string, unknown> {
   return {
@@ -200,18 +190,29 @@ v1Router.add('POST', '/api/v1/analyze', async (req, _reply, _params, body, _quer
   if (!text) return httpError(400, 'TEXT_REQUIRED');
   try {
     return await ctx.idempotency.execute(scopedIdempotencyKey(req, actorId, `ANALYZE:${caseId}`), IdempotencyStore.hash(p), async () => {
-      const existing = await ctx.universeStore.getCase(caseId);
-      const persistedEvidence = await ctx.universeStore.listCaseEvidence(caseId);
       const options = isRecord(p.options) ? { ...p.options } : {};
-      if (isRecord(p.semanticObservation)) options.semanticObservation = p.semanticObservation;
-      options.persistedEvidence = evidenceObservation(persistedEvidence);
-      const analysis = isRecord(options.semanticObservation) ? buildAiAnalysis(text, options) : await analyzeWithProvider(text, { ...options, provider: ctx.semanticProvider });
-      const reminderBundle = p.includeReminder === true ? await composeReminderBundle(typeof p.reminderSeed === 'number' ? p.reminderSeed : undefined) : null;
-      const finalAnalysis = reminderBundle ? { ...analysis, reminderBundle } : analysis;
-      const aggregate = { ...(isRecord(existing) ? existing : {}), id: caseId, type: 'CASE', version: Number(existing?.version ?? 0) + 1, status: 'ANALYZED', ...(authUser?.rid ? { ownerRid: authUser.rid } : {}), observation: { text }, analysis: finalAnalysis, lifecycle: (finalAnalysis as any).lifecycle ?? null, updatedAt: new Date().toISOString() } as any;
-      await ctx.universeStore.saveCase(aggregate, 'CASE.ANALYZED', actorId);
-      const witness=await ctx.witness.commitMizan({ recordId:`${caseId}:v${aggregate.version}`, recordType:'ANALYSIS', actorId, text, mizan:(finalAnalysis as any).mizan ?? null, semantic:(finalAnalysis as any).semanticVector ?? (finalAnalysis as any).semantic ?? null, lifecycle:{caseLifecycle:(finalAnalysis as any).lifecycle ?? null,moralLifecycle:(finalAnalysis as any).moralLifecycle ?? null}, reviewGate:(finalAnalysis as any).reviewGate ?? null, modelVersion:'4.32.0', source:'/api/v1/analyze' });
-      return { statusCode: 200, body: { id: caseId, kind: 'ANALYSIS', status: 'PERSISTED', persisted: { entityId: caseId, version: aggregate.version, actorId }, witness:{ nodeId:witness.node.nodeId, hash:witness.node.hash, root:witness.root, checkpointId:witness.checkpoint?.checkpoint.checkpointId ?? null }, ...finalAnalysis } };
+      const workflow = await runAnalysisWorkflow({
+        caseId,
+        actorId,
+        text,
+        options,
+        semanticObservation: isRecord(p.semanticObservation) ? p.semanticObservation : undefined,
+        includeReminder: p.includeReminder === true,
+        reminderSeed: typeof p.reminderSeed === 'number' ? p.reminderSeed : undefined,
+        ownerRid: authUser?.rid,
+        modelVersion: '4.32.0',
+        source: '/api/v1/analyze',
+      }, {
+        loadCase: (id) => ctx.universeStore.getCase(id),
+        listEvidence: (id) => ctx.universeStore.listCaseEvidence(id),
+        analyze: async ({ text: analysisText, options: analysisOptions, semanticObservation }) => semanticObservation
+          ? buildAiAnalysis(analysisText, analysisOptions)
+          : analyzeWithProvider(analysisText, { ...analysisOptions, provider: ctx.semanticProvider }),
+        composeReminder: (seed) => composeReminderBundle(seed),
+        saveCase: ({ aggregate, eventType, actorId: savedBy }) => ctx.universeStore.saveCase(aggregate, eventType, savedBy),
+        commitWitness: (input) => ctx.witness.commitMizan(input),
+      });
+      return { statusCode: 200, body: { id: caseId, kind: 'ANALYSIS', status: 'PERSISTED', persisted: { entityId: caseId, version: workflow.aggregate.version, actorId }, witness: workflow.witness, ...workflow.analysis } };
     });
   } catch (error) {
     return idempotencyError(error) ?? httpError(500, 'ANALYSIS_FAILED', error instanceof Error ? error.message : String(error));
@@ -233,7 +234,7 @@ v1Router.add('POST', '/api/v1/evaluate', async (req, _reply, _params, body, _que
   if (!text) return httpError(400, 'TEXT_REQUIRED');
   const options = isRecord(input.options) ? { ...input.options } : {};
   if (p.semanticObservation) options.semanticObservation = p.semanticObservation;
-  options.persistedEvidence = evidenceObservation(persistedEvidence);
+  options.persistedEvidence = toEvidenceObservations(persistedEvidence);
   const analysis = isRecord(options.semanticObservation) ? buildAiAnalysis(text, options) : await analyzeWithProvider(text, { ...options, provider: ctx.semanticProvider });
   const actorId=authz.user?.userId ?? 'SERVICE-API-001';
   const eventId=`EVT-MIZAN-${evaluationId}-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
