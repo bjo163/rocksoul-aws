@@ -1,4 +1,3 @@
-// @ts-nocheck
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { calculateTemporalState } from '../packages/tse-engine/src/index.ts';
