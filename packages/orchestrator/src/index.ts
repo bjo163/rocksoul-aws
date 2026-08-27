@@ -52,6 +52,33 @@ export interface AnalysisWorkflowResult {
   witness: WitnessReference;
 }
 
+export interface ObservationWorkflowInput {
+  entityId: string;
+  actorId: string;
+  eventId: string;
+  source: string;
+  payload: WorkflowRecord;
+  context: WorkflowRecord;
+  ownerRid?: string | null;
+}
+
+export interface ObservationWorkflowPorts {
+  loadEntity(entityId: string): Promise<{ version?: number; payload?: WorkflowRecord } | null>;
+  batch(work: () => Promise<void>): Promise<void>;
+  saveEntity(input: { id: string; type: 'CASE'; expectedVersion: number; version: number; payload: WorkflowRecord }): Promise<unknown>;
+  appendEvent(input: { eventId: string; entityId: string; eventType: 'OBSERVATION'; payload: WorkflowRecord; actorId: string }): Promise<unknown>;
+  now?(): Date;
+}
+
+export interface ObservationWorkflowResult {
+  id: string;
+  kind: 'OBSERVATION';
+  status: 'RECORDED';
+  entityId: string;
+  version: number;
+  event: unknown;
+}
+
 export interface AnalysisCaseAggregate {
   id: string;
   type: 'CASE';
@@ -149,4 +176,34 @@ export async function runAnalysisWorkflow(input: AnalysisWorkflowInput, ports: A
       checkpointId: committed.checkpoint?.checkpoint.checkpointId ?? null,
     },
   };
+}
+
+/**
+ * Records an observation as a versioned CASE and an immutable event. The host
+ * supplies persistence primitives; the workflow owns the durable shape and
+ * transaction boundary.
+ */
+export async function runObservationWorkflow(input: ObservationWorkflowInput, ports: ObservationWorkflowPorts): Promise<ObservationWorkflowResult> {
+  const previous = await ports.loadEntity(input.entityId);
+  const version = Number(previous?.version ?? 0) + 1;
+  const previousPayload = asRecord(previous?.payload);
+  const updatedAt = (ports.now?.() ?? new Date()).toISOString();
+  const casePayload: WorkflowRecord = {
+    ...previousPayload,
+    id: input.entityId,
+    type: 'CASE',
+    version,
+    status: 'OBSERVED',
+    ...(input.ownerRid ? { ownerRid: input.ownerRid } : {}),
+    observation: { source: input.source, payload: input.payload },
+    updatedAt,
+  };
+  const eventPayload = { observation: input.payload, context: input.context, source: input.source };
+
+  await ports.batch(async () => {
+    await ports.saveEntity({ id: input.entityId, type: 'CASE', expectedVersion: Number(previous?.version ?? 0), version, payload: casePayload });
+    await ports.appendEvent({ eventId: input.eventId, entityId: input.entityId, eventType: 'OBSERVATION', payload: eventPayload, actorId: input.actorId });
+  });
+
+  return { id: input.eventId, kind: 'OBSERVATION', status: 'RECORDED', entityId: input.entityId, version, event: { eventId: input.eventId, entityId: input.entityId, eventType: 'OBSERVATION', payload: eventPayload, actorId: input.actorId, recordedAt: updatedAt } };
 }

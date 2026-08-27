@@ -30,10 +30,11 @@ host adapters (API, persistence, witness, auth, jobs)
 
 ## Orchestrator boundary
 
-The first workflow is `runAnalysisWorkflow`. It receives ports for loading a
-case and evidence, running an engine analysis, saving a case, and committing a
-Witness record. This lets the reference API and Moonwitness use the identical
-workflow with different adapters.
+The first workflows are `runAnalysisWorkflow` and
+`runObservationWorkflow`. They receive ports for loading state, running an
+engine analysis, saving a CASE, appending an event, and committing a Witness
+record where required. This lets the reference API and Moonwitness use the
+identical workflows with different adapters.
 
 The HTTP adapter remains responsible for request parsing, authentication,
 authorization, idempotency keys, and HTTP status mapping. It must not contain
@@ -52,9 +53,8 @@ logic.
 
 ## Next migrations
 
-1. Observation workflow (`POST /api/v1/observe`).
-2. Evaluation workflow (`POST /api/v1/evaluate`).
-3. Evidence and review workflows.
-4. Jobs and ingress workflow adapters.
-5. Split the remaining semantic, Mizan, and explanation internals out of root
+1. Evaluation workflow (`POST /api/v1/evaluate`).
+2. Evidence and review workflows.
+3. Jobs and ingress workflow adapters.
+4. Split the remaining semantic, Mizan, and explanation internals out of root
    `src/` into their dedicated engine packages.

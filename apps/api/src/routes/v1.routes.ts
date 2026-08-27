@@ -19,7 +19,7 @@ import { buildXrpWorkspace } from '../xrp-workspace.js';
 import { denyForeignRidWrite, requireScopedEntity } from '../access-control.js';
 import { sha256 } from '../../../../src/ledger/witness-dag.js';
 import { hasPermission } from '../../../../src/security/authorization.js';
-import { runAnalysisWorkflow, toEvidenceObservations } from '@moonwitness/orchestrator';
+import { runAnalysisWorkflow, runObservationWorkflow, toEvidenceObservations } from '@moonwitness/orchestrator';
 
 export const v1Router = new Router();
 
@@ -157,16 +157,23 @@ v1Router.add('POST', '/api/v1/observe', async (req, _reply, _params, body, _quer
     const foreign = await denyForeignRidWrite(req, ctx, entityId);
     if (foreign) return foreign;
     return await ctx.idempotency.execute(scopedIdempotencyKey(req, actorId, `OBSERVE:${entityId}`), IdempotencyStore.hash(p), async () => {
-      const scoped = ctx.universeStore.persistence.asActor(actorId);
       if (!ctx.universeStore.persistence.store.batch) throw new Error('TRANSACTION_NOT_SUPPORTED');
-      await ctx.universeStore.persistence.store.batch(async () => {
-        const previous = await ctx.universeStore.persistence.entities().get(entityId);
-        const version = Number(previous?.version ?? 0) + 1;
-        const previousPayload = isRecord(previous?.payload) ? previous.payload : {};
-        await scoped.saveEntity({id: entityId, type: 'CASE', expectedVersion: Number(previous?.version ?? 0), version, payload: {...previousPayload, id: entityId, type: 'CASE', version, status: 'OBSERVED', ...(authUser?.rid ? { ownerRid: authUser.rid } : {}), observation: {source: typeof p.source === 'string' ? p.source : 'API', payload}, updatedAt: new Date().toISOString()}});
+      const source = typeof p.source === 'string' ? p.source : 'API';
+      const workflow = await runObservationWorkflow({
+        entityId,
+        actorId,
+        eventId: `EVT-${Date.now()}-${Math.random().toString(36).slice(2,8)}`,
+        source,
+        payload,
+        context: isRecord(p.context) ? p.context : {},
+        ownerRid: authUser?.rid,
+      }, {
+        loadEntity: (id) => ctx.universeStore.persistence.entities().get(id),
+        batch: (work) => ctx.universeStore.persistence.store.batch(work),
+        saveEntity: (input) => ctx.universeStore.persistence.asActor(actorId).saveEntity(input),
+        appendEvent: (input) => ctx.universeStore.persistence.asActor(actorId).appendEvent(input),
       });
-      const persisted = await scoped.appendEvent({eventId: `EVT-${Date.now()}-${Math.random().toString(36).slice(2,8)}`, entityId, eventType: 'OBSERVATION', payload: {observation: payload, context: isRecord(p.context) ? p.context : {}, source: typeof p.source === 'string' ? p.source : 'API'}, actorId});
-      return { statusCode: 200, body: { id: persisted.eventId, kind: 'OBSERVATION', status: 'RECORDED', event: persisted, entityId } };
+      return { statusCode: 200, body: workflow };
     });
   } catch(error) {
     const conflict = idempotencyError(error);

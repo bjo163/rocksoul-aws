@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { runAnalysisWorkflow } from '../packages/orchestrator/src/index.js';
+import { runAnalysisWorkflow, runObservationWorkflow } from '../packages/orchestrator/src/index.js';
 
 test('analysis workflow coordinates evidence, engine, persistence, and witness through ports', async () => {
   const calls: string[] = [];
@@ -34,4 +34,26 @@ test('analysis workflow coordinates evidence, engine, persistence, and witness t
   assert.equal(result.aggregate.updatedAt, '2026-08-28T00:00:00.000Z');
   assert.equal(result.analysis.reminderBundle && (result.analysis.reminderBundle as { id: string }).id, 'REM-1');
   assert.deepEqual(result.witness, { nodeId: 'NODE-1', hash: 'HASH-1', root: 'ROOT-1', checkpointId: 'CHK-1' });
+});
+
+test('observation workflow writes a versioned case and event atomically through ports', async () => {
+  const calls: string[] = [];
+  const result = await runObservationWorkflow({
+    entityId: 'CASE-OBS-1',
+    actorId: 'ACTOR-1',
+    eventId: 'EVT-OBS-1',
+    source: 'API',
+    payload: { text: 'raw observation' },
+    context: { channel: 'test' },
+    ownerRid: 'RID-1',
+  }, {
+    async loadEntity() { calls.push('loadEntity'); return { version: 2, payload: { retained: true } }; },
+    async batch(work) { calls.push('batch:start'); await work(); calls.push('batch:end'); },
+    async saveEntity(input) { calls.push('saveEntity'); assert.equal(input.expectedVersion, 2); assert.equal(input.version, 3); assert.equal(input.payload.ownerRid, 'RID-1'); },
+    async appendEvent(input) { calls.push('appendEvent'); assert.equal(input.eventType, 'OBSERVATION'); assert.deepEqual(input.payload.context, { channel: 'test' }); return { eventId: input.eventId }; },
+    now: () => new Date('2026-08-28T00:00:00.000Z'),
+  });
+
+  assert.deepEqual(calls, ['loadEntity', 'batch:start', 'saveEntity', 'appendEvent', 'batch:end']);
+  assert.deepEqual(result, { id: 'EVT-OBS-1', kind: 'OBSERVATION', status: 'RECORDED', entityId: 'CASE-OBS-1', version: 3, event: { eventId: 'EVT-OBS-1', entityId: 'CASE-OBS-1', eventType: 'OBSERVATION', payload: { observation: { text: 'raw observation' }, context: { channel: 'test' }, source: 'API' }, actorId: 'ACTOR-1', recordedAt: '2026-08-28T00:00:00.000Z' } });
 });
