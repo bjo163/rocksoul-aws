@@ -3,6 +3,8 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { runtimeDataset } from '../../../../src/persistence/runtime-data.js';
+import { evaluateMizanService } from '../../../../src/services/mizan-service.js';
+import { isMizanInput } from '../../../../src/contracts/mizan.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 
@@ -43,6 +45,24 @@ kernelRouter.add('GET', '/api/v1/ready', async (_req, _reply, _params, _body, _q
 kernelRouter.add('GET', '/api/v1/features', async (_req, _reply, _params, _body, _query, ctx) => ctx.features.list());
 kernelRouter.add('GET', '/api/v1/prophets', async () => runtimeDataset('data/prophets.json') ?? []);
 
+kernelRouter.add('POST', '/api/v1/mizan', async (req, _reply, _params, body, _query, ctx) => {
+  const authz = await requirePermission(req, ctx.auth, 'EVALUATE');
+  if (!authz.ok) return authz.error;
+  if (!isMizanInput(body)) return httpError(400, 'INVALID_MIZAN_INPUT');
+  try {
+    return {
+      ...evaluateMizanService(body),
+      meta: {
+        engine: 'mizan',
+        version: '4.33.0',
+        endpoint: '/api/v1/mizan',
+        actorId: authz.user.userId,
+      },
+    };
+  } catch (error) {
+    return httpError(500, 'MIZAN_EVALUATION_FAILED', error instanceof Error ? error.message : String(error));
+  }
+});
 
 async function requireProductionAudit(req: Parameters<typeof requirePermission>[0], ctx: any) {
   if (process.env.NODE_ENV !== 'production') return null;
