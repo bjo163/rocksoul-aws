@@ -7,7 +7,7 @@ function read(relative: string): string {
   return fs.readFileSync(path.resolve(relative), 'utf8');
 }
 
-function readJson(relative: string): any {
+function readJson(relative: string): unknown {
   return JSON.parse(read(relative));
 }
 

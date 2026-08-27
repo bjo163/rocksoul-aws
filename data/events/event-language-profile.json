@@ -41,7 +41,7 @@
   },
   "semanticVocabulary": {
     "scriptureSourceTerms": ["quran", "al-quran", "al quran", "taurat", "torah", "injil", "bible", "hadith", "hadis", "tafsir"],
-    "verificationSignals": ["bukti", "data", "cek", "verifikasi", "cross check", "kroscek", "memastikan"],
+    "verificationSignals": ["bukti", "data", "cek", "verifikasi", "memeriksa", "cross check", "kroscek", "memastikan"],
     "causalSignals": ["karena", "sehingga", "akibat", "menyebabkan", "supaya", "agar", "demi"],
     "subjectPronouns": ["saya", "aku", "kami", "kita", "dia", "ia", "mereka", "seseorang"],
     "passiveSuppressionSignals": ["dituduh", "dilaporkan", "dipaksa"],

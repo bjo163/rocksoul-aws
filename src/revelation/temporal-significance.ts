@@ -3,7 +3,7 @@ import path from 'node:path';
 import { runtimeDataReady, runtimeDataset } from '../persistence/runtime-data.js';
 import { loadQuranCorpus, type QuranAyah } from './quran-corpus.js';
 
-type Loose = Record<string, any>;
+type Loose = Record<string, unknown>;
 type TemporalPhase = 'NIGHT' | 'DAWN' | 'DAY' | 'EVENING' | 'UNKNOWN';
 
 interface TemporalPattern {
@@ -22,7 +22,7 @@ interface TemporalProfile {
 
 let cache: { root: string; profile: TemporalProfile; patterns: TemporalPattern[] } | null = null;
 
-function readJson(root: string, relative: string): any {
+function readJson(root: string, relative: string): unknown {
   if (runtimeDataReady()) {
     try { return runtimeDataset(relative); } catch { /* fallback below */ }
   }

@@ -24,7 +24,7 @@ function phraseScore(text:string,phrase:string):number{
   const ts=new Set(t.split(' ')),ps=uniq(p.split(' ').filter(Boolean)); const overlap=ps.filter(x=>ts.has(x)).length; return overlap>=2?Math.min(.82,(overlap/ps.length)*.72):0;
 }
 function negatedNear(text:string,alias:string):boolean{
-  const t=norm(text),a=norm(alias),i=t.indexOf(a); if(i<0)return false; const w=t.slice(Math.max(0,i-48),i); return hits(w,vocabulary()?.negation).length>0;
+  const t=norm(text),a=norm(alias),i=t.indexOf(a); if(i<0)return false; const w=t.slice(Math.max(0,i-48),i); return hits(w,profile().context?.negation).length>0;
 }
 function actionCandidates(text:string):EventActionCandidate[]{
   const out:EventActionCandidate[]=[];

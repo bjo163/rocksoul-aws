@@ -18,7 +18,8 @@ assert.equal(health.status, 200);
 
 const login = await request('/api/v1/auth/login', { method: 'POST', body: JSON.stringify({ username, password }) });
 assert.equal(login.status, 200, `login failed: ${JSON.stringify(login.body)}`);
-const token = String((login.body as any)?.token ?? '');
+const loginBody = login.body as Record<string, unknown> | null;
+const token = String(loginBody?.token ?? '');
 assert.ok(token);
 const auth = { authorization: `Bearer ${token}` };
 
@@ -70,8 +71,9 @@ const directMizan = await request('/api/v1/mizan', {
   }),
 });
 assert.equal(directMizan.status, 200, `mizan failed: ${JSON.stringify(directMizan.body)}`);
-assert.equal(typeof (directMizan.body as any)?.assessment?.accountabilityScore, 'number');
-assert.equal((directMizan.body as any)?.meta?.engine, 'mizan');
+const directMizanBody = directMizan.body as { assessment?: { accountabilityScore?: unknown }; meta?: { engine?: unknown } } | null;
+assert.equal(typeof directMizanBody?.assessment?.accountabilityScore, 'number');
+assert.equal(directMizanBody?.meta?.engine, 'mizan');
 
 const invalidMizan = await request('/api/v1/mizan', {
   method: 'POST',
