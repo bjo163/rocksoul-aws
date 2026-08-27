@@ -53,7 +53,6 @@ jobs:
             --health-timeout=5s \
             --health-retries=30 \
             postgres:18
-
           for i in $(seq 1 60); do
             status=$(docker inspect --format='{{.State.Health.Status}}' cosmic-postgres-ci 2>/dev/null || true)
             if [ "$status" = "healthy" ]; then
@@ -66,7 +65,6 @@ jobs:
             fi
             sleep 2
           done
-
           status=$(docker inspect --format='{{.State.Health.Status}}' cosmic-postgres-ci)
           test "$status" = healthy
           docker exec cosmic-postgres-ci pg_isready -U postgres -d moonwitness_ci
@@ -122,18 +120,6 @@ jobs:
 
       - name: Build API
         run: npm run build:api
-
-      - name: Build CAB
-        run: npm run build:cab
-
-      - name: Build Web
-        run: npm run build:web
-
-      - name: Build XRP
-        run: npm run build:xrp
-
-      - name: Build Flow
-        run: npm run build:flow
 
       - name: Final certification
         run: npm run certify:current
