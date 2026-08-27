@@ -50,7 +50,7 @@ function splitClauses(raw:string):Array<{text:string;connector:string|null}>{
 function leadingSubject(text:string):string|null{
   const raw=text.trim(); const pronouns=(vocabulary()?.subjectPronouns??[]).map(String).sort((a:string,b:string)=>b.length-a.length); const pronounPattern=pronouns.length?pronouns.map((x:string)=>x.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|'):'';
   const pattern=pronounPattern?`^(${pronounPattern})\\b`:'^$a'; const re=new RegExp(pattern,'u'); const m=raw.match(re); if(m)return m[1]??null;
-  const generic=String(vocabulary()?.genericPersonSubjectPattern??''); return generic?raw.match(new RegExp(generic,'u'))?.[0]??null;
+  const generic=String(vocabulary()?.genericPersonSubjectPattern??''); return generic ? (raw.match(new RegExp(generic,'u'))?.[0] ?? null) : null;
 }
 function extractActor(text:string):string|null{ const suppressed=termRegex('passiveSuppressionSignals'); if(suppressed?.test(text))return null; return leadingSubject(text); }
 function extractPatient(text:string):string|null{
@@ -108,7 +108,7 @@ export function parseSemanticEventGraph(text:string):SemanticEventGraph{
     const occurrence=negated?'NEGATED':contextInvalid?'CONTEXT_INVALIDATED':reportingSignals.length?'REPORTED':active.length?'ASSERTED':'UNRESOLVED';
     const intent=purpose(c.text); const k=knowledge(c.text); const returnAction=structuralAction('return'); const restoration=Boolean(returnAction&&active.some(x=>x.action===returnAction))||hits(c.text,actionSurface('RETURN')).length>0;
     const lifecycleSignals=Object.fromEntries(Object.entries(lifecycleProfile()?.signals??{}).map(([stage,surfaces])=>[stage,hits(c.text,surfaces)]).filter(([,found])=>Array.isArray(found)&&found.length>0));
-    const confidence=clamp01(active.length ? Math.max(...active.map(x=>x.score)) * (occurrence==='REPORTED' ? .72 : 1) : candidates.length ? .45 : .2);
+    const confidence=clamp01(active.length?Math.max(...active.map(x=>x.score))*(occurrence==='REPORTED'?.72:1):candidates.length?.45:.2);
     nodes.push({id:`EV${String(i+1).padStart(2,'0')}`,sequence:i+1,text:c.text,connector:c.connector,actor:extractActor(c.text),patient:extractPatient(c.text),object:extractObject(c.text),owner:extractOwner(c.text),occurrence,knowledge:k,
       context:{mistake:ctxSignals.mistake.length>0,coercion:ctxSignals.coercion.length>0,permission:ctxSignals.permission.length>0,capacityLimited:ctxSignals.capacityLimited.length>0,emergency:ctxSignals.emergency.length>0,signals:uniq(Object.values(ctxSignals).flat())},
       intention:intent,reporting:{reported:reportingSignals.length>0,unverified:unverified.length>0,signals:uniq([...reportingSignals,...unverified])},actions:candidates,restoration,lifecycleSignals,confidence});
