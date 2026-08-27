@@ -6,6 +6,8 @@ on:
     paths:
       - 'packages/tse-engine/**'
       - 'tests/tse-cosmic-integration.test.ts'
+      - 'tests/tse-usno-gold.test.ts'
+      - 'docs/TSE_GOLD_VALIDATION.md'
       - '.github/workflows/tse-integration.yml'
   workflow_dispatch:
 
@@ -14,7 +16,7 @@ permissions:
 
 jobs:
   tse:
-    name: TSE → Mizan/AI contract
+    name: TSE → Mizan/AI contract + external gold
     runs-on: [self-hosted, linux, x64, cosmic]
     timeout-minutes: 20
     steps:
@@ -35,5 +37,5 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run TSE integration tests
-        run: node scripts/transpile-runner.mjs tests/tse-cosmic-integration.test.ts
+      - name: Run TSE integration + gold tests
+        run: node scripts/transpile-runner.mjs tests/tse-cosmic-integration.test.ts tests/tse-usno-gold.test.ts
