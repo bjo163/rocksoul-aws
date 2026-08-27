@@ -4,6 +4,7 @@
   "normativeAuthority": false,
   "boundary": "Language/event parsing only. This profile cannot create scripture references, moral direction, sin/reward values, or divine verdicts.",
   "sequenceConnectors": ["lalu", "kemudian", "setelah itu", "sesudah itu", "selanjutnya", "tetapi", "namun"],
+  "contrastConnectors": ["tetapi", "namun"],
   "causalConnectors": ["karena", "sebab", "akibat", "sehingga", "menyebabkan"],
   "purposeConnectors": ["agar", "supaya", "demi", "untuk"],
   "knowledge": {
@@ -50,9 +51,14 @@
     "rightfulOwnerPhrases": ["kepada pemilik", "kepada pemiliknya"],
     "intentionSignals": ["sengaja", "berniat", "bermaksud"],
     "extractionStopWords": ["tanpa", "karena", "agar", "supaya", "demi", "lalu", "kemudian", "tetapi", "namun", "dengan", "kepada"],
-    "subjectFallbackPattern": "^(SUBJECT_PRONOUN|GENERIC_PERSON_SUBJECT)"
+    "explicitTakingTerms": ["mencuri", "curi"],
+    "genericPersonSubjectPattern": "^(?:seorang\\s+[\\p{L}\\x27-]+|[A-Z][\\p{L}\\x27-]{1,30})\\b"
   },
   "semanticPolicy": {
+    "compositeAction": "COMPOSITE_EVENT",
+    "unresolvedAction": "UNRESOLVED",
+    "positiveDirection": "POSITIVE",
+    "negativeDirection": "NEGATIVE",
     "composition": {
       "restitutionOutcome": "RESTITUTION_OR_RETURN",
       "beneficialOutcome": "BENEFICIAL_OR_SUPPORTIVE",
