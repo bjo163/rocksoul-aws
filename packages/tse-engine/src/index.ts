@@ -92,13 +92,17 @@ function normalizeDeg(value: number): number {
 }
 
 function localDateString(date: Date, timezone: string): string {
-  return new Intl.DateTimeFormat('en-CA', { timeZone: timezone, year: 'numeric', month: '2-digit', day: '2-digit' }).format(date);
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: timezone,
+    year: 'numeric', month: '2-digit', day: '2-digit'
+  }).format(date);
 }
 
 function timezoneOffsetMinutes(date: Date, timezone: string): number {
   const parts = new Intl.DateTimeFormat('en-US', {
     timeZone: timezone,
-    year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
   }).formatToParts(date);
   const map = Object.fromEntries(parts.map((p) => [p.type, p.value]));
   const asUtc = Date.UTC(Number(map.year), Number(map.month) - 1, Number(map.day), Number(map.hour) % 24, Number(map.minute), Number(map.second));
@@ -115,37 +119,30 @@ function observer(location: TSELocation): Astronomy.Observer {
   return new Astronomy.Observer(location.latitude, location.longitude, location.elevationMeters ?? 0);
 }
 
+function horizontal(body: Astronomy.Body, date: Date, obs: Astronomy.Observer) {
+  const eq = Astronomy.Equator(body, date, obs, true, true);
+  return Astronomy.Horizon(date, obs, eq.ra, eq.dec, 'normal');
+}
+
 function sunAt(date: Date, obs: Astronomy.Observer) {
-  return Astronomy.Horizon(date, obs, 'normal');
+  return horizontal(Astronomy.Body.Sun, date, obs);
 }
 
 function moonAt(date: Date, obs: Astronomy.Observer) {
-  return Astronomy.Horizon(Astronomy.Body.Moon, date, obs, 'normal');
+  return horizontal(Astronomy.Body.Moon, date, obs);
 }
 
 function nearestEvent(date: Date, obs: Astronomy.Observer, body: Astronomy.Body, direction: number, limitDays: number): Astronomy.AstroTime | null {
   return Astronomy.SearchRiseSet(body, obs, direction, date, limitDays, 0);
 }
 
-function firstAltitudeCrossing(start: Date, obs: Astronomy.Observer, altitude: number, direction: number): Astronomy.AstroTime | null {
+function altitudeCrossing(start: Date, obs: Astronomy.Observer, altitude: number, direction: number): Astronomy.AstroTime | null {
   return Astronomy.SearchAltitude(Astronomy.Body.Sun, obs, direction, start, 1, altitude);
 }
 
 function solarNoonApprox(sunrise: Astronomy.AstroTime | null, sunset: Astronomy.AstroTime | null): string | null {
   if (!sunrise || !sunset) return null;
   return new Date((sunrise.date.getTime() + sunset.date.getTime()) / 2).toISOString();
-}
-
-function phaseName(angle: number): string {
-  const a = normalizeDeg(angle);
-  if (a < 22.5 || a >= 337.5) return 'NEW';
-  if (a < 67.5) return 'WAXING_CRESCENT';
-  if (a < 112.5) return 'FIRST_QUARTER';
-  if (a < 157.5) return 'WAXING_GIBBOUS';
-  if (a < 202.5) return 'FULL';
-  if (a < 247.5) return 'WANING_GIBBOUS';
-  if (a < 292.5) return 'LAST_QUARTER';
-  return 'WANING_CRESCENT';
 }
 
 function buildNight(date: Date, input: TSEInput, obs: Astronomy.Observer): TSETemporalState['night'] {
@@ -164,7 +161,6 @@ function buildNight(date: Date, input: TSEInput, obs: Astronomy.Observer): TSETe
 
   let start: Date | null = null;
   let end: Date | null = null;
-
   if (prevSunset && currentSunrise && date >= prevSunset.date && date <= currentSunrise.date) {
     start = prevSunset.date;
     end = model === 'SUNSET_TO_FAJR' ? asDate(input.nightBoundary!.endTimestamp) : currentSunrise.date;
@@ -206,8 +202,8 @@ export function calculateTemporalState(input: TSEInput): TSETemporalState {
   const elongationDeg = Astronomy.AngleFromSun(Astronomy.Body.Moon, date);
 
   const dayStart = localMidnightUtc(localDay, input.location.timezone);
-  const sun45Ascending = firstAltitudeCrossing(dayStart, obs, 45, 1);
-  const sun45Descending = firstAltitudeCrossing(dayStart, obs, 45, -1);
+  const sun45Ascending = altitudeCrossing(dayStart, obs, 45, 1);
+  const sun45Descending = altitudeCrossing(new Date(midnight.getTime() + 12 * 3600000), obs, 45, -1);
   const sun45DistanceDeg = Math.abs(sun.altitude - 45);
   const moon45DistanceDeg = Math.abs(moon.altitude - 45);
   const night = buildNight(date, input, obs);
@@ -238,7 +234,7 @@ export function calculateTemporalState(input: TSEInput): TSETemporalState {
     lunar: {
       altitudeDeg: Number(moon.altitude.toFixed(6)),
       azimuthDeg: Number(moon.azimuth.toFixed(6)),
-      illuminationFraction: Number(illumination.phase_angle !== undefined ? clamp((1 + Math.cos((phaseAngleDeg * Math.PI) / 180)) / 2) : 0),
+      illuminationFraction: clamp((1 + Math.cos((phaseAngleDeg * Math.PI) / 180)) / 2),
       phaseAngleDeg: Number(phaseAngleDeg.toFixed(6)),
       elongationDeg: Number(elongationDeg.toFixed(6)),
       moonriseUtc: iso(moonrise),
@@ -252,14 +248,7 @@ export function calculateTemporalState(input: TSEInput): TSETemporalState {
       moon45DistanceDeg: Number(moon45DistanceDeg.toFixed(6)),
       moon45AtCurrent: moon45DistanceDeg <= 0.25
     },
-    scoring: {
-      rawScore,
-      confidence: providerConfidence,
-      confidenceAdjustedScore,
-      classification,
-      hypothesisSignalScore,
-      activityIndependent: true
-    },
+    scoring: { rawScore, confidence: providerConfidence, confidenceAdjustedScore, classification, hypothesisSignalScore, activityIndependent: true },
     provenance: {
       provider: 'astronomy-engine',
       providerVersion: '2.1.19',
@@ -297,4 +286,14 @@ export function toMizanTemporalContext(state: TSETemporalState) {
   };
 }
 
-export { phaseName };
+export function phaseName(angle: number): string {
+  const a = normalizeDeg(angle);
+  if (a < 22.5 || a >= 337.5) return 'NEW';
+  if (a < 67.5) return 'WAXING_CRESCENT';
+  if (a < 112.5) return 'FIRST_QUARTER';
+  if (a < 157.5) return 'WAXING_GIBBOUS';
+  if (a < 202.5) return 'FULL';
+  if (a < 247.5) return 'WANING_GIBBOUS';
+  if (a < 292.5) return 'LAST_QUARTER';
+  return 'WANING_CRESCENT';
+}
