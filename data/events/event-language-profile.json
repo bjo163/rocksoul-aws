@@ -1,10 +1,10 @@
 {
-  "version": "4.29.0",
+  "version": "4.30.0",
   "protocol": "SEMANTIC_EVENT_LANGUAGE_PROFILE_V1",
   "normativeAuthority": false,
   "boundary": "Language/event parsing only. This profile cannot create scripture references, moral direction, sin/reward values, or divine verdicts.",
   "sequenceConnectors": ["lalu", "kemudian", "setelah itu", "sesudah itu", "selanjutnya", "tetapi", "namun"],
-  "causalConnectors": ["karena", "sebab", "akibat", "sehingga"],
+  "causalConnectors": ["karena", "sebab", "akibat", "sehingga", "menyebabkan"],
   "purposeConnectors": ["agar", "supaya", "demi", "untuk"],
   "knowledge": {
     "known": ["tahu", "mengetahui", "sadar", "memastikan", "yakin"],
@@ -17,11 +17,17 @@
     "coercion": ["dipaksa", "terpaksa", "diancam", "di bawah ancaman", "di bawah tekanan"],
     "permission": ["dengan izin", "atas izin", "diizinkan", "mendapat izin", "seizin", "izin pemilik"],
     "capacityLimited": ["tidak mampu", "tidak sanggup", "di luar kemampuan", "keterbatasan"],
-    "emergency": ["darurat", "keadaan darurat", "menyelamatkan nyawa", "ancaman nyawa"]
+    "emergency": ["darurat", "keadaan darurat", "menyelamatkan nyawa", "ancaman nyawa"],
+    "intentional": ["sengaja", "berniat", "bermaksud"],
+    "negation": ["tidak", "bukan", "jangan", "belum", "tanpa", "tak"],
+    "restitution": ["kepada pemilik", "kepada pemiliknya", "pemilik yang berhak", "mengembalikan", "memulangkan", "mengganti kerugian", "restitusi", "refund"],
+    "beneficial": ["membantu", "menolong", "memberi", "bermanfaat", "baik", "positif"],
+    "support": ["mendukung", "menopang", "membantu", "menolong"]
   },
   "reporting": {
     "verbs": ["menuduh", "dituduh", "melaporkan", "dilaporkan", "mengatakan bahwa", "mendengar bahwa", "katanya", "mengklaim"],
-    "unverified": ["tanpa bukti", "belum diverifikasi", "belum dicek", "katanya", "rumor", "desas-desus"]
+    "unverified": ["tanpa bukti", "belum diverifikasi", "belum dicek", "katanya", "rumor", "desas-desus"],
+    "protectedActions": ["DEFAMATION", "VERIFY_CLAIM"]
   },
   "ownership": {
     "other": ["milik orang", "milik orang lain", "barang orang", "barang orang lain", "uang orang", "uang orang lain", "dompet orang", "dompet orang lain", "bukan miliknya", "bukan milik saya"],
@@ -29,7 +35,40 @@
     "return": ["kepada pemilik", "kepada pemiliknya", "pemilik yang berhak"]
   },
   "genericActionSurfaces": {
-    "PROPERTY_TAKING": ["mengambil", "ambil", "menguasai", "menyimpan"],
+    "PROPERTY_TAKING": ["mengambil", "ambil", "menguasai", "menyimpan", "mencuri", "curi"],
     "RETURN": ["mengembalikan", "memulangkan", "mengganti kerugian", "restitusi", "refund"]
+  },
+  "semanticVocabulary": {
+    "scriptureSourceTerms": ["quran", "al-quran", "al quran", "taurat", "torah", "injil", "bible", "hadith", "hadis", "tafsir"],
+    "verificationSignals": ["bukti", "data", "cek", "verifikasi", "cross check", "kroscek", "memastikan"],
+    "causalSignals": ["karena", "sehingga", "akibat", "menyebabkan", "supaya", "agar", "demi"],
+    "subjectPronouns": ["saya", "aku", "kami", "kita", "dia", "ia", "mereka", "seseorang"],
+    "passiveSuppressionSignals": ["dituduh", "dilaporkan", "dipaksa"],
+    "reportedActiveVerbs": ["menuduh", "melaporkan"],
+    "objectVerbs": ["mengambil", "ambil", "mencuri", "mengembalikan", "memulangkan", "memberi", "membantu", "menolong", "menggelapkan"],
+    "ownerMarkers": ["milik", "punya"],
+    "rightfulOwnerPhrases": ["kepada pemilik", "kepada pemiliknya"],
+    "intentionSignals": ["sengaja", "berniat", "bermaksud"],
+    "extractionStopWords": ["tanpa", "karena", "agar", "supaya", "demi", "lalu", "kemudian", "tetapi", "namun", "dengan", "kepada"],
+    "subjectFallbackPattern": "^(SUBJECT_PRONOUN|GENERIC_PERSON_SUBJECT)"
+  },
+  "semanticPolicy": {
+    "composition": {
+      "restitutionOutcome": "RESTITUTION_OR_RETURN",
+      "beneficialOutcome": "BENEFICIAL_OR_SUPPORTIVE",
+      "unspecifiedOutcome": "UNSPECIFIED",
+      "negativeActionsWhenRestitution": ["THEFT", "CORRUPTION", "DEFAMATION", "LYING"]
+    },
+    "summaryActionGroups": {
+      "negative": ["THEFT", "LYING", "CORRUPTION", "DEFAMATION"],
+      "positive": ["RESTITUTION", "HELPING_GOOD", "CHARITY", "VERIFY_CLAIM", "FAIR_TRADE", "PROTECTION_LIFE"]
+    },
+    "structuralActions": {
+      "propertyTaking": "THEFT",
+      "return": "RESTITUTION",
+      "unsupportedAccusation": "DEFAMATION"
+    },
+    "normativeBooks": ["QURAN", "TAWRAT", "ZABUR", "INJIL"],
+    "intentionEvidenceRefs": ["Q33:5", "Q2:225"]
   }
 }
