@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { discoverWorkspacePackageFiles } from './workspace-discovery.js';
 
 // transpile-exec runs from an isolated repository-shaped temporary root.
 // Using cwd keeps this check valid both there and from the real checkout.
@@ -9,20 +10,7 @@ const rootPackage = readJson('package.json');
 const expected = rootPackage.version;
 if (typeof expected !== 'string' || !/^\d+\.\d+\.\d+$/.test(expected)) throw new Error('RELEASE_VERSION_INVALID');
 
-const packageFiles = [
-  'apps/api/package.json',
-  'apps/cab/package.json',
-  'apps/web/package.json',
-  'apps/xrp/package.json',
-  'apps/flow/package.json',
-  'packages/contracts/package.json',
-  'packages/data-access/package.json',
-  'packages/kernel/package.json',
-  'packages/persistence/package.json',
-  'packages/revelation/package.json',
-  'packages/sdk/package.json',
-  'packages/ui/package.json',
-];
+const packageFiles = discoverWorkspacePackageFiles(root, rootPackage);
 const packages = packageFiles.map((file) => ({ file, version: readJson(file).version }));
 const mismatched = packages.filter((item) => item.version !== expected);
 if (mismatched.length) throw new Error(`RELEASE_PACKAGE_VERSION_MISMATCH:${JSON.stringify({ expected, mismatched })}`);
@@ -49,4 +37,4 @@ if (/production release\s*\|\s*🟢/i.test(statusText)) throw new Error('RELEASE
 const lockfile = readJson('package-lock.json');
 if (lockfile.version !== expected) throw new Error(`RELEASE_LOCKFILE_VERSION_MISMATCH:${JSON.stringify({ expected, actual: lockfile.version })}`);
 
-console.log(JSON.stringify({ status: 'PASS', releaseVersion: expected, packages: packages.length, documents: requiredDocs.length, lockfileVersion: lockfile.version }, null, 2));
+console.log(JSON.stringify({ status: 'PASS', releaseVersion: expected, packages: packages.length, workspacePackages: packageFiles, documents: requiredDocs.length, lockfileVersion: lockfile.version }, null, 2));

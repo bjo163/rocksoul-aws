@@ -1,6 +1,6 @@
 {
   "name": "@moonwitness/tse-engine",
-  "version": "0.1.0-cosmic-spike",
+  "version": "4.33.0",
   "private": true,
   "type": "module",
   "main": "./src/index.ts",
