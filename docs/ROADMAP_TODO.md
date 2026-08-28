@@ -1,4 +1,4 @@
-# Cosmic — Roadmap Compatibility Pointer
+# Cosmic — 4.33.0 Roadmap Compatibility Pointer
 
 This file previously carried a separate UI-era roadmap and is retained so historical links do not break.
 
