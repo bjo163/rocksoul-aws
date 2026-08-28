@@ -3,7 +3,11 @@ import { promisify } from 'node:util';
 import { readdir, readFile } from 'node:fs/promises';
 import { join, relative } from 'node:path';
 
-const exec = promisify(execFile);
+// The dev→main ratchet intentionally spans a long-lived release branch. Its
+// zero-context diff can exceed Node's 1 MiB default without indicating an
+// invalid source change, so keep a bounded but release-scale buffer.
+const execBase = promisify(execFile);
+const exec = (file, args, options = {}) => execBase(file, args, { maxBuffer: 64 * 1024 * 1024, ...options });
 const roots = ['src', 'apps', 'packages', 'scripts', 'tests'];
 const extensions = new Set(['.ts', '.tsx', '.mts', '.cts', '.js', '.mjs', '.cjs']);
 const ignored = new Set(['node_modules', 'dist', 'build', '.next', 'coverage', '.git']);
