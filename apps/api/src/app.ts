@@ -44,6 +44,7 @@ import { runWitnessDiagnostics } from '../../../src/ledger/witness-diagnostics.j
 import { appendMizanWitness } from '../../../src/ledger/witness-mizan.js';
 import { LocalWitnessDagStore } from '../../../src/ledger/local-dag-store.js';
 import { assertApiResponseContract, ContractValidationError } from '../../../packages/contracts/src/index.js';
+import { runAiAnalyzeWorkflow } from '@moonwitness/orchestrator';
 
 export async function buildApp(options: AppOptions = {}): Promise<HttpApp> {
   const cookieSameSite = process.env.MW_COOKIE_SAME_SITE ?? 'Lax';
@@ -97,21 +98,24 @@ export async function buildApp(options: AppOptions = {}): Promise<HttpApp> {
     const text = typeof payload.text === 'string' ? payload.text : '';
     const caseId = typeof payload.caseId === 'string' ? payload.caseId : `CASE-${randomUUID()}`;
     const aiOpts = typeof payload.options === 'object' && payload.options ? { ...payload.options } : {};
-    const persistedEvidence = await universeStore.listCaseEvidence(caseId);
-    (aiOpts as any).persistedEvidence = persistedEvidence.map((item: any) => ({ ...(item.payload && typeof item.payload === 'object' ? item.payload : {}), id: item.evidenceId, status: item.status ?? 'UNKNOWN', type: item.sourceType, reference: item.reference, confidence: item.confidence }));
-    if (payload.semanticObservation) (aiOpts as any).semanticObservation = payload.semanticObservation;
-    (aiOpts as any).provider = semanticProvider;
-    (aiOpts as any).sourceGraph = { search: ({ q, limit = 10 }: { q: string; limit?: number }) => backend.runtime.graph.listEntities({ q }).slice(0, limit).map((e: any) => ({ ...e, id: e.entityId })) };
-    const analysis = payload.semanticObservation ? buildAiAnalysis(text, aiOpts as any) : await analyzeWithProvider(text, aiOpts as any);
-    const reminderBundle = (aiOpts as any).includeReminder ? await composeReminderBundle(typeof (aiOpts as any).reminderSeed === 'number' ? (aiOpts as any).reminderSeed : undefined) : null;
-    const finalAnalysis = reminderBundle ? { ...analysis, reminderBundle } : analysis;
-    const aggregate = { id: caseId, type:'CASE', version:1, status:'ANALYZED', observation:{text}, analysis:finalAnalysis, lifecycle:{caseLifecycle:(finalAnalysis as any).lifecycle ?? null,moralLifecycle:(finalAnalysis as any).moralLifecycle ?? null}, updatedAt:new Date().toISOString() } as any;
     const actorId = typeof payload.actorId === 'string' ? payload.actorId : 'SERVICE-WORKER-001';
-    await universeStore.saveCase(aggregate, 'CASE.ANALYZED', actorId);
-    const witness = appendMizanWitness(witnessDag, { recordId:`${caseId}:v1`, recordType:'AI_ANALYSIS', actorId, text, mizan:(finalAnalysis as any).mizan ?? null, semantic:(finalAnalysis as any).semanticVector ?? (finalAnalysis as any).semantic ?? null, lifecycle:{caseLifecycle:(finalAnalysis as any).lifecycle ?? null,moralLifecycle:(finalAnalysis as any).moralLifecycle ?? null}, reviewGate:(finalAnalysis as any).reviewGate ?? null, modelVersion:process.env.MOONWITNESS_RELEASE_VERSION ?? '4.33.0', source:'persistent-job' });
-    await witnessDagStore.save(witnessDag); if (witnessStore) await witnessStore.putNode(witness); witnessMetrics.record('NODE_APPENDED');
-    if (process.env.WITNESS_AUTO_CHECKPOINT !== '0' && witnessKeyStore.activeIdentity()) { const signed=signCheckpoint(witnessDag.checkpoint(),witnessKeyStore.activeIdentity()!); await witnessCheckpointStore.put(signed); if(witnessStore) await witnessStore.putCheckpoint(signed); witnessMetrics.record('CHECKPOINT_CREATED'); }
-    return { caseId, analysis: finalAnalysis, witness:{ nodeId:witness.nodeId, hash:witness.hash, root:witnessDag.root() } };
+    const workflow = await runAiAnalyzeWorkflow({ caseId, actorId, text, options: aiOpts, semanticObservation: payload.semanticObservation && typeof payload.semanticObservation === 'object' ? payload.semanticObservation as Record<string, unknown> : undefined, modelVersion: process.env.MOONWITNESS_RELEASE_VERSION ?? '4.33.0', source: 'persistent-job' }, {
+      listEvidence: (id) => universeStore.listCaseEvidence(id),
+      analyze: async ({ text: analysisText, options, semanticObservation }) => {
+        const enriched = { ...options, provider: semanticProvider, sourceGraph: { search: ({ q, limit = 10 }: { q: string; limit?: number }) => backend.runtime.graph.listEntities({ q }).slice(0, limit).map((e: any) => ({ ...e, id: e.entityId })) } };
+        return semanticObservation ? buildAiAnalysis(analysisText, enriched as any) : analyzeWithProvider(analysisText, enriched as any);
+      },
+      composeReminder: (seed) => composeReminderBundle(seed),
+      saveCase: ({ aggregate, eventType, actorId: saveActor }) => universeStore.saveCase(aggregate as any, eventType, saveActor),
+      commitWitness: async (input) => {
+        const node = appendMizanWitness(witnessDag, input as any);
+        await witnessDagStore.save(witnessDag); if (witnessStore) await witnessStore.putNode(node); witnessMetrics.record('NODE_APPENDED');
+        let checkpointId: string | null = null;
+        if (process.env.WITNESS_AUTO_CHECKPOINT !== '0' && witnessKeyStore.activeIdentity()) { const signed=signCheckpoint(witnessDag.checkpoint(),witnessKeyStore.activeIdentity()!); await witnessCheckpointStore.put(signed); if(witnessStore) await witnessStore.putCheckpoint(signed); witnessMetrics.record('CHECKPOINT_CREATED'); checkpointId = signed.checkpoint.checkpointId; }
+        return { node: { nodeId: node.nodeId, hash: node.hash }, root: witnessDag.root(), checkpointId };
+      },
+    });
+    return workflow;
   });
   jobs.start();
 

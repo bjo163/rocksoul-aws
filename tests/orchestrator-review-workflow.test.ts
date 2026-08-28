@@ -26,8 +26,8 @@ test('review orchestrator applies a transition with optimistic version and emits
   const queued = createReview({ reviewId: 'REV-1', targetId: 'CASE-1', requestedBy: 'USR-1', gateDecision: 'REQUIRE_HUMAN_REVIEW' });
   const assigned = transitionReview(queued, { status: 'ASSIGNED', actorId: 'USR-1', now: '2026-01-01T00:01:00.000Z' });
   const current = transitionReview(assigned, { status: 'ACKNOWLEDGED', actorId: 'USR-1', now: '2026-01-01T00:02:00.000Z' });
-  let saved: any;
-  let event: any;
+  let saved: Record<string, unknown> | undefined;
+  let event: Record<string, unknown> | undefined;
   const next = await runTransitionReviewWorkflow({
     current,
     currentVersion: 3,
@@ -40,10 +40,10 @@ test('review orchestrator applies a transition with optimistic version and emits
 
   assert.equal(next.status, 'DISPOSED');
   assert.equal(next.version, 4);
-  assert.equal(saved.expectedVersion, 3);
-  assert.equal(saved.version, 4);
-  assert.equal(event.eventId, 'EVT-REV-1-4');
-  assert.equal(event.eventType, 'HUMAN_REVIEW.TRANSITIONED');
+  assert.equal(saved?.expectedVersion, 3);
+  assert.equal(saved?.version, 4);
+  assert.equal(event?.eventId, 'EVT-REV-1-4');
+  assert.equal(event?.eventType, 'HUMAN_REVIEW.TRANSITIONED');
 });
 
 test('review orchestrator does not persist when policy rejects a transition', async () => {

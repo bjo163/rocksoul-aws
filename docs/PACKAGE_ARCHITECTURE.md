@@ -31,10 +31,12 @@ host adapters (API, persistence, witness, auth, jobs)
 ## Orchestrator boundary
 
 The current workflows are `runAnalysisWorkflow`, `runObservationWorkflow`,
-and `runEvaluationWorkflow`. They receive ports for loading state, running an
+`runEvaluationWorkflow`, `runAiAnalyzeWorkflow`, the evidence/review
+workflows, and ingress schedule/trigger workflows. They receive ports for loading state, running an
 engine analysis, saving a CASE, appending an event, and committing a Witness
 record where required. Evaluation also validates the human-review gate before
-any persistence side effect. This lets the reference API and Moonwitness use
+any persistence side effect; ingress workflows enforce idempotent scheduling
+and one-time triggering. This lets the reference API and Moonwitness use
 the identical workflows with different adapters.
 
 The HTTP adapter remains responsible for request parsing, authentication,
