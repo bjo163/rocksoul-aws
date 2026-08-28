@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { MAX_FILTER_LENGTH, MAX_LIST_LIMIT, MAX_LIST_OFFSET, boundedFilter, boundedInteger, listQueryBounds, queryFilters } from '../apps/api/src/query-bounds.js';
+import { MAX_FILTER_LENGTH, MAX_LIST_LIMIT, MAX_LIST_OFFSET, boundedFilter, boundedInteger, cursorQueryBounds, encodeCursor, listQueryBounds, queryFilters, stableCursorPage } from '../apps/api/src/query-bounds.js';
 
 test('pagination accepts only bounded safe integers', () => {
   assert.deepEqual(boundedInteger(undefined, 50, 1, MAX_LIST_LIMIT), { ok: true, value: 50 });
@@ -27,4 +27,24 @@ test('filters are bounded, normalized, and control-character safe', () => {
 test('unsupported sort keys fail closed rather than being silently ignored', () => {
   assert.deepEqual(queryFilters({}, new URLSearchParams('sort=createdAt')), { ok: false, code: 'UNSUPPORTED_SORT' });
   assert.deepEqual(queryFilters({ query: 'mercy', type: 'CASE' }, new URLSearchParams()), { ok: true, value: { q: 'mercy', type: 'CASE', entityId: undefined } });
+});
+
+test('cursor pagination accepts only canonical opaque cursors and cannot be mixed with offsets', () => {
+  const cursor = encodeCursor('ENTITY-B');
+  assert.deepEqual(cursorQueryBounds(new URLSearchParams(), cursor, 2, 50), { ok: true, value: { limit: 2, cursor: 'ENTITY-B' } });
+  assert.deepEqual(cursorQueryBounds(new URLSearchParams(), null, 2, 50), { ok: true, value: { limit: 2 } });
+  assert.deepEqual(cursorQueryBounds(new URLSearchParams('offset=1'), cursor, 2, 50), { ok: false, code: 'CURSOR_OFFSET_CONFLICT' });
+  for (const cursorValue of ['not-a-cursor', encodeCursor('')]) {
+    assert.deepEqual(cursorQueryBounds(new URLSearchParams(), cursorValue, 2, 50), { ok: false, code: 'INVALID_CURSOR' });
+  }
+});
+
+test('cursor pages have stable entity-id ordering, a continuation token, and no terminal token', () => {
+  const records = [{ entityId: 'ENTITY-C' }, { entityId: 'ENTITY-A' }, { entityId: 'ENTITY-B' }];
+  const first = stableCursorPage(records, 2, undefined, (entity) => entity.entityId);
+  assert.deepEqual(first.results.map((entity) => entity.entityId), ['ENTITY-A', 'ENTITY-B']);
+  assert.equal(first.nextCursor, encodeCursor('ENTITY-B'));
+  const second = stableCursorPage(records, 2, 'ENTITY-B', (entity) => entity.entityId);
+  assert.deepEqual(second.results.map((entity) => entity.entityId), ['ENTITY-C']);
+  assert.equal(second.nextCursor, undefined);
 });

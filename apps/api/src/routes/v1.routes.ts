@@ -19,7 +19,7 @@ import { denyForeignRidWrite, requireScopedEntity } from '../access-control.js';
 import { sha256 } from '@moonwitness/witness';
 import { hasPermission } from '../../../../src/security/authorization.js';
 import { runAnalysisWorkflow, runCreateReviewWorkflow, runEvaluationWorkflow, runEvidenceWorkflow, runObservationWorkflow, runTransitionReviewWorkflow } from '@moonwitness/orchestrator';
-import { boundedInteger, listQueryBounds, queryFilters } from '../query-bounds.js';
+import { boundedInteger, cursorQueryBounds, listQueryBounds, queryFilters, stableCursorPage } from '../query-bounds.js';
 
 export const v1Router = new Router();
 
@@ -278,10 +278,19 @@ v1Router.add('POST', '/api/v1/query', async (req, _reply, _params, body, query, 
   const p = isRecord(body) ? body : {};
   const filters = queryFilters(p, query);
   const pagination = listQueryBounds(query, p.limit ?? query.get('limit'), 50);
+  const usesCursor = Object.hasOwn(p, 'cursor') || query.has('cursor');
+  const suppliedCursor = Object.hasOwn(p, 'cursor') ? p.cursor : query.get('cursor');
+  const cursorPagination = cursorQueryBounds(query, suppliedCursor, p.limit ?? query.get('limit'), 50);
   if (!filters.ok) return httpError(400, filters.code);
   if (!pagination.ok) return httpError(400, pagination.code);
+  if (!cursorPagination.ok) return httpError(400, cursorPagination.code);
   if (filters.value.entityId) return { type: 'ENTITY', result: ctx.backend.runtime.graph.getEntity(filters.value.entityId) ?? null };
-  return { type: 'ENTITIES', results: ctx.backend.runtime.graph.listEntities({ type: filters.value.type, q: filters.value.q }).slice(pagination.value.offset, pagination.value.offset + pagination.value.limit) };
+  const entities = ctx.backend.runtime.graph.listEntities({ type: filters.value.type, q: filters.value.q });
+  if (usesCursor) {
+    const page = stableCursorPage(entities, cursorPagination.value.limit, cursorPagination.value.cursor, (entity) => String((entity as { entityId?: unknown }).entityId));
+    return { type: 'ENTITIES', results: page.results, page: { limit: cursorPagination.value.limit, cursor: suppliedCursor, nextCursor: page.nextCursor ?? null, order: 'entityId:asc' } };
+  }
+  return { type: 'ENTITIES', results: entities.slice(pagination.value.offset, pagination.value.offset + pagination.value.limit) };
 });
 
 v1Router.add('GET', '/api/v1/xrp/workspace', async (req, _reply, _params, _body, _query, ctx) => {

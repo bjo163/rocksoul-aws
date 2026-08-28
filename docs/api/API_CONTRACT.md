@@ -32,6 +32,14 @@ Endpoints that expose list/query pagination accept only safe decimal integers:
 control characters. Sorting is not currently a supported contract; `sort` and
 `order` fail closed rather than being silently ignored.
 
+`POST /api/v1/query` additionally supports opt-in keyset pagination. Supply
+`"cursor": null` for the first page, then return the opaque
+`page.nextCursor` from the previous response as `"cursor"`. Cursor pages are
+ordered by immutable `entityId` ascending and return `page.limit`,
+`page.cursor`, and `page.nextCursor` (`null` at the terminal page). A cursor
+cannot be combined with `offset`; legacy offset callers retain their existing
+result shape and source ordering.
+
 ## Current persistence surface
 
 - `memory`: ephemeral development/test state.
