@@ -1,5 +1,5 @@
 import type { IncomingMessage } from 'node:http';
-import type { EntityRecord } from '../../../packages/persistence/src/types.js';
+import type { EntityRecord } from '@moonwitness/persistence';
 import type { AuthorizationUser } from '../../../src/security/authorization.js';
 import { bearerToken, httpError } from './router.js';
 

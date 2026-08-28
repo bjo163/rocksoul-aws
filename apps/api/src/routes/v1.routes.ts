@@ -1,6 +1,6 @@
 import { Router, isRecord, httpError, requirePermission, requireAuthenticated, idempotencyKey, bearerToken } from '../router.js';
 import { buildAiAnalysis, analyzeWithProvider } from '../../../../src/ai/general-analyzer.js';
-import { IdempotencyStore } from '@moonwitness/persistence';
+import { IdempotencyStore } from '../../../../src/persistence/idempotency.js';
 import { replayCaseEvents } from '../../../../src/audit/event-replay.js';
 import { composeReminderBundle } from '../../../../src/ingress/revelation-reminder-engine.js';
 import { createUnpredictableIngress, triggerIngress } from '../../../../src/ingress/divine-ingress.js';
@@ -16,7 +16,7 @@ import { revelationGrammarSnapshot } from '../../../../src/revelation/grammar/re
 import { createReview, transitionReview, type HumanDisposition, type ReviewRecord, type ReviewStatus } from '../../../../src/review/workflow.js';
 import { buildXrpWorkspace } from '../xrp-workspace.js';
 import { denyForeignRidWrite, requireScopedEntity } from '../access-control.js';
-import { sha256 } from '@moonwitness/witness';
+import { sha256 } from '../../../../src/ledger/witness-dag.js';
 import { hasPermission } from '../../../../src/security/authorization.js';
 import { runAnalysisWorkflow, runCreateReviewWorkflow, runEvaluationWorkflow, runEvidenceWorkflow, runObservationWorkflow, runTransitionReviewWorkflow } from '@moonwitness/orchestrator';
 

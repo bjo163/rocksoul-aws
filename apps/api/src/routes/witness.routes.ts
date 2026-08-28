@@ -1,5 +1,6 @@
 import { Router, isRecord, httpError, requirePermission } from '../router.js';
-import { proofForNode, verifySignedCheckpoint } from '@moonwitness/witness';
+import { proofForNode } from '../../../../src/ledger/merkle-proof.js';
+import { verifySignedCheckpoint } from '../../../../src/ledger/distributed-witness.js';
 
 export const witnessRouter = new Router();
 

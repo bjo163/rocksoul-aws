@@ -1,6 +1,6 @@
 import type { AuthSessionContract } from '../../../packages/contracts/src/index.js';
 import type { AuthorizationUser } from '../../../src/security/authorization.js';
-import type { UniverseStore } from '@moonwitness/persistence';
+import type { UniverseStore } from '../../../src/persistence/universe-store.js';
 import type { Observability } from '../../../src/observability/observability.js';
 import type { PersistentJobQueue } from '@moonwitness/jobs';
 import type { SemanticRegistry } from '../../../src/semantic/semantic-registry.js';
