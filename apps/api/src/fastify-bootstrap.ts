@@ -105,7 +105,7 @@ function registerRouterRoutes(app: FastifyInstance, router: Router, context: Rou
           const params = Object.fromEntries(route.paramNames.map((name) => [name, rawParams[name] ?? rawParams['*'] ?? ''])) as Record<string, string>;
           const result = await route.handler(
             rawRequest,
-            rawReply,
+            rawReply as unknown as import('node:http').ServerResponse,
             params,
             request.body,
             query,
@@ -133,7 +133,15 @@ function isStatusResult(value: unknown): value is { statusCode: number; body: un
   return isObject(value) && typeof value.statusCode === 'number' && 'body' in value;
 }
 
-function createReplyAdapter(reply: FastifyReply): any {
+interface FastifyReplyAdapter {
+  setHeader(name: string, value: unknown): void;
+  writeHead(statusCode: number, headers?: Record<string, unknown>): void;
+  write(chunk: unknown): void;
+  end(payload?: unknown): void;
+  readonly writableEnded: boolean;
+}
+
+function createReplyAdapter(reply: FastifyReply): FastifyReplyAdapter {
   return {
     setHeader(name: string, value: unknown) { reply.header(name, value); },
     writeHead(statusCode: number, headers?: Record<string, unknown>) {
