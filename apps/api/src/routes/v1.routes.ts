@@ -13,12 +13,12 @@ import { revelationMoralGraph } from '../../../../src/revelation/moral-graph/rev
 import { fourBookCorpusSnapshot } from '../../../../src/revelation/corpus/four-book-corpus.js';
 import { revelationLifecycleSnapshot } from '../../../../src/revelation/lifecycle/revelation-lifecycle.js';
 import { revelationGrammarSnapshot } from '../../../../src/revelation/grammar/revelation-grammar.js';
-import { createReview, transitionReview, type ReviewRecord } from '../../../../src/review/workflow.js';
+import { createReview, transitionReview, type HumanDisposition, type ReviewRecord, type ReviewStatus } from '../../../../src/review/workflow.js';
 import { buildXrpWorkspace } from '../xrp-workspace.js';
 import { denyForeignRidWrite, requireScopedEntity } from '../access-control.js';
 import { sha256 } from '../../../../src/ledger/witness-dag.js';
 import { hasPermission } from '../../../../src/security/authorization.js';
-import { runAnalysisWorkflow, runEvaluationWorkflow, runObservationWorkflow } from '@moonwitness/orchestrator';
+import { runAnalysisWorkflow, runCreateReviewWorkflow, runEvaluationWorkflow, runEvidenceWorkflow, runObservationWorkflow, runTransitionReviewWorkflow } from '@moonwitness/orchestrator';
 
 export const v1Router = new Router();
 
@@ -598,10 +598,17 @@ v1Router.add('POST', '/api/v1/reviews', async (req, _reply, _params, body, _quer
     const scope = await requireScopedEntity(req, ctx, p.targetId);
     if (!scope.ok) return scope.error;
   }
-  const actor=authz.user?.userId??'SERVICE-API-001'; const review=createReview({targetId:p.targetId,requestedBy:actor,assigneeId:typeof p.assigneeId==='string'?p.assigneeId:null,gateDecision:typeof p.gateDecision==='string'?p.gateDecision:'REQUIRE_HUMAN_REVIEW',evidenceRefs:Array.isArray(p.evidenceRefs)?p.evidenceRefs.filter((x):x is string=>typeof x==='string'):[]});
-  await ctx.universeStore.persistence.asActor(actor).saveEntity({id:review.reviewId,type:'HUMAN_REVIEW',version:review.version,payload:review});
-  await ctx.universeStore.persistence.asActor(actor).appendEvent({eventId:`EVT-${review.reviewId}-CREATED`,entityId:review.targetId,eventType:'HUMAN_REVIEW.CREATED',payload:review,actorId:actor});
-  return {statusCode:201,body:review};
+  const actor=authz.user?.userId??'SERVICE-API-001';
+  try {
+    const review = await runCreateReviewWorkflow({ targetId: p.targetId, requestedBy: actor, actorId: actor, assigneeId: typeof p.assigneeId === 'string' ? p.assigneeId : null, gateDecision: typeof p.gateDecision === 'string' ? p.gateDecision : 'REQUIRE_HUMAN_REVIEW', evidenceRefs: Array.isArray(p.evidenceRefs) ? p.evidenceRefs.filter((x): x is string => typeof x === 'string') : [] }, {
+      createReview,
+      saveEntity: (input) => ctx.universeStore.persistence.asActor(actor).saveEntity(input),
+      appendEvent: (input) => ctx.universeStore.persistence.asActor(actor).appendEvent(input),
+    });
+    return {statusCode:201,body:review};
+  } catch (error) {
+    return httpError(409, 'REVIEW_CREATE_REJECTED', error instanceof Error ? error.message : String(error));
+  }
 });
 
 v1Router.add('POST', '/api/v1/reviews/:id/transition', async (req, _reply, params, body, _query, ctx) => {
@@ -619,7 +626,13 @@ v1Router.add('POST', '/api/v1/reviews/:id/transition', async (req, _reply, param
   if (!authz.user.roles.includes('ADMIN') && requestedAssignee && requestedAssignee !== actor) return httpError(403, 'REVIEW_ASSIGNMENT_FORBIDDEN');
   const currentAssignee = typeof currentPayload.assigneeId === 'string' ? currentPayload.assigneeId : null;
   const assigneeId = requestedAssignee ?? (!authz.user.roles.includes('ADMIN') && !currentAssignee ? actor : undefined);
-  try { const next=transitionReview(current.payload as ReviewRecord,{status:p.status as any,actorId:actor,rationale:typeof p.rationale==='string'?p.rationale:undefined,disposition:typeof p.disposition==='string'?p.disposition as any:undefined,assigneeId}); await ctx.universeStore.persistence.asActor(actor).saveEntity({id:next.reviewId,type:'HUMAN_REVIEW',expectedVersion:Number(current.version??currentPayload.version??1),version:next.version,payload:next}); await ctx.universeStore.persistence.asActor(actor).appendEvent({eventId:`EVT-${next.reviewId}-${next.version}`,entityId:next.targetId,eventType:'HUMAN_REVIEW.TRANSITIONED',payload:next,actorId:actor}); return next; } catch(error) { return httpError(409,'REVIEW_TRANSITION_REJECTED',error instanceof Error?error.message:String(error)); }
+  try {
+    return await runTransitionReviewWorkflow({ current: current.payload as ReviewRecord, currentVersion: Number(current.version ?? currentPayload.version ?? 1), transition: { status: p.status as ReviewStatus, actorId: actor, rationale: typeof p.rationale === 'string' ? p.rationale : undefined, disposition: typeof p.disposition === 'string' ? p.disposition as HumanDisposition : undefined, assigneeId } }, {
+      transitionReview,
+      saveEntity: (input) => ctx.universeStore.persistence.asActor(actor).saveEntity(input),
+      appendEvent: (input) => ctx.universeStore.persistence.asActor(actor).appendEvent(input),
+    });
+  } catch(error) { return httpError(409,'REVIEW_TRANSITION_REJECTED',error instanceof Error?error.message:String(error)); }
 });
 
 v1Router.add('GET', '/api/v1/resource/:id/evidence', async (req, _reply, params, _body, _query, ctx) => {
@@ -653,16 +666,32 @@ v1Router.add('POST', '/api/v1/resource/:id/evidence', async (req, _reply, params
     if(history.some((item:any)=>isRecord(item.payload)&&item.payload.supersedes===supersedes)) return httpError(409,'EVIDENCE_ALREADY_SUPERSEDED');
   }
   const actorId = scope.user.userId;
-  const evidence = await ctx.universeStore.persistence.asActor(actorId).saveEvidence({
-    evidenceId,
-    entityId: params.id,
-    sourceType: typeof p.sourceType === 'string' ? p.sourceType : 'USER_SUBMITTED',
-    reference: typeof p.reference === 'string' ? p.reference : undefined,
-    status: status as any,
-    confidence: typeof p.confidence === 'number' ? Math.max(0, Math.min(1, p.confidence)) : undefined,
-    payload: { ...payload, submittedThrough: '/api/v1/resource/:id/evidence', supersedes, supersessionReason:supersedes?p.supersessionReason:undefined },
-  });
-  return { id: params.id, status: 'EVIDENCE_RECORDED', evidence, reanalysisRequired: true };
+  try {
+    return await runEvidenceWorkflow({
+      entityId: params.id,
+      actorId,
+      evidenceId,
+      sourceType: typeof p.sourceType === 'string' ? p.sourceType : undefined,
+      reference: typeof p.reference === 'string' ? p.reference : undefined,
+      status,
+      confidence: typeof p.confidence === 'number' ? p.confidence : undefined,
+      payload,
+      supersedes,
+      supersessionReason: typeof p.supersessionReason === 'string' ? p.supersessionReason : undefined,
+      submittedThrough: '/api/v1/resource/:id/evidence',
+    }, {
+      listEvidence: (id) => ctx.universeStore.listCaseEvidence(id),
+      saveEvidence: (record) => ctx.universeStore.persistence.asActor(actorId).saveEvidence(record) as Promise<typeof record>,
+    });
+  } catch (error) {
+    const code = error instanceof Error ? (error as Error & { code?: unknown }).code : undefined;
+    if (code === 'EVIDENCE_IMMUTABLE') return httpError(409, 'EVIDENCE_IMMUTABLE', error instanceof Error ? error.message : String(error));
+    if (code === 'EVIDENCE_SELF_SUPERSESSION') return httpError(400, 'EVIDENCE_SELF_SUPERSESSION');
+    if (code === 'SUPERSEDED_EVIDENCE_NOT_FOUND') return httpError(404, 'SUPERSEDED_EVIDENCE_NOT_FOUND');
+    if (code === 'SUPERSESSION_REASON_REQUIRED') return httpError(400, 'SUPERSESSION_REASON_REQUIRED');
+    if (code === 'EVIDENCE_ALREADY_SUPERSEDED') return httpError(409, 'EVIDENCE_ALREADY_SUPERSEDED');
+    return httpError(500, 'EVIDENCE_PERSISTENCE_FAILED', error instanceof Error ? error.message : String(error));
+  }
 });
 
 v1Router.add('POST', '/api/v1/ingress/reminder', async (req, _reply, _params, body, _query, ctx) => {

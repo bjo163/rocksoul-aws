@@ -318,3 +318,6 @@ export async function runEvaluationWorkflow(input: EvaluationWorkflowInput, port
     revelationScorecard: eventPayload.revelationScorecard,
   };
 }
+
+export * from './evidence-workflow.js';
+export * from './review-workflow.js';
