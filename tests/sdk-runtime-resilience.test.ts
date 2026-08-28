@@ -35,3 +35,15 @@ test('SDK does not blindly retry non-idempotent POST without idempotency key', a
   );
   assert.equal(calls, 1);
 });
+
+test('SDK exposes the documented health, readiness, and feature discovery operations', async () => {
+  const client = new UniverseClient({ baseUrl: 'https://api.example.test', fetchImpl: async (input) => {
+    const path = new URL(String(input)).pathname;
+    if (path.endsWith('/health')) return response(200, { status: 'ok', release: '4.33.0' });
+    if (path.endsWith('/ready')) return response(200, { status: 'ready', release: '4.33.0' });
+    return response(200, { fastify: false });
+  } });
+  assert.equal((await client.health()).status, 'ok');
+  assert.equal((await client.ready()).status, 'ready');
+  assert.equal((await client.features()).fastify, false);
+});

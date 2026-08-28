@@ -25,3 +25,8 @@ test('postgres restore is explicit, custom-format, and ownership-safe', () => {
 test('restore refuses to run without an explicit source path', () => {
   assert.match(restore, /if \(!source\) throw new Error\('Usage: db-restore --source=BACKUP_PATH/);
 });
+
+test('postgres restore requires an explicit destructive-operation acknowledgement', () => {
+  assert.match(restore, /POSTGRES_RESTORE_REQUIRES_ALLOW_DESTRUCTIVE/);
+  assert.match(restore, /--allow-destructive/);
+});

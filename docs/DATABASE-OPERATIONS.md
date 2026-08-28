@@ -30,7 +30,7 @@ This uses `pg_dump` custom format and creates `moonwitness.dump`.
 Only restore into a maintenance/test database. The PostgreSQL restore uses `pg_restore --clean --if-exists --no-owner --no-privileges`.
 
 ```bash
-STORAGE_DRIVER=postgres npm run db:restore -- --source=./data/backups/pre-test/moonwitness.dump
+STORAGE_DRIVER=postgres npm run db:restore -- --source=./data/backups/pre-test/moonwitness.dump --allow-destructive
 ```
 
 After restore, always run:

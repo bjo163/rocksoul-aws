@@ -42,13 +42,16 @@ function resolveBootstrapPath(): string {
   const cwd = process.cwd();
   const built = path.resolve(cwd, 'dist/src/backend/bootstrap.js');
   if (fs.existsSync(built)) return built;
+  const here = path.dirname(fileURLToPath(import.meta.url));
+  const relativeBuilt = path.resolve(here, '../../../src/backend/bootstrap.js');
+  if (fs.existsSync(relativeBuilt)) return relativeBuilt;
+  // Prefer the API's compiled backend copy over repository source. `npm --prefix`
+  // retains the caller cwd, so a root checkout would otherwise select the
+  // TypeScript source here; its ESM `.js` specifiers are not emitted beside it.
   const transpiledSource = path.resolve(cwd, 'src/backend/bootstrap.js');
   if (fs.existsSync(transpiledSource)) return transpiledSource;
   const source = path.resolve(cwd, 'src/backend/bootstrap.ts');
   if (fs.existsSync(source)) return source;
-  const here = path.dirname(fileURLToPath(import.meta.url));
-  const relativeBuilt = path.resolve(here, '../../../src/backend/bootstrap.js');
-  if (fs.existsSync(relativeBuilt)) return relativeBuilt;
   const relativeSource = path.resolve(here, '../../../src/backend/bootstrap.ts');
   return relativeSource;
 }

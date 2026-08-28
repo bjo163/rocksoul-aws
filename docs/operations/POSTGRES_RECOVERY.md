@@ -31,6 +31,10 @@ Recovery and restore are **offline** operational procedures. There is **no remot
 7. Promote the recovered database only after verification succeeds.
 8. Record the recovery event and release/commit identifiers.
 
+The local restore command requires `--allow-destructive` for PostgreSQL. This
+acknowledgement is deliberately required even when the source dump is valid;
+use it only after selecting the isolated maintenance database in step 3.
+
 ## Coolify persistence
 
 - PostgreSQL volume: `cosmic-postgres`.

@@ -58,7 +58,11 @@ export async function buildApp(options: AppOptions = {}): Promise<HttpApp> {
   const features = featureFactory.createFeatureRegistry();
   const idempotency = persistenceDriver === 'postgres' ? new PostgresIdempotencyStore() : new IdempotencyStore(path.join(dataDir, 'idempotency.json'));
   const jobs = new PersistentJobQueue(universeStore.persistence.store);
-  const semanticRuntime = runtimeDataset('data/semantic/registry.json');
+  // The compiled API bundles its runtime datasets under `dist/data`.  Do not
+  // rely on process.cwd(): `npm --prefix apps/api` preserves the caller's cwd
+  // semantics differently between development, DDT, and the production entrypoint.
+  const runtimeDataRoot = path.resolve(here, '../../..');
+  const semanticRuntime = runtimeDataset('data/semantic/registry.json', runtimeDataRoot);
   const semanticDefinitions = semanticRuntime && typeof semanticRuntime === 'object' && !Array.isArray(semanticRuntime) && 'definitions' in semanticRuntime && semanticRuntime.definitions && typeof semanticRuntime.definitions === 'object' && !Array.isArray(semanticRuntime.definitions) ? semanticRuntime.definitions as ConstructorParameters<typeof SemanticRegistry>[0] : {};
   const semanticRegistry = new SemanticRegistry(semanticDefinitions);
   const semanticProvider = createDefaultSemanticProvider(path.resolve(here, '../../..'));
