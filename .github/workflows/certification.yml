@@ -99,6 +99,9 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
+      - name: Release versioning policy
+        run: npm run test:release-versioning
+
       - name: Release identity
         run: npm run release:identity
 
