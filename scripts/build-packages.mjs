@@ -12,7 +12,7 @@ const order = [
 ];
 // These facades still bridge legacy root src/ modules. They remain available to
 // the transpile runner until that compatibility boundary is retired.
-const sourceBridged = new Set(['kernel', 'cosmic-engine']);
+const sourceBridged = new Set();
 const npmCommand = process.execPath;
 const npmArgs = [path.join(repo, 'node_modules', 'typescript', 'bin', 'tsc')];
 

@@ -7,6 +7,9 @@ const npmPrefix = process.platform === 'win32'
   : [];
 
 const steps = [
+  ['package build', ['run', 'build:packages']],
+  ['package runtime smoke', ['run', 'test:package-runtime']],
+  ['architecture boundary', ['run', 'architecture:check']],
   ['lint', ['run', 'lint']],
   ['dependency integrity', ['run', 'dependency:integrity']],
   ['typecheck', ['run', 'typecheck']],

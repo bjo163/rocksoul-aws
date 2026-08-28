@@ -35,7 +35,10 @@ if (fs.existsSync(gitDir)) {
 function walk(dir) {
   const out = [];
   for (const name of fs.readdirSync(dir)) {
-    if (name === 'node_modules' || name === 'dist') continue;
+    // Keep compiled workspace package artifacts available to source tests. The
+    // package entrypoints intentionally resolve to dist/ for production-like
+    // runtime checks, while this runner executes from an isolated temp tree.
+    if (name === 'node_modules') continue;
     const full = path.join(dir, name); const stat = fs.statSync(full);
     if (stat.isDirectory()) out.push(...walk(full)); else out.push(full);
   }

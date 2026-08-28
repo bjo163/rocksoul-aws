@@ -87,6 +87,9 @@ jobs:
       - name: Architecture check
         run: npm run architecture:check
 
+      - name: Package build and runtime contracts
+        run: npm run test:package-runtime
+
       - name: Lint
         run: npm run lint
 

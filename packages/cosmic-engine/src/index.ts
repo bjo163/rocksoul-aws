@@ -1,9 +1,7 @@
-import { buildAiAnalysis } from '../../../src/ai/general-analyzer.js';
-import { createDefaultSemanticProvider } from '../../../src/ai/provider.js';
-import { evaluateMizanService } from '../../../src/services/mizan-service.js';
-import { calculateTemporalState, toMizanTemporalContext, type TSEInput } from '../../tse-engine/src/index.js';
-import { explainLegalResult, explainTemporalContext } from '@moonwitness/explanation-engine';
+import { analyzeAutomatically, buildAiAnalysis, createDefaultSemanticProvider } from './analysis.js';
 import { evaluateMizan, evaluateQuranicMizan } from '@moonwitness/mizan-engine';
+import { calculateTemporalState, toMizanTemporalContext, type TSEInput } from '@moonwitness/tse-engine';
+import { explainLegalResult, explainTemporalContext } from '@moonwitness/explanation-engine';
 import { buildAnalyticalSemanticVector, SemanticRegistry } from '@moonwitness/semantic-engine';
 import { compareTime, makeTimeEvent, now } from '@moonwitness/temporal-engine';
 
@@ -39,10 +37,13 @@ export interface CosmicSemanticObservation {
   diagnostics: string[];
 }
 
-export { calculateTemporalState, toMizanTemporalContext } from '../../tse-engine/src/index.js';
-export { evaluateMizanService } from '../../../src/services/mizan-service.js';
-export type { MizanInput, MizanResult, MizanTemporalContext } from '../../../src/contracts/mizan.js';
-export type { TSEInput, TSETemporalState } from '../../tse-engine/src/index.js';
+export { calculateTemporalState, toMizanTemporalContext } from '@moonwitness/tse-engine';
+export type { TSEInput, TSETemporalState } from '@moonwitness/tse-engine';
+export type MizanInput = Record<string, unknown>;
+export type MizanResult = Record<string, unknown>;
+export type MizanTemporalContext = Record<string, unknown>;
+export function evaluateMizanService(input: MizanInput): MizanResult { return evaluateMizan(input) as MizanResult; }
+export { AiProvider, LocalStructuredProvider, StaticSemanticProvider, HttpJsonAiProvider, RegistrySemanticProvider, createDefaultSemanticProvider, providerDescriptor, analyzeAutomatically } from './analysis.js';
 
 type UnknownRecord = Record<string, unknown>;
 
