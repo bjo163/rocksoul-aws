@@ -42,8 +42,8 @@ export class WitnessBackupManager {
         const data = await readFile(source);
         await atomicWrite(path.join(directory, name), data);
         files.push({ name, sha256: digest(data), bytes: data.byteLength });
-      } catch (error: any) {
-        if (error?.code !== 'ENOENT') throw error;
+      } catch (error: unknown) {
+        if ((error as { code?: string })?.code !== 'ENOENT') throw error;
       }
     }
 
@@ -100,7 +100,7 @@ export class WitnessBackupManager {
         try { results.push({ directory, manifest: JSON.parse(await readFile(path.join(directory, 'manifest.json'), 'utf8')) }); } catch {}
       }
       return results.sort((a, b) => b.manifest.createdAt.localeCompare(a.manifest.createdAt));
-    } catch (error: any) { if (error?.code === 'ENOENT') return []; throw error; }
+    } catch (error: unknown) { if ((error as { code?: string })?.code === 'ENOENT') return []; throw error; }
   }
 
   /** Restore local witness files. Caller must restart/reopen runtime afterwards. */

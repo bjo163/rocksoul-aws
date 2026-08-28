@@ -8,7 +8,7 @@ export class LocalCheckpointStore {
   static async open(filePath: string): Promise<LocalCheckpointStore> {
     const store = new LocalCheckpointStore(filePath);
     try { const parsed=JSON.parse(await readFile(filePath,'utf8')); store.#items=Array.isArray(parsed?.checkpoints)?parsed.checkpoints:[]; }
-    catch (error:any) { if(error?.code!=='ENOENT') throw error; }
+    catch (error: unknown) { if((error as { code?: string })?.code!=='ENOENT') throw error; }
     return store;
   }
   list(): SignedCheckpoint[] { return structuredClone(this.#items).sort((a,b)=>b.checkpoint.createdAt.localeCompare(a.checkpoint.createdAt)); }

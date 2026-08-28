@@ -3,6 +3,11 @@ import { join } from 'node:path';
 
 const roots = ['src', 'apps', 'packages'];
 const sourceExtensions = new Set(['.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs']);
+const packageHostImportPatterns = [
+  /(?:^|[\\/])apps[\\/]api(?:[\\/]|$)/,
+  /(?:^|[\\/])src[\\/](?:api|routes|server|app)(?:[\\/]|$)/,
+  /^(?:express|fastify|hono)(?:\/|$)/,
+];
 const violations = [];
 
 async function walk(dir) {
@@ -21,6 +26,9 @@ async function walk(dir) {
         }
         if (specifier.includes('/apps/')) {
           violations.push(`${path}: cross-app import ${specifier}`);
+        }
+        if (path.replaceAll('\\', '/').startsWith('packages/') && packageHostImportPatterns.some((pattern) => pattern.test(specifier))) {
+          violations.push(`${path}: package imports host-specific module ${specifier}`);
         }
       }
     }

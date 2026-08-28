@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createHash, generateKeyPairSync, sign, verify, createPublicKey, randomUUID } from 'node:crypto';
 import { WitnessDag, type DagCheckpoint, type DagHash, type DagNode } from './witness-dag.js';
 

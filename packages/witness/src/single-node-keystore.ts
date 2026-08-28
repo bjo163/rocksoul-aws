@@ -45,8 +45,8 @@ export class SingleNodeWitnessKeyStore {
       const raw = JSON.parse(await readFile(options.filePath, 'utf8')) as EncryptedKeyStoreFile;
       payload = SingleNodeWitnessKeyStore.decrypt(raw, options.password);
       if (payload.witnessId !== options.witnessId) throw new Error('WITNESS_ID_MISMATCH');
-    } catch (error: any) {
-      if (error?.code !== 'ENOENT') throw error;
+    } catch (error: unknown) {
+      if ((error as { code?: string })?.code !== 'ENOENT') throw error;
       if (options.createIfMissing === false) throw error;
       wasMissing = true;
       payload = { version: 1, witnessId: options.witnessId, keys: [] };
@@ -118,8 +118,8 @@ export async function resolveSingleNodeWitnessPassword(options: { dataDir: strin
   const filePath = path.join(options.dataDir, 'witness', '.local-master-secret');
   await mkdir(path.dirname(filePath), { recursive: true, mode: 0o700 });
   try { return { password: (await readFile(filePath, 'utf8')).trim(), source: 'local-secret' }; }
-  catch (error: any) {
-    if (error?.code !== 'ENOENT') throw error;
+  catch (error: unknown) {
+    if ((error as { code?: string })?.code !== 'ENOENT') throw error;
     const password = randomBytes(32).toString('base64url'); await writeFile(filePath, password, { mode: 0o600 }); return { password, source: 'local-secret' };
   }
 }

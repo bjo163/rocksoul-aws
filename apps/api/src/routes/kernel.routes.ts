@@ -2,7 +2,7 @@ import { Router, httpError, requirePermission, writeJson } from '../router.js';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { runtimeDataset } from '../../../../src/persistence/runtime-data.js';
+import { runtimeDataset } from '@moonwitness/persistence';
 import { evaluateMizanService } from '../../../../src/services/mizan-service.js';
 import { isMizanInput } from '../../../../src/contracts/mizan.js';
 

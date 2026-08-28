@@ -20,8 +20,8 @@ export class LocalWitnessDagStore {
       if (!verification.valid) throw new Error(`LOCAL_QDAG_INVALID:${verification.reason ?? 'UNKNOWN'}`);
       for (const node of rebuilt.list()) target.import(node);
       return { loaded: rebuilt.list().length, root: rebuilt.root() };
-    } catch (error: any) {
-      if (error?.code === 'ENOENT') return { loaded: 0, root: null };
+    } catch (error: unknown) {
+      if ((error as { code?: string })?.code === 'ENOENT') return { loaded: 0, root: null };
       throw error;
     }
   }

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createHash, randomUUID } from 'node:crypto';
 
 export type DagHash = string;
@@ -46,7 +45,7 @@ export function sha256(value: unknown): DagHash {
   return createHash('sha256').update(typeof value === 'string' ? value : canonical(value)).digest('hex');
 }
 
-export function hashDagNode(node: Omit<DagNode, 'hash'>): DagHash {
+export function hashDagNode<T>(node: Omit<DagNode<T>, 'hash'>): DagHash {
   return sha256({
     nodeId: node.nodeId,
     kind: node.kind,

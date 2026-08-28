@@ -2,7 +2,7 @@ import crypto from 'node:crypto';
 import { createRequire } from 'node:module';
 import type { IdempotencyRecord } from './idempotency.js';
 
-interface PgResult { rows: any[] }
+interface PgResult { rows: unknown[] }
 interface PgClient { query(sql: string, params?: unknown[]): Promise<PgResult>; release(): void }
 interface PgPool { connect(): Promise<PgClient>; end(): Promise<void> }
 const require = createRequire(import.meta.url);
@@ -19,8 +19,8 @@ export class PostgresIdempotencyStore {
     const result = await this.pool.connect();
     try {
       const query = await result.query('SELECT * FROM idempotency_records WHERE key=$1', [key]);
-      const row = query.rows[0];
-      return row ? { key: row.key, requestHash: row.request_hash, statusCode: row.status_code, body: row.body_json, createdAt: new Date(row.created_at).toISOString() } : null;
+      const row = query.rows[0] as Record<string, unknown> | undefined;
+      return row ? { key: String(row.key), requestHash: String(row.request_hash), statusCode: Number(row.status_code), body: row.body_json, createdAt: new Date(String(row.created_at)).toISOString() } : null;
     } finally { result.release(); }
   }
 
@@ -31,9 +31,9 @@ export class PostgresIdempotencyStore {
       await client.query('BEGIN');
       await client.query('SELECT pg_advisory_xact_lock(hashtext($1))', [key]);
       const query = await client.query('SELECT * FROM idempotency_records WHERE key=$1', [key]);
-      const row = query.rows[0];
+      const row = query.rows[0] as Record<string, unknown> | undefined;
       if (row) {
-        const record: IdempotencyRecord = { key: row.key, requestHash: row.request_hash, statusCode: row.status_code, body: row.body_json, createdAt: new Date(row.created_at).toISOString() };
+        const record: IdempotencyRecord = { key: String(row.key), requestHash: String(row.request_hash), statusCode: Number(row.status_code), body: row.body_json, createdAt: new Date(String(row.created_at)).toISOString() };
         if (record.requestHash !== requestHash) throw Object.assign(new Error('IDEMPOTENCY_KEY_REUSED_WITH_DIFFERENT_PAYLOAD'), { code: 'IDEMPOTENCY_CONFLICT', statusCode: 409 });
         await client.query('COMMIT');
         return { statusCode: record.statusCode, body: record.body as T };
