@@ -20,7 +20,6 @@ export async function buildFastifyRuntime(options: FastifyRuntimeOptions = {}): 
   const app = Fastify({
     logger: options.logger ?? false,
     bodyLimit: DEFAULT_BODY_LIMIT,
-    disableRequestLogging: !options.logger,
   });
 
   if (options.telemetry ?? process.env.OTEL_ENABLED === '1') {
@@ -43,7 +42,7 @@ export async function buildFastifyRuntime(options: FastifyRuntimeOptions = {}): 
     if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
       const contentType = String(request.headers['content-type'] ?? '');
       if (!contentType.includes('application/json')) {
-        reply.status(415).send({ error: 'UNSUPPORTED_MEDIA_TYPE', request_id: request.id });
+        return reply.status(415).send({ error: 'UNSUPPORTED_MEDIA_TYPE', request_id: request.id });
       }
     }
   });
@@ -104,8 +103,13 @@ export async function buildFastifyRuntime(options: FastifyRuntimeOptions = {}): 
     }
   }
 
-  process.on('SIGTERM', shutdown);
-  process.on('SIGINT', shutdown);
+  const onSignal = () => { void shutdown(); };
+  process.on('SIGTERM', onSignal);
+  process.on('SIGINT', onSignal);
+  app.addHook('onClose', async () => {
+    process.off('SIGTERM', onSignal);
+    process.off('SIGINT', onSignal);
+  });
 
   return app;
 }
