@@ -5,7 +5,7 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "test": "tsx --test test/persistence.test.ts"
+    "test": "tsx --test test/persistence.test.ts test/idempotency-runtime.test.ts"
   },
   "devDependencies": {
     "tsx": "^4.19.0"

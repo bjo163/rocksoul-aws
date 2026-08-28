@@ -102,13 +102,13 @@ export async function buildApp(options: AppOptions = {}): Promise<HttpApp> {
     const workflow = await runAiAnalyzeWorkflow({ caseId, actorId, text, options: aiOpts, semanticObservation: payload.semanticObservation && typeof payload.semanticObservation === 'object' ? payload.semanticObservation as Record<string, unknown> : undefined, modelVersion: process.env.MOONWITNESS_RELEASE_VERSION ?? '4.33.0', source: 'persistent-job' }, {
       listEvidence: (id) => universeStore.listCaseEvidence(id),
       analyze: async ({ text: analysisText, options, semanticObservation }) => {
-        const enriched = { ...options, provider: semanticProvider, sourceGraph: { search: ({ q, limit = 10 }: { q: string; limit?: number }) => backend.runtime.graph.listEntities({ q }).slice(0, limit).map((e: any) => ({ ...e, id: e.entityId })) } };
-        return semanticObservation ? buildAiAnalysis(analysisText, enriched as any) : analyzeWithProvider(analysisText, enriched as any);
+        const enriched = { ...options, provider: semanticProvider, sourceGraph: { search: ({ q, limit = 10 }: { q: string; limit?: number }) => backend.runtime.graph.listEntities({ q }).slice(0, limit).map((entity) => { const record = entity as Record<string, unknown>; return { ...record, id: record.entityId }; }) } };
+        return semanticObservation ? buildAiAnalysis(analysisText, enriched as Parameters<typeof buildAiAnalysis>[1]) : analyzeWithProvider(analysisText, enriched as Parameters<typeof analyzeWithProvider>[1]);
       },
       composeReminder: (seed) => composeReminderBundle(seed),
-      saveCase: ({ aggregate, eventType, actorId: saveActor }) => universeStore.saveCase(aggregate as any, eventType, saveActor),
+      saveCase: ({ aggregate, eventType, actorId: saveActor }) => universeStore.saveCase(aggregate as unknown as Parameters<typeof universeStore.saveCase>[0], eventType, saveActor),
       commitWitness: async (input) => {
-        const node = appendMizanWitness(witnessDag, input as any);
+        const node = appendMizanWitness(witnessDag, input as unknown as Parameters<typeof appendMizanWitness>[1]);
         await witnessDagStore.save(witnessDag); if (witnessStore) await witnessStore.putNode(node); witnessMetrics.record('NODE_APPENDED');
         let checkpointId: string | null = null;
         if (process.env.WITNESS_AUTO_CHECKPOINT !== '0' && witnessKeyStore.activeIdentity()) { const signed=signCheckpoint(witnessDag.checkpoint(),witnessKeyStore.activeIdentity()!); await witnessCheckpointStore.put(signed); if(witnessStore) await witnessStore.putCheckpoint(signed); witnessMetrics.record('CHECKPOINT_CREATED'); checkpointId = signed.checkpoint.checkpointId; }
