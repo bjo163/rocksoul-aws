@@ -1,14 +1,14 @@
 {
-  "name": "@moonwitness/temporal-engine",
+  "name": "@moonwitness/mizan-engine",
   "version": "4.33.0",
-  "description": "Host-neutral temporal primitives for normalized time events and comparisons",
+  "description": "Host-neutral deterministic Mizan scoring and Quranic Mizan analytical primitives",
   "private": true,
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "scripts": {
     "typecheck": "tsc --noEmit --target ES2022 --module NodeNext --moduleResolution NodeNext --skipLibCheck src/index.ts",
-    "test": "tsx --test test/temporal-engine.test.ts"
+    "test": "tsx --test test/mizan-engine.test.ts"
   },
   "devDependencies": {
     "tsx": "^4.19.0",
