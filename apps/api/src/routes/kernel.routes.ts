@@ -2,8 +2,8 @@ import { Router, httpError, requirePermission, writeJson } from '../router.js';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { runtimeDataset } from '../../../../src/persistence/runtime-data.js';
-import { evaluateMizanService } from '../../../../src/services/mizan-service.js';
+import { runtimeDataset } from '@moonwitness/persistence';
+import { evaluateMizan } from '@moonwitness/mizan-engine';
 import { isMizanInput } from '../../../../src/contracts/mizan.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -51,7 +51,7 @@ kernelRouter.add('POST', '/api/v1/mizan', async (req, _reply, _params, body, _qu
   if (!isMizanInput(body)) return httpError(400, 'INVALID_MIZAN_INPUT');
   try {
     return {
-      ...evaluateMizanService(body),
+      ...evaluateMizan(body),
       meta: {
         engine: 'mizan',
         version: '4.33.0',
