@@ -1,23 +1,111 @@
 import Fastify, { type FastifyInstance } from 'fastify';
 import { FastifyOtelInstrumentation } from '@fastify/otel';
+import { isFastifyEnabled } from './feature-flags.js';
 
 export interface FastifyRuntimeOptions {
   logger?: boolean;
   telemetry?: boolean;
+  enableCorrelationId?: boolean;
 }
 
-/**
- * Transitional Fastify surface. Native HTTP remains the production API until
- * route parity is proven; this surface provides health/readiness and telemetry
- * hooks without coupling the engine to a web framework.
- */
+export interface FastifyApp {
+  start(port: number, host: string): Promise<void>;
+  close(): Promise<void>;
+}
+
+const RELEASE = '4.33.0';
+const DEFAULT_BODY_LIMIT = 1024 * 1024;
+
 export async function buildFastifyRuntime(options: FastifyRuntimeOptions = {}): Promise<FastifyInstance> {
-  const app = Fastify({ logger: options.logger ?? false });
+  const app = Fastify({
+    logger: options.logger ?? false,
+    bodyLimit: DEFAULT_BODY_LIMIT,
+    disableRequestLogging: !options.logger,
+  });
+
   if (options.telemetry ?? process.env.OTEL_ENABLED === '1') {
     const instrumentation = new FastifyOtelInstrumentation();
     await app.register(instrumentation.plugin());
   }
-  app.get('/health', async () => ({ ok: true, runtime: 'fastify', phase: 'transitional' }));
-  app.get('/ready', async () => ({ ok: true, runtime: 'fastify', nativeApiFallback: true }));
+
+  if (options.enableCorrelationId ?? true) {
+    app.addHook('onRequest', async (request, reply) => {
+      let requestId = String(request.headers['x-request-id'] ?? '');
+      if (!requestId) {
+        requestId = crypto.randomUUID();
+      }
+      reply.header('X-Request-Id', requestId);
+    });
+  }
+
+  app.addHook('onRequest', async (request, reply) => {
+    const method = String(request.method ?? 'GET').toUpperCase();
+    if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
+      const contentType = String(request.headers['content-type'] ?? '');
+      if (!contentType.includes('application/json')) {
+        reply.status(415).send({ error: 'UNSUPPORTED_MEDIA_TYPE', request_id: request.id });
+      }
+    }
+  });
+
+  app.setErrorHandler((error, _request, reply) => {
+    const isError = error instanceof Error;
+    const statusCode = isError && 'statusCode' in error ? (error as { statusCode: number }).statusCode : 500;
+    const isProduction = process.env.NODE_ENV === 'production';
+    const payload: Record<string, unknown> = {
+      error: statusCode >= 500 ? 'INTERNAL_ERROR' : String(isError ? error.message : 'BAD_REQUEST'),
+      request_id: reply.request.id,
+    };
+    if (!isProduction && isError) {
+      payload.message = error.message;
+      payload.stack = error.stack;
+    }
+    reply.status(statusCode).send(payload);
+  });
+
+  app.get('/health', async (_request, reply) => {
+    const base: Record<string, unknown> = { status: 'ok', release: RELEASE };
+    const universeStore = (reply.server as FastifyInstance & { universeStore?: { persistence: { store: { driver: string } } } }).universeStore;
+    if (universeStore) {
+      base.storageDriver = universeStore.persistence.store.driver;
+    } else {
+      base.storageDriver = 'file';
+    }
+    const backend = (reply.server as FastifyInstance & { backend?: { app?: { health?: () => Record<string, unknown> } } }).backend;
+    if (backend?.app?.health) {
+      Object.assign(base, backend.app.health());
+    }
+    const auth = (reply.server as FastifyInstance & { auth?: { _users?: Map<string, unknown> } }).auth;
+    base.needsSetup = (auth?._users?.size ?? 0) === 0;
+    base.environment = process.env.MOONWITNESS_ENV ?? process.env.NODE_ENV ?? 'development';
+    base.database = process.env.PGDATABASE ?? null;
+    return base;
+  });
+
+  app.get('/ready', async (_request, reply) => {
+    const universeStore = (reply.server as FastifyInstance & { universeStore?: { persistence: { store: { driver: string } } } }).universeStore;
+    const storageDriver = universeStore?.persistence.store.driver ?? 'file';
+    return { status: 'ready', release: RELEASE, storageDriver };
+  });
+
+  app.post('/test/echo', async (request, _reply) => {
+    return { received: request.body };
+  });
+
+  let shuttingDown = false;
+
+  async function shutdown(): Promise<void> {
+    if (shuttingDown) return;
+    shuttingDown = true;
+    try {
+      await app.close();
+    } catch (error) {
+      app.log.error(error as Error, 'Graceful shutdown failed');
+    }
+  }
+
+  process.on('SIGTERM', shutdown);
+  process.on('SIGINT', shutdown);
+
   return app;
 }

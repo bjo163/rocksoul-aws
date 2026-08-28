@@ -5,6 +5,12 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
   "scripts": {
     "build": "npm exec -- tsc --target ES2022 --module NodeNext --moduleResolution NodeNext --rootDir src --outDir dist --declaration --sourceMap --strict --skipLibCheck",
     "test": "tsx --test test/persistence.test.ts test/idempotency-runtime.test.ts test/universe-store.test.ts"
