@@ -1,0 +1,69 @@
+name: Release Version Proposal
+
+on:
+  workflow_run:
+    workflows: [Cosmic CI]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: release-version-proposal
+  cancel-in-progress: false
+
+jobs:
+  propose:
+    if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout certified main candidate
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || 'main' }}
+          fetch-depth: 0
+
+      - name: Ensure candidate is current main
+        if: github.event_name == 'workflow_run'
+        run: |
+          git fetch origin main --tags
+          test "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)"
+
+      - name: Plan version from conventional commits
+        id: plan
+        run: |
+          node scripts/release-version.mjs plan > release-plan.json
+          cat release-plan.json
+          echo "current=$(node -p \"JSON.parse(require('fs').readFileSync('release-plan.json', 'utf8')).current\")" >> "$GITHUB_OUTPUT"
+          echo "version=$(node -p \"JSON.parse(require('fs').readFileSync('release-plan.json', 'utf8')).version || ''\")" >> "$GITHUB_OUTPUT"
+          echo "tag=$(node -p \"JSON.parse(require('fs').readFileSync('release-plan.json', 'utf8')).tag\")" >> "$GITHUB_OUTPUT"
+          echo "tag_version=$(node -p \"JSON.parse(require('fs').readFileSync('release-plan.json', 'utf8')).previousVersion\")" >> "$GITHUB_OUTPUT"
+
+      - name: Stop when a version already awaits tagging
+        if: steps.plan.outputs.current != steps.plan.outputs.tag_version
+        run: echo "package version differs from the latest tag; waiting for certified tag workflow"
+
+      - name: Create release version pull request
+        if: steps.plan.outputs.version != '' && steps.plan.outputs.current == steps.plan.outputs.tag_version
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.plan.outputs.version }}
+        run: |
+          branch="release/v${VERSION}"
+          if git ls-remote --exit-code --heads origin "$branch"; then
+            echo "release proposal already exists"
+            exit 0
+          fi
+          git switch -c "$branch"
+          node scripts/release-version.mjs apply --version "$VERSION"
+          npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+          npm run release:identity
+          node --test tests/release-versioning.test.mjs
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json apps/api/package.json packages config/release-version.json docs
+          git commit -m "chore(release): prepare v${VERSION}"
+          git push origin "$branch"
+          gh pr create --base main --head "$branch" --title "chore(release): prepare v${VERSION}" --body "Automated conventional-commit version proposal. This PR must pass Cosmic CI before merge; tagging is performed only after the exact main SHA is certified."

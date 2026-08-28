@@ -43,6 +43,7 @@ async function main() {
     { name: 'release-identity', args: ['run', 'release:identity'] },
     { name: 'build-packages', args: ['run', 'build:packages'] },
     { name: 'typecheck', args: ['run', 'typecheck'] },
+    { name: 'release-versioning', args: ['run', 'test:release-versioning'] },
     { name: 'test-release', args: ['run', 'test:release'] },
     { name: 'build-api', args: ['run', 'build:api'] },
     { name: 'test-fastify-adapter', args: ['run', 'test:fastify-adapter'] },

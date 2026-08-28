@@ -1,0 +1,43 @@
+name: Certified Release Tag
+
+on:
+  workflow_run:
+    workflows: [Cosmic CI]
+    types: [completed]
+
+permissions:
+  contents: write
+
+jobs:
+  tag:
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout certified main candidate
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          fetch-depth: 0
+
+      - name: Tag a certified prepared version
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ ! -f config/release-version.json ]; then
+            echo "no prepared version marker"
+            exit 0
+          fi
+          git fetch --tags origin
+          version=$(node -p "require('./package.json').version")
+          markerVersion=$(node -p "require('./config/release-version.json').version")
+          test "$version" = "$markerVersion"
+          if git rev-parse "v$version" >/dev/null 2>&1; then
+            echo "v$version already exists"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          target=$(git rev-parse HEAD)
+          git tag -a "v$version" -m "Cosmic v$version"
+          git push origin "v$version"
+          gh release create "v$version" --title "Cosmic v$version" --notes-file "docs/RELEASE_NOTES_${version}.md" --target "$target"

@@ -17,6 +17,7 @@ const steps = [
   ['engine typecheck', ['run', 'typecheck:engine']],
   ['documentation', ['run', 'docs:check']],
   ['release identity', ['run', 'release:identity']],
+  ['release versioning', ['run', 'test:release-versioning']],
   ['core tests', ['test']],
   ['final certification', ['run', 'final:certify']],
 ];
