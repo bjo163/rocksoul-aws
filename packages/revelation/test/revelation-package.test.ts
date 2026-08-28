@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
 import { access } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { corroborationSourceGuardPure, isAllowedNormativeBook, normativeSourceGuardPure } from '../src/source-policy.js';
 import { normalizeProphetProfiles } from '../src/prophet-profile.js';
 import { normalizeScriptureReferences } from '../src/scripture-reference.js';
@@ -7,9 +9,9 @@ import { normalizePropheticEvents } from '../src/prophetic-event.js';
 import { buildRevelationGraph } from '../src/revelation-graph.js';
 import { normalizeEvidenceProvenance } from '../src/evidence-provenance.js';
 
-const root = process.cwd();
+const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 for (const path of ['packages/revelation/data/prophets.json','packages/revelation/data/knowledge/prophet-scripture-index.json','packages/revelation/data/knowledge/prophetic-events.json']) {
-  await access(`${root}/${path}`);
+  await access(join(root, path.replace(/^packages[\\/]revelation[\\/]/, '')));
 }
 
 assert.equal(isAllowedNormativeBook('quran'), true);

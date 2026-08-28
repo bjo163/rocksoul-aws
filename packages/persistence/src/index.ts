@@ -12,3 +12,4 @@ export * from './postgres-idempotency.js';
 export * from './runtime-data.js';
 
 export * from './client.js';
+export * from './universe-store.js';

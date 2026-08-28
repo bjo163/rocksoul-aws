@@ -1,6 +1,6 @@
 import { isHumanReviewGate, type HumanReviewGate, type XrpCaseSummary, type XrpWorkspaceResponse } from '../../../packages/contracts/src/index.js';
 import type { EntityRecord, EventRecord, EvidenceRecord } from '../../../packages/persistence/src/types.js';
-import type { WitnessDag } from '../../../src/ledger/witness-dag.js';
+import type { WitnessDag } from '@moonwitness/witness';
 import type { PersistenceClient } from '../../../packages/persistence/src/client.js';
 
 interface WorkspaceUser { userId: string; rid: string }

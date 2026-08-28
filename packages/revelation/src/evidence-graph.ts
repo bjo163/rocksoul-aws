@@ -80,5 +80,12 @@ export function bindEvidenceToRevelationGraph(input: EvidenceGraphBindingInput):
     });
   }
 
-  return bindings.sort((a, b) => a.id.localeCompare(b.id));
+  const relationOrder: Record<EvidenceGraphBinding['relation'], number> = {
+    EVIDENCE_SUPPORTS: 0,
+    EVIDENCE_CORROBORATES: 1,
+    EVIDENCE_OBSERVES: 2,
+    EVIDENCE_CONFLICTS: 3,
+    EVIDENCE_DERIVED_FROM: 4,
+  };
+  return bindings.sort((a, b) => relationOrder[a.relation] - relationOrder[b.relation] || a.id.localeCompare(b.id));
 }

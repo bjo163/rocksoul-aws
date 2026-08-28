@@ -1,19 +1,21 @@
 import type { AuthSessionContract } from '../../../packages/contracts/src/index.js';
 import type { AuthorizationUser } from '../../../src/security/authorization.js';
-import type { UniverseStore } from '../../../src/persistence/universe-store.js';
+import type { UniverseStore } from '@moonwitness/persistence';
 import type { Observability } from '../../../src/observability/observability.js';
-import type { PersistentJobQueue } from '../../../src/jobs/job-queue.js';
+import type { PersistentJobQueue } from '@moonwitness/jobs';
 import type { SemanticRegistry } from '../../../src/semantic/semantic-registry.js';
 import type { createFeatureRegistry } from '../../../src/access/feature-registry.js';
 import type { loadLegacyBackend } from './legacy-bridge.js';
-import type { WitnessTransportService } from '../../../src/ledger/witness-transport.js';
-import type { WitnessDag } from '../../../src/ledger/witness-dag.js';
-import type { LocalWitnessDagStore } from '../../../src/ledger/local-dag-store.js';
-import type { PostgresWitnessProjectionStore } from '../../../src/ledger/witness-projection-store.js';
-import type { SingleNodeWitnessKeyStore } from '../../../src/ledger/single-node-keystore.js';
-import type { LocalCheckpointStore } from '../../../src/ledger/local-checkpoint-store.js';
-import type { WitnessBackupManager } from '../../../src/ledger/witness-backup.js';
-import type { WitnessObservability } from '../../../src/ledger/witness-observability.js';
+import type {
+  LocalCheckpointStore,
+  LocalWitnessDagStore,
+  PostgresWitnessProjectionStore,
+  SingleNodeWitnessKeyStore,
+  WitnessBackupManager,
+  WitnessDag,
+  WitnessObservability,
+  WitnessTransportService,
+} from '@moonwitness/witness';
 import { createDefaultSemanticProvider } from '../../../src/ai/provider.js';
 
 export interface Authenticator {

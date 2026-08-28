@@ -7,7 +7,7 @@ import * as authFactory from '../../../src/access/auth.js';
 import * as featureFactory from '../../../src/access/feature-registry.js';
 import { buildAiAnalysis, analyzeWithProvider } from '../../../src/ai/general-analyzer.js';
 import { createDefaultSemanticProvider } from '../../../src/ai/provider.js';
-import { UniverseStore } from '../../../src/persistence/universe-store.js';
+import { UniverseStore } from '@moonwitness/persistence';
 import { Observability } from '../../../src/observability/observability.js';
 import { assertPermission, hasPermission, type ActionPermission } from '../../../src/security/authorization.js';
 import { IdempotencyStore, PostgresIdempotencyStore, initializeRuntimeData, runtimeDataset } from '@moonwitness/persistence';
