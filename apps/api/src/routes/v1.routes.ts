@@ -19,6 +19,7 @@ import { denyForeignRidWrite, requireScopedEntity } from '../access-control.js';
 import { sha256 } from '@moonwitness/witness';
 import { hasPermission } from '../../../../src/security/authorization.js';
 import { runAnalysisWorkflow, runCreateReviewWorkflow, runEvaluationWorkflow, runEvidenceWorkflow, runObservationWorkflow, runTransitionReviewWorkflow } from '@moonwitness/orchestrator';
+import { boundedInteger, listQueryBounds, queryFilters } from '../query-bounds.js';
 
 export const v1Router = new Router();
 
@@ -47,7 +48,9 @@ function idempotencyError(error: unknown) {
 v1Router.add('GET', '/api/v1/observability/recent', async (req, _reply, _params, _body, query, ctx) => {
   const authz = await requirePermission(req, ctx.auth, 'READ_AUDIT');
   if (!authz.ok) return authz.error;
-  return ctx.observability.recent(Number(query.get('limit') ?? 100));
+  const limit = boundedInteger(query.get('limit'), 100, 1, 250);
+  if (!limit.ok) return httpError(400, limit.code);
+  return ctx.observability.recent(limit.value);
 });
 
 v1Router.add('GET', '/api/v1/stream', async (req, reply, _params, _body, _query, ctx) => {
@@ -273,14 +276,12 @@ v1Router.add('POST', '/api/v1/query', async (req, _reply, _params, body, query, 
     if (!authz.ok) return authz.error;
   }
   const p = isRecord(body) ? body : {};
-  const q = typeof p.query === 'string' ? p.query : query.get('q') ?? undefined;
-  const type = typeof p.type === 'string' ? p.type : query.get('type') ?? undefined;
-  const entityId = typeof p.entityId === 'string' ? p.entityId : query.get('entityId') ?? undefined;
-  const n = Number(p.limit ?? query.get('limit') ?? 50);
-  const limit = Number.isFinite(n) ? Math.max(1, Math.min(250, n)) : 50;
-  const offset = Math.max(0, Number(query.get('offset')) || 0);
-  if (entityId) return { type: 'ENTITY', result: ctx.backend.runtime.graph.getEntity(entityId) ?? null };
-  return { type: 'ENTITIES', results: ctx.backend.runtime.graph.listEntities({ type, q }).slice(offset, offset + limit) };
+  const filters = queryFilters(p, query);
+  const pagination = listQueryBounds(query, p.limit ?? query.get('limit'), 50);
+  if (!filters.ok) return httpError(400, filters.code);
+  if (!pagination.ok) return httpError(400, pagination.code);
+  if (filters.value.entityId) return { type: 'ENTITY', result: ctx.backend.runtime.graph.getEntity(filters.value.entityId) ?? null };
+  return { type: 'ENTITIES', results: ctx.backend.runtime.graph.listEntities({ type: filters.value.type, q: filters.value.q }).slice(pagination.value.offset, pagination.value.offset + pagination.value.limit) };
 });
 
 v1Router.add('GET', '/api/v1/xrp/workspace', async (req, _reply, _params, _body, _query, ctx) => {
@@ -313,6 +314,8 @@ v1Router.add('POST', '/api/v1/xrp/cases', async (req, _reply, _params, body, _qu
 });
 
 v1Router.add('POST', '/api/v1/xrp/cases/:id/evidence', async (req, _reply, params, body, _query, ctx) => {
+  const authz = await requireAuthenticated(req, ctx.auth);
+  if (!authz.ok) return authz.error;
   const scope = await requireScopedEntity(req, ctx, params.id, { allowOversight: false });
   if (!scope.ok) return scope.error;
   if (scope.entity.type !== 'CASE') return httpError(404, 'RESOURCE_NOT_FOUND');
@@ -357,6 +360,8 @@ v1Router.add('POST', '/api/v1/xrp/work-items', async (req, _reply, _params, body
 });
 
 v1Router.add('POST', '/api/v1/xrp/cases/:id/request-review', async (req, _reply, params, _body, _query, ctx) => {
+  const authz = await requireAuthenticated(req, ctx.auth);
+  if (!authz.ok) return authz.error;
   const scope = await requireScopedEntity(req, ctx, params.id, { allowOversight: false });
   if (!scope.ok) return scope.error;
   if (scope.entity.type !== 'CASE') return httpError(404, 'RESOURCE_NOT_FOUND');
@@ -412,6 +417,8 @@ v1Router.add('POST', '/api/v1/flow/workflows', async (req, _reply, _params, body
 });
 
 v1Router.add('POST', '/api/v1/flow/workflows/:id/request-review', async (req, _reply, params, _body, _query, ctx) => {
+  const authz = await requireAuthenticated(req, ctx.auth);
+  if (!authz.ok) return authz.error;
   const scope = await requireScopedEntity(req, ctx, params.id, { allowOversight: false });
   if (!scope.ok) return scope.error;
   if (scope.entity.type !== 'FLOW_WORKFLOW') return httpError(404, 'FLOW_NOT_FOUND');
@@ -568,6 +575,8 @@ v1Router.add('GET', '/api/v1/resource/:id/replay', async (req, _reply, params, _
 });
 
 v1Router.add('GET', '/api/v1/resource/:id', async (req, _reply, params, _body, _query, ctx) => {
+  const authz = await requireAuthenticated(req, ctx.auth);
+  if (!authz.ok) return authz.error;
   const id = params.id;
   const raw = await ctx.universeStore.persistence.entities().get(id);
   if (raw) {
@@ -636,6 +645,8 @@ v1Router.add('POST', '/api/v1/reviews/:id/transition', async (req, _reply, param
 });
 
 v1Router.add('GET', '/api/v1/resource/:id/evidence', async (req, _reply, params, _body, _query, ctx) => {
+  const authz = await requireAuthenticated(req, ctx.auth);
+  if (!authz.ok) return authz.error;
   const scope = await requireScopedEntity(req, ctx, params.id);
   if (!scope.ok) return scope.error;
   if (scope.entity.type !== 'CASE') return httpError(404, 'RESOURCE_NOT_FOUND');
@@ -646,6 +657,8 @@ v1Router.add('GET', '/api/v1/resource/:id/evidence', async (req, _reply, params,
 });
 
 v1Router.add('POST', '/api/v1/resource/:id/evidence', async (req, _reply, params, body, _query, ctx) => {
+  const authz = await requireAuthenticated(req, ctx.auth);
+  if (!authz.ok) return authz.error;
   const scope = await requireScopedEntity(req, ctx, params.id);
   if (!scope.ok) return scope.error;
   if (scope.entity.type !== 'CASE') return httpError(404, 'RESOURCE_NOT_FOUND');
@@ -657,13 +670,13 @@ v1Router.add('POST', '/api/v1/resource/:id/evidence', async (req, _reply, params
   const payload = isRecord(p.payload) ? p.payload : {};
   const evidenceId = typeof p.evidenceId === 'string' && p.evidenceId ? p.evidenceId : `EVD-${params.id}-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
   const history=await ctx.universeStore.listCaseEvidence(params.id);
-  if(history.some((item:any)=>item.evidenceId===evidenceId)) return httpError(409,'EVIDENCE_IMMUTABLE','Create a new evidenceId and use supersedes instead of updating an existing record.');
+  if(history.some((item)=>isRecord(item)&&item.evidenceId===evidenceId)) return httpError(409,'EVIDENCE_IMMUTABLE','Create a new evidenceId and use supersedes instead of updating an existing record.');
   const supersedes=typeof p.supersedes==='string'&&p.supersedes?p.supersedes:undefined;
   if(supersedes){
     if(supersedes===evidenceId) return httpError(400,'EVIDENCE_SELF_SUPERSESSION');
-    if(!history.some((item:any)=>item.evidenceId===supersedes)) return httpError(404,'SUPERSEDED_EVIDENCE_NOT_FOUND');
+    if(!history.some((item)=>isRecord(item)&&item.evidenceId===supersedes)) return httpError(404,'SUPERSEDED_EVIDENCE_NOT_FOUND');
     if(typeof p.supersessionReason!=='string'||!p.supersessionReason.trim()) return httpError(400,'SUPERSESSION_REASON_REQUIRED');
-    if(history.some((item:any)=>isRecord(item.payload)&&item.payload.supersedes===supersedes)) return httpError(409,'EVIDENCE_ALREADY_SUPERSEDED');
+    if(history.some((item)=>isRecord(item)&&isRecord(item.payload)&&item.payload.supersedes===supersedes)) return httpError(409,'EVIDENCE_ALREADY_SUPERSEDED');
   }
   const actorId = scope.user.userId;
   try {

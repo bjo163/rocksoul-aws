@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { Router, bearerToken, httpError, isRecord, requestCookie, requirePermission } from '../router.js';
+import { Router, bearerToken, httpError, isRecord, requestCookie, requirePermission, requireAuthenticated } from '../router.js';
 
 export const authRouter = new Router();
 
@@ -140,6 +140,8 @@ authRouter.add('POST', '/api/v1/auth/bind-rid', async (req, _reply, _params, bod
 });
 
 authRouter.add('POST', '/api/v1/auth/logout', async (req, reply, _params, body, _query, ctx) => {
+  const authz = await requirePermission(req, ctx.auth, 'OBSERVE');
+  if (!authz.ok) return authz.error;
   const payload = isRecord(body) ? body : {};
   const token = bearerToken(req) || (typeof payload.refreshToken === 'string' ? payload.refreshToken : requestCookie(req, 'mw_refresh') ?? '');
   if (!token) return httpError(401, 'UNAUTHORIZED');
@@ -149,8 +151,8 @@ authRouter.add('POST', '/api/v1/auth/logout', async (req, reply, _params, body, 
 });
 
 authRouter.add('GET', '/api/v1/auth/me', async (req, _reply, _params, _body, _query, ctx) => {
-  const user = await ctx.auth.authenticate(bearerToken(req));
-  return user ?? httpError(401, 'UNAUTHORIZED');
+  const authz = await requireAuthenticated(req, ctx.auth);
+  return authz.ok ? authz.user : authz.error;
 });
 
 authRouter.add('GET', '/api/v1/auth/online', async (req, _reply, _params, _body, _query, ctx) => {

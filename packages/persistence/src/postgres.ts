@@ -6,23 +6,23 @@ import { hashEvent } from './hash.js';
 import { makeAuditRecord, changedFields, hashAudit } from './audit.js';
 import type { PersistenceStore, EntityRecord, RelationRecord, EventRecord, ProjectionRecord, AuditRecord, EvidenceRecord, SystemTraceRecord, SystemJobRecord } from './types.js';
 
-interface PgResult { rows: any[] }
-interface PgClient { query(sql: string, params?: unknown[]): Promise<PgResult>; release(): void }
-interface PgPool { query(sql: string, params?: unknown[]): Promise<PgResult>; connect(): Promise<PgClient>; end(): Promise<void> }
+export interface PgResult { rows: any[]; rowCount?: number }
+export interface PostgresClient { query(sql: string, params?: unknown[]): Promise<PgResult>; release(): void }
+export interface PostgresPool { query(sql: string, params?: unknown[]): Promise<PgResult>; connect(): Promise<PostgresClient>; end(): Promise<void> }
 
 const require = createRequire(import.meta.url);
 
-function requirePg(): { Pool: new (config?: Record<string, unknown>) => PgPool } {
-  try { return require('pg') as { Pool: new (config?: Record<string, unknown>) => PgPool }; }
+function requirePg(): { Pool: new (config?: Record<string, unknown>) => PostgresPool } {
+  try { return require('pg') as { Pool: new (config?: Record<string, unknown>) => PostgresPool }; }
   catch (cause) { throw new PersistenceError('PostgreSQL adapter requires optional dependency "pg". Install it with: npm install pg', 'POSTGRES_DRIVER_MISSING', cause); }
 }
 
 export class PostgresProvider implements PersistenceStore {
   readonly driver = 'postgres' as const;
-  private readonly pool: PgPool;
+  private readonly pool: PostgresPool;
   private readonly readyPromise: Promise<void>;
   private inTransaction = false;
-  private readonly txStorage = new AsyncLocalStorage<PgClient>();
+  private readonly txStorage = new AsyncLocalStorage<PostgresClient>();
 
   async begin(): Promise<PersistenceStore> {
     throw new PersistenceError('Use store.batch() for PostgreSQL transactions; begin() cannot safely expose a connection across async scopes.', 'POSTGRES_BEGIN_UNSUPPORTED');
@@ -33,9 +33,8 @@ export class PostgresProvider implements PersistenceStore {
     return client ? client.query(sql, params) : this.pool.query(sql, params);
   }
 
-  constructor(config: Record<string, unknown> = {}) {
-    const { Pool } = requirePg();
-    this.pool = new Pool(config);
+  constructor(config: Record<string, unknown> = {}, pool?: PostgresPool) {
+    this.pool = pool ?? new (requirePg().Pool)(config);
     this.readyPromise = this.migrate();
   }
 
@@ -205,14 +204,14 @@ export class PostgresProvider implements PersistenceStore {
   }
 
   jobRepository() {
-    const jobFromRow = (row: any): SystemJobRecord => ({id:row.id,type:row.type,status:row.status,payload_json:typeof row.payload_json === 'string' ? row.payload_json : JSON.stringify(row.payload_json),result_json:row.result_json == null ? undefined : (typeof row.result_json === 'string' ? row.result_json : JSON.stringify(row.result_json)),error_message:row.error_message ?? undefined,created_at:row.created_at,updated_at:row.updated_at,attempt_count:row.attempt_count ?? 0,max_attempts:row.max_attempts ?? 3,available_at:row.available_at ?? row.created_at,lease_owner:row.lease_owner ?? undefined,lease_expires_at:row.lease_expires_at ?? undefined,idempotency_key:row.idempotency_key ?? undefined});
+    const jobFromRow = (row: Record<string, unknown>): SystemJobRecord => ({id:String(row.id),type:String(row.type),status:row.status as SystemJobRecord['status'],payload_json:typeof row.payload_json === 'string' ? row.payload_json : JSON.stringify(row.payload_json),result_json:row.result_json == null ? undefined : (typeof row.result_json === 'string' ? row.result_json : JSON.stringify(row.result_json)),error_message:typeof row.error_message === 'string' ? row.error_message : undefined,created_at:String(row.created_at),updated_at:String(row.updated_at),attempt_count:typeof row.attempt_count === 'number' ? row.attempt_count : 0,max_attempts:typeof row.max_attempts === 'number' ? row.max_attempts : 3,available_at:typeof row.available_at === 'string' ? row.available_at : String(row.created_at),lease_owner:typeof row.lease_owner === 'string' ? row.lease_owner : undefined,lease_expires_at:typeof row.lease_expires_at === 'string' ? row.lease_expires_at : undefined,idempotency_key:typeof row.idempotency_key === 'string' ? row.idempotency_key : undefined});
     return {
       put: async (job: SystemJobRecord) => { await this.query('INSERT INTO system_jobs(id,type,status,payload_json,result_json,error_message,created_at,updated_at,attempt_count,max_attempts,available_at,lease_owner,lease_expires_at,idempotency_key) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) ON CONFLICT(id) DO UPDATE SET status=EXCLUDED.status,result_json=EXCLUDED.result_json,error_message=EXCLUDED.error_message,updated_at=EXCLUDED.updated_at,attempt_count=EXCLUDED.attempt_count,max_attempts=EXCLUDED.max_attempts,available_at=EXCLUDED.available_at,lease_owner=EXCLUDED.lease_owner,lease_expires_at=EXCLUDED.lease_expires_at',[job.id,job.type,job.status,job.payload_json,job.result_json??null,job.error_message??null,job.created_at,job.updated_at,job.attempt_count??0,job.max_attempts??3,job.available_at??job.created_at,job.lease_owner??null,job.lease_expires_at??null,job.idempotency_key??null]); },
       get: async (id:string) => { const r=await this.query('SELECT * FROM system_jobs WHERE id=$1',[id]); return r.rows[0] ? jobFromRow(r.rows[0]) : null; },
       list: async (status?: string) => { const r=status?await this.query('SELECT * FROM system_jobs WHERE status=$1 ORDER BY created_at',[status]):await this.query('SELECT * FROM system_jobs ORDER BY created_at'); return r.rows.map(jobFromRow); },
       processAvailable: async (maxJobs:number, processor:(job:SystemJobRecord)=>Promise<SystemJobRecord>) => { const jobs=await this.query('SELECT * FROM system_jobs WHERE status=$1 ORDER BY created_at LIMIT $2',['QUEUED',maxJobs]); const out:SystemJobRecord[]=[]; for(const row of jobs.rows){out.push(await processor(jobFromRow(row)));} return out; },
       claimAvailable: async (maxJobs:number, owner:string, leaseExpiresAt:string, now:string) => { const r = await this.query(`WITH candidates AS (SELECT id FROM system_jobs WHERE (status='QUEUED' AND available_at <= $1) OR (status='RUNNING' AND lease_expires_at <= $1) ORDER BY created_at FOR UPDATE SKIP LOCKED LIMIT $2) UPDATE system_jobs j SET status='RUNNING', lease_owner=$3, lease_expires_at=$4, updated_at=$1 FROM candidates c WHERE j.id=c.id RETURNING j.*`,[now,maxJobs,owner,leaseExpiresAt]); return r.rows.map(jobFromRow); },
-      resolveLease: async (id:string, owner:string, job:SystemJobRecord) => { const r = await this.query('UPDATE system_jobs SET status=$1,result_json=$2,error_message=$3,updated_at=$4,attempt_count=$5,max_attempts=$6,available_at=$7,lease_owner=$8,lease_expires_at=$9 WHERE id=$10 AND status=$11 AND lease_owner=$12',[job.status,job.result_json??null,job.error_message??null,job.updated_at,job.attempt_count??0,job.max_attempts??3,job.available_at??job.updated_at,job.lease_owner??null,job.lease_expires_at??null,id,'RUNNING',owner]); return (r as any).rowCount > 0; },
+      resolveLease: async (id:string, owner:string, job:SystemJobRecord) => { const r = await this.query('UPDATE system_jobs SET status=$1,result_json=$2,error_message=$3,updated_at=$4,attempt_count=$5,max_attempts=$6,available_at=$7,lease_owner=$8,lease_expires_at=$9 WHERE id=$10 AND status=$11 AND lease_owner=$12',[job.status,job.result_json??null,job.error_message??null,job.updated_at,job.attempt_count??0,job.max_attempts??3,job.available_at??job.updated_at,job.lease_owner??null,job.lease_expires_at??null,id,'RUNNING',owner]); return (r as { rowCount?: number }).rowCount === 1; },
     };
   }
 }

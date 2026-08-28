@@ -17,6 +17,7 @@ A release candidate is ready only when all mandatory gates are green on the same
 
 - [ ] Application/API TypeScript typecheck
 - [ ] Dependency integrity and audit
+- [ ] Generate and verify `COSMIC_RELEASE_PROVENANCE_V1` (Git SHA, SBOM, and artifact checksums): `npm run release:provenance -- --output artifacts/release-provenance.json && npm run release:provenance -- --verify artifacts/release-provenance.json`
 - [ ] Release identity
 - [ ] API/backend contracts
 - [ ] SDK/OpenAPI compatibility where applicable

@@ -19,7 +19,7 @@ test('versioned evaluation fixture is deterministic at the engine contract bound
   const provider = new StaticSemanticProvider(FIXTURE.observation);
   const a = await analyzeWithProvider(FIXTURE.text, { provider });
   const b = buildAiAnalysis(FIXTURE.text, { semanticObservation: FIXTURE.observation });
-  const projection = (value: any) => ({ intent: value.intent, caseId: value.caseId, semantic: value.semanticVector.semantic, evidence: value.semanticVector.evidence, action: value.candidateActions[0]?.action, review: value.reviewGate?.decision });
+  const projection = (value: Record<string, unknown>) => { const semantic = value.semanticVector as Record<string, unknown>; const actions = value.candidateActions as Array<Record<string, unknown>>; const review = value.reviewGate as Record<string, unknown> | undefined; return { intent: value.intent, caseId: value.caseId, semantic: semantic.semantic, evidence: semantic.evidence, action: actions[0]?.action, review: review?.decision }; };
   assert.deepEqual(projection(a), projection(b));
   assert.deepEqual(projection(a), { intent: 'REPAIR', caseId: 'AI-GOV-FIXTURE-1', semantic: { R: 0.2, G: 0.5, B: 0.7, L: 0.1 }, evidence: [{ type: 'RECEIPT', reference: 'REC-1' }], action: 'RESTITUTION', review: 'REQUIRE_HUMAN_REVIEW' });
 });

@@ -46,6 +46,7 @@ async function main() {
     { name: 'test-release', args: ['run', 'test:release'] },
     { name: 'build-api', args: ['run', 'build:api'] },
     { name: 'test-fastify-adapter', args: ['run', 'test:fastify-adapter'] },
+    { name: 'release-provenance', args: ['run', 'release:provenance'] },
   ];
 
   const gateResults = {};

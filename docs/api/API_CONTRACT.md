@@ -24,6 +24,14 @@ replacement and sunset rule; new engine integrations should use the supported
 workflow endpoints instead. A compatibility route cannot silently disappear in
 the active API major version.
 
+## List-query safety
+
+Endpoints that expose list/query pagination accept only safe decimal integers:
+`limit` is 1–250 and `offset` is 0–1,000,000. Filters are trimmed, capped at
+512 characters (128 for type/state and 256 for entity identifiers), and reject
+control characters. Sorting is not currently a supported contract; `sort` and
+`order` fail closed rather than being silently ignored.
+
 ## Current persistence surface
 
 - `memory`: ephemeral development/test state.
