@@ -1,20 +1,18 @@
-# MoonWitness Packages
+# Cosmic Packages
 
-Packages are platform boundaries, not arbitrary folders.
+Packages are capability boundaries, not arbitrary folders.
 
-Current workspace packages:
+Key package groups:
 
-| Package | Owns | Status |
-|---|---|---|
-| `@moonwitness/contracts` | shared wire/domain contracts | stable |
-| `@moonwitness/kernel` | universal domain/runtime boundary | facade migration |
-| `@moonwitness/revelation` | Revelation/Knowledge semantic boundary | facade migration |
-| `@moonwitness/persistence` | storage/providers/repositories | stable |
-| `@moonwitness/data-access` | actor-aware data access | stable |
-| `@moonwitness/sdk` | API/client contracts | stable |
+- contracts and kernel/domain contracts;
+- TSE/temporal, semantic, Revelation, Mizan, and explanation engines;
+- `cosmic-engine` host-neutral facade;
+- `orchestrator` reusable workflows;
+- persistence/data-access adapters;
+- jobs/worker semantics;
+- Witness/integrity capabilities;
+- SDK consumer contracts.
 
-See [`docs/PACKAGE_STANDARD.md`](../docs/PACKAGE_STANDARD.md) before creating a new package.
+Product UI packages are not part of Cosmic. Web/CAB/XRP/Flow presentation belongs to product repositories that consume Cosmic packages or API/SDK contracts.
 
-## Rule of thumb
-
-Create a package only when the capability has a clear owner, stable public API, bounded dependencies, independent tests, and reuse/platform value. Otherwise keep it as an internal module.
+See [`docs/PACKAGE_ARCHITECTURE.md`](../docs/PACKAGE_ARCHITECTURE.md) and [`docs/PACKAGE_STANDARD.md`](../docs/PACKAGE_STANDARD.md) before creating or extracting a package.

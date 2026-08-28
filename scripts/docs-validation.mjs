@@ -4,14 +4,18 @@ import path from 'node:path';
 const required = [
   'README.md',
   'docs/README.md',
-  'docs/TODO.md',
-  'docs/DEPENDENCY_MANAGEMENT.md',
+  'docs/TODO_CURRENT.md',
+  'docs/ENGINEERING_ROADMAP.md',
+  'docs/PACKAGE_ARCHITECTURE.md',
+  'docs/CI_EXECUTION.md',
+  'docs/TESTING.md',
   'docs/RELEASE_CHECKLIST.md',
+  'docs/RELEASE_STATUS_4.33.0.md',
 ];
 
 for (const file of required) {
   if (!existsSync(file) || readFileSync(file, 'utf8').trim() === '') {
-    throw new Error(`Missing or empty documentation: ${file}`);
+    throw new Error(`Missing or empty active documentation: ${file}`);
   }
 }
 

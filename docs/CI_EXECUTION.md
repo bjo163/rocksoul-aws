@@ -1,27 +1,36 @@
-# CI execution model
+# CI Execution Model
 
-`dev` is the integration/development branch. It does **not** trigger automatic certification CI.
+`dev` is the integration branch. `main` is the certified release branch.
 
-## Developer validation
+## Automatic execution
 
-Local targeted/full test commands remain available on `dev` for development and debugging. CI status is not expected for ordinary `dev` pushes.
+`.github/workflows/certification.yml` runs for:
 
-## Authoritative certification
-
-`.github/workflows/certification.yml` runs only for:
-
-- pushes to `main`;
-- pull requests targeting `main`;
+- pushes to `dev` for continuous integration feedback;
+- pull requests targeting `main` for the mandatory promotion gate;
+- pushes to `main` so release evidence is retained after promotion;
 - explicit manual dispatch.
 
-The workflow runs on the self-hosted Cosmic Linux runner and covers PostgreSQL, release-focused tests, all application builds, final certification, and Docker build.
+The workflow runs on the self-hosted Cosmic Linux/x64 runner with Node 26 and PostgreSQL 18.
 
-## Release evidence rule
+## Mandatory sequence
 
-A release candidate is promoted to `main` only after the `main` pull request/full-certification gate succeeds for the exact commit under review.
+Dependency integrity/audit → documentation → architecture → engine-only release scope → package runtime → lint → typecheck → release identity → release-focused tests → PostgreSQL certification → API build → final certification → Docker build.
 
-The release evidence package must contain the **complete full-certification result for that exact commit**, including the result of every required gate. A successful local `dev` test run, partial CI run, cancelled run, historical run, or a result from another commit is not a release certification artifact.
+A failure stops later dependent gates. Skipped downstream jobs are not passes.
 
-## Self-hosted runner hygiene
+## Exact-SHA rule
 
-Certification uses a dedicated PostgreSQL service port that does not assume host port `5432` is free. A stale or unrelated database process on the runner must never prevent certification from starting. Runner-level infrastructure failures are classified separately from application/source failures.
+Only a complete successful run for the exact candidate SHA is authoritative release evidence. A successful local run, previous SHA, partial run, cancelled run, queued run, or stale PR status cannot certify a release.
+
+## Branch safety
+
+Changes promoted from `dev` must not remove `main` certification triggers. CI trigger policy is code and must be reviewed like any other release contract.
+
+## Scope safety
+
+Mandatory CI/tests may certify engine, API/reference host, packages, SDK, persistence, security, jobs, Witness, observability, PostgreSQL, and Docker. They must not require removed product implementations under `apps/web`, `apps/cab`, `apps/xrp`, or `apps/flow`.
+
+## Runner failures
+
+Runner/infrastructure failures are classified separately from application/source failures. Infrastructure uncertainty never converts into a source pass.

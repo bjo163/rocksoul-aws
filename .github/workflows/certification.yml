@@ -2,9 +2,9 @@ name: Cosmic CI
 
 on:
   push:
-    branches: [dev]
+    branches: [main, dev]
   pull_request:
-    branches: [dev]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -86,6 +86,9 @@ jobs:
 
       - name: Architecture check
         run: npm run architecture:check
+
+      - name: Engine-only release scope
+        run: node scripts/release-scope-check.mjs
 
       - name: Package build and runtime contracts
         run: npm run test:package-runtime

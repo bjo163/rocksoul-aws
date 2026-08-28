@@ -2,63 +2,23 @@
 
 ## Purpose
 
-This document freezes the K2–K5 boundary for Revelation and CAB. Revelation and CAB are projections over the existing persistence contracts; they do not introduce a parallel semantic API family.
+This document freezes the generic persistence/API boundary used by Cosmic engines and host consumers. Product applications are consumers of this boundary; they do not define it.
 
 ## Canonical persistence contracts
 
-The persistence layer owns the generic records:
-
 ```text
-EntityRecord    { id, type, payload, audit/version }
-RelationRecord  { id, fromId, type, toId, payload, validity }
-EventRecord     { eventId, entityId, eventType, payload, occurrence/recording, hash }
-EvidenceRecord  { evidenceId, entityId, sourceType, reference, status, confidence, payload }
+EntityRecord
+RelationRecord
+EventRecord
+EvidenceRecord
+Case aggregate / projections
 ```
 
-The repository interfaces are likewise canonical:
+Persistence remains generic. Revelation semantics, provenance, lanes, grounding, and relation meaning remain in their owning engine/package layers.
 
-```text
-EntityRepository
-RelationRepository
-EventStore
-EvidenceRepository
-AuditStore
-ProjectionStore
-```
+## Supported reference API surfaces
 
-## Revelation mapping
-
-```text
-BOOK                  → EntityRecord.type
-SURAH                 → EntityRecord.type
-PASSAGE               → EntityRecord.type
-PROPHET_REFERENCE     → EntityRecord.type
-PROPHETIC_EVENT       → EntityRecord.type
-
-Revelation relation   → RelationRecord
-Prophetic lifecycle   → EventRecord
-Scriptural/supporting evidence → EvidenceRecord
-```
-
-Semantic lane (`CORE`, `DERIVED`, `UNRESOLVED`), grounding, provenance, and relation meaning remain in the Revelation package. Persistence remains generic.
-
-## CAB mapping
-
-CAB reads the same records and projects them into the Universe read model:
-
-```text
-Entity / Relation / Event / Evidence / Case
-                ↓
-       Revelation semantic graph
-                ↓
-        CAB Universe projection
-```
-
-CAB must not maintain a second graph database, second Evidence model, or Prophet-specific persistence contract.
-
-## Existing API surface retained
-
-CAB may use the existing surfaces for:
+The reference API may expose generic surfaces such as:
 
 - `/api/v1/entities`
 - `/api/v1/entities/:id/graph`
@@ -67,27 +27,19 @@ CAB may use the existing surfaces for:
 - `/api/v1/resource/:id/audit`
 - `/api/v1/reviews`
 - `/api/v1/kernel/graph`
-- `/api/v1/kernel/integrity`
+- `/api/v1/kernel/graph/integrity`
 - `/api/v1/kernel/ledger`
 - `/api/v1/witness/status`
-- `/api/v1/prophets`
 
-No `/universe`, `/revelation-graph`, `/evidence-graph`, `/prophet/:id/events`, or other specialized API family is required for the CAB projection.
+## Duplicate-family rule
 
-## K3 duplicate-family rule
+Do not introduce `/universe`, `/revelation-graph`, `/evidence-graph`, or another specialized graph family when generic Entity/Relation/Event/Evidence/Case contracts and existing query/graph/resource surfaces can express the same information.
 
-A proposed specialized endpoint is rejected when the same information can be represented through the generic Entity / Relation / Event / Evidence / Case contracts and existing query/graph/resource surfaces.
+## Compatibility guarantees
 
-## K4 runtime validation
-
-The runtime boundary is validated through the existing CAB contracts and PostgreSQL certification lane. Empty and unresolved states are valid states and must not be replaced by fabricated positive evidence.
-
-## K5 compatibility guarantees
-
-Compatibility tests must verify:
-
-1. Existing Entity / Relation / Event / Evidence routes remain referenced by CAB.
-2. Revelation package code does not create direct HTTP clients.
-3. CAB does not import persistence internals into semantic UI components.
-4. No specialized Universe/Revelation/Evidence graph API is introduced.
-5. Existing PostgreSQL integration remains authoritative for persistence behavior.
+1. Generic persistence records remain stable enough for supported consumers.
+2. Revelation/engine packages do not own HTTP transport clients.
+3. Engine packages do not import product applications or concrete UI state.
+4. API compatibility is tested directly against backend/reference API contracts.
+5. PostgreSQL integration is authoritative only when the live certification lane passes.
+6. No mandatory test proves an engine/API invariant by reading a removed product-app implementation file.

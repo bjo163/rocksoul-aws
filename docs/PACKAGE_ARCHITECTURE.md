@@ -1,62 +1,34 @@
 # Cosmic Package Architecture
 
-Cosmic is organized around dependency direction rather than source-folder
-names. A package is created only for a stable capability with a clear owner;
-individual utility folders must not become packages by default.
+Packages are capability boundaries with explicit dependency direction.
 
 ```text
 @moonwitness/contracts
         ↓
-temporal / semantic / Mizan / Revelation / explanation engines
+temporal / TSE / semantic / Revelation / Mizan / explanation engines
         ↓
 @moonwitness/cosmic-engine
         ↓
 @moonwitness/orchestrator
         ↓
-host adapters (API, persistence, witness, auth, jobs)
+host adapters: API / SDK / persistence / Witness / jobs / auth
 ```
 
-## Current package roles
+## Rules
 
-| Package | Responsibility | Must not depend on |
-| --- | --- | --- |
-| `contracts` | Public DTOs, protocol versions, ports, validation | API, persistence, UI |
-| `tse-engine` | Deterministic temporal facts and research signals | HTTP, auth, persistence |
-| `cosmic-engine` | Host-neutral engine facade | HTTP, concrete storage, user state |
-| `orchestrator` | Reusable workflows using injected ports | HTTP, concrete storage, auth implementation |
-| `revelation` | Canonical corpus and knowledge boundary | UI |
-| `persistence` / `data-access` | Storage and projections | API presentation |
-| `sdk` | Consumer-facing client contract | internal engine implementation |
+1. Engine packages never depend on product UI, HTTP framework implementations, concrete storage, or host auth state.
+2. `cosmic-engine` is host-neutral and presentation-agnostic.
+3. `orchestrator` composes workflows through injected ports; it does not own HTTP or concrete database behavior.
+4. API adapters own transport parsing/authz/idempotency/status mapping, not analytical reasoning.
+5. Persistence owns SQL/migrations/storage specifics; business/engine code does not issue SQL.
+6. Jobs and Witness remain reusable backend capabilities.
+7. SDK exposes supported consumer contracts without importing engine internals.
+8. Product-specific Web/CAB/XRP/Flow behavior lives outside Cosmic.
+9. Cross-package cycles are rejected.
+10. Extract a package only when ownership, public API, dependencies, tests, and reuse value are clear.
 
-## Orchestrator boundary
+## Migration discipline
 
-The current workflows are `runAnalysisWorkflow`, `runObservationWorkflow`,
-`runEvaluationWorkflow`, `runAiAnalyzeWorkflow`, the evidence/review
-workflows, and ingress schedule/trigger workflows. They receive ports for loading state, running an
-engine analysis, saving a CASE, appending an event, and committing a Witness
-record where required. Evaluation also validates the human-review gate before
-any persistence side effect; ingress workflows enforce idempotent scheduling
-and one-time triggering. This lets the reference API and Moonwitness use
-the identical workflows with different adapters.
+Move one vertical workflow at a time, add package tests before ownership moves, preserve compatibility aliases when required, and replace cross-root imports only after the destination package owns the implementation.
 
-The HTTP adapter remains responsible for request parsing, authentication,
-authorization, idempotency keys, and HTTP status mapping. It must not contain
-analysis, evidence composition, aggregate construction, or Witness workflow
-logic.
-
-## Migration rules
-
-1. Extract one vertical workflow at a time, preserving existing route paths as
-   compatibility aliases.
-2. Add a package test before moving a route handler.
-3. Replace cross-root imports with package imports only after the package owns
-   the implementation.
-4. Do not move product-specific XRP/Flow/UI behavior into `cosmic-engine`.
-5. Reject dependency cycles; packages may only depend downward in the diagram.
-
-## Next migrations
-
-1. Evidence and review workflows.
-2. Jobs and ingress workflow adapters.
-3. Split the remaining semantic, Mizan, and explanation internals out of root
-   `src/` into their dedicated engine packages.
+No package extraction or compatibility cleanup may weaken release evidence.

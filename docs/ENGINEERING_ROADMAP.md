@@ -1,54 +1,58 @@
 # Cosmic Engineering Roadmap — 4.33.x → 5.0.0
 
-`dev` is the integration trunk. `main` receives only certified release commits.
+`dev` is the integration trunk. `main` receives only exact-SHA certified release commits.
 
-**Active Todo:** `docs/TODO_CURRENT.md`  
-**Historical audit:** `docs/TODO.md`
+## Architectural direction
 
-## 4.33.0 — Certification / Baseline
+```text
+contracts
+   ↓
+temporal / TSE → semantic → Mizan → explanation
+   ↓
+cosmic-engine
+   ↓
+orchestrator
+   ↓
+host adapters: API / persistence / Witness / jobs / auth
+```
 
-Exit only when the same `dev` commit passes:
-- full API certification: 1006/1006 PASS
-- PostgreSQL certification
-- typecheck, lint, all workspace builds
-- dependency integrity/audit
-- SQL/persistence boundary tests
-- release identity
-- Docker build
-- OpenAPI contract gate
-- Coolify deployment validation
+Product Web/CAB/XRP/Flow applications live outside Cosmic and consume these contracts.
 
-SQLite is intentionally outside the 4.33.0 supported runtime surface.
+## 4.33.0 — Certification baseline
 
-## 4.33.1 — Hardening / Reliability
+Exit only when one SHA passes dependency integrity/audit, documentation and architecture checks, package/runtime contracts, lint, typecheck, release identity, release-focused tests, PostgreSQL certification, API build, final certification, and Docker build.
 
-Auth/session lifecycle, HTTP boundary, rate limiting, PostgreSQL resilience, Witness durability, structured observability, backup/restore/rollback, developer reproducibility, and CI diagnostics.
+Primary release goal: remove stale product-app assumptions from certification without reducing backend coverage.
 
-Current source already contains several HTTP hardening controls: bounded JSON body parsing, request/header/keep-alive timeouts, security headers, explicit CORS behavior, request IDs, rate-limit headers, bounded local rate-limit buckets, `Retry-After`, and production disclosure guards. Remaining work is contract coverage and production-matrix validation, not re-implementing existing controls.
+## 4.33.1 — Reliability and security
 
-## 4.34.0 — Platform API / Data / AI Contracts
+Auth/session lifecycle, fail-closed HTTP configuration, PostgreSQL resilience, Witness durability, structured observability, backup/restore/rollback, deterministic CI diagnostics, and atomic compatibility mutations.
 
-OpenAPI completeness, canonical error/pagination/idempotency semantics, authorization matrix, SDK compatibility, API deprecation policy, AI provider/evaluation contract, provenance/evidence integrity, event/audit protocol, and external audit package.
+## 4.34.0 — Platform contracts
 
-## 4.35.0 — Distributed Execution / Scale
+OpenAPI completeness, SDK compatibility, canonical errors/pagination/idempotency, authorization matrix, API deprecation policy, AI provider/evaluation boundaries, provenance/evidence integrity, and event/audit compatibility.
 
-Standalone worker, queue leases/retries/dead-letter semantics, concurrency and distributed consistency, capacity benchmarks, and safe scale-out.
+Fastify transition work is tracked independently and must preserve native API semantics until parity is certified.
 
-## 4.36.0 — Product Surfaces
+## 4.35.0 — Distributed execution
 
-Web, XRP, CAB, and Flow production integration, centralized runtime API configuration, browser/API smoke tests, offline/error states, and governance-boundary certification.
+Standalone worker, PostgreSQL claim/lease semantics, retries/dead-letter behavior, graceful drain, concurrency consistency, and capacity/performance baselines.
 
-## 5.0.0 — Platform Major
+## 4.36.0 — Engine intelligence and integration hardening
 
-Freeze the public contract, document compatibility/deprecation guarantees, finalize persistence and event/job protocols, complete threat-model review, disaster recovery rehearsal, upgrade testing, and reproducible release provenance.
+Strengthen TSE → semantic → evidence → Mizan → explanation composition, provenance, deterministic replay, host-neutral orchestration, package public APIs, and reference-host integration. No browser/product UI deliverable is required in Cosmic.
+
+## 5.0.0 — Major contract freeze
+
+Freeze supported package/API/SDK/event/job contracts, schema migration/rollback policy, deployment topology, threat model, DR/upgrade rehearsal, compatibility guarantees, and reproducible release provenance.
 
 ## Engineering rules
 
-1. Never reduce certification coverage to obtain a green build.
+1. Never reduce certification coverage to obtain green CI.
 2. Every bug fix adds or strengthens a regression test.
-3. API changes update the contract and compatibility tests.
+3. API changes update contract and compatibility evidence.
 4. Schema changes include migration and recovery consideration.
 5. Production security configuration fails closed.
-6. Deployment must be reproducible from a clean checkout.
-7. Evidence, review, audit, and Witness semantics remain traceable and deterministic.
-8. Historical documentation never overrides the active release contract.
+6. Multi-write logical mutations are transactional.
+7. Engine packages remain HTTP/UI/storage implementation agnostic.
+8. Historical UI-era documents and tests cannot define current release scope.
