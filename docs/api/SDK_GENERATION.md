@@ -11,3 +11,8 @@ Release rules:
 - The SDK must never embed production credentials or default localhost endpoints.
 
 Before 5.0.0, the repository must have one canonical generation/verification command and a compatibility fixture for every public route class.
+
+`npm run test:api-route-inventory` is the canonical route-inventory and
+OpenAPI-parity verification command. Clients may generate only operations whose
+OpenAPI `x-contract-status` is `supported`; compatibility operations remain
+available for migration but are explicitly deprecated.

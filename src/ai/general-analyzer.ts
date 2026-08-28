@@ -13,6 +13,7 @@ import { buildHumanReviewGate } from './human-review-gate.js';
 import { fourBookCorroboration } from '../revelation/corroboration/four-book-corroboration.js';
 import { revelationAnalyticalScorecard } from '../revelation/revelation-scorecard.js';
 import { explainTemporalContext } from './temporal-reasoning.js';
+import { assertGovernedAiInput, resolveAiGovernance, withAiTimeout } from './governance.js';
 const defaultAnalysisRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const lower = (s: unknown) => String(s ?? '').toLowerCase().normalize('NFKC');
 const clampSigned = (value: unknown) => {
@@ -327,8 +328,10 @@ export function buildAiAnalysis(text: string, { sourceGraph = null, jurisdiction
 export async function analyzeWithProvider(text: string, { provider, ...options }: Loose = {}): Promise<Loose> {
     if (!provider || typeof provider.analyze !== 'function')
         throw new Error('A semantic AI provider is required.');
-    const semanticObservation = await provider.analyze(text, options);
-    return buildAiAnalysis(text, { ...options, semanticObservation });
+    const governedText = assertGovernedAiInput(text, options.governance);
+    const governance = resolveAiGovernance(options.governance);
+    const semanticObservation = await withAiTimeout(() => provider.analyze(governedText, { ...options, governance }), governance);
+    return buildAiAnalysis(governedText, { ...options, semanticObservation });
 }
 //# sourceMappingURL=general-analyzer.js.map
 export async function analyzeAutomatically(text: string, options: Loose = {}): Promise<Loose> {

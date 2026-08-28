@@ -4,6 +4,9 @@ import { calculateTemporalState, toMizanTemporalContext, type TSEInput } from '@
 import { explainLegalResult, explainTemporalContext } from '@moonwitness/explanation-engine';
 import { buildAnalyticalSemanticVector, SemanticRegistry } from '@moonwitness/semantic-engine';
 import { compareTime, makeTimeEvent, now } from '@moonwitness/temporal-engine';
+import { createProvenanceAuditPackage } from './provenance-export.js';
+export { createProvenanceAuditPackage, serializeProvenanceAuditPackage, verifyProvenanceAuditPackage } from './provenance-export.js';
+export type { AuditExportInput, ProvenanceAuditPackage } from './provenance-export.js';
 
 export {
   buildAnalyticalSemanticVector,
@@ -123,6 +126,7 @@ export function createCosmicEngine(root = process.cwd()) {
     evaluateQuranicMizan,
     explainTemporalContext,
     explainLegalResult,
+    createProvenanceAuditPackage: (input: import('./provenance-export.js').AuditExportInput) => createProvenanceAuditPackage(input),
     async analyze(text: string, temporalInput?: TSEInput) {
       const semanticObservation = await semanticProvider.analyze(text);
       const timeFactor = temporalInput ? toMizanTemporalContext(calculateTemporalState(temporalInput)) : semanticObservation.timeFactor;

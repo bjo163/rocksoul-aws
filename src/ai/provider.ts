@@ -1,5 +1,6 @@
 type Loose = Record<string, any>;
 import { RegistrySemanticProvider as RegistrySemanticEngineProvider } from './semantic-engine.js';
+import { assertGovernedAiInput, resolveAiGovernance, withAiTimeout } from './governance.js';
 /**
  * Provider boundary for semantic analysis.
  * Source code never classifies domain actions by keyword; providers return
@@ -47,12 +48,15 @@ export class HttpJsonAiProvider extends AiProvider {
     this.model = model;
   }
   async analyze(text: string, options: Loose = {}): Promise<any> {
+    assertGovernedAiInput(text, options.governance);
     const body = { text, options, response_format: 'semantic_observation_v1', model: this.model };
-    const response = await fetch(this.url, {
+    const policy = resolveAiGovernance(options.governance);
+    if (!policy.allowRemote) throw new Error('AI_REMOTE_PROVIDER_DISABLED');
+    const response = await withAiTimeout(() => fetch(this.url, {
       method: 'POST',
       headers: { 'content-type': 'application/json', ...(this.apiKey ? { authorization: `Bearer ${this.apiKey}` } : {}), ...this.headers },
       body: JSON.stringify(body)
-    });
+    }), policy);
     const payload = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(`AI provider request failed (${response.status})`);
     return payload.semanticObservation ?? payload.observation ?? payload;

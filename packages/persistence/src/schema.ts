@@ -103,6 +103,10 @@ export const MIGRATIONS: Migration[] = [
       SET changed_fields_json = to_jsonb(COALESCE(changed_fields, ARRAY[]::TEXT[]));
     `,
   },
+  {
+    id: '0011_job_leases', version: 11, description: 'Leased job execution, retry scheduling, and dead-letter delivery',
+    postgresSql: `ALTER TABLE system_jobs ADD COLUMN IF NOT EXISTS attempt_count INTEGER NOT NULL DEFAULT 0; ALTER TABLE system_jobs ADD COLUMN IF NOT EXISTS max_attempts INTEGER NOT NULL DEFAULT 3; ALTER TABLE system_jobs ADD COLUMN IF NOT EXISTS available_at TIMESTAMPTZ NOT NULL DEFAULT now(); ALTER TABLE system_jobs ADD COLUMN IF NOT EXISTS lease_owner TEXT; ALTER TABLE system_jobs ADD COLUMN IF NOT EXISTS lease_expires_at TIMESTAMPTZ; ALTER TABLE system_jobs ADD COLUMN IF NOT EXISTS idempotency_key TEXT; CREATE INDEX IF NOT EXISTS idx_system_jobs_ready ON system_jobs(status, available_at); CREATE UNIQUE INDEX IF NOT EXISTS idx_system_jobs_idempotency ON system_jobs(type, idempotency_key) WHERE idempotency_key IS NOT NULL;`,
+  },
 ];
 
 export function getLatestSchemaVersion(): number {

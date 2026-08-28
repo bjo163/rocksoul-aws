@@ -12,6 +12,18 @@ The canonical machine-readable API baseline is `docs/api/openapi.json`.
 - RID assignment remains a trusted provisioning/admin operation; public registration cannot assign a RID.
 - Targeted test subsets are debugging tools only. Full certification continues to run the complete API data-driven matrix.
 
+## Route inventory and deprecation
+
+`docs/api/openapi.json` inventories every route operation declared by the native
+reference host. The automated parity harness fails when a native route is added,
+removed, or renamed without the corresponding OpenAPI operation.
+
+Routes labelled `x-contract-status: compatibility` are retained only for
+existing reference-host consumers. They are marked `deprecated` with an explicit
+replacement and sunset rule; new engine integrations should use the supported
+workflow endpoints instead. A compatibility route cannot silently disappear in
+the active API major version.
+
 ## Current persistence surface
 
 - `memory`: ephemeral development/test state.

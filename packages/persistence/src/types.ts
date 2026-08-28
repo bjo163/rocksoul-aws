@@ -143,12 +143,19 @@ export interface AuditStore {
 export interface SystemJobRecord {
   id: string;
   type: string;
-  status: 'QUEUED' | 'RUNNING' | 'COMPLETED' | 'FAILED';
+  status: 'QUEUED' | 'RUNNING' | 'COMPLETED' | 'FAILED' | 'DEAD_LETTER';
   payload_json: string;
   result_json?: string;
   error_message?: string;
   created_at: string;
   updated_at: string;
+  /** Delivery metadata. Optional to retain compatibility with existing rows. */
+  attempt_count?: number;
+  max_attempts?: number;
+  available_at?: string;
+  lease_owner?: string;
+  lease_expires_at?: string;
+  idempotency_key?: string;
 }
 
 export interface JobRepository {
@@ -156,6 +163,10 @@ export interface JobRepository {
   get(id: string): Promise<SystemJobRecord | null>;
   list(status?: string): Promise<SystemJobRecord[]>;
   processAvailable(maxJobs: number, processor: (job: SystemJobRecord) => Promise<SystemJobRecord>): Promise<SystemJobRecord[]>;
+  /** Atomically leases ready jobs, including expired RUNNING jobs. */
+  claimAvailable?(maxJobs: number, owner: string, leaseExpiresAt: string, now: string): Promise<SystemJobRecord[]>;
+  /** Persists a result only while the caller still owns the lease. */
+  resolveLease?(id: string, owner: string, job: SystemJobRecord): Promise<boolean>;
 }
 
 export interface PersistenceStore {

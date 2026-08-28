@@ -21,7 +21,7 @@ compatibility policy.
 | `@moonwitness/kernel` | Canonical kernel/domain boundary for Entity, Event, State, Relation and governed runtime primitives | Yes | No |
 | `@moonwitness/jobs` | Persistence-backed job queue with explicit handler registration and polling lifecycle | Yes | No (requires `pg` peer dep for Postgres) |
 | `@moonwitness/orchestrator` | Host-neutral workflows that coordinate engines through injected persistence, witness, review, and job ports | Yes | No |
-| `@moonwitness/cosmic-engine` | Host-neutral Cosmic facade for temporal facts, candidate semantic observations, Mizan context, and explanations | Yes | No |
+| `@moonwitness/cosmic-engine` | Host-neutral Cosmic facade for temporal facts, candidate semantic observations, Mizan context, explanations, and deterministic provenance audit packages | Yes | No |
 | `@moonwitness/sdk` | Consumer-facing HTTP client for the Universe API | No (uses `fetch`) | Yes (talks to `apps/api`) |
 | `@moonwitness/revelation` | Canonical corpus and knowledge boundary | Yes | No |
 
@@ -458,6 +458,17 @@ inputs. The default semantic provider reads from the filesystem at `root`; if
 the underlying definition files change, results may differ. All engine math
 functions (`calculateTemporalState`, `evaluateMizan`, `evaluateQuranicMizan`,
 `buildAnalyticalSemanticVector`) are deterministic.
+
+### Provenance audit package
+
+- `createProvenanceAuditPackage(input)` creates `COSMIC_PROVENANCE_AUDIT_PACKAGE_V1`, a transport-neutral JSON artifact with a SHA-256 integrity manifest.
+- `serializeProvenanceAuditPackage(package)` emits sorted-key canonical JSON for external auditors or archival systems.
+- `verifyProvenanceAuditPackage(package)` validates the package manifest and detects tampering.
+
+The export intentionally contains no generated timestamp and rejects fields named
+`privateKey`, `secret`, `password`, `token`, or `authorization` (case-insensitive).
+It proves byte-level package integrity and provenance preservation; it does not
+prove factual truth or confer normative authority.
 
 ## `@moonwitness/sdk`
 

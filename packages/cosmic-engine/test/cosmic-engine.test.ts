@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { createCosmicEngine, toCosmicSemanticObservation } from '../src/index.js';
+import { createCosmicEngine, createProvenanceAuditPackage, serializeProvenanceAuditPackage, toCosmicSemanticObservation, verifyProvenanceAuditPackage } from '../src/index.js';
 
 test('Cosmic facade is deterministic and host-neutral', async () => {
   const engine = createCosmicEngine();
@@ -29,4 +29,14 @@ test('Cosmic facade exposes bounded Mizan evaluation', () => {
   assert.equal(result.modelOnly, true);
   assert.ok(Number.isFinite(result.raw));
   assert.ok(result.raw >= 0 && result.raw <= 100);
+});
+
+test('provenance audit package is deterministic, verifiable, and secret-safe', () => {
+  const input = { subject: { id: 'CASE-1', type: 'CASE' }, release: { version: '4.33.0', revision: 'abc123' }, records: [{ id: 'E-1', status: 'VERIFIED' }], provenance: { sources: ['Q5:8'] } };
+  const first = createProvenanceAuditPackage(input);
+  const second = createProvenanceAuditPackage({ ...input, provenance: { sources: ['Q5:8'] } });
+  assert.equal(serializeProvenanceAuditPackage(first), serializeProvenanceAuditPackage(second));
+  assert.equal(verifyProvenanceAuditPackage(first), true);
+  assert.equal(verifyProvenanceAuditPackage({ ...first, records: [] }), false);
+  assert.throws(() => createProvenanceAuditPackage({ ...input, records: [{ privateKey: 'never-export' }] }), /AUDIT_EXPORT_SECRET_FIELD_FORBIDDEN/);
 });
