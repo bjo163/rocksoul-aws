@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawn, spawnSync } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const platform = process.platform;
@@ -34,18 +34,22 @@ async function waitForHealth(baseUrl, pathname, timeoutMs) {
 }
 
 function spawnNative(port) {
-  const serverPath = path.join(repo, 'apps', 'api', 'dist', 'apps', 'api', 'src', 'server.js');
-  if (!fs.existsSync(serverPath)) {
-    throw new Error(`Native server build not found at ${serverPath}. Run npm run build:api first.`);
-  }
+  // The native bootstrap still bridges a few TypeScript-only legacy modules;
+  // run it through tsx so the rehearsal exercises the real source graph.
+  const serverPath = path.join(repo, 'apps', 'api', 'src', 'server.ts');
+  const tsxCli = path.join(repo, 'node_modules', 'tsx', 'dist', 'cli.mjs');
+  if (!fs.existsSync(serverPath) || !fs.existsSync(tsxCli)) throw new Error('Native rehearsal runtime (tsx) is unavailable.');
   const env = {
     ...process.env,
     NODE_ENV: 'development',
+    // Rehearsal must be deterministic and isolated from developer Postgres
+    // credentials; production deployments provide their own driver explicitly.
+    STORAGE_DRIVER: 'file',
     HOST: '127.0.0.1',
     PORT: String(port),
     MOONWITNESS_ENV: 'development',
   };
-  const child = spawn(process.execPath, [serverPath], { cwd: repo, env, stdio: 'pipe', detached: false });
+  const child = spawn(process.execPath, [tsxCli, serverPath], { cwd: repo, env, stdio: 'pipe', detached: false });
   const baseUrl = `http://127.0.0.1:${port}`;
   return { child, baseUrl };
 }
@@ -56,7 +60,7 @@ function spawnFastify(port) {
     throw new Error(`Fastify runtime build not found at ${fastifyDist}. Run npm run build:api first.`);
   }
   const starterPath = path.join(repo, 'scripts', '_fastify-starter.mjs');
-  const starter = `import { buildFastifyRuntime } from '${fastifyDist.replace(/\\/g, '/')}';\n` +
+  const starter = `import { buildFastifyRuntime } from '${pathToFileURL(fastifyDist).href}';\n` +
     `const app = await buildFastifyRuntime({ telemetry: false });\n` +
     `const port = Number(process.env.PORT ?? ${port});\n` +
     `const host = process.env.HOST ?? '127.0.0.1';\n` +
@@ -68,6 +72,7 @@ function spawnFastify(port) {
   const env = {
     ...process.env,
     NODE_ENV: 'development',
+    STORAGE_DRIVER: 'file',
     HOST: '127.0.0.1',
     PORT: String(port),
     COSMIC_FASTIFY_RUNTIME: '1',

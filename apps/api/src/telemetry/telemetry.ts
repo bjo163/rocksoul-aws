@@ -9,6 +9,8 @@ import { fileURLToPath } from 'node:url';
 const repoRoot = fileURLToPath(new URL('../../../../', import.meta.url));
 
 export interface TelemetryOptions {
+  /** Explicitly disable registration for tests or transitional runtimes. */
+  enabled?: boolean;
   serviceName?: string;
   serviceVersion?: string;
   environment?: string;
@@ -76,7 +78,7 @@ export async function registerTelemetry(
   app: FastifyInstance,
   opts: TelemetryOptions = {},
 ): Promise<void> {
-  if (process.env.OTEL_ENABLED !== '1') return;
+  if (opts.enabled === false || (opts.enabled !== true && process.env.OTEL_ENABLED !== '1')) return;
 
   try {
     const resourceAttrs = buildResourceAttributes(opts);

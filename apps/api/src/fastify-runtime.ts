@@ -1,6 +1,5 @@
 import Fastify, { type FastifyInstance } from 'fastify';
-import { FastifyOtelInstrumentation } from '@fastify/otel';
-import { isFastifyEnabled } from './feature-flags.js';
+import { registerTelemetry } from './telemetry/telemetry.js';
 
 export interface FastifyRuntimeOptions {
   logger?: boolean;
@@ -22,10 +21,7 @@ export async function buildFastifyRuntime(options: FastifyRuntimeOptions = {}): 
     bodyLimit: DEFAULT_BODY_LIMIT,
   });
 
-  if (options.telemetry ?? process.env.OTEL_ENABLED === '1') {
-    const instrumentation = new FastifyOtelInstrumentation();
-    await app.register(instrumentation.plugin());
-  }
+  await registerTelemetry(app, { enabled: options.telemetry });
 
   if (options.enableCorrelationId ?? true) {
     app.addHook('onRequest', async (request, reply) => {
