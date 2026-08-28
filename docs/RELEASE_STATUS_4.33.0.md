@@ -2,7 +2,7 @@
 
 **Date:** 2026-08-28  
 **Release line:** 4.33.x  
-**Posture:** engine/API release certification in progress
+**Current posture:** engine/API release certification in progress
 
 ## Canonical spine
 
