@@ -402,5 +402,6 @@ export function phaseName(angle: number): string {
 }
 
 export * from './ephemeris-provider.js';
+export * from './noaa-meeus-provider.js';
 export * from './hypothesis-registry.js';
 export * from './temporal-scoring.js';
