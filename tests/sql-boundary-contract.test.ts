@@ -12,10 +12,11 @@ const interpolatedStatementPattern = /\.(?:query|prepare|exec)\(\s*`[^`]*\$\{/gs
 const approvedSqlAdapters = new Set([
   'packages/persistence/src/postgres.ts',
   'packages/persistence/src/schema.ts',
-  'packages/persistence/src/sqlite.ts',
   'src/access/postgres-auth.ts',
   'src/ledger/witness-projection-store.ts',
   'src/persistence/postgres-idempotency.ts',
+  'packages/persistence/src/postgres-idempotency.ts',
+  'packages/witness/src/witness-projection-store.ts',
 ]);
 
 function sourceFiles(directory: string): string[] {

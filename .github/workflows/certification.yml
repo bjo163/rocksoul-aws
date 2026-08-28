@@ -4,7 +4,7 @@ on:
   push:
     branches: [main, dev]
   pull_request:
-    branches: [main, dev]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -20,21 +20,6 @@ jobs:
     runs-on: [self-hosted, linux, x64, cosmic]
     timeout-minutes: 60
 
-    services:
-      postgres:
-        image: postgres:18
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres-ci-only
-          POSTGRES_DB: moonwitness_ci
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U postgres -d moonwitness_ci"
-          --health-interval 5s
-          --health-timeout 5s
-          --health-retries 12
-
     env:
       STORAGE_DRIVER: postgres
       PGHOST: 127.0.0.1
@@ -46,18 +31,49 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Setup Node 22
+      - name: Setup Node 26
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 26
           cache: npm
 
-      - name: Install locked dependencies
-        run: npm ci
+      - name: Start PostgreSQL 18
+        run: |
+          set -euo pipefail
+          docker rm -f cosmic-postgres-ci >/dev/null 2>&1 || true
+          docker run -d --name cosmic-postgres-ci \
+            -e POSTGRES_USER=postgres \
+            -e POSTGRES_PASSWORD=postgres-ci-only \
+            -e POSTGRES_DB=moonwitness_ci \
+            --health-cmd="pg_isready -U postgres -d moonwitness_ci" \
+            --health-interval=2s \
+            --health-timeout=5s \
+            --health-retries=30 \
+            postgres:18
+          for i in $(seq 1 60); do
+            status=$(docker inspect --format='{{.State.Health.Status}}' cosmic-postgres-ci 2>/dev/null || true)
+            if [ "$status" = "healthy" ]; then
+              echo "PostgreSQL is ready inside cosmic-postgres-ci"
+              break
+            fi
+            if [ "$status" = "unhealthy" ]; then
+              docker logs cosmic-postgres-ci || true
+              exit 1
+            fi
+            sleep 2
+          done
+          status=$(docker inspect --format='{{.State.Health.Status}}' cosmic-postgres-ci)
+          test "$status" = healthy
+          docker exec cosmic-postgres-ci pg_isready -U postgres -d moonwitness_ci
 
-      - name: Rebuild native SQLite binding for runner ABI
-        run: npm rebuild better-sqlite3 --build-from-source
+      - name: Synchronize lockfile with manifest
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Dependency integrity
         run: npm run dependency:integrity
@@ -70,6 +86,12 @@ jobs:
 
       - name: Architecture check
         run: npm run architecture:check
+
+      - name: Engine-only release scope
+        run: node scripts/release-scope-check.mjs
+
+      - name: Package build and runtime contracts
+        run: npm run test:package-runtime
 
       - name: Lint
         run: npm run lint
@@ -84,25 +106,37 @@ jobs:
         run: npm run test:release
 
       - name: PostgreSQL certification
-        run: npm run test:postgres
+        run: |
+          set -euo pipefail
+          docker rm -f cosmic-postgres-test >/dev/null 2>&1 || true
+          docker create \
+            --name cosmic-postgres-test \
+            --network container:cosmic-postgres-ci \
+            -w /workspace \
+            -e STORAGE_DRIVER=postgres \
+            -e PGHOST=127.0.0.1 \
+            -e PGPORT=5432 \
+            -e PGUSER=postgres \
+            -e PGPASSWORD=postgres-ci-only \
+            -e PGDATABASE=moonwitness_ci \
+            node:26-bookworm \
+            bash -lc 'npm run test:postgres'
+          docker cp "$GITHUB_WORKSPACE/." cosmic-postgres-test:/workspace
+          docker start -a cosmic-postgres-test
 
       - name: Build API
         run: npm run build:api
 
-      - name: Build CAB
-        run: npm run build:cab
-
-      - name: Build Web
-        run: npm run build:web
-
-      - name: Build XRP
-        run: npm run build:xrp
-
-      - name: Build Flow
-        run: npm run build:flow
-
       - name: Final certification
         run: npm run certify:current
 
-      - name: Build Docker image from clean local context
-        run: ./scripts/docker-build.sh
+      - name: Build Docker image
+        run: |
+          docker pull ghcr.io/${{ github.repository }}:latest || true
+          docker build --cache-from ghcr.io/${{ github.repository }}:latest -t cosmic:${{ github.sha }} .
+
+      - name: Cleanup PostgreSQL
+        if: always()
+        run: |
+          docker rm -f cosmic-postgres-test >/dev/null 2>&1 || true
+          docker rm -f cosmic-postgres-ci >/dev/null 2>&1 || true

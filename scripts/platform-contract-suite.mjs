@@ -1,0 +1,58 @@
+#!/usr/bin/env node
+import { spawnSync } from 'node:child_process';
+
+const tests = [
+  'tests/sql-boundary-contract.test.ts',
+  'tests/api-entity-boundary-contract.test.ts',
+  'tests/http-security-contract.test.ts',
+  'tests/auth-session-contract.test.ts',
+  'tests/api-cookie-session.test.ts',
+  'tests/sdk-session-contract.test.ts',
+  'tests/backend-production-boundary.test.ts',
+  'tests/production-certification-contract.test.ts',
+  'tests/human-review-gate.test.ts',
+  'tests/review-workflow.test.ts',
+  'tests/witness-dag.test.ts',
+  'tests/distributed-witness.test.ts',
+  'tests/single-node-witness.test.ts',
+  'tests/api-pagination-contract.test.ts',
+  'tests/api-error-envelope-contract.test.ts',
+  'tests/auth-replay-contract.test.ts',
+  'tests/observability-redaction-contract.test.ts',
+  'tests/observability-metrics-contract.test.ts',
+  'tests/backup-retention-contract.test.ts',
+  'tests/worker-lease-contract.test.ts',
+  'tests/release-changelog-contract.test.ts',
+  'tests/api-method-contract.test.ts',
+  'tests/environment-contract.test.ts',
+  'tests/next-ten-contracts.test.ts',
+  'tests/schema-compatibility-contract.test.ts',
+  'tests/docker-reproducibility-contract.test.ts',
+  'tests/graceful-shutdown-contract.test.ts',
+  'tests/rate-limit-scaleout-contract.test.ts',
+  'tests/lockfile-integrity-contract.test.ts',
+  'tests/migration-rollback-contract.test.ts',
+  'tests/postgres-least-privilege-contract.test.ts',
+  'tests/witness-restart-contract.test.ts',
+  'tests/readiness-dependency-contract.test.ts',
+  'tests/release-version-consistency-contract.test.ts',
+  'tests/v5-platform-freeze.test.ts',
+  'tests/api-compatibility-freeze.test.ts',
+  'tests/security-threat-model-contract.test.ts',
+  'tests/disaster-recovery-contract.test.ts',
+  'tests/ai-governance-release-contract.test.ts',
+  'tests/worker-scaleout-contract.test.ts',
+  'tests/observability-release-contract.test.ts',
+  'tests/reproducible-release-contract.test.ts',
+  'tests/worker-runtime-contract.test.ts',
+  'tests/rate-limiter-contract.test.ts',
+  'tests/api-openapi-surface.test.ts',
+];
+
+const result = spawnSync(process.execPath, ['scripts/transpile-runner.mjs', ...tests], {
+  cwd: process.cwd(),
+  stdio: 'inherit',
+});
+
+if (result.error) throw result.error;
+process.exit(result.status ?? 1);

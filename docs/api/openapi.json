@@ -1,0 +1,390 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Cosmic Universal API",
+    "version": "4.33.0",
+    "description": "Canonical HTTP contract for the Cosmic /api/v1 surface. It is additive, route-inventory complete, and is the compatibility baseline for generated clients and staging smoke tests."
+  },
+  "servers": [
+    { "url": "https://api.example.com", "description": "Production/staging placeholder" }
+  ],
+  "tags": [
+    { "name": "health" },
+    { "name": "auth" },
+    { "name": "kernel" },
+    { "name": "ai" },
+    { "name": "witness" },
+    { "name": "revelation" },
+    { "name": "jobs" },
+    { "name": "observability" },
+    { "name": "legacy", "description": "Deprecated reference-host compatibility routes; not new engine integration targets." }
+  ],
+  "paths": {
+    "/api/v1/engine/catalog": {
+      "get": {
+        "tags": ["kernel"],
+        "summary": "Discover independently testable engine and workflow operations",
+        "description": "Returns the MW_ENGINE_CATALOG_V1 integration catalog. Production access requires READ_AUDIT.",
+        "responses": {
+          "200": { "description": "Engine catalog with unit, snapshot, and workflow operations" },
+          "401": { "$ref": "#/components/responses/Error" },
+          "403": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/v1/health": {
+      "get": {
+        "tags": ["health"],
+        "summary": "Liveness/diagnostic health",
+        "responses": {
+          "200": {
+            "description": "Service health information",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/HealthResponse" } } }
+          }
+        }
+      }
+    },
+    "/api/v1/ready": {
+      "get": {
+        "tags": ["health"],
+        "summary": "Readiness for traffic",
+        "responses": {
+          "200": { "description": "Service is ready" },
+          "503": { "description": "Service is not ready" }
+        }
+      }
+    },
+    "/api/v1/command": {
+      "post": {
+        "tags": ["kernel"],
+        "summary": "Execute a canonical universe command",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CommandRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Command result" },
+          "400": { "$ref": "#/components/responses/Error" },
+          "401": { "$ref": "#/components/responses/Error" },
+          "403": { "$ref": "#/components/responses/Error" },
+          "409": { "$ref": "#/components/responses/Error" },
+          "429": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/v1/auth/register": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Register a user",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AuthRegisterRequest" } } } },
+        "responses": { "201": { "description": "User created" }, "400": { "$ref": "#/components/responses/Error" }, "409": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Authenticate and create a session",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AuthLoginRequest" } } } },
+        "responses": { "200": { "description": "Authenticated session" }, "401": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/auth/refresh": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Refresh an authenticated session",
+        "responses": { "200": { "description": "Refreshed session" }, "401": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Logout and revoke the session",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "Logout result" }, "401": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/auth/me": {
+      "get": {
+        "tags": ["auth"],
+        "summary": "Return the current authenticated user",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "Current user" }, "401": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/features": {
+      "get": {
+        "tags": ["kernel"],
+        "summary": "List enabled feature flags",
+        "responses": { "200": { "description": "Feature registry" } }
+      }
+    },
+    "/api/v1/ai/analyze": {
+      "post": {
+        "tags": ["ai"],
+        "summary": "Run semantic/AI analysis",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AnalysisRequest" } } } },
+        "responses": {
+          "200": { "description": "Analysis result" },
+          "400": { "$ref": "#/components/responses/Error" },
+          "401": { "$ref": "#/components/responses/Error" },
+          "429": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/v1/observe": {
+      "post": {
+        "tags": ["kernel"],
+        "summary": "Record a canonical observation",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ObservationRequest" } } } },
+        "responses": { "200": { "description": "Recorded observation", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ObservationResponse" } } } }, "400": { "$ref": "#/components/responses/Error" }, "401": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/analyze": {
+      "post": {
+        "tags": ["ai"],
+        "summary": "Run canonical analysis",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AnalysisRequest" } } } },
+        "responses": { "200": { "description": "Analysis result", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AnalysisResponse" } } } }, "400": { "$ref": "#/components/responses/Error" }, "401": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/evaluate": {
+      "post": {
+        "tags": ["ai"],
+        "summary": "Evaluate a canonical target",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/EvaluationRequest" } } } },
+        "responses": { "200": { "description": "Evaluation result", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AnalysisResponse" } } } }, "400": { "$ref": "#/components/responses/Error" }, "401": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/query": {
+      "post": {
+        "tags": ["kernel"],
+        "summary": "Query canonical universe records",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/QueryRequest" } } } },
+        "responses": { "200": { "description": "Query result", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/GenericObject" } } } }, "400": { "$ref": "#/components/responses/Error" }, "401": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/resource/{id}": {
+      "get": {
+        "tags": ["kernel"],
+        "summary": "Read one canonical resource",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "$ref": "#/components/parameters/ResourceId" }],
+        "responses": { "200": { "description": "Resource", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/GenericObject" } } } }, "401": { "$ref": "#/components/responses/Error" }, "404": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/resource/{id}/evidence": {
+      "get": {
+        "tags": ["kernel"], "summary": "List resource evidence", "security": [{ "bearerAuth": [] }], "parameters": [{ "$ref": "#/components/parameters/ResourceId" }],
+        "responses": { "200": { "description": "Evidence list", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/GenericObject" } } } }, "401": { "$ref": "#/components/responses/Error" }, "404": { "$ref": "#/components/responses/Error" } }
+      },
+      "post": {
+        "tags": ["kernel"], "summary": "Attach evidence to a resource", "security": [{ "bearerAuth": [] }], "parameters": [{ "$ref": "#/components/parameters/ResourceId" }],
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/EvidenceAttachmentRequest" } } } },
+        "responses": { "200": { "description": "Evidence attached", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/GenericObject" } } } }, "400": { "$ref": "#/components/responses/Error" }, "401": { "$ref": "#/components/responses/Error" }, "404": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/reviews": {
+      "get": { "tags": ["kernel"], "summary": "List human reviews", "security": [{ "bearerAuth": [] }], "responses": { "200": { "description": "Review list", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/GenericObject" } } } }, "401": { "$ref": "#/components/responses/Error" } } },
+      "post": { "tags": ["kernel"], "summary": "Create a human review", "security": [{ "bearerAuth": [] }], "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ReviewCreateRequest" } } } }, "responses": { "200": { "description": "Review", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/GenericObject" } } } }, "400": { "$ref": "#/components/responses/Error" }, "401": { "$ref": "#/components/responses/Error" } } }
+    },
+    "/api/v1/reviews/{id}/transition": {
+      "post": {
+        "tags": ["kernel"], "summary": "Transition a human review", "security": [{ "bearerAuth": [] }], "parameters": [{ "$ref": "#/components/parameters/ReviewId" }],
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ReviewTransitionRequest" } } } },
+        "responses": { "200": { "description": "Updated review", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/GenericObject" } } } }, "400": { "$ref": "#/components/responses/Error" }, "401": { "$ref": "#/components/responses/Error" }, "404": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/xrp/workspace": {
+      "get": {
+        "tags": ["kernel"], "summary": "Read the caller's bounded workspace projection", "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "Workspace projection", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/GenericObject" } } } }, "401": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/auth/setup": {"post":{"tags":["auth"],"summary":"Native POST /api/v1/auth/setup integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}}}},
+    "/api/v1/auth/provision": {"post":{"tags":["auth"],"summary":"Native POST /api/v1/auth/provision integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}}}},
+    "/api/v1/auth/bind-rid": {"post":{"tags":["auth"],"summary":"Native POST /api/v1/auth/bind-rid integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}}}},
+    "/api/v1/auth/online": {"get":{"tags":["auth"],"summary":"Native GET /api/v1/auth/online integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}}}},
+    "/api/v1/entities": {"get":{"tags":["legacy"],"summary":"Native GET /api/v1/entities integration endpoint","description":"Compatibility/reference-host endpoint. New engine integrations should use the canonical command/query workflow where it expresses the same intent.","x-contract-status":"compatibility","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"deprecated":true,"x-deprecation":{"replacement":"/api/v1/query or /api/v1/command","sunset":"No earlier than the next API major version; removal requires an explicit versioning decision."}},"post":{"tags":["legacy"],"summary":"Native POST /api/v1/entities integration endpoint","description":"Compatibility/reference-host endpoint. New engine integrations should use the canonical command/query workflow where it expresses the same intent.","x-contract-status":"compatibility","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"deprecated":true,"x-deprecation":{"replacement":"/api/v1/query or /api/v1/command","sunset":"No earlier than the next API major version; removal requires an explicit versioning decision."}}},
+    "/api/v1/entities/{id}": {"get":{"tags":["legacy"],"summary":"Native GET /api/v1/entities/{id} integration endpoint","description":"Compatibility/reference-host endpoint. New engine integrations should use the canonical command/query workflow where it expresses the same intent.","x-contract-status":"compatibility","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string","minLength":1}}],"deprecated":true,"x-deprecation":{"replacement":"/api/v1/query or /api/v1/command","sunset":"No earlier than the next API major version; removal requires an explicit versioning decision."}},"put":{"tags":["legacy"],"summary":"Native PUT /api/v1/entities/{id} integration endpoint","description":"Compatibility/reference-host endpoint. New engine integrations should use the canonical command/query workflow where it expresses the same intent.","x-contract-status":"compatibility","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string","minLength":1}}],"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"deprecated":true,"x-deprecation":{"replacement":"/api/v1/query or /api/v1/command","sunset":"No earlier than the next API major version; removal requires an explicit versioning decision."}},"delete":{"tags":["legacy"],"summary":"Native DELETE /api/v1/entities/{id} integration endpoint","description":"Compatibility/reference-host endpoint. New engine integrations should use the canonical command/query workflow where it expresses the same intent.","x-contract-status":"compatibility","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string","minLength":1}}],"deprecated":true,"x-deprecation":{"replacement":"/api/v1/query or /api/v1/command","sunset":"No earlier than the next API major version; removal requires an explicit versioning decision."}}},
+    "/api/v1/entities/{id}/graph": {"get":{"tags":["legacy"],"summary":"Native GET /api/v1/entities/{id}/graph integration endpoint","description":"Compatibility/reference-host endpoint. New engine integrations should use the canonical command/query workflow where it expresses the same intent.","x-contract-status":"compatibility","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string","minLength":1}}],"deprecated":true,"x-deprecation":{"replacement":"/api/v1/query or /api/v1/command","sunset":"No earlier than the next API major version; removal requires an explicit versioning decision."}}},
+    "/api/v1/relations": {"post":{"tags":["legacy"],"summary":"Native POST /api/v1/relations integration endpoint","description":"Compatibility/reference-host endpoint. New engine integrations should use the canonical command/query workflow where it expresses the same intent.","x-contract-status":"compatibility","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"deprecated":true,"x-deprecation":{"replacement":"/api/v1/query or /api/v1/command","sunset":"No earlier than the next API major version; removal requires an explicit versioning decision."}}},
+    "/api/v1/events": {"post":{"tags":["legacy"],"summary":"Native POST /api/v1/events integration endpoint","description":"Compatibility/reference-host endpoint. New engine integrations should use the canonical command/query workflow where it expresses the same intent.","x-contract-status":"compatibility","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"deprecated":true,"x-deprecation":{"replacement":"/api/v1/query or /api/v1/command","sunset":"No earlier than the next API major version; removal requires an explicit versioning decision."}}},
+    "/api/v1/types": {"post":{"tags":["legacy"],"summary":"Native POST /api/v1/types integration endpoint","description":"Compatibility/reference-host endpoint. New engine integrations should use the canonical command/query workflow where it expresses the same intent.","x-contract-status":"compatibility","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"deprecated":true,"x-deprecation":{"replacement":"/api/v1/query or /api/v1/command","sunset":"No earlier than the next API major version; removal requires an explicit versioning decision."}}},
+    "/api/v1/rules/resolve": {"post":{"tags":["legacy"],"summary":"Native POST /api/v1/rules/resolve integration endpoint","description":"Compatibility/reference-host endpoint. New engine integrations should use the canonical command/query workflow where it expresses the same intent.","x-contract-status":"compatibility","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"deprecated":true,"x-deprecation":{"replacement":"/api/v1/query or /api/v1/command","sunset":"No earlier than the next API major version; removal requires an explicit versioning decision."}}},
+    "/api/v1/prophets": {"get":{"tags":["kernel"],"summary":"Native GET /api/v1/prophets integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}}}},
+    "/api/v1/mizan": {"post":{"tags":["kernel"],"summary":"Native POST /api/v1/mizan integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}}}},
+    "/api/v1/kernel/graph": {"get":{"tags":["kernel"],"summary":"Native GET /api/v1/kernel/graph integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}}}},
+    "/api/v1/kernel/graph/integrity": {"get":{"tags":["kernel"],"summary":"Native GET /api/v1/kernel/graph/integrity integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}}}},
+    "/api/v1/kernel/ledger": {"get":{"tags":["kernel"],"summary":"Native GET /api/v1/kernel/ledger integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}}}},
+    "/api/v1/kernel/types": {"get":{"tags":["kernel"],"summary":"Native GET /api/v1/kernel/types integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}}}},
+    "/api/v1/models": {"get":{"tags":["kernel"],"summary":"Native GET /api/v1/models integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}}}},
+    "/api/v1/models/{typeId}": {"get":{"tags":["kernel"],"summary":"Native GET /api/v1/models/{typeId} integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"parameters":[{"name":"typeId","in":"path","required":true,"schema":{"type":"string","minLength":1}}]}},
+    "/api/v1/models/{typeId}/page": {"get":{"tags":["kernel"],"summary":"Native GET /api/v1/models/{typeId}/page integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"parameters":[{"name":"typeId","in":"path","required":true,"schema":{"type":"string","minLength":1}}]}},
+    "/api/v1/observability/recent": {"get":{"tags":["observability"],"summary":"Native GET /api/v1/observability/recent integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}}}},
+    "/api/v1/stream": {"get":{"tags":["observability"],"summary":"Native GET /api/v1/stream integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}}}},
+    "/api/v1/metrics": {"get":{"tags":["observability"],"summary":"Native GET /api/v1/metrics integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}}}},
+    "/api/v1/semantic/registry": {"get":{"tags":["kernel"],"summary":"Native GET /api/v1/semantic/registry integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}}}},
+    "/api/v1/revelation/core": {"get":{"tags":["revelation"],"summary":"Native GET /api/v1/revelation/core integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}}}},
+    "/api/v1/revelation/geography": {"get":{"tags":["revelation"],"summary":"Native GET /api/v1/revelation/geography integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}}}},
+    "/api/v1/revelation/asma": {"get":{"tags":["revelation"],"summary":"Native GET /api/v1/revelation/asma integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}}}},
+    "/api/v1/revelation/divine-ontology": {"get":{"tags":["revelation"],"summary":"Native GET /api/v1/revelation/divine-ontology integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}}}},
+    "/api/v1/revelation/moral-graph": {"get":{"tags":["revelation"],"summary":"Native GET /api/v1/revelation/moral-graph integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}}}},
+    "/api/v1/revelation/corpora": {"get":{"tags":["revelation"],"summary":"Native GET /api/v1/revelation/corpora integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}}}},
+    "/api/v1/revelation/lifecycle": {"get":{"tags":["revelation"],"summary":"Native GET /api/v1/revelation/lifecycle integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}}}},
+    "/api/v1/revelation/grammar": {"get":{"tags":["revelation"],"summary":"Native GET /api/v1/revelation/grammar integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}}}},
+    "/api/v1/jobs/{id}": {"get":{"tags":["jobs"],"summary":"Native GET /api/v1/jobs/{id} integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string","minLength":1}}]}},
+    "/api/v1/jobs/process": {"post":{"tags":["jobs"],"summary":"Native POST /api/v1/jobs/process integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}}}},
+    "/api/v1/xrp/cases": {"post":{"tags":["kernel"],"summary":"Native POST /api/v1/xrp/cases integration endpoint","description":"Compatibility/reference-host endpoint. New engine integrations should use the canonical command/query workflow where it expresses the same intent.","x-contract-status":"compatibility","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"deprecated":true,"x-deprecation":{"replacement":"/api/v1/command","sunset":"No earlier than the next API major version; removal requires an explicit versioning decision."}}},
+    "/api/v1/xrp/cases/{id}/evidence": {"post":{"tags":["kernel"],"summary":"Native POST /api/v1/xrp/cases/{id}/evidence integration endpoint","description":"Compatibility/reference-host endpoint. New engine integrations should use the canonical command/query workflow where it expresses the same intent.","x-contract-status":"compatibility","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string","minLength":1}}],"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"deprecated":true,"x-deprecation":{"replacement":"/api/v1/command","sunset":"No earlier than the next API major version; removal requires an explicit versioning decision."}}},
+    "/api/v1/xrp/work-items": {"post":{"tags":["kernel"],"summary":"Native POST /api/v1/xrp/work-items integration endpoint","description":"Compatibility/reference-host endpoint. New engine integrations should use the canonical command/query workflow where it expresses the same intent.","x-contract-status":"compatibility","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"deprecated":true,"x-deprecation":{"replacement":"/api/v1/command","sunset":"No earlier than the next API major version; removal requires an explicit versioning decision."}}},
+    "/api/v1/xrp/cases/{id}/request-review": {"post":{"tags":["kernel"],"summary":"Native POST /api/v1/xrp/cases/{id}/request-review integration endpoint","description":"Compatibility/reference-host endpoint. New engine integrations should use the canonical command/query workflow where it expresses the same intent.","x-contract-status":"compatibility","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string","minLength":1}}],"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"deprecated":true,"x-deprecation":{"replacement":"/api/v1/command","sunset":"No earlier than the next API major version; removal requires an explicit versioning decision."}}},
+    "/api/v1/flow/workflows": {"get":{"tags":["kernel"],"summary":"Native GET /api/v1/flow/workflows integration endpoint","description":"Compatibility/reference-host endpoint. New engine integrations should use the canonical command/query workflow where it expresses the same intent.","x-contract-status":"compatibility","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"deprecated":true,"x-deprecation":{"replacement":"/api/v1/command","sunset":"No earlier than the next API major version; removal requires an explicit versioning decision."}},"post":{"tags":["kernel"],"summary":"Native POST /api/v1/flow/workflows integration endpoint","description":"Compatibility/reference-host endpoint. New engine integrations should use the canonical command/query workflow where it expresses the same intent.","x-contract-status":"compatibility","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"deprecated":true,"x-deprecation":{"replacement":"/api/v1/command","sunset":"No earlier than the next API major version; removal requires an explicit versioning decision."}}},
+    "/api/v1/flow/workflows/{id}/request-review": {"post":{"tags":["kernel"],"summary":"Native POST /api/v1/flow/workflows/{id}/request-review integration endpoint","description":"Compatibility/reference-host endpoint. New engine integrations should use the canonical command/query workflow where it expresses the same intent.","x-contract-status":"compatibility","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string","minLength":1}}],"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"deprecated":true,"x-deprecation":{"replacement":"/api/v1/command","sunset":"No earlier than the next API major version; removal requires an explicit versioning decision."}}},
+    "/api/v1/resource/{id}/audit": {"get":{"tags":["kernel"],"summary":"Native GET /api/v1/resource/{id}/audit integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string","minLength":1}}]}},
+    "/api/v1/resource/{id}/replay": {"get":{"tags":["kernel"],"summary":"Native GET /api/v1/resource/{id}/replay integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string","minLength":1}}]}},
+    "/api/v1/ingress/reminder": {"post":{"tags":["jobs"],"summary":"Native POST /api/v1/ingress/reminder integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}}}},
+    "/api/v1/ingress/reminder/trigger": {"post":{"tags":["jobs"],"summary":"Native POST /api/v1/ingress/reminder/trigger integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}}}},
+    "/api/v1/witness/status": {"get":{"tags":["witness"],"summary":"Native GET /api/v1/witness/status integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}}}},
+    "/api/v1/witness/keys": {"get":{"tags":["witness"],"summary":"Native GET /api/v1/witness/keys integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}}}},
+    "/api/v1/witness/keys/rotate": {"post":{"tags":["witness"],"summary":"Native POST /api/v1/witness/keys/rotate integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}}}},
+    "/api/v1/witness/keys/revoke": {"post":{"tags":["witness"],"summary":"Native POST /api/v1/witness/keys/revoke integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}}}},
+    "/api/v1/witness/keys/create": {"post":{"tags":["witness"],"summary":"Native POST /api/v1/witness/keys/create integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}}}},
+    "/api/v1/witness/checkpoints": {"post":{"tags":["witness"],"summary":"Native POST /api/v1/witness/checkpoints integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}}},"get":{"tags":["witness"],"summary":"Native GET /api/v1/witness/checkpoints integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}}}},
+    "/api/v1/witness/proof/{hash}": {"get":{"tags":["witness"],"summary":"Native GET /api/v1/witness/proof/{hash} integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"parameters":[{"name":"hash","in":"path","required":true,"schema":{"type":"string","minLength":1}}]}},
+    "/api/v1/witness/export": {"post":{"tags":["witness"],"summary":"Native POST /api/v1/witness/export integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}}}},
+    "/api/v1/witness/import": {"post":{"tags":["witness"],"summary":"Native POST /api/v1/witness/import integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}}}},
+    "/api/v1/witness/import/async": {"post":{"tags":["witness"],"summary":"Native POST /api/v1/witness/import/async integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}}}},
+    "/api/v1/witness/metrics": {"get":{"tags":["witness"],"summary":"Native GET /api/v1/witness/metrics integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}}}},
+    "/api/v1/witness/diagnostics": {"get":{"tags":["witness"],"summary":"Native GET /api/v1/witness/diagnostics integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}}}},
+    "/api/v1/witness/backups": {"post":{"tags":["witness"],"summary":"Native POST /api/v1/witness/backups integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"requestBody":{"required":false,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}}},"get":{"tags":["witness"],"summary":"Native GET /api/v1/witness/backups integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}}}},
+    "/api/v1/witness/backups/{backupId}/verify": {"get":{"tags":["witness"],"summary":"Native GET /api/v1/witness/backups/{backupId}/verify integration endpoint","description":"Supported engine integration endpoint. Native runtime validation remains authoritative.","x-contract-status":"supported","responses":{"200":{"description":"Successful response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GenericObject"}}}},"default":{"$ref":"#/components/responses/Error"}},"parameters":[{"name":"backupId","in":"path","required":true,"schema":{"type":"string","minLength":1}}]}}
+  },
+  "components": {
+    "parameters": {
+      "ResourceId": { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "minLength": 1 } },
+      "ReviewId": { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "minLength": 1 } }
+    },
+    "securitySchemes": {
+      "bearerAuth": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" }
+    },
+    "responses": {
+      "Error": {
+        "description": "Machine-readable API error",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ApiError" } } }
+      }
+    },
+    "schemas": {
+      "HealthResponse": {
+        "type": "object",
+        "required": ["status", "release"],
+        "properties": {
+          "status": { "type": "string" },
+          "release": { "type": "string" },
+          "environment": { "type": "string" },
+          "storageDriver": { "type": "string", "enum": ["file", "postgres"] }
+        }
+      },
+      "CommandRequest": {
+        "type": "object",
+        "required": ["command"],
+        "properties": {
+          "command": { "type": "string", "minLength": 1 },
+          "target": { "type": "string" },
+          "payload": { "type": "object", "additionalProperties": true }
+        },
+        "additionalProperties": false
+      },
+      "AuthRegisterRequest": {
+        "type": "object",
+        "required": ["username", "password"],
+        "properties": {
+          "username": { "type": "string", "minLength": 1 },
+          "password": { "type": "string", "minLength": 12 }
+        },
+        "additionalProperties": false
+      },
+      "AuthLoginRequest": {
+        "type": "object",
+        "required": ["username", "password"],
+        "properties": {
+          "username": { "type": "string", "minLength": 1 },
+          "password": { "type": "string", "minLength": 1 }
+        },
+        "additionalProperties": false
+      },
+      "AnalysisRequest": {
+        "type": "object",
+        "properties": {
+          "text": { "type": "string" },
+          "caseId": { "type": "string" },
+          "semanticObservation": { "type": "object" },
+          "options": { "type": "object" }
+        }
+      },
+      "ObservationRequest": {
+        "type": "object",
+        "properties": { "text": { "type": "string" }, "source": { "type": "string" }, "payload": { "type": "object", "additionalProperties": true }, "context": { "type": "object", "additionalProperties": true }, "mode": { "enum": ["semantic", "full"] }, "entityId": { "type": "string" } },
+        "additionalProperties": false
+      },
+      "EvaluationRequest": {
+        "type": "object",
+        "properties": { "target": { "type": "string" }, "text": { "type": "string" }, "input": { "type": "object", "additionalProperties": true }, "mode": { "enum": ["mizan", "full"] }, "semanticObservation": { "type": "object", "additionalProperties": true } },
+        "additionalProperties": false
+      },
+      "QueryRequest": {
+        "type": "object",
+        "properties": { "query": { "type": "string" }, "type": { "type": "string" }, "entityId": { "type": "string" }, "limit": { "type": "integer", "minimum": 1 } },
+        "additionalProperties": false
+      },
+      "EvidenceAttachmentRequest": {
+        "type": "object",
+        "properties": { "evidenceId": { "type": "string" }, "sourceType": { "type": "string" }, "reference": { "type": "string" }, "status": { "type": "string" }, "confidence": { "type": "number", "minimum": 0, "maximum": 1 }, "payload": { "type": "object", "additionalProperties": true }, "supersedes": { "type": "string" }, "supersessionReason": { "type": "string" } },
+        "additionalProperties": false
+      },
+      "ReviewCreateRequest": {
+        "type": "object",
+        "required": ["targetId"],
+        "properties": { "targetId": { "type": "string", "minLength": 1 }, "assigneeId": { "type": "string" }, "gateDecision": { "type": "string" }, "evidenceRefs": { "type": "array", "items": { "type": "string" } } },
+        "additionalProperties": false
+      },
+      "ReviewTransitionRequest": {
+        "type": "object",
+        "required": ["status"],
+        "properties": { "status": { "type": "string" }, "assigneeId": { "type": "string" }, "rationale": { "type": "string" }, "disposition": { "type": "string" } },
+        "additionalProperties": false
+      },
+      "ObservationResponse": {
+        "type": "object",
+        "required": ["id", "kind", "status", "entityId", "event"],
+        "properties": { "id": { "type": "string" }, "kind": { "const": "OBSERVATION" }, "status": { "const": "RECORDED" }, "entityId": { "type": "string" }, "event": { "type": "object", "additionalProperties": true } },
+        "additionalProperties": true
+      },
+      "AnalysisResponse": {
+        "type": "object",
+        "required": ["id", "kind", "status", "mizan", "lifecycle", "reviewGate", "revelationScorecard", "witness"],
+        "properties": { "id": { "type": "string" }, "kind": { "enum": ["ANALYSIS", "EVALUATION"] }, "status": { "type": "string" }, "mizan": { "type": ["object", "null"], "additionalProperties": true }, "lifecycle": { "type": ["object", "null"], "additionalProperties": true }, "reviewGate": { "type": "object", "additionalProperties": true }, "revelationScorecard": { "type": ["object", "null"], "additionalProperties": true }, "witness": { "type": "object", "additionalProperties": true } },
+        "additionalProperties": true
+      },
+      "GenericObject": { "type": "object", "additionalProperties": true },
+      "ApiError": {
+        "type": "object",
+        "required": ["error"],
+        "properties": {
+          "error": { "type": "string" },
+          "message": { "type": "string" },
+          "requestId": { "type": "string" },
+          "request_id": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

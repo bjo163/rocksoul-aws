@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { createPersistence } from '../packages/persistence/src/factory.js';
 import { loadSeedManifest, seedDatabase } from '../packages/persistence/src/bootstrap.js';
+import { PostgresProvider } from '../packages/persistence/src/postgres.js';
 import { getLatestSchemaVersion } from '../packages/persistence/src/schema.js';
 
 const driver = (process.env.STORAGE_DRIVER ?? 'postgres').toLowerCase();
@@ -18,7 +19,10 @@ for (const e of all) byType.set(e.type, (byType.get(e.type) ?? 0) + 1);
 
 const manifest = await loadSeedManifest(process.cwd());
 const expectedSeed = await seedDatabase(process.cwd(), { driver: 'memory' });
-assert.equal(getLatestSchemaVersion(), 7);
+const schemaVersion = getLatestSchemaVersion();
+assert.ok(store instanceof PostgresProvider);
+const persistedSchema = await store.pool.query("SELECT value FROM meta WHERE key = 'schema_version'");
+assert.equal(Number(persistedSchema.rows[0]?.value), schemaVersion);
 assert.ok(all.length >= expectedSeed.seeded, `expected at least ${expectedSeed.seeded} entities, got ${all.length}`);
 
 const duplicateIds = all.length - new Set(all.map((e) => e.id)).size;
@@ -59,7 +63,7 @@ assert.equal(afterConcurrentAuditChain.valid, true);
 
 console.log(JSON.stringify({
   ok: true,
-  schemaVersion: getLatestSchemaVersion(),
+  schemaVersion,
   manifestSources: manifest.sources.length,
   expectedSeedEntities: expectedSeed.seeded,
   actualEntities: all.length,

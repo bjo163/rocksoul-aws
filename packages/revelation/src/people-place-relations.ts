@@ -53,7 +53,7 @@ export function buildPeoplePlaceRelations(contexts: KnowledgeContext[]): Canonic
         contextId: context.id,
         epistemicLane: lane,
         sourceClass,
-        provenance: context.provenance === 'DATASET_CANONICAL' ? 'DATASET_CANONICAL' : 'INFERENCE',
+        provenance: context.provenance === 'DATASET_CANONICAL' ? 'DATASET_CANONICAL' : 'DERIVED',
       });
     }
   }

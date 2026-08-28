@@ -1,4 +1,4 @@
-import { UniverseStore } from '../src/persistence/universe-store.js';
+import { UniverseStore } from '@moonwitness/persistence';
 import { loadDatabaseConfig } from '../src/config-loader.js';
 
 async function main() {

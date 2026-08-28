@@ -1,5 +1,5 @@
 import { mkdir, readFile, writeFile, cp, readdir } from 'node:fs/promises';
-import { join, resolve } from 'node:path';
+import { join, resolve, relative, isAbsolute } from 'node:path';
 import crypto from 'node:crypto';
 
 export interface FileBackupManifest {
@@ -17,6 +17,9 @@ async function digest(file: string): Promise<{ bytes: number; sha256: string }> 
 export async function backupFileStore(sourceDir: string, backupDir: string): Promise<FileBackupManifest> {
   const source = resolve(sourceDir);
   const target = resolve(backupDir);
+  if (source === target || relative(source, target) && !relative(source, target).startsWith('..')) {
+    throw new Error('BACKUP_TARGET_MUST_NOT_BE_INSIDE_SOURCE');
+  }
   await mkdir(target, { recursive: true });
   const names = (await readdir(source)).filter((name) => name === 'universe-store.json');
   const files: FileBackupManifest['files'] = [];
@@ -38,7 +41,9 @@ export async function restoreFileStore(backupDir: string, targetDir: string): Pr
   const manifest = JSON.parse(await readFile(join(source, 'manifest.json'), 'utf8')) as FileBackupManifest;
   if (manifest.format !== 1 || !Array.isArray(manifest.files)) throw new Error('BACKUP_MANIFEST_INVALID');
   await mkdir(target, { recursive: true });
+  if ((await readdir(target)).length > 0) throw new Error('RESTORE_TARGET_NOT_EMPTY');
   for (const entry of manifest.files) {
+    if (!isSafeBackupPath(entry.path)) throw new Error(`BACKUP_MANIFEST_PATH_INVALID:${entry.path}`);
     const sourceFile = join(source, entry.path);
     const targetFile = join(target, entry.path);
     const actual = await digest(sourceFile);
@@ -46,4 +51,10 @@ export async function restoreFileStore(backupDir: string, targetDir: string): Pr
     await cp(sourceFile, targetFile, { force: false, errorOnExist: true });
   }
   return manifest;
+}
+
+function isSafeBackupPath(entryPath: string): boolean {
+  if (entryPath !== 'universe-store.json' || isAbsolute(entryPath)) return false;
+  const normalized = relative('.', entryPath);
+  return normalized === entryPath && !normalized.startsWith('..');
 }

@@ -18,7 +18,7 @@ test('API E2E persists an authenticated case and verifies replay/audit', async (
   const dataDir = await fs.mkdtemp(path.join(os.tmpdir(), 'mw-api-e2e-'));
   const auth = createAuthService({ storagePath: path.join(dataDir, 'auth-users.json') });
   auth.createUser({ username: 'admin-e2e', password: 'strong-password-123', roles: ['ADMIN'] });
-  const app = await buildApp({ dataDir, persistenceDriver: 'sqlite' });
+  const app = await buildApp({ dataDir, persistenceDriver: 'file' });
   await app.start(0, '127.0.0.1');
   const address = app.server.address();
   assert.ok(address && typeof address === 'object');
@@ -46,13 +46,6 @@ test('API E2E persists an authenticated case and verifies replay/audit', async (
 
     const replay = await json(base, '/api/v1/resource/E2E-CASE/replay', { headers });
     assert.equal(replay.response.status, 200);
-    console.log(replay.body.ledger);
-    if (!replay.body.ledger.valid) {
-      const all = await json(base, '/api/v1/query', { headers, method: 'POST', body: JSON.stringify({ query: '' }) });
-      console.log('ALL ENTITIES:', all.body);
-      const audit = await json(base, '/api/v1/resource/E2E-CASE/audit', { headers });
-      console.log('AUDIT HISTORY:', audit.body);
-    }
     assert.equal(replay.body.ledger.valid, true);
 
     const audit = await json(base, '/api/v1/resource/E2E-CASE/audit', { headers });
@@ -75,7 +68,7 @@ test('API E2E enforces Validator guard on command endpoints', async () => {
   const dataDir = await fs.mkdtemp(path.join(os.tmpdir(), 'mw-api-e2e-val-'));
   const auth = createAuthService({ storagePath: path.join(dataDir, 'auth-users.json') });
   auth.createUser({ username: 'admin-val', password: 'strong-password-123', roles: ['ADMIN', 'COMMAND'] });
-  const app = await buildApp({ dataDir, persistenceDriver: 'sqlite' });
+  const app = await buildApp({ dataDir, persistenceDriver: 'file' });
   await app.start(0, '127.0.0.1');
   const address = app.server.address();
   assert.ok(address && typeof address === 'object');
@@ -85,13 +78,11 @@ test('API E2E enforces Validator guard on command endpoints', async () => {
     const login = await json(base, '/api/v1/auth/login', { method: 'POST', body: JSON.stringify({ username: 'admin-val', password: 'strong-password-123' }) });
     const headers = { authorization: `Bearer ${login.body.token}` };
 
-    // Test rejection: Missing command
     const invalid = await json(base, '/api/v1/command', { method: 'POST', headers, body: JSON.stringify({ payload: { type: 'TEST' } }) });
     assert.equal(invalid.response.status, 400);
     assert.equal(invalid.body.error, 'BAD_REQUEST');
     assert.match(invalid.body.message, /Expected string/);
 
-    // Test success: Valid command
     const valid = await json(base, '/api/v1/command', { method: 'POST', headers, body: JSON.stringify({ command: 'CREATE_ENTITY', payload: { type: 'TEST', payload: {} } }) });
     assert.equal(valid.response.status, 201);
   } finally {
@@ -104,7 +95,7 @@ test('API E2E serves Server-Sent Events (SSE) stream and Metrics', async () => {
   const dataDir = await fs.mkdtemp(path.join(os.tmpdir(), 'mw-api-e2e-sse-'));
   const auth = createAuthService({ storagePath: path.join(dataDir, 'auth-users.json') });
   auth.createUser({ username: 'admin-sse', password: 'strong-password-123', roles: ['ADMIN', 'READ_AUDIT'] });
-  const app = await buildApp({ dataDir, persistenceDriver: 'sqlite' });
+  const app = await buildApp({ dataDir, persistenceDriver: 'file' });
   await app.start(0, '127.0.0.1');
   const address = app.server.address();
   assert.ok(address && typeof address === 'object');
@@ -113,26 +104,20 @@ test('API E2E serves Server-Sent Events (SSE) stream and Metrics', async () => {
   try {
     const login = await json(base, '/api/v1/auth/login', { method: 'POST', body: JSON.stringify({ username: 'admin-sse', password: 'strong-password-123' }) });
     const headers = { authorization: `Bearer ${login.body.token}` };
-
-    // Metrics Test
     const metrics = await json(base, '/api/v1/metrics', { headers });
     assert.equal(metrics.response.status, 200);
     assert.ok(metrics.body.memory);
     assert.ok(metrics.body.uptime > 0);
     assert.equal(metrics.body.onlineUsers, 1);
 
-    // SSE Stream Test
     const streamRes = await fetch(`${base}/api/v1/stream`, { headers });
     assert.equal(streamRes.status, 200);
     assert.equal(streamRes.headers.get('content-type'), 'text/event-stream');
-    
-    // Read the first chunk to ensure connection succeeds
     const reader = streamRes.body?.getReader();
     assert.ok(reader);
     const chunk = await reader.read();
     const text = new TextDecoder().decode(chunk.value);
     assert.match(text, /data: \{"status": "connected"\}/);
-    
     reader.cancel();
   } finally {
     await app.close();
@@ -144,7 +129,7 @@ test('API E2E handles entity pagination standard', async () => {
   const dataDir = await fs.mkdtemp(path.join(os.tmpdir(), 'mw-api-e2e-page-'));
   const auth = createAuthService({ storagePath: path.join(dataDir, 'auth-users.json') });
   auth.createUser({ username: 'admin-page', password: 'strong-password-123', roles: ['ADMIN', 'COMMAND', 'READ_AUDIT'] });
-  const app = await buildApp({ dataDir, persistenceDriver: 'sqlite' });
+  const app = await buildApp({ dataDir, persistenceDriver: 'file' });
   await app.start(0, '127.0.0.1');
   const address = app.server.address();
   assert.ok(address && typeof address === 'object');
@@ -153,13 +138,9 @@ test('API E2E handles entity pagination standard', async () => {
   try {
     const login = await json(base, '/api/v1/auth/login', { method: 'POST', body: JSON.stringify({ username: 'admin-page', password: 'strong-password-123' }) });
     const headers = { authorization: `Bearer ${login.body.token}` };
-
-    // Create 3 entities using the entities endpoint to ensure they are immediately in the runtime graph
     for (let i = 0; i < 3; i++) {
       await json(base, '/api/v1/entities', { method: 'POST', headers, body: JSON.stringify({ type: 'PAGE_TEST', payload: {} }) });
     }
-
-    // Test offset=1, limit=1
     const paged = await json(base, '/api/v1/entities?type=PAGE_TEST&offset=1&limit=1', { headers });
     assert.equal(paged.response.status, 200);
     assert.equal(paged.body.length, 1);

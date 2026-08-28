@@ -2,13 +2,21 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
 
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'mw-build-'));
-const copyDirs = ['src', 'packages', 'tests', 'scripts', 'apps'];
+const copyDirs = ['.github', 'src', 'packages', 'tests', 'scripts', 'apps', 'docs', 'deploy'];
+const rootFiles = [
+  'Dockerfile',
+  'docker-compose.yml',
+  'package.json',
+  'package-lock.json',
+  'tsconfig.json',
+  'tsconfig.base.json',
+];
 fs.writeFileSync(path.join(tmp, 'package.json'), JSON.stringify({ type: 'module' }));
 // Windows directory symlinks require developer mode/elevation; junctions do not.
 // Keep the temporary runner portable while preserving the same module resolution.
@@ -17,10 +25,18 @@ fs.symlinkSync(
   path.join(tmp, 'node_modules'),
   process.platform === 'win32' ? 'junction' : 'dir'
 );
-const skip = /node_modules|dist/;
+// Release-evidence contracts inspect the repository HEAD. Keep the real Git metadata
+// visible without copying or mutating it so the isolated filesystem still resolves
+// `git rev-parse HEAD` to the exact source checkout being tested.
+const gitDir = path.join(repo, '.git');
+if (fs.existsSync(gitDir)) {
+  fs.symlinkSync(gitDir, path.join(tmp, '.git'), process.platform === 'win32' ? 'junction' : 'dir');
+}
 function walk(dir) {
   const out = [];
   for (const name of fs.readdirSync(dir)) {
+    // Generated output is copied selectively below. Never recurse into dist so
+    // a stale root/app build cannot leak into an isolated source test tree.
     if (name === 'node_modules' || name === 'dist') continue;
     const full = path.join(dir, name); const stat = fs.statSync(full);
     if (stat.isDirectory()) out.push(...walk(full)); else out.push(full);
@@ -38,6 +54,21 @@ for (const dir of copyDirs) {
       fs.writeFileSync(target, source);
     } else fs.copyFileSync(file, target);
   }
+}
+// Workspace package entrypoints intentionally resolve to their package-local
+// dist artifacts. Retain only those runtime artifacts; root `dist/` and
+// `apps/api/dist/` remain excluded to keep source tests hermetic.
+for (const entry of fs.readdirSync(path.join(repo, 'packages'), { withFileTypes: true })) {
+  if (!entry.isDirectory()) continue;
+  const packageDist = path.join(repo, 'packages', entry.name, 'dist');
+  if (fs.existsSync(packageDist)) {
+    fs.cpSync(packageDist, path.join(tmp, 'packages', entry.name, 'dist'), { recursive: true });
+  }
+}
+for (const file of rootFiles) {
+  const source = path.join(repo, file);
+  if (!fs.existsSync(source)) continue;
+  fs.copyFileSync(source, path.join(tmp, file));
 }
 for (const extra of ['data', 'schemas', 'config']) {
   fs.cpSync(path.join(repo, extra), path.join(tmp, extra), { recursive: true });

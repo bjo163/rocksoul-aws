@@ -5,7 +5,6 @@ import { createCaseAggregate, type CaseAggregate } from '../case/case-aggregate.
 export interface CaseStoreOptions {
   dataDir: string;
   driver?: PersistenceDriver;
-  sqliteFile?: string;
   postgres?: Record<string, unknown>;
 }
 
@@ -17,7 +16,7 @@ export class UniverseStore {
   private readonly evidences;
 
   constructor(options: CaseStoreOptions) {
-    this.persistence = new PersistenceClient({ driver: options.driver ?? 'file', fileDir: options.dataDir, sqliteFile: options.sqliteFile, postgres: options.postgres });
+    this.persistence = new PersistenceClient({ driver: options.driver ?? 'file', fileDir: options.dataDir, postgres: options.postgres });
     this.entities = this.persistence.entities();
     this.relations = this.persistence.relations();
     this.events = this.persistence.events();

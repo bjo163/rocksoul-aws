@@ -1,0 +1,3 @@
+const transitions: Record<string, string[]> = { CREATION: ['DUNYA', 'DECEASED'], DUNYA: ['DYING', 'DECEASED'], DYING: ['DECEASED'], DECEASED: ['BARZAKH'], BARZAKH: ['RESURRECTION'], RESURRECTION: ['MAHSHAR'], MAHSHAR: ['HISAB'], HISAB: ['MIZAN'], MIZAN: ['FINAL_STATE'], FINAL_STATE: ['FINAL_STATE'] };
+export function transition<T extends { state: string; alive?: boolean }>(person: T, next: string): T { const allowed = transitions[person.state] ?? []; if (!allowed.includes(next) && person.state !== next) throw new Error(`Invalid state transition: ${person.state} -> ${next}`); return { ...person, state: next, alive: ['CREATION', 'DUNYA', 'DYING'].includes(next) }; }
+export const stateGraph = (): Record<string, string[]> => structuredClone(transitions);

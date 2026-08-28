@@ -27,18 +27,27 @@ For production-like builds, install dependencies first, then use the workspace b
 
 ## Persistence
 
-The system uses a persistence contract with repository/data-mapper access. The default portable development driver is file-based; additional database drivers implement the same contract.
+The persistence contract currently supports three runtime modes:
+
+- **File** — portable local development and single-node operational runtime.
+- **Memory** — ephemeral tests and short-lived certification helpers.
+- **PostgreSQL** — durable multi-user, CI, staging, and production-style runtime.
+
+The default portable development driver is file-based. PostgreSQL is the preferred durable backend.
 
 ### YAML Configuration
 
-You can configure the persistence driver natively using `config/database.yaml`. The system reads the driver preference from this file (for example, setting `driver: sqlite`) before falling back to the `STORAGE_DRIVER` environment variable.
+Configure the persistent backend in `config/database.yaml` or override it with `STORAGE_DRIVER`.
 
 ```yaml
 version: 1
 storage:
-  driver: sqlite
+  driver: postgres
   file_dir: ./data/runtime
+  postgres: {}
 ```
+
+Valid runtime drivers are `file`, `memory`, and `postgres`.
 
 ## Worker
 
@@ -59,7 +68,7 @@ npm run db:restore -- --source=./data/backups/recovery-001 --target=./data/runti
 
 Restore refuses corrupted backup files and refuses to overwrite an existing target file. After restore, run the persistence restart test or verify the event ledger and audit chain before putting the store back into service.
 
-Schema migrations are applied transactionally by the SQLite and PostgreSQL providers. The current schema version is reported by `npm run db:status`.
+The current persistence implementation uses the shared repository contract for File and PostgreSQL backends. `npm run db:status` reports the current schema version used by the durable PostgreSQL path.
 
 Migration contract checks:
 
@@ -67,7 +76,7 @@ Migration contract checks:
 npm run persistence:migration:test
 ```
 
-To enable a live database driver, install the optional peer dependency (`better-sqlite3` for SQLite or `pg` for PostgreSQL), configure `SQLITE_FILE` or PostgreSQL connection settings, then run `npm run db:install` and verify the resulting schema before seeding production data.
+For PostgreSQL, configure the connection with `PGHOST`/`PGPORT`/`PGDATABASE`/`PGUSER`/`PGPASSWORD` or `DATABASE_URL`, then run `npm run db:install` and verify the resulting schema before seeding production data.
 
 
 ## Single-node witness operations (v4.20; v4.19 baseline retained)

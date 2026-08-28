@@ -25,6 +25,22 @@ test('native HTTP API exposes the universal kernel', async () => {
   await fs.rm(dataDir, { recursive: true, force: true });
 });
 
+test('native HTTP API exposes deployment readiness', async () => {
+  const dataDir = await fs.mkdtemp(path.join(os.tmpdir(), 'mw-api-ready-'));
+  const app = await buildApp({ dataDir, persistenceDriver: 'file' });
+  await app.start(0, '127.0.0.1');
+  const address = app.server.address();
+  assert.ok(address && typeof address === 'object');
+  const response = await fetch(`http://127.0.0.1:${address.port}/api/v1/ready`);
+  assert.equal(response.status, 200);
+  const body = await response.json() as { status: string; release: string; storageDriver: string };
+  assert.equal(body.status, 'ready');
+  assert.equal(body.release, '4.33.0');
+  assert.equal(body.storageDriver, 'file');
+  await app.close();
+  await fs.rm(dataDir, { recursive: true, force: true });
+});
+
 test('native HTTP API serves AI analysis', async () => {
   const dataDir = await fs.mkdtemp(path.join(os.tmpdir(), 'mw-api-ai-'));
   const app = await buildApp({ dataDir, persistenceDriver: 'file' });

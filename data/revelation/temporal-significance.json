@@ -1,0 +1,28 @@
+{
+  "version": "1.0.0",
+  "boundary": "Temporal phase mapping is an engineering normalization; temporal significance is derived from retrieved Revelation evidence and never represents revealed reward quantities.",
+  "clockPhases": [
+    {"id":"NIGHT","startMinute":1260,"endMinute":1440},
+    {"id":"NIGHT","startMinute":0,"endMinute":240},
+    {"id":"DAWN","startMinute":240,"endMinute":360},
+    {"id":"DAY","startMinute":360,"endMinute":1020},
+    {"id":"EVENING","startMinute":1020,"endMinute":1260}
+  ],
+  "textSignals": {
+    "DAWN":["fajar","subuh","dini hari","dawn"],
+    "NIGHT":["malam","tengah malam","akhir malam","night"],
+    "DAY":["siang","pagi","day"],
+    "EVENING":["petang","sore","senja","evening"]
+  },
+  "quranPatterns": {
+    "DAWN":["TIME-DAWN"],
+    "NIGHT":["TIME-NIGHT","TIME-QADR"],
+    "DAY":["TIME-SUN-DECLINE"],
+    "EVENING":["TIME-SUN-DECLINE"],
+    "JUMUAH":["TIME-JUMUAH"],
+    "RAMADAN":["TIME-RAMADAN"],
+    "QADR":["TIME-QADR"],
+    "LUNAR":["TIME-LUNAR-MARKER"],
+    "CALENDAR":["TIME-12-MONTHS"]
+  }
+}

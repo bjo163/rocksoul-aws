@@ -79,3 +79,5 @@ This package does not issue Divine verdicts, infer unsupported chronology, or pr
 ## Migration
 
 The semantic implementation is still migrated incrementally from `src/revelation`; package-owned seed data is now canonical. Mature implementation modules move here only after build and certification gates pass.
+
+Package code must remain host-neutral: it may depend on contracts and capability packages, but must not import `apps/api`, HTTP route/bootstrap modules, or web-server frameworks. `npm run architecture:check` enforces this boundary for all package source files.

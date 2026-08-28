@@ -35,6 +35,25 @@ export interface UniverseClientOptions {
   onSessionChange?: (session: AuthSessionContract | null) => void;
 }
 
+/** Public liveness payload. Additional diagnostic fields are intentionally additive. */
+export interface UniverseHealthResponse {
+  status: string;
+  release: string;
+  environment?: string;
+  storageDriver?: string;
+  [key: string]: unknown;
+}
+
+/** Public readiness payload. A non-ready service responds with HTTP 503. */
+export interface UniverseReadinessResponse {
+  status: 'ready';
+  release: string;
+  storageDriver?: string;
+  [key: string]: unknown;
+}
+
+export type UniverseFeaturesResponse = Record<string, unknown>;
+
 export class UniverseApiError extends Error {
   readonly status: number;
   readonly body: unknown;
@@ -182,6 +201,9 @@ export class UniverseClient {
     finally { this.setSession(null); }
   }
 
+  health(): Promise<UniverseHealthResponse> { return this.request('/api/v1/health', { method: 'GET' }); }
+  ready(): Promise<UniverseReadinessResponse> { return this.request('/api/v1/ready', { method: 'GET' }); }
+  features(): Promise<UniverseFeaturesResponse> { return this.request('/api/v1/features', { method: 'GET' }); }
   me(): Promise<PublicUserContract> { return this.request('/api/v1/auth/me', { method: 'GET' }); }
   xrpWorkspace(): Promise<XrpWorkspaceResponse> { return this.request('/api/v1/xrp/workspace', { method: 'GET' }); }
   observe(input: UniverseObservationRequest): Promise<UniverseObservationResponse> { return this.request('/api/v1/observe', { method: 'POST', body: JSON.stringify(input) }); }

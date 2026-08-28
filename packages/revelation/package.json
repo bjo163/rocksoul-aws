@@ -3,9 +3,11 @@
   "version": "4.33.0",
   "private": true,
   "type": "module",
-  "main": "src/index.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "description": "Canonical MoonWitness Revelation/Knowledge semantic boundary.",
   "scripts": {
+    "typecheck": "tsc --noEmit --target ES2022 --module NodeNext --moduleResolution NodeNext --skipLibCheck src/index.ts",
     "test": "tsx --test test/revelation-package.test.ts test/revelation-graph.test.ts test/evidence-graph.test.ts test/evidence-relations.test.ts test/evidence-conflicts.test.ts test/universe-projection.test.ts"
   },
   "dependencies": {
@@ -13,6 +15,7 @@
     "@moonwitness/data-access": "4.33.0"
   },
   "devDependencies": {
-    "tsx": "^4.19.0"
+    "tsx": "^4.19.0",
+    "typescript": "^5.8.3"
   }
 }

@@ -1,6 +1,6 @@
 import { Router, isRecord, httpError, requirePermission, requireAuthenticated, idempotencyKey, bearerToken } from '../router.js';
 import { buildAiAnalysis, analyzeWithProvider } from '../../../../src/ai/general-analyzer.js';
-import { IdempotencyStore } from '../../../../src/persistence/idempotency.js';
+import { IdempotencyStore } from '@moonwitness/persistence';
 import { replayCaseEvents } from '../../../../src/audit/event-replay.js';
 import { composeReminderBundle } from '../../../../src/ingress/revelation-reminder-engine.js';
 import { createUnpredictableIngress, triggerIngress } from '../../../../src/ingress/divine-ingress.js';
@@ -13,25 +13,15 @@ import { revelationMoralGraph } from '../../../../src/revelation/moral-graph/rev
 import { fourBookCorpusSnapshot } from '../../../../src/revelation/corpus/four-book-corpus.js';
 import { revelationLifecycleSnapshot } from '../../../../src/revelation/lifecycle/revelation-lifecycle.js';
 import { revelationGrammarSnapshot } from '../../../../src/revelation/grammar/revelation-grammar.js';
-import { assertHumanReviewGate } from '../../../../src/contracts/runtime-validation.js';
-import { createReview, transitionReview, type ReviewRecord } from '../../../../src/review/workflow.js';
+import { createReview, transitionReview, type HumanDisposition, type ReviewRecord, type ReviewStatus } from '@moonwitness/orchestrator';
 import { buildXrpWorkspace } from '../xrp-workspace.js';
 import { denyForeignRidWrite, requireScopedEntity } from '../access-control.js';
-import { sha256 } from '../../../../src/ledger/witness-dag.js';
+import { sha256 } from '@moonwitness/witness';
 import { hasPermission } from '../../../../src/security/authorization.js';
+import { runAnalysisWorkflow, runCreateReviewWorkflow, runEvaluationWorkflow, runEvidenceWorkflow, runObservationWorkflow, runTransitionReviewWorkflow } from '@moonwitness/orchestrator';
+import { boundedInteger, listQueryBounds, queryFilters } from '../query-bounds.js';
 
 export const v1Router = new Router();
-
-function evidenceObservation(evidence: any[]): any[] {
-  return evidence.map((item) => ({
-    ...(item?.payload && typeof item.payload === 'object' ? item.payload : {}),
-    id: item.evidenceId,
-    status: item.status ?? 'UNKNOWN',
-    type: item.sourceType,
-    reference: item.reference,
-    confidence: item.confidence,
-  }));
-}
 
 function publicJob(job: any): Record<string, unknown> {
   return {
@@ -58,7 +48,9 @@ function idempotencyError(error: unknown) {
 v1Router.add('GET', '/api/v1/observability/recent', async (req, _reply, _params, _body, query, ctx) => {
   const authz = await requirePermission(req, ctx.auth, 'READ_AUDIT');
   if (!authz.ok) return authz.error;
-  return ctx.observability.recent(Number(query.get('limit') ?? 100));
+  const limit = boundedInteger(query.get('limit'), 100, 1, 250);
+  if (!limit.ok) return httpError(400, limit.code);
+  return ctx.observability.recent(limit.value);
 });
 
 v1Router.add('GET', '/api/v1/stream', async (req, reply, _params, _body, _query, ctx) => {
@@ -167,16 +159,23 @@ v1Router.add('POST', '/api/v1/observe', async (req, _reply, _params, body, _quer
     const foreign = await denyForeignRidWrite(req, ctx, entityId);
     if (foreign) return foreign;
     return await ctx.idempotency.execute(scopedIdempotencyKey(req, actorId, `OBSERVE:${entityId}`), IdempotencyStore.hash(p), async () => {
-      const scoped = ctx.universeStore.persistence.asActor(actorId);
       if (!ctx.universeStore.persistence.store.batch) throw new Error('TRANSACTION_NOT_SUPPORTED');
-      await ctx.universeStore.persistence.store.batch(async () => {
-        const previous = await ctx.universeStore.persistence.entities().get(entityId);
-        const version = Number(previous?.version ?? 0) + 1;
-        const previousPayload = isRecord(previous?.payload) ? previous.payload : {};
-        await scoped.saveEntity({id: entityId, type: 'CASE', expectedVersion: Number(previous?.version ?? 0), version, payload: {...previousPayload, id: entityId, type: 'CASE', version, status: 'OBSERVED', ...(authUser?.rid ? { ownerRid: authUser.rid } : {}), observation: {source: typeof p.source === 'string' ? p.source : 'API', payload}, updatedAt: new Date().toISOString()}});
+      const source = typeof p.source === 'string' ? p.source : 'API';
+      const workflow = await runObservationWorkflow({
+        entityId,
+        actorId,
+        eventId: `EVT-${Date.now()}-${Math.random().toString(36).slice(2,8)}`,
+        source,
+        payload,
+        context: isRecord(p.context) ? p.context : {},
+        ownerRid: authUser?.rid,
+      }, {
+        loadEntity: (id) => ctx.universeStore.persistence.entities().get(id),
+        batch: (work) => ctx.universeStore.persistence.store.batch(work),
+        saveEntity: (input) => ctx.universeStore.persistence.asActor(actorId).saveEntity(input),
+        appendEvent: (input) => ctx.universeStore.persistence.asActor(actorId).appendEvent(input),
       });
-      const persisted = await scoped.appendEvent({eventId: `EVT-${Date.now()}-${Math.random().toString(36).slice(2,8)}`, entityId, eventType: 'OBSERVATION', payload: {observation: payload, context: isRecord(p.context) ? p.context : {}, source: typeof p.source === 'string' ? p.source : 'API'}, actorId});
-      return { statusCode: 200, body: { id: persisted.eventId, kind: 'OBSERVATION', status: 'RECORDED', event: persisted, entityId } };
+      return { statusCode: 200, body: workflow };
     });
   } catch(error) {
     const conflict = idempotencyError(error);
@@ -200,18 +199,29 @@ v1Router.add('POST', '/api/v1/analyze', async (req, _reply, _params, body, _quer
   if (!text) return httpError(400, 'TEXT_REQUIRED');
   try {
     return await ctx.idempotency.execute(scopedIdempotencyKey(req, actorId, `ANALYZE:${caseId}`), IdempotencyStore.hash(p), async () => {
-      const existing = await ctx.universeStore.getCase(caseId);
-      const persistedEvidence = await ctx.universeStore.listCaseEvidence(caseId);
       const options = isRecord(p.options) ? { ...p.options } : {};
-      if (isRecord(p.semanticObservation)) options.semanticObservation = p.semanticObservation;
-      options.persistedEvidence = evidenceObservation(persistedEvidence);
-      const analysis = isRecord(options.semanticObservation) ? buildAiAnalysis(text, options) : await analyzeWithProvider(text, { ...options, provider: ctx.semanticProvider });
-      const reminderBundle = p.includeReminder === true ? await composeReminderBundle(typeof p.reminderSeed === 'number' ? p.reminderSeed : undefined) : null;
-      const finalAnalysis = reminderBundle ? { ...analysis, reminderBundle } : analysis;
-      const aggregate = { ...(isRecord(existing) ? existing : {}), id: caseId, type: 'CASE', version: Number(existing?.version ?? 0) + 1, status: 'ANALYZED', ...(authUser?.rid ? { ownerRid: authUser.rid } : {}), observation: { text }, analysis: finalAnalysis, lifecycle: (finalAnalysis as any).lifecycle ?? null, updatedAt: new Date().toISOString() } as any;
-      await ctx.universeStore.saveCase(aggregate, 'CASE.ANALYZED', actorId);
-      const witness=await ctx.witness.commitMizan({ recordId:`${caseId}:v${aggregate.version}`, recordType:'ANALYSIS', actorId, text, mizan:(finalAnalysis as any).mizan ?? null, semantic:(finalAnalysis as any).semanticVector ?? (finalAnalysis as any).semantic ?? null, lifecycle:{caseLifecycle:(finalAnalysis as any).lifecycle ?? null,moralLifecycle:(finalAnalysis as any).moralLifecycle ?? null}, reviewGate:(finalAnalysis as any).reviewGate ?? null, modelVersion:'4.32.0', source:'/api/v1/analyze' });
-      return { statusCode: 200, body: { id: caseId, kind: 'ANALYSIS', status: 'PERSISTED', persisted: { entityId: caseId, version: aggregate.version, actorId }, witness:{ nodeId:witness.node.nodeId, hash:witness.node.hash, root:witness.root, checkpointId:witness.checkpoint?.checkpoint.checkpointId ?? null }, ...finalAnalysis } };
+      const workflow = await runAnalysisWorkflow({
+        caseId,
+        actorId,
+        text,
+        options,
+        semanticObservation: isRecord(p.semanticObservation) ? p.semanticObservation : undefined,
+        includeReminder: p.includeReminder === true,
+        reminderSeed: typeof p.reminderSeed === 'number' ? p.reminderSeed : undefined,
+        ownerRid: authUser?.rid,
+        modelVersion: '4.32.0',
+        source: '/api/v1/analyze',
+      }, {
+        loadCase: (id) => ctx.universeStore.getCase(id),
+        listEvidence: (id) => ctx.universeStore.listCaseEvidence(id),
+        analyze: async ({ text: analysisText, options: analysisOptions, semanticObservation }) => semanticObservation
+          ? buildAiAnalysis(analysisText, analysisOptions)
+          : analyzeWithProvider(analysisText, { ...analysisOptions, provider: ctx.semanticProvider }),
+        composeReminder: (seed) => composeReminderBundle(seed),
+        saveCase: ({ aggregate, eventType, actorId: savedBy }) => ctx.universeStore.saveCase(aggregate, eventType, savedBy),
+        commitWitness: (input) => ctx.witness.commitMizan(input),
+      });
+      return { statusCode: 200, body: { id: caseId, kind: 'ANALYSIS', status: 'PERSISTED', persisted: { entityId: caseId, version: workflow.aggregate.version, actorId }, witness: workflow.witness, ...workflow.analysis } };
     });
   } catch (error) {
     return idempotencyError(error) ?? httpError(500, 'ANALYSIS_FAILED', error instanceof Error ? error.message : String(error));
@@ -228,27 +238,36 @@ v1Router.add('POST', '/api/v1/evaluate', async (req, _reply, _params, body, _que
   }
   const input = isRecord(p.input) ? p.input : {};
   const evaluationId = typeof p.target === 'string' && p.target ? p.target : `EVAL-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
-  const persistedEvidence = await ctx.universeStore.listCaseEvidence(evaluationId);
   const text = typeof input.text === 'string' ? input.text : (typeof p.text === 'string' ? p.text : '');
   if (!text) return httpError(400, 'TEXT_REQUIRED');
   const options = isRecord(input.options) ? { ...input.options } : {};
-  if (p.semanticObservation) options.semanticObservation = p.semanticObservation;
-  options.persistedEvidence = evidenceObservation(persistedEvidence);
-  const analysis = isRecord(options.semanticObservation) ? buildAiAnalysis(text, options) : await analyzeWithProvider(text, { ...options, provider: ctx.semanticProvider });
   const actorId=authz.user?.userId ?? 'SERVICE-API-001';
   const eventId=`EVT-MIZAN-${evaluationId}-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
   try {
-    await ctx.universeStore.persistence.asActor(actorId).appendEvent({
-      eventId, entityId: typeof p.target === 'string' && p.target ? p.target : evaluationId, eventType: 'MIZAN.EVALUATION', payload: { evaluationId, mizan: (analysis as any).mizan ?? null, semantic: (analysis as any).semanticVector ?? (analysis as any).semantic ?? null, lifecycle: (analysis as any).lifecycle ?? null, reviewGate: (analysis as any).reviewGate ?? null, revelationScorecard: (analysis as any).revelationScorecard ?? null }, actorId
+    const workflow = await runEvaluationWorkflow({
+      evaluationId,
+      actorId,
+      eventId,
+      text,
+      options,
+      semanticObservation: isRecord(p.semanticObservation) ? p.semanticObservation : undefined,
+      modelVersion: '4.32.0',
+      source: '/api/v1/evaluate',
+    }, {
+      listEvidence: (id) => ctx.universeStore.listCaseEvidence(id),
+      analyze: async ({ text: analysisText, options: analysisOptions, semanticObservation }) => semanticObservation
+        ? buildAiAnalysis(analysisText, analysisOptions)
+        : analyzeWithProvider(analysisText, { ...analysisOptions, provider: ctx.semanticProvider }),
+      appendEvent: (event) => ctx.universeStore.persistence.asActor(actorId).appendEvent(event),
+      commitWitness: (witness) => ctx.witness.commitMizan(witness),
     });
+    return workflow;
   } catch (error) {
+    const code = error instanceof Error ? (error as Error & { code?: unknown }).code : undefined;
+    if (code === 'INVALID_ANALYSIS_CONTRACT') return httpError(500, 'INVALID_ANALYSIS_CONTRACT', error instanceof Error ? error.message : String(error));
+    if (code === 'WITNESS_ROOT_MISSING') return httpError(500, 'EVALUATION_PERSISTENCE_FAILED', error instanceof Error ? error.message : String(error));
     return httpError(500, 'EVALUATION_PERSISTENCE_FAILED', error instanceof Error ? error.message : String(error));
   }
-  const witness=await ctx.witness.commitMizan({ recordId:eventId, recordType:'EVALUATION', actorId, text, mizan:(analysis as any).mizan ?? null, semantic:(analysis as any).semanticVector ?? (analysis as any).semantic ?? null, lifecycle:{caseLifecycle:(analysis as any).lifecycle ?? null,moralLifecycle:(analysis as any).moralLifecycle ?? null}, reviewGate:(analysis as any).reviewGate ?? null, modelVersion:'4.32.0', source:'/api/v1/evaluate' });
-  const reviewGate=(analysis as any).reviewGate ?? null;
-  try { assertHumanReviewGate(reviewGate); } catch (error) { return httpError(500, 'INVALID_ANALYSIS_CONTRACT', error instanceof Error ? error.message : String(error)); }
-  const status=reviewGate?.decision === 'BLOCK_ADVERSE_ACTION' ? 'BLOCKED' : reviewGate?.requiresHumanReview ? 'REVIEW_REQUIRED' : 'RESOLVED';
-  return { id: evaluationId, kind: 'EVALUATION', status, witness:{ nodeId:witness.node.nodeId, hash:witness.node.hash, root:witness.root, checkpointId:witness.checkpoint?.checkpoint.checkpointId ?? null }, mizan: (analysis as any).mizan ?? null, semantic: (analysis as any).semanticVector ?? (analysis as any).semantic ?? null, lifecycle: (analysis as any).lifecycle ?? null, reviewGate, revelationScorecard: (analysis as any).revelationScorecard ?? null };
 });
 
 v1Router.add('POST', '/api/v1/query', async (req, _reply, _params, body, query, ctx) => {
@@ -257,14 +276,12 @@ v1Router.add('POST', '/api/v1/query', async (req, _reply, _params, body, query, 
     if (!authz.ok) return authz.error;
   }
   const p = isRecord(body) ? body : {};
-  const q = typeof p.query === 'string' ? p.query : query.get('q') ?? undefined;
-  const type = typeof p.type === 'string' ? p.type : query.get('type') ?? undefined;
-  const entityId = typeof p.entityId === 'string' ? p.entityId : query.get('entityId') ?? undefined;
-  const n = Number(p.limit ?? query.get('limit') ?? 50);
-  const limit = Number.isFinite(n) ? Math.max(1, Math.min(250, n)) : 50;
-  const offset = Math.max(0, Number(query.get('offset')) || 0);
-  if (entityId) return { type: 'ENTITY', result: ctx.backend.runtime.graph.getEntity(entityId) ?? null };
-  return { type: 'ENTITIES', results: ctx.backend.runtime.graph.listEntities({ type, q }).slice(offset, offset + limit) };
+  const filters = queryFilters(p, query);
+  const pagination = listQueryBounds(query, p.limit ?? query.get('limit'), 50);
+  if (!filters.ok) return httpError(400, filters.code);
+  if (!pagination.ok) return httpError(400, pagination.code);
+  if (filters.value.entityId) return { type: 'ENTITY', result: ctx.backend.runtime.graph.getEntity(filters.value.entityId) ?? null };
+  return { type: 'ENTITIES', results: ctx.backend.runtime.graph.listEntities({ type: filters.value.type, q: filters.value.q }).slice(pagination.value.offset, pagination.value.offset + pagination.value.limit) };
 });
 
 v1Router.add('GET', '/api/v1/xrp/workspace', async (req, _reply, _params, _body, _query, ctx) => {
@@ -297,6 +314,8 @@ v1Router.add('POST', '/api/v1/xrp/cases', async (req, _reply, _params, body, _qu
 });
 
 v1Router.add('POST', '/api/v1/xrp/cases/:id/evidence', async (req, _reply, params, body, _query, ctx) => {
+  const authz = await requireAuthenticated(req, ctx.auth);
+  if (!authz.ok) return authz.error;
   const scope = await requireScopedEntity(req, ctx, params.id, { allowOversight: false });
   if (!scope.ok) return scope.error;
   if (scope.entity.type !== 'CASE') return httpError(404, 'RESOURCE_NOT_FOUND');
@@ -341,6 +360,8 @@ v1Router.add('POST', '/api/v1/xrp/work-items', async (req, _reply, _params, body
 });
 
 v1Router.add('POST', '/api/v1/xrp/cases/:id/request-review', async (req, _reply, params, _body, _query, ctx) => {
+  const authz = await requireAuthenticated(req, ctx.auth);
+  if (!authz.ok) return authz.error;
   const scope = await requireScopedEntity(req, ctx, params.id, { allowOversight: false });
   if (!scope.ok) return scope.error;
   if (scope.entity.type !== 'CASE') return httpError(404, 'RESOURCE_NOT_FOUND');
@@ -396,6 +417,8 @@ v1Router.add('POST', '/api/v1/flow/workflows', async (req, _reply, _params, body
 });
 
 v1Router.add('POST', '/api/v1/flow/workflows/:id/request-review', async (req, _reply, params, _body, _query, ctx) => {
+  const authz = await requireAuthenticated(req, ctx.auth);
+  if (!authz.ok) return authz.error;
   const scope = await requireScopedEntity(req, ctx, params.id, { allowOversight: false });
   if (!scope.ok) return scope.error;
   if (scope.entity.type !== 'FLOW_WORKFLOW') return httpError(404, 'FLOW_NOT_FOUND');
@@ -552,6 +575,8 @@ v1Router.add('GET', '/api/v1/resource/:id/replay', async (req, _reply, params, _
 });
 
 v1Router.add('GET', '/api/v1/resource/:id', async (req, _reply, params, _body, _query, ctx) => {
+  const authz = await requireAuthenticated(req, ctx.auth);
+  if (!authz.ok) return authz.error;
   const id = params.id;
   const raw = await ctx.universeStore.persistence.entities().get(id);
   if (raw) {
@@ -582,10 +607,17 @@ v1Router.add('POST', '/api/v1/reviews', async (req, _reply, _params, body, _quer
     const scope = await requireScopedEntity(req, ctx, p.targetId);
     if (!scope.ok) return scope.error;
   }
-  const actor=authz.user?.userId??'SERVICE-API-001'; const review=createReview({targetId:p.targetId,requestedBy:actor,assigneeId:typeof p.assigneeId==='string'?p.assigneeId:null,gateDecision:typeof p.gateDecision==='string'?p.gateDecision:'REQUIRE_HUMAN_REVIEW',evidenceRefs:Array.isArray(p.evidenceRefs)?p.evidenceRefs.filter((x):x is string=>typeof x==='string'):[]});
-  await ctx.universeStore.persistence.asActor(actor).saveEntity({id:review.reviewId,type:'HUMAN_REVIEW',version:review.version,payload:review});
-  await ctx.universeStore.persistence.asActor(actor).appendEvent({eventId:`EVT-${review.reviewId}-CREATED`,entityId:review.targetId,eventType:'HUMAN_REVIEW.CREATED',payload:review,actorId:actor});
-  return {statusCode:201,body:review};
+  const actor=authz.user?.userId??'SERVICE-API-001';
+  try {
+    const review = await runCreateReviewWorkflow({ targetId: p.targetId, requestedBy: actor, actorId: actor, assigneeId: typeof p.assigneeId === 'string' ? p.assigneeId : null, gateDecision: typeof p.gateDecision === 'string' ? p.gateDecision : 'REQUIRE_HUMAN_REVIEW', evidenceRefs: Array.isArray(p.evidenceRefs) ? p.evidenceRefs.filter((x): x is string => typeof x === 'string') : [] }, {
+      createReview,
+      saveEntity: (input) => ctx.universeStore.persistence.asActor(actor).saveEntity(input),
+      appendEvent: (input) => ctx.universeStore.persistence.asActor(actor).appendEvent(input),
+    });
+    return {statusCode:201,body:review};
+  } catch (error) {
+    return httpError(409, 'REVIEW_CREATE_REJECTED', error instanceof Error ? error.message : String(error));
+  }
 });
 
 v1Router.add('POST', '/api/v1/reviews/:id/transition', async (req, _reply, params, body, _query, ctx) => {
@@ -603,10 +635,18 @@ v1Router.add('POST', '/api/v1/reviews/:id/transition', async (req, _reply, param
   if (!authz.user.roles.includes('ADMIN') && requestedAssignee && requestedAssignee !== actor) return httpError(403, 'REVIEW_ASSIGNMENT_FORBIDDEN');
   const currentAssignee = typeof currentPayload.assigneeId === 'string' ? currentPayload.assigneeId : null;
   const assigneeId = requestedAssignee ?? (!authz.user.roles.includes('ADMIN') && !currentAssignee ? actor : undefined);
-  try { const next=transitionReview(current.payload as ReviewRecord,{status:p.status as any,actorId:actor,rationale:typeof p.rationale==='string'?p.rationale:undefined,disposition:typeof p.disposition==='string'?p.disposition as any:undefined,assigneeId}); await ctx.universeStore.persistence.asActor(actor).saveEntity({id:next.reviewId,type:'HUMAN_REVIEW',expectedVersion:Number(current.version??currentPayload.version??1),version:next.version,payload:next}); await ctx.universeStore.persistence.asActor(actor).appendEvent({eventId:`EVT-${next.reviewId}-${next.version}`,entityId:next.targetId,eventType:'HUMAN_REVIEW.TRANSITIONED',payload:next,actorId:actor}); return next; } catch(error) { return httpError(409,'REVIEW_TRANSITION_REJECTED',error instanceof Error?error.message:String(error)); }
+  try {
+    return await runTransitionReviewWorkflow({ current: current.payload as ReviewRecord, currentVersion: Number(current.version ?? currentPayload.version ?? 1), transition: { status: p.status as ReviewStatus, actorId: actor, rationale: typeof p.rationale === 'string' ? p.rationale : undefined, disposition: typeof p.disposition === 'string' ? p.disposition as HumanDisposition : undefined, assigneeId } }, {
+      transitionReview,
+      saveEntity: (input) => ctx.universeStore.persistence.asActor(actor).saveEntity(input),
+      appendEvent: (input) => ctx.universeStore.persistence.asActor(actor).appendEvent(input),
+    });
+  } catch(error) { return httpError(409,'REVIEW_TRANSITION_REJECTED',error instanceof Error?error.message:String(error)); }
 });
 
 v1Router.add('GET', '/api/v1/resource/:id/evidence', async (req, _reply, params, _body, _query, ctx) => {
+  const authz = await requireAuthenticated(req, ctx.auth);
+  if (!authz.ok) return authz.error;
   const scope = await requireScopedEntity(req, ctx, params.id);
   if (!scope.ok) return scope.error;
   if (scope.entity.type !== 'CASE') return httpError(404, 'RESOURCE_NOT_FOUND');
@@ -617,6 +657,8 @@ v1Router.add('GET', '/api/v1/resource/:id/evidence', async (req, _reply, params,
 });
 
 v1Router.add('POST', '/api/v1/resource/:id/evidence', async (req, _reply, params, body, _query, ctx) => {
+  const authz = await requireAuthenticated(req, ctx.auth);
+  if (!authz.ok) return authz.error;
   const scope = await requireScopedEntity(req, ctx, params.id);
   if (!scope.ok) return scope.error;
   if (scope.entity.type !== 'CASE') return httpError(404, 'RESOURCE_NOT_FOUND');
@@ -628,25 +670,41 @@ v1Router.add('POST', '/api/v1/resource/:id/evidence', async (req, _reply, params
   const payload = isRecord(p.payload) ? p.payload : {};
   const evidenceId = typeof p.evidenceId === 'string' && p.evidenceId ? p.evidenceId : `EVD-${params.id}-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
   const history=await ctx.universeStore.listCaseEvidence(params.id);
-  if(history.some((item:any)=>item.evidenceId===evidenceId)) return httpError(409,'EVIDENCE_IMMUTABLE','Create a new evidenceId and use supersedes instead of updating an existing record.');
+  if(history.some((item)=>isRecord(item)&&item.evidenceId===evidenceId)) return httpError(409,'EVIDENCE_IMMUTABLE','Create a new evidenceId and use supersedes instead of updating an existing record.');
   const supersedes=typeof p.supersedes==='string'&&p.supersedes?p.supersedes:undefined;
   if(supersedes){
     if(supersedes===evidenceId) return httpError(400,'EVIDENCE_SELF_SUPERSESSION');
-    if(!history.some((item:any)=>item.evidenceId===supersedes)) return httpError(404,'SUPERSEDED_EVIDENCE_NOT_FOUND');
+    if(!history.some((item)=>isRecord(item)&&item.evidenceId===supersedes)) return httpError(404,'SUPERSEDED_EVIDENCE_NOT_FOUND');
     if(typeof p.supersessionReason!=='string'||!p.supersessionReason.trim()) return httpError(400,'SUPERSESSION_REASON_REQUIRED');
-    if(history.some((item:any)=>isRecord(item.payload)&&item.payload.supersedes===supersedes)) return httpError(409,'EVIDENCE_ALREADY_SUPERSEDED');
+    if(history.some((item)=>isRecord(item)&&isRecord(item.payload)&&item.payload.supersedes===supersedes)) return httpError(409,'EVIDENCE_ALREADY_SUPERSEDED');
   }
   const actorId = scope.user.userId;
-  const evidence = await ctx.universeStore.persistence.asActor(actorId).saveEvidence({
-    evidenceId,
-    entityId: params.id,
-    sourceType: typeof p.sourceType === 'string' ? p.sourceType : 'USER_SUBMITTED',
-    reference: typeof p.reference === 'string' ? p.reference : undefined,
-    status: status as any,
-    confidence: typeof p.confidence === 'number' ? Math.max(0, Math.min(1, p.confidence)) : undefined,
-    payload: { ...payload, submittedThrough: '/api/v1/resource/:id/evidence', supersedes, supersessionReason:supersedes?p.supersessionReason:undefined },
-  });
-  return { id: params.id, status: 'EVIDENCE_RECORDED', evidence, reanalysisRequired: true };
+  try {
+    return await runEvidenceWorkflow({
+      entityId: params.id,
+      actorId,
+      evidenceId,
+      sourceType: typeof p.sourceType === 'string' ? p.sourceType : undefined,
+      reference: typeof p.reference === 'string' ? p.reference : undefined,
+      status,
+      confidence: typeof p.confidence === 'number' ? p.confidence : undefined,
+      payload,
+      supersedes,
+      supersessionReason: typeof p.supersessionReason === 'string' ? p.supersessionReason : undefined,
+      submittedThrough: '/api/v1/resource/:id/evidence',
+    }, {
+      listEvidence: (id) => ctx.universeStore.listCaseEvidence(id),
+      saveEvidence: (record) => ctx.universeStore.persistence.asActor(actorId).saveEvidence(record) as Promise<typeof record>,
+    });
+  } catch (error) {
+    const code = error instanceof Error ? (error as Error & { code?: unknown }).code : undefined;
+    if (code === 'EVIDENCE_IMMUTABLE') return httpError(409, 'EVIDENCE_IMMUTABLE', error instanceof Error ? error.message : String(error));
+    if (code === 'EVIDENCE_SELF_SUPERSESSION') return httpError(400, 'EVIDENCE_SELF_SUPERSESSION');
+    if (code === 'SUPERSEDED_EVIDENCE_NOT_FOUND') return httpError(404, 'SUPERSEDED_EVIDENCE_NOT_FOUND');
+    if (code === 'SUPERSESSION_REASON_REQUIRED') return httpError(400, 'SUPERSESSION_REASON_REQUIRED');
+    if (code === 'EVIDENCE_ALREADY_SUPERSEDED') return httpError(409, 'EVIDENCE_ALREADY_SUPERSEDED');
+    return httpError(500, 'EVIDENCE_PERSISTENCE_FAILED', error instanceof Error ? error.message : String(error));
+  }
 });
 
 v1Router.add('POST', '/api/v1/ingress/reminder', async (req, _reply, _params, body, _query, ctx) => {

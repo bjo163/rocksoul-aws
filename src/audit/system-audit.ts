@@ -26,7 +26,7 @@ export function auditSystem(){
    tawratTypedCorpus: exists('data/divine-books/witness-corpora/tawrat.jsonl'),
    zaburTypedCorpus: exists('data/divine-books/witness-corpora/zabur.jsonl'),
    injilTypedCorpus: exists('data/divine-books/witness-corpora/injil.jsonl'),
-   mizan: exists('src/engines/mizan.ts'),
+   mizan: exists('packages/mizan-engine/src/index.ts'),
    xp: exists('src/engines/xp.ts'),
    ai: exists('src/ai/analyzer.ts'),
    cab: exists('src/cab/cab-engine.ts'),

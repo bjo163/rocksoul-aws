@@ -3,24 +3,23 @@
   "version": "4.33.0",
   "private": true,
   "type": "module",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
   "scripts": {
-    "test": "tsx --test test/persistence.test.ts"
+    "build": "npm exec -- tsc --target ES2022 --module NodeNext --moduleResolution NodeNext --rootDir src --outDir dist --declaration --sourceMap --strict --skipLibCheck",
+    "test": "tsx --test test/persistence.test.ts test/idempotency-runtime.test.ts test/universe-store.test.ts"
   },
   "devDependencies": {
     "tsx": "^4.19.0"
   },
   "peerDependencies": {
-    "better-sqlite3": ">=11",
     "pg": ">=8"
-  },
-  "peerDependenciesMeta": {
-    "better-sqlite3": {
-      "optional": true
-    },
-    "pg": {
-      "optional": true
-    }
   },
   "dependencies": {
     "pg": "^8.16.3"

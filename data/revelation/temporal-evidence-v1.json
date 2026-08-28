@@ -1,0 +1,121 @@
+{
+  "protocol": "QURAN_TEMPORAL_EVIDENCE_V1",
+  "version": "1.0.0",
+  "status": "FROZEN",
+  "scope": "QURAN_PRIMARY_TEMPORAL_EVIDENCE",
+  "corpus": {
+    "book": "QURAN",
+    "manifest": "data/divine-books/revelation-corpus-manifest.json",
+    "manifestVersion": "4.29.0",
+    "canonicalCorpusPath": "data/divine-books/quran/ayahs.jsonl",
+    "canonicalCorpusSha256": "65d280618bf241afabd3c05fbbb1af4ec3546fc5b76e07cbc9c421cc964cb6e1",
+    "sourceClass": "CANONICAL_REFERENCE",
+    "role": "PRIMARY_MUHAIMIN"
+  },
+  "parser": {
+    "id": "TEMPORAL_EVIDENCE_PARSER_V1",
+    "version": "1.0.0",
+    "method": "CURATED_REFERENCE_CLASSIFICATION",
+    "doesNotStoreVerseText": true
+  },
+  "classes": {
+    "E1": "EXPLICIT_TEMPORAL_STATEMENT",
+    "E2": "EXPLICIT_SUN_MOON_TEMPORAL_STATEMENT",
+    "E3": "FRACTIONAL_NIGHT_STRUCTURE",
+    "E4": "CONTEXTUAL_TEMPORAL_EVIDENCE",
+    "E5": "RESEARCH_INTERPRETATION_HYPOTHESIS"
+  },
+  "items": [
+    {
+      "id": "QTE-E1-017-078",
+      "evidenceClass": "E1",
+      "reference": "17:78",
+      "canonicalCorpusReference": "data/divine-books/quran/ayahs.jsonl#17:78",
+      "claimBoundary": "Classifies an explicit temporal statement; no astronomical calculation or reward claim follows.",
+      "provenance": { "curation": "TEMPORAL_EVIDENCE_V1", "referenceBasis": "CANONICAL_QURAN_CORPUS" }
+    },
+    {
+      "id": "QTE-E1-024-058",
+      "evidenceClass": "E1",
+      "reference": "24:58",
+      "canonicalCorpusReference": "data/divine-books/quran/ayahs.jsonl#24:58",
+      "claimBoundary": "Classifies explicit named time contexts only.",
+      "provenance": { "curation": "TEMPORAL_EVIDENCE_V1", "referenceBasis": "CANONICAL_QURAN_CORPUS" }
+    },
+    {
+      "id": "QTE-E2-002-189",
+      "evidenceClass": "E2",
+      "reference": "2:189",
+      "canonicalCorpusReference": "data/divine-books/quran/ayahs.jsonl#2:189",
+      "claimBoundary": "Classifies an explicit lunar temporal statement; it does not establish a location-specific lunar observation rule.",
+      "provenance": { "curation": "TEMPORAL_EVIDENCE_V1", "referenceBasis": "CANONICAL_QURAN_CORPUS" }
+    },
+    {
+      "id": "QTE-E2-010-005",
+      "evidenceClass": "E2",
+      "reference": "10:5",
+      "canonicalCorpusReference": "data/divine-books/quran/ayahs.jsonl#10:5",
+      "claimBoundary": "Classifies an explicit Sun/Moon temporal statement; it does not validate any particular ephemeris implementation.",
+      "provenance": { "curation": "TEMPORAL_EVIDENCE_V1", "referenceBasis": "CANONICAL_QURAN_CORPUS" }
+    },
+    {
+      "id": "QTE-E2-036-039",
+      "evidenceClass": "E2",
+      "reference": "36:39",
+      "canonicalCorpusReference": "data/divine-books/quran/ayahs.jsonl#36:39",
+      "claimBoundary": "Classifies an explicit lunar temporal statement; it does not encode a numerical model.",
+      "provenance": { "curation": "TEMPORAL_EVIDENCE_V1", "referenceBasis": "CANONICAL_QURAN_CORPUS" }
+    },
+    {
+      "id": "QTE-E3-073-002",
+      "evidenceClass": "E3",
+      "reference": "73:2",
+      "canonicalCorpusReference": "data/divine-books/quran/ayahs.jsonl#73:2",
+      "claimBoundary": "Classifies a fractional/night structure reference; it does not prescribe a universal duration.",
+      "provenance": { "curation": "TEMPORAL_EVIDENCE_V1", "referenceBasis": "CANONICAL_QURAN_CORPUS" }
+    },
+    {
+      "id": "QTE-E3-073-003",
+      "evidenceClass": "E3",
+      "reference": "73:3",
+      "canonicalCorpusReference": "data/divine-books/quran/ayahs.jsonl#73:3",
+      "claimBoundary": "Classifies a fractional/night structure reference; it does not prescribe a universal duration.",
+      "provenance": { "curation": "TEMPORAL_EVIDENCE_V1", "referenceBasis": "CANONICAL_QURAN_CORPUS" }
+    },
+    {
+      "id": "QTE-E3-073-004",
+      "evidenceClass": "E3",
+      "reference": "73:4",
+      "canonicalCorpusReference": "data/divine-books/quran/ayahs.jsonl#73:4",
+      "claimBoundary": "Classifies a fractional/night structure reference; it does not prescribe a universal duration.",
+      "provenance": { "curation": "TEMPORAL_EVIDENCE_V1", "referenceBasis": "CANONICAL_QURAN_CORPUS" }
+    },
+    {
+      "id": "QTE-E4-097-001",
+      "evidenceClass": "E4",
+      "reference": "97:1",
+      "canonicalCorpusReference": "data/divine-books/quran/ayahs.jsonl#97:1",
+      "claimBoundary": "Contextual temporal evidence only; no timestamp-specific state is asserted.",
+      "provenance": { "curation": "TEMPORAL_EVIDENCE_V1", "referenceBasis": "CANONICAL_QURAN_CORPUS" }
+    },
+    {
+      "id": "QTE-E4-002-185",
+      "evidenceClass": "E4",
+      "reference": "2:185",
+      "canonicalCorpusReference": "data/divine-books/quran/ayahs.jsonl#2:185",
+      "claimBoundary": "Contextual calendar evidence only; it does not determine civil calendar conversion.",
+      "provenance": { "curation": "TEMPORAL_EVIDENCE_V1", "referenceBasis": "CANONICAL_QURAN_CORPUS" }
+    },
+    {
+      "id": "QTE-E5-SUN-MOON-45-DEGREES",
+      "evidenceClass": "E5",
+      "reference": "10:5",
+      "canonicalCorpusReference": "data/divine-books/quran/ayahs.jsonl#10:5",
+      "researchHypothesis": "Sun/Moon angular-separation interpretations, including any 45-degree model, require independent statistical validation.",
+      "explicitRevelation": false,
+      "claimBoundary": "RESEARCH/HYPOTHESIS ONLY. This item is not an explicit revelation claim, does not establish a factual astronomical relationship, and has zero automatic scoring weight.",
+      "provenance": { "curation": "TEMPORAL_EVIDENCE_V1", "referenceBasis": "CANONICAL_QURAN_CORPUS", "interpretationStatus": "RESEARCH_HYPOTHESIS" }
+    }
+  ],
+  "boundary": "This frozen registry preserves references and provenance, not verse text. E1-E4 are evidence classifications and are not timestamp-specific facts, astronomical outputs, or divine reward quantities. E5 is research/hypothesis only and must never be presented as explicit revelation."
+}

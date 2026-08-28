@@ -18,7 +18,8 @@ assert.equal(health.status, 200);
 
 const login = await request('/api/v1/auth/login', { method: 'POST', body: JSON.stringify({ username, password }) });
 assert.equal(login.status, 200, `login failed: ${JSON.stringify(login.body)}`);
-const token = String((login.body as any)?.token ?? '');
+const loginBody = login.body as Record<string, unknown> | null;
+const token = String(loginBody?.token ?? '');
 assert.ok(token);
 const auth = { authorization: `Bearer ${token}` };
 
@@ -55,6 +56,32 @@ for (let i = 0; i < cases.length; i++) {
   results.push({ index: i, analyzeStatus: analyzed.status, aiAnalyzeStatus: ai.status, analyze: analyzed.body, ai: ai.body });
 }
 
+const directMizan = await request('/api/v1/mizan', {
+  method: 'POST',
+  headers: auth,
+  body: JSON.stringify({
+    semantic: { R: -0.7, G: 0, B: 0.8, L: 0.1 },
+    actionGateVector: Array(9).fill(0.2),
+    impactVector: Array(13).fill(-0.1),
+    domainVector: { HEALTH: 0.8 },
+    evidenceCount: 1,
+    confidence: 0.8,
+    evidenceQuality: 0.75,
+    semanticObservation: { action: 'SMOKING', frequency: 'daily', quantityPerDay: 10 },
+  }),
+});
+assert.equal(directMizan.status, 200, `mizan failed: ${JSON.stringify(directMizan.body)}`);
+const directMizanBody = directMizan.body as { assessment?: { accountabilityScore?: unknown }; meta?: { engine?: unknown } } | null;
+assert.equal(typeof directMizanBody?.assessment?.accountabilityScore, 'number');
+assert.equal(directMizanBody?.meta?.engine, 'mizan');
+
+const invalidMizan = await request('/api/v1/mizan', {
+  method: 'POST',
+  headers: auth,
+  body: JSON.stringify({ confidence: 'not-a-number' }),
+});
+assert.equal(invalidMizan.status, 400, `invalid mizan input unexpectedly accepted: ${JSON.stringify(invalidMizan.body)}`);
+
 const idemKey = `api-smoke-command-${Date.now()}`;
 const commandPayload = { command: 'CREATE_ENTITY', target: `SMOKE-IDEMPOTENT-${Date.now()}`, payload: { type: 'SMOKE.TEST', payload: { source: 'api-smoke' } } };
 const [idemA, idemB] = await Promise.all([
@@ -72,4 +99,4 @@ const evaluation = await request('/api/v1/evaluate', {
 });
 assert.equal(evaluation.status, 200, `evaluate failed: ${JSON.stringify(evaluation.body)}`);
 
-console.log(JSON.stringify({ ok: true, base, cases: results, idempotency: { statusA: idemA.status, statusB: idemB.status, identical: JSON.stringify(idemA.body) === JSON.stringify(idemB.body) }, evaluation: evaluation.body }, null, 2));
+console.log(JSON.stringify({ ok: true, base, cases: results, mizan: directMizan.body, mizanInvalidStatus: invalidMizan.status, idempotency: { statusA: idemA.status, statusB: idemB.status, identical: JSON.stringify(idemA.body) === JSON.stringify(idemB.body) }, evaluation: evaluation.body }, null, 2));

@@ -1,5 +1,6 @@
-import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
-import { dirname } from 'node:path';
+import { mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
+import { tmpdir } from 'node:os';
 import crypto from 'node:crypto';
 
 export interface IdempotencyRecord {
@@ -12,12 +13,14 @@ export interface IdempotencyRecord {
 
 export class IdempotencyStore {
   private readonly file: string;
+  private readonly ownsFile: boolean;
   private loaded = false;
   private records = new Map<string, IdempotencyRecord>();
   private inFlight = new Map<string, Promise<{ statusCode: number; body: unknown }>>();
 
-  constructor(filePath: string) {
-    this.file = filePath;
+  constructor(filePath?: string) {
+    this.ownsFile = !filePath;
+    this.file = filePath ?? join(tmpdir(), `moonwitness-idempotency-${crypto.randomUUID()}.json`);
   }
 
   private async load(): Promise<void> {
@@ -92,6 +95,15 @@ export class IdempotencyStore {
       return await execution as { statusCode: number; body: T };
     } finally {
       this.inFlight.delete(key);
+    }
+  }
+
+  async close(): Promise<void> {
+    this.inFlight.clear();
+    this.records.clear();
+    if (this.ownsFile) {
+      await rm(this.file, { force: true }).catch(() => undefined);
+      await rm(`${this.file}.tmp`, { force: true }).catch(() => undefined);
     }
   }
 }

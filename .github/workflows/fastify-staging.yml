@@ -1,0 +1,41 @@
+name: Fastify Staging Adapter
+on:
+  push:
+    branches: [dev]
+    paths: ['apps/api/src/fastify-*.ts', 'apps/api/test/fastify-*.test.ts', 'tests/api-route-inventory.test.ts', 'tests/fastify-staging-contract.test.ts', '.github/workflows/fastify-staging.yml']
+  pull_request:
+    branches: [dev, main]
+    paths: ['apps/api/src/fastify-*.ts', 'apps/api/test/fastify-*.test.ts', 'tests/api-route-inventory.test.ts', 'tests/fastify-staging-contract.test.ts', '.github/workflows/fastify-staging.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: fastify-staging-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  adapter:
+    name: Fastify staging contract parity
+    runs-on: [self-hosted, linux, x64, cosmic]
+    timeout-minutes: 15
+    env:
+      NODE_ENV: staging
+      MOONWITNESS_ENV: staging
+      COSMIC_FASTIFY_RUNTIME: '1'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node 26
+        uses: actions/setup-node@v4
+        with:
+          node-version: 26
+          cache: npm
+      - name: Synchronize lockfile
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+      - name: Install dependencies
+        run: npm ci
+      - name: Package runtime smoke
+        run: npm run test:package-runtime
+      - name: Fastify adapter tests
+        run: npm run test:fastify-adapter
+      - name: API route inventory and staging contracts
+        run: npm run test:api-route-inventory

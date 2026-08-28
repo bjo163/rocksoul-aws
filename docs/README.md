@@ -1,36 +1,31 @@
-# MoonWitness OS — Canonical Documentation
+# Cosmic Engine — Canonical Documentation
 
 Version: **4.33.0**
 
-This directory is the authoritative documentation set for the current release line. Historical release notes and audit snapshots are retained for traceability; `ROADMAP_TODO.md` and `RELEASE_STATUS_4.33.0.md` are the active execution/status references.
+Cosmic is an **engine/API-first** repository. It does not own Web, CAB, XRP, Flow, browser UX, accessibility/localization delivery, or product hosting. Those product surfaces belong in host/product repositories and consume versioned Cosmic packages, API contracts, or SDKs.
 
-## Start here
+## Active sources of truth
 
-- `RELEASE_STATUS_4.33.0.md` — current architecture state, open release blockers, and production-certification boundary.
-- `ROADMAP_TODO.md` — active roadmap with implementation/certification status.
-- `RELEASE_NOTES_4.33.0.md` — what changed in the Universe/CAB architecture release.
-- `PRODUCTION_CERTIFICATION.md` — N1–N6 operational certification runbook.
+Read these in order:
 
-## Canonical architecture
+1. [`../README.md`](../README.md) — repository purpose and release surface.
+2. [`TODO_CURRENT.md`](TODO_CURRENT.md) — current blockers and execution order.
+3. [`ENGINEERING_ROADMAP.md`](ENGINEERING_ROADMAP.md) — release progression through 5.0.0.
+4. [`PACKAGE_ARCHITECTURE.md`](PACKAGE_ARCHITECTURE.md) — dependency direction and ownership.
+5. [`ARCHITECTURE.md`](ARCHITECTURE.md) — runtime and host-adapter boundaries.
+6. [`CI_EXECUTION.md`](CI_EXECUTION.md) — exact-SHA CI and branch policy.
+7. [`TESTING.md`](TESTING.md) — engine/API/persistence/Witness test model.
+8. [`RELEASE_CHECKLIST.md`](RELEASE_CHECKLIST.md) — mandatory release gates.
+9. [`RELEASE_STATUS_4.33.0.md`](RELEASE_STATUS_4.33.0.md) — current release status.
 
-- `ARCHITECTURE.md` — system architecture and execution flow.
-- `API.md` — Universal API, authentication, authorization, and transport model.
-- `DATA_MODEL.md` — entity/event/state/case/evidence/audit/idempotency model.
-- `EVIDENCE.md` — evidence, provenance, conflict, and semantic evidence rules.
-- `SECURITY.md` — identity, sessions, permissions, audit, key custody, and production boundaries.
+## Scope boundary
 
-## Revelation / Knowledge
+**Inside Cosmic:** contracts, deterministic/semantic/Mizan/explanation engines, orchestrator, API/reference host adapter, SDK, persistence, jobs/worker, Witness/audit/provenance, security, observability, backend deployment and certification.
 
-- `KNOWLEDGE_ONTOLOGY.md` — frozen node kinds, source classes, epistemic lanes, and relations.
-- `EPISTEMIC_BOUNDARY.md` — CORE/DERIVED/UNRESOLVED and source-class rules.
-- `PROVENANCE_EXPLORER.md` — source → reference → evidence → review → witness → audit trace.
-- `EVIDENCE_HISTORY.md` — immutable supersession/history model.
-- `REANALYSIS_LIFECYCLE.md` — evidence fingerprint and re-analysis state machine.
-- `CAB_UNIVERSE.md` — Universe read model and Observatory projection.
-- `CAB_VISUAL_ACCESSIBILITY.md` — graph accessibility, keyboard semantics, localization and visual contracts.
-- `API_ENTITY_BOUNDARY.md` — API/entity ownership and no-new-API-family rule.
-- `REVELATION_PACKAGE_MIGRATION.md` — package ownership and migration boundary.
+**Outside Cosmic:** Web UI, CAB UI, XRP UI, Flow UI, browser presentation state, product accessibility/localization, and product-app hosting/deployment.
 
-## Historical documents
+`apps/api` is a reference/compatibility host adapter. It is not part of the embedded engine facade, but it remains certified because API, persistence, security, Witness, jobs, and deployment compatibility are supported integration surfaces.
 
-Older `RELEASE_NOTES_*`, `TEST_REPORT_*`, `FINAL_STATUS.md`, and the full `TODO.md` audit remain for historical/audit purposes. They are not the current release status and may describe earlier baselines.
+## Historical documentation
+
+Older release notes, UI ADRs, CAB visual/projection documents, `TODO.md`, test reports, and previous status snapshots remain only for audit/history. Historical documents never override the active sources above.

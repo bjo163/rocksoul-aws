@@ -1,6 +1,6 @@
 # MoonWitness OS — PostgreSQL Installation
 
-PostgreSQL is the intended persistent backend for multi-user and production-style testing.
+PostgreSQL is the intended persistent backend for multi-user, CI, staging, and production-style testing.
 
 ## 1. Interactive installer
 
@@ -53,7 +53,7 @@ npm run db:install
 10. runs the canonical 10-case Revelation smoke test;
 11. exits non-zero when any source count/checksum, index fingerprint, smoke test, audit chain, or event chain is invalid.
 
-The installer defaults to PostgreSQL. You may override it explicitly for local persistence tests with `--driver=memory`, `--driver=file`, or `--driver=sqlite`.
+The installer defaults to PostgreSQL. Local tests may explicitly use the `memory` or `file` drivers when a durable database is not required.
 
 ## 4. What is seeded
 
@@ -136,13 +136,11 @@ Schema migration 5 creates `witness_nodes`, `witness_checkpoints`, and `witness_
 
 No new PostgreSQL schema version is required in v4.20; the v4.19 single-node witness schema baseline remains sufficient. Schema v5 already contains the needed public witness projections. The encrypted private key is intentionally **not** stored in PostgreSQL. On startup, the canonical local Q-DAG is preferred. If it is empty/missing, PostgreSQL `witness_nodes` may seed recovery; afterwards local Q-DAG state is synchronized back as the projection. Public key lifecycle records and signed checkpoints are also projected. PostgreSQL loss therefore does not redefine cryptographic identity as long as the local keystore and its password are preserved.
 
-
 ## Revelation seed contract — v4.24
 
 `data/divine-books/revelation-corpus-manifest.json` is the count/checksum authority for the four corpus files. Installer expected counts are read from this manifest rather than embedded in installer code. PostgreSQL runtime initialization reconstructs the structured JSONL arrays from database seed rows; the Revelation loader uses those seeded arrays when PostgreSQL runtime data is active.
 
 Tawrat/Zabur/Injil are stored as textual-witness entities and cannot establish or reverse primary moral direction. This database representation does not change their source-class boundary.
-
 
 ## Revelation Event Interpreter — v4.27
 

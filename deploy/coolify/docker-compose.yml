@@ -1,0 +1,77 @@
+services:
+  postgres:
+    image: postgres:18
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-moonwitness}
+      POSTGRES_USER: ${POSTGRES_USER:-moonwitness}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+    volumes:
+      - cosmic-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    networks: [cosmic]
+
+  api:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      HOST: 0.0.0.0
+      STORAGE_DRIVER: postgres
+      PGHOST: postgres
+      PGPORT: 5432
+      PGDATABASE: ${POSTGRES_DB:-moonwitness}
+      PGUSER: ${POSTGRES_USER:-moonwitness}
+      PGPASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET}
+      MOONWITNESS_DATA_DIR: /data
+      MOONWITNESS_ADMIN_RID: ${MOONWITNESS_ADMIN_RID:?set MOONWITNESS_ADMIN_RID}
+      MW_CORS_ORIGINS: ${MW_CORS_ORIGINS:-https://cosmic.example.com}
+      MW_COOKIE_SECURE: ${MW_COOKIE_SECURE:-1}
+      MW_COOKIE_SAME_SITE: ${MW_COOKIE_SAME_SITE:-Lax}
+      MW_TRUST_PROXY: ${MW_TRUST_PROXY:-1}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - cosmic-api-data:/data
+    expose:
+      - "3000"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/v1/ready').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    networks: [cosmic]
+
+  web:
+    build:
+      context: ../..
+      dockerfile: Dockerfile.web
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      HOST: 0.0.0.0
+    depends_on:
+      api:
+        condition: service_healthy
+    expose:
+      - "3000"
+    networks: [cosmic]
+
+networks:
+  cosmic:
+    driver: bridge
+
+volumes:
+  cosmic-postgres:
+  cosmic-api-data:

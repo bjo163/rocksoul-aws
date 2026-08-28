@@ -1,0 +1,26 @@
+{
+  "name": "@moonwitness/witness",
+  "version": "4.33.0",
+  "description": "Host-neutral immutable Witness DAG, Mizan commitments, checkpoints, transport, and recovery primitives",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit --target ES2022 --module NodeNext --moduleResolution NodeNext --skipLibCheck src/index.ts",
+    "test": "tsx --test test/witness-package.test.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.8.3"
+  },
+  "peerDependencies": {
+    "pg": ">=8"
+  }
+}

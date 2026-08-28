@@ -4,7 +4,7 @@ import path from 'node:path';
 export interface DatabaseConfig {
   version: number;
   storage?: {
-    driver?: 'sqlite' | 'postgres' | 'memory' | 'file';
+    driver?: 'postgres' | 'memory' | 'file';
     file_dir?: string;
     postgres?: Record<string, unknown>;
   };

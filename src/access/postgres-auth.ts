@@ -92,8 +92,13 @@ export class PostgresAuthService implements AuthService {
   }
 
   async login(username: string, password: string): Promise<AuthSession | null> {
-    const user = this._users.get(username);
-    if (!user || !user.active || !verifyPassword(password, user.passwordHash)) return null;
+    // Always query DB for fresh user data — no restart needed after auth:bootstrap
+    const result = await this.pool.query('SELECT * FROM auth_users WHERE username=$1 AND active=true LIMIT 1', [username]);
+    const row = result.rows[0];
+    if (!row) return null;
+    const user = this.userFromRow(row);
+    if (!verifyPassword(password, user.passwordHash)) return null;
+    this._users.set(user.username, user); // update cache for session lookups
     const refreshToken = createRefreshToken();
     const now = new Date();
     const session: SessionRecord = { sessionId: crypto.randomUUID(), userId: user.userId, refreshTokenHash: hashOpaqueToken(refreshToken), createdAt: now.toISOString(), refreshExpiresAt: new Date(now.getTime() + this.refreshTtlMs).toISOString(), lastSeen: now.toISOString(), rotationCounter: 1 };
@@ -127,7 +132,10 @@ export class PostgresAuthService implements AuthService {
     if (!row) return null;
     const session = this.sessionFromRow(row);
     this._sessions.set(session.sessionId, session);
-    const user = this.findUserById(claims.userId);
+    // Refresh user from DB to pick up role/RID changes without restart
+    const userResult = await this.pool.query('SELECT * FROM auth_users WHERE user_id=$1 LIMIT 1', [claims.userId]);
+    const user = userResult.rows[0] ? this.userFromRow(userResult.rows[0]) : null;
+    if (user) this._users.set(user.username, user);
     return user?.active ? this.publicUser(user) : null;
   }
 

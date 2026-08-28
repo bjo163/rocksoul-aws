@@ -2,9 +2,9 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { mkdtemp } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { UniverseStore } from '../src/persistence/universe-store.js';
+import { PersistenceClient, UniverseStore } from '@moonwitness/persistence';
 import { replayEvents } from '../src/audit/event-replay.js';
-import { PersistentJobQueue } from '../src/jobs/persistent-job-queue.js';
+import { PersistentJobQueue } from '@moonwitness/jobs';
 
 test('case aggregate + evidence + replay', async () => {
   const dir = await mkdtemp(`${tmpdir()}/mw-v29-test-`);
@@ -23,10 +23,12 @@ test('case aggregate + evidence + replay', async () => {
 
 test('persistent worker job', async () => {
   const dir = await mkdtemp(`${tmpdir()}/mw-job-`);
-  const q = new PersistentJobQueue(dir);
+  const persistence = new PersistenceClient({ driver: 'file', fileDir: dir });
+  const q = new PersistentJobQueue(persistence.store);
   const job = await q.enqueue('INDEX',{caseId:'CASE-T'});
   assert.equal((await q.get(job.id))?.status,'QUEUED');
-  await q.mark(job.id,'COMPLETED');
+  q.register('INDEX', async () => ({ ok: true }));
+  await q.processAvailable();
   assert.equal((await q.get(job.id))?.status,'COMPLETED');
-  await q.close();
+  await persistence.close();
 });

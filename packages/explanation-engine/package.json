@@ -1,0 +1,19 @@
+{
+  "name": "@moonwitness/explanation-engine",
+  "version": "4.33.0",
+  "description": "Host-neutral analytical explanation primitives for Cosmic results",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit --target ES2022 --module NodeNext --moduleResolution NodeNext --skipLibCheck src/index.ts",
+    "test": "tsx --test test/explanation-engine.test.ts"
+  }
+}

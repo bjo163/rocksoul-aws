@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { UniverseStore } from '../src/persistence/universe-store.js';
+import { UniverseStore } from '@moonwitness/persistence';
 import { loadDatabaseConfig } from '../src/config-loader.js';
 
 function readJson(file: string, fallback: any) {

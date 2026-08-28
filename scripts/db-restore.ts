@@ -21,6 +21,9 @@ const source = arg('source');
 if (!source) throw new Error('Usage: db-restore --source=BACKUP_PATH [--target=RESTORE_DIR]');
 
 if (driver === 'postgres') {
+  if (!process.argv.includes('--allow-destructive')) {
+    throw new Error('POSTGRES_RESTORE_REQUIRES_ALLOW_DESTRUCTIVE: restore only into an isolated maintenance database');
+  }
   const file = resolve(source);
   const args = ['--format=custom', '--clean', '--if-exists', '--no-owner', '--no-privileges'];
   const databaseUrl = process.env.DATABASE_URL ?? process.env.POSTGRES_URL;

@@ -1,17 +1,7 @@
 import type { CanonicalProphetProfile } from './prophet-profile.js';
 import type { CanonicalScriptureReference } from './scripture-reference.js';
 import type { CanonicalPropheticEvent } from './prophetic-event.js';
-import { enforceEpistemicBoundary, resolveProfileLane } from './epistemic-boundary.js';
-
-export type KnowledgeSourceClass =
-  | 'REVELATION'
-  | 'SCRIPTURAL_METADATA'
-  | 'HISTORICAL_REPORT'
-  | 'TEXTUAL_WITNESS'
-  | 'OBSERVATION'
-  | 'INFERENCE'
-  | 'AI_OUTPUT'
-  | 'GOVERNANCE_RECORD';
+import { enforceEpistemicBoundary, resolveProfileLane, type KnowledgeSourceClass } from './epistemic-boundary.js';
 
 export type CanonicalProphetKnowledgeProfile = {
   personId: string;

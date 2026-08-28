@@ -3,7 +3,11 @@ import { promisify } from 'node:util';
 import { readdir, readFile } from 'node:fs/promises';
 import { join, relative } from 'node:path';
 
-const exec = promisify(execFile);
+// The dev→main ratchet intentionally spans a long-lived release branch. Its
+// zero-context diff can exceed Node's 1 MiB default without indicating an
+// invalid source change, so keep a bounded but release-scale buffer.
+const execBase = promisify(execFile);
+const exec = (file, args, options = {}) => execBase(file, args, { maxBuffer: 64 * 1024 * 1024, ...options });
 const roots = ['src', 'apps', 'packages', 'scripts', 'tests'];
 const extensions = new Set(['.ts', '.tsx', '.mts', '.cts', '.js', '.mjs', '.cjs']);
 const ignored = new Set(['node_modules', 'dist', 'build', '.next', 'coverage', '.git']);
@@ -11,8 +15,6 @@ const standardFile = relative('.', 'scripts/coding-standard.mjs');
 const violations = [];
 
 const compatibilityAllowlist = new Map([
-  // The generic Router boundary carries the runtime application context created in app.ts.
-  // Route modules type their concrete context usage; this is the single transport boundary exception.
   ['apps/api/src/router.ts', new Set([11])],
   ['apps/api/src/app.ts', new Set([110, 117, 122, 134])],
 ]);
@@ -75,9 +77,26 @@ async function resolveBase() {
   const baseRef = process.env.PR_BASE_REF || process.env.GITHUB_BASE_REF || 'main';
   const remoteRef = `refs/remotes/origin/${baseRef}`;
 
-  if (await gitFetch(['fetch', '--no-tags', '--prune', 'origin', `refs/heads/${baseRef}:${remoteRef}`])) {
+  const candidates = [
+    remoteRef,
+    `origin/${baseRef}`,
+    baseRef,
+  ];
+
+  for (const candidate of candidates) {
+    const mergeBase = await gitOutput(['merge-base', candidate, 'HEAD']);
+    if (mergeBase) return candidate;
+  }
+
+  if (await gitFetch(['fetch', '--no-tags', '--prune', 'origin', `+refs/heads/${baseRef}:${remoteRef}`])) {
     const mergeBase = await gitOutput(['merge-base', remoteRef, 'HEAD']);
     if (mergeBase) return remoteRef;
+  }
+
+  if (await gitFetch(['fetch', '--no-tags', '--prune', 'origin', 'main'])) {
+    const fallbackRef = baseRef === 'main' ? 'FETCH_HEAD' : `refs/remotes/origin/${baseRef}`;
+    const mergeBase = await gitOutput(['merge-base', fallbackRef, 'HEAD']);
+    if (mergeBase) return fallbackRef;
   }
 
   return null;

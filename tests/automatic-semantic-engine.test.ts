@@ -15,6 +15,8 @@ test('automatic semantic engine is registry-driven and offline', async () => {
   assert.equal(result.mizan.assessment.confidence >= 0.60, true);
   assert.equal(result.mizan.assessment.evidenceQuality >= 0.25, true);
   assert.equal(typeof result.mizan.assessment.risk, 'number');
+  const observation = await provider.analyze('Pejabat menggunakan anggaran untuk keluarganya di Indonesia.');
+  assert.equal(observation.revelationAsma.normativeAuthority, false);
   assert.equal(result.capability.semanticEngine, 'moonwitness-moral-lifecycle+event-graph+native-revelation-binding+revelation-grounded-rgbl-out+four-book-core');
 });
 

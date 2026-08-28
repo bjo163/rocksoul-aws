@@ -12,6 +12,8 @@ import { evaluateQuranicMizan } from '../engines/quranic-mizan.js';
 import { buildHumanReviewGate } from './human-review-gate.js';
 import { fourBookCorroboration } from '../revelation/corroboration/four-book-corroboration.js';
 import { revelationAnalyticalScorecard } from '../revelation/revelation-scorecard.js';
+import { explainTemporalContext } from './temporal-reasoning.js';
+import { assertGovernedAiInput, resolveAiGovernance, withAiTimeout } from './governance.js';
 const defaultAnalysisRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const lower = (s: unknown) => String(s ?? '').toLowerCase().normalize('NFKC');
 const clampSigned = (value: unknown) => {
@@ -261,6 +263,7 @@ export function buildAiAnalysis(text: string, { sourceGraph = null, jurisdiction
     }) : null;
     const revelationScorecard = semanticObservation ? revelationAnalyticalScorecard({ observed, mizan, quranicMizan, fourBook, binding: observed.revelationBinding, root }) : null;
     const reviewGate = buildHumanReviewGate({ observed, quranicMizan, scorecard: revelationScorecard, conflicts });
+    const temporalReasoning = explainTemporalContext(text, observed.timeFactor);
     const provenance = buildDecisionProvenance({
         sources: sourceMatches as any,
         claims: claim.text ? [{ claimId: `CLAIM_${claim.referenceCandidates?.[0] ?? 'TEXT'}`, confidence }] : [],
@@ -295,6 +298,7 @@ export function buildAiAnalysis(text: string, { sourceGraph = null, jurisdiction
         moralLifecycle: observed.moralLifecycle ?? null,
         revelationScorecard,
         reviewGate,
+        temporalReasoning,
         revelationPolicy: observed.sourcePolicy ?? { mode: 'FOUR_BOOKS_ONLY', normativeBooks: ['QURAN','TAWRAT','ZABUR','INJIL'], externalNormativeWeight: 0 },
         legacySemanticBridge: observed.legacyBridge ?? null,
         ruleResolution,
@@ -324,8 +328,10 @@ export function buildAiAnalysis(text: string, { sourceGraph = null, jurisdiction
 export async function analyzeWithProvider(text: string, { provider, ...options }: Loose = {}): Promise<Loose> {
     if (!provider || typeof provider.analyze !== 'function')
         throw new Error('A semantic AI provider is required.');
-    const semanticObservation = await provider.analyze(text, options);
-    return buildAiAnalysis(text, { ...options, semanticObservation });
+    const governedText = assertGovernedAiInput(text, options.governance);
+    const governance = resolveAiGovernance(options.governance);
+    const semanticObservation = await withAiTimeout(() => provider.analyze(governedText, { ...options, governance }), governance);
+    return buildAiAnalysis(governedText, { ...options, semanticObservation });
 }
 //# sourceMappingURL=general-analyzer.js.map
 export async function analyzeAutomatically(text: string, options: Loose = {}): Promise<Loose> {

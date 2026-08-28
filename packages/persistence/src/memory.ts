@@ -170,6 +170,22 @@ export class MemoryProvider implements PersistenceStore {
           this.processingJobs = false;
         }
       }
+      ,claimAvailable: async (maxJobs: number, owner: string, leaseExpiresAt: string, now: string) => {
+        const claimed: SystemJobRecord[] = [];
+        for (const job of [...this.jobs.values()]) {
+          if (claimed.length >= Math.max(1, maxJobs)) break;
+          const ready = job.status === 'QUEUED' && (!job.available_at || job.available_at <= now);
+          const expired = job.status === 'RUNNING' && !!job.lease_expires_at && job.lease_expires_at <= now;
+          if (!ready && !expired) continue;
+          const lease = { ...job, status: 'RUNNING' as const, lease_owner: owner, lease_expires_at: leaseExpiresAt, updated_at: now };
+          this.jobs.set(job.id, structuredClone(lease)); claimed.push(structuredClone(lease));
+        }
+        return claimed;
+      },
+      resolveLease: async (id: string, owner: string, result: SystemJobRecord) => {
+        const current = this.jobs.get(id); if (!current || current.status !== 'RUNNING' || current.lease_owner !== owner) return false;
+        this.jobs.set(id, structuredClone(result)); return true;
+      }
     };
   }
 

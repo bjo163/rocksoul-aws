@@ -1,5 +1,8 @@
 import assert from 'node:assert/strict';
-import { canonicalJson, createPersistence, hashEvent } from '../src/index.js';
+import { canonicalJson, createPersistence, hashEvent, backupFileStore, restoreFileStore } from '../src/index.js';
+import { mkdtemp, mkdir, readFile, writeFile, rm } from 'node:fs/promises';
+import { join } from 'node:path';
+import { tmpdir } from 'node:os';
 
 async function run(): Promise<void> {
   const store = createPersistence({ driver: 'memory' });
@@ -24,6 +27,22 @@ async function run(): Promise<void> {
   await store.projectionStore().upsert({ projectionId: 'PROJ-TEST', entityId: 'RID-TEST', projectionType: 'CURRENT', payload: { status: 'ACTIVE' } });
   assert.equal((await store.projectionStore().get('RID-TEST', 'CURRENT'))?.payload.status, 'ACTIVE');
   await store.close();
+
+  const root = await mkdtemp(join(tmpdir(), 'moonwitness-file-backup-'));
+  const source = join(root, 'source');
+  const backup = join(root, 'backup');
+  const restore = join(root, 'restore');
+  try {
+    await mkdir(source);
+    await writeFile(join(source, 'universe-store.json'), '{"version":1}');
+    await backupFileStore(source, backup);
+    await restoreFileStore(backup, restore);
+    assert.equal(await readFile(join(restore, 'universe-store.json'), 'utf8'), '{"version":1}');
+    await assert.rejects(() => restoreFileStore(backup, restore), /RESTORE_TARGET_NOT_EMPTY/);
+    await assert.rejects(() => backupFileStore(source, join(source, 'backup')), /BACKUP_TARGET_MUST_NOT_BE_INSIDE_SOURCE/);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
   console.log('PASS: persistence interfaces + event ledger + projection tests');
 }
 

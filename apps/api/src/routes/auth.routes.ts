@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { Router, bearerToken, httpError, isRecord, requestCookie, requirePermission } from '../router.js';
+import { Router, bearerToken, httpError, isRecord, requestCookie, requirePermission, requireAuthenticated } from '../router.js';
 
 export const authRouter = new Router();
 
@@ -64,6 +64,30 @@ authRouter.add('POST', '/api/v1/auth/register', async (_req, _reply, _params, bo
   }
 });
 
+authRouter.add('POST', '/api/v1/auth/setup', async (req, reply, _params, body, _query, ctx) => {
+  const authService = ctx.auth as unknown as { _users?: Map<string, unknown>; pool?: { query: (sql: string) => Promise<{rows: {n: string | number}[]}> } };
+  // First-run setup: only allowed when zero users exist
+  if (authService._users && authService._users.size > 0) return httpError(403, 'SETUP_ALREADY_COMPLETE');
+  // Double-check against DB for postgres driver
+  if (authService.pool) {
+    const count = await authService.pool.query('SELECT count(*)::int AS n FROM auth_users');
+    if (Number(count.rows[0]?.n ?? 0) > 0) return httpError(403, 'SETUP_ALREADY_COMPLETE');
+  }
+  const payload = isRecord(body) ? body : {};
+  const username = typeof payload.username === 'string' ? payload.username.trim() : '';
+  const password = typeof payload.password === 'string' ? payload.password : '';
+  if (!username || !password) return httpError(400, 'USERNAME_PASSWORD_REQUIRED');
+  if (password.length < 12) return httpError(400, 'PASSWORD_TOO_SHORT', 'Password must contain at least 12 characters');
+  try {
+    const user = await ctx.auth.createUser({ username, password, roles: ['ADMIN'] });
+    const session = await ctx.auth.login(username, password);
+    if (!session) return { statusCode: 201, body: { user, session: null } };
+    return presentSession(req, reply, session);
+  } catch (error) {
+    return httpError(409, 'USER_EXISTS', error instanceof Error ? error.message : String(error));
+  }
+});
+
 authRouter.add('POST', '/api/v1/auth/login', async (req, reply, _params, body, _query, ctx) => {
   const payload = isRecord(body) ? body : {};
   const result = await ctx.auth.login(String(payload.username ?? ''), String(payload.password ?? ''));
@@ -116,6 +140,8 @@ authRouter.add('POST', '/api/v1/auth/bind-rid', async (req, _reply, _params, bod
 });
 
 authRouter.add('POST', '/api/v1/auth/logout', async (req, reply, _params, body, _query, ctx) => {
+  const authz = await requirePermission(req, ctx.auth, 'OBSERVE');
+  if (!authz.ok) return authz.error;
   const payload = isRecord(body) ? body : {};
   const token = bearerToken(req) || (typeof payload.refreshToken === 'string' ? payload.refreshToken : requestCookie(req, 'mw_refresh') ?? '');
   if (!token) return httpError(401, 'UNAUTHORIZED');
@@ -125,8 +151,8 @@ authRouter.add('POST', '/api/v1/auth/logout', async (req, reply, _params, body, 
 });
 
 authRouter.add('GET', '/api/v1/auth/me', async (req, _reply, _params, _body, _query, ctx) => {
-  const user = await ctx.auth.authenticate(bearerToken(req));
-  return user ?? httpError(401, 'UNAUTHORIZED');
+  const authz = await requireAuthenticated(req, ctx.auth);
+  return authz.ok ? authz.user : authz.error;
 });
 
 authRouter.add('GET', '/api/v1/auth/online', async (req, _reply, _params, _body, _query, ctx) => {

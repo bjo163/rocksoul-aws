@@ -1,4 +1,5 @@
 import { Router, asRecord, httpError, requirePermission } from '../router.js';
+import { boundedFilter, listQueryBounds, rejectUnsupportedSort } from '../query-bounds.js';
 
 export const entitiesRouter = new Router();
 
@@ -12,10 +13,18 @@ async function legacyAccess(req: any, ctx: any, permission: 'READ_AUDIT' | 'COMM
 
 entitiesRouter.add('GET', '/api/v1/entities', async (req, _reply, _params, _body, query, ctx) => {
   const denied = await legacyAccess(req, ctx, 'READ_AUDIT'); if (denied) return denied;
-  const limit = Math.max(1, Math.min(250, Number(query.get('limit')) || 50));
-  const offset = Math.max(0, Number(query.get('offset')) || 0);
-  const results = ctx.backend.runtime.graph.listEntities({ type: query.get('type'), state: query.get('state'), q: query.get('q') });
-  return results.slice(offset, offset + limit);
+  const pagination = listQueryBounds(query, query.get('limit'), 50);
+  const sort = rejectUnsupportedSort(query);
+  const type = boundedFilter(query.get('type'), 128);
+  const state = boundedFilter(query.get('state'), 128);
+  const q = boundedFilter(query.get('q'));
+  if (!pagination.ok) return httpError(400, pagination.code);
+  if (!sort.ok) return httpError(400, sort.code);
+  if (!type.ok) return httpError(400, type.code);
+  if (!state.ok) return httpError(400, state.code);
+  if (!q.ok) return httpError(400, q.code);
+  const results = ctx.backend.runtime.graph.listEntities({ type: type.value, state: state.value, q: q.value });
+  return results.slice(pagination.value.offset, pagination.value.offset + pagination.value.limit);
 });
 
 entitiesRouter.add('GET', '/api/v1/entities/:id', async (req, _reply, params, _body, _query, ctx) => {

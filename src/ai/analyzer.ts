@@ -1,6 +1,7 @@
 type Loose = Record<string, any>;
 import { buildAiAnalysis, analyzeWithProvider, analyzeAutomatically } from './general-analyzer.js';
 import { RegistrySemanticProvider, StaticSemanticProvider, createDefaultSemanticProvider } from './provider.js';
+export { DEFAULT_AI_GOVERNANCE, resolveAiGovernance } from './governance.js';
 
 /** Synchronous core: consumes a semantic observation already available. */
 export function analyzeText(text: string, opts: Loose = {}): Loose {

@@ -171,6 +171,21 @@ export class FileProvider implements PersistenceStore {
         }
         return completed;
       }
+      ,claimAvailable: async (maxJobs: number, owner: string, leaseExpiresAt: string, now: string) => {
+        await this.ensure(); if (!this.state.jobs) this.state.jobs = [];
+        const claimed: SystemJobRecord[] = [];
+        for (const job of this.state.jobs) { if (claimed.length >= Math.max(1, maxJobs)) break;
+          const ready = job.status === 'QUEUED' && (!job.available_at || job.available_at <= now);
+          const expired = job.status === 'RUNNING' && !!job.lease_expires_at && job.lease_expires_at <= now;
+          if (!ready && !expired) continue;
+          Object.assign(job, { status: 'RUNNING', lease_owner: owner, lease_expires_at: leaseExpiresAt, updated_at: now }); claimed.push(structuredClone(job));
+        }
+        if (claimed.length) { this.dirty = true; await this.flush(); } return claimed;
+      },
+      resolveLease: async (id: string, owner: string, result: SystemJobRecord) => {
+        await this.ensure(); const idx = (this.state.jobs ?? []).findIndex(j => j.id === id && j.status === 'RUNNING' && j.lease_owner === owner);
+        if (idx < 0) return false; this.state.jobs![idx] = structuredClone(result); this.dirty = true; await this.flush(); return true;
+      }
     };
   }
 

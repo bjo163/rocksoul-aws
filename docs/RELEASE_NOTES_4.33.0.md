@@ -49,6 +49,10 @@ Implementation-level code, tests, and documentation are present. CI and target-e
 8. Execute N5 deployment-specific security/accessibility review.
 9. Execute N6 separate CAB/XRP/Flow production certification.
 
+## Release gate truth
+
+**4.33.0 is not certified until the self-hosted `main` certification workflow passes for the exact release commit.** No test count, static contract, or local `dev` result is sufficient to claim production certification.
+
 ## Release boundary
 
 This release does **not** claim Divine authority, factual truth, or production readiness from software scores or Witness commitments. Witness proves ledger/integrity state, not truth or Divine acceptance.

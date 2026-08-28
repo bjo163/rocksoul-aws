@@ -5,14 +5,26 @@
   "type": "module",
   "main": "dist/apps/api/src/server.js",
   "scripts": {
-    "build": "tsc -p tsconfig.json && node -e \"const fs=require('fs'); for (const d of ['data','config','schemas']) fs.cpSync('../../'+d,'dist/'+d,{recursive:true});\"",
+    "build": "npm --prefix ../.. run build:packages && tsc -p tsconfig.json && node -e \"const fs=require('fs'); for (const d of ['data','config','schemas']) fs.cpSync('../../'+d,'dist/'+d,{recursive:true});\"",
     "start": "node dist/apps/api/src/server.js",
     "dev": "tsx watch --env-file=../../.env src/server.ts",
-    "test": "node tests/generate-test-cases.js && npm run build && node -e \"const fs=require('fs'); fs.readdirSync('tests').filter(f=>f.startsWith('test-cases-')).forEach(f=>fs.cpSync('tests/'+f, 'dist/apps/api/tests/'+f))\" && node --test --test-concurrency=1 dist/apps/api/tests/api.test.js dist/apps/api/tests/api-e2e.test.js dist/apps/api/tests/api-sqlite.test.js dist/apps/api/tests/api-data-driven.test.js"
+    "test:fastify": "tsx --test test/fastify-runtime.test.ts test/fastify-route-parity.test.ts test/telemetry.test.ts",
+    "test": "node tests/generate-test-cases.js && npm run build && node -e \"const fs=require('fs'); fs.readdirSync('tests').filter(f=>f.startsWith('test-cases-')).forEach(f=>fs.cpSync('tests/'+f, 'dist/apps/api/tests/'+f))\" && node --test --test-concurrency=1 dist/apps/api/tests/api.test.js dist/apps/api/tests/api-e2e.test.js dist/apps/api/tests/api-data-driven.test.js",
+    "test:ddt:diagnose": "npm run build && node -e \"const fs=require('fs'); fs.readdirSync('tests').filter(f=>f.startsWith('test-cases-')).forEach(f=>fs.cpSync('tests/'+f, 'dist/apps/api/tests/'+f))\" && node dist/apps/api/tests/ddt-diagnose.mjs"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@moonwitness/contracts": "4.33.0",
+    "@moonwitness/jobs": "4.33.0",
+    "@moonwitness/mizan-engine": "4.33.0",
+    "@moonwitness/orchestrator": "4.33.0",
+    "@moonwitness/persistence": "4.33.0",
+    "@moonwitness/semantic-engine": "4.33.0",
+    "@moonwitness/witness": "4.33.0",
+    "@fastify/otel": "^0.20.1",
+    "fastify": "^5.12.1"
+  },
   "devDependencies": {
-    "@types/node": "^22.0.0",
+    "@types/node": "^26.0.0",
     "tsx": "^4.0.0",
     "typescript": "^5.7.0"
   }
