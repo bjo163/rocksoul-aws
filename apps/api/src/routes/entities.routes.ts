@@ -25,7 +25,10 @@ entitiesRouter.add('GET', '/api/v1/entities', async (req, _reply, _params, _body
   if (query.has('cursor')) {
     const cursor = cursorQueryBounds(query, query.get('cursor'), query.get('limit'), 50);
     if (!cursor.ok) return httpError(400, cursor.code);
-    return stableCursorPage(results, cursor.value.limit, cursor.value.cursor, (entity: any) => String(entity.entityId ?? entity.id ?? ''));
+    return stableCursorPage(results, cursor.value.limit, cursor.value.cursor, (entity: unknown) => {
+      const rec = (entity && typeof entity === 'object') ? (entity as Record<string, unknown>) : {};
+      return String(rec.entityId ?? rec.id ?? '');
+    });
   }
   const pagination = listQueryBounds(query, query.get('limit'), 50);
   if (!pagination.ok) return httpError(400, pagination.code);
