@@ -105,6 +105,15 @@ jobs:
       - name: Release identity
         run: npm run release:identity
 
+      - name: Generate verified release provenance
+        env:
+          RELEASE_EVIDENCE_DIR: ${{ runner.temp }}/cosmic-release-evidence
+        run: |
+          set -euo pipefail
+          mkdir -p "$RELEASE_EVIDENCE_DIR"
+          npm run release:provenance -- --output "$RELEASE_EVIDENCE_DIR/release-provenance.json"
+          npm run release:provenance -- --verify "$RELEASE_EVIDENCE_DIR/release-provenance.json"
+
       - name: Release-focused tests
         run: npm run test:release
 
@@ -134,9 +143,39 @@ jobs:
         run: npm run certify:current
 
       - name: Build Docker image
+        env:
+          RELEASE_EVIDENCE_DIR: ${{ runner.temp }}/cosmic-release-evidence
         run: |
+          set -euo pipefail
           docker pull ghcr.io/${{ github.repository }}:latest || true
           docker build --cache-from ghcr.io/${{ github.repository }}:latest -t cosmic:${{ github.sha }} .
+          image_id=$(docker image inspect --format='{{.Id}}' "cosmic:${{ github.sha }}")
+          created=$(docker image inspect --format='{{.Created}}' "cosmic:${{ github.sha }}")
+          cat > "$RELEASE_EVIDENCE_DIR/container-image.json" <<EOF
+          {
+            "protocol": "COSMIC_CONTAINER_IMAGE_V1",
+            "source": {
+              "repository": "${{ github.repository }}",
+              "gitSha": "${{ github.sha }}",
+              "runId": "${{ github.run_id }}",
+              "runAttempt": "${{ github.run_attempt }}"
+            },
+            "image": {
+              "tag": "cosmic:${{ github.sha }}",
+              "imageId": "$image_id",
+              "created": "$created"
+            }
+          }
+          EOF
+
+      - name: Upload release evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cosmic-release-evidence-${{ github.sha }}
+          path: ${{ runner.temp }}/cosmic-release-evidence
+          if-no-files-found: error
+          retention-days: 90
 
       - name: Cleanup PostgreSQL
         if: always()

@@ -90,6 +90,30 @@ export interface TSETemporalState {
   };
 }
 
+/**
+ * A transparent result for comparing provider outputs. Differences are
+ * diagnostic measurements only; they never feed the TSE scoring model.
+ */
+export interface TSEProviderComparison {
+  provider: Pick<TSETemporalState['provenance'], 'provider' | 'providerVersion' | 'algorithmVersion'>;
+  state: TSETemporalState;
+  relativeToBaseline: {
+    solarAltitudeDeltaDeg: number;
+    solarAzimuthDeltaDeg: number;
+    lunarAltitudeDeltaDeg: number;
+    lunarAzimuthDeltaDeg: number;
+    sunriseDeltaSeconds: number | null;
+    sunsetDeltaSeconds: number | null;
+    moonriseDeltaSeconds: number | null;
+    moonsetDeltaSeconds: number | null;
+  };
+}
+
+function eventDeltaSeconds(actual: string | null, baseline: string | null): number | null {
+  if (!actual || !baseline) return null;
+  return Number(((new Date(actual).getTime() - new Date(baseline).getTime()) / 1000).toFixed(3));
+}
+
 function asDate(value: string | Date): Date {
   const date = value instanceof Date ? new Date(value.getTime()) : new Date(value);
   if (Number.isNaN(date.getTime())) throw new Error('TSE_INVALID_TIMESTAMP');
@@ -303,6 +327,39 @@ export function calculateTemporalState(input: TSEInput): TSETemporalState {
       scoreIsNotDivineReward: true
     }
   };
+}
+
+/**
+ * Evaluate the same input through two or more provider adapters. This is a
+ * validation helper for provider conformance and diagnostics, not a scoring
+ * operation: each returned state retains its own immutable provenance and no
+ * cross-provider difference changes temporal relevance.
+ */
+export function compareTemporalProviders(
+  input: Omit<TSEInput, 'provider'>,
+  providers: readonly EphemerisProvider[],
+): readonly TSEProviderComparison[] {
+  if (providers.length < 2) throw new Error('TSE_PROVIDER_COMPARISON_REQUIRES_TWO_PROVIDERS');
+  const states = providers.map((provider) => calculateTemporalState({ ...input, provider }));
+  const baseline = states[0];
+  return states.map((state) => ({
+    provider: {
+      provider: state.provenance.provider,
+      providerVersion: state.provenance.providerVersion,
+      algorithmVersion: state.provenance.algorithmVersion,
+    },
+    state,
+    relativeToBaseline: {
+      solarAltitudeDeltaDeg: Number((state.solar.altitudeDeg - baseline.solar.altitudeDeg).toFixed(6)),
+      solarAzimuthDeltaDeg: Number((state.solar.azimuthDeg - baseline.solar.azimuthDeg).toFixed(6)),
+      lunarAltitudeDeltaDeg: Number((state.lunar.altitudeDeg - baseline.lunar.altitudeDeg).toFixed(6)),
+      lunarAzimuthDeltaDeg: Number((state.lunar.azimuthDeg - baseline.lunar.azimuthDeg).toFixed(6)),
+      sunriseDeltaSeconds: eventDeltaSeconds(state.solar.sunriseUtc, baseline.solar.sunriseUtc),
+      sunsetDeltaSeconds: eventDeltaSeconds(state.solar.sunsetUtc, baseline.solar.sunsetUtc),
+      moonriseDeltaSeconds: eventDeltaSeconds(state.lunar.moonriseUtc, baseline.lunar.moonriseUtc),
+      moonsetDeltaSeconds: eventDeltaSeconds(state.lunar.moonsetUtc, baseline.lunar.moonsetUtc),
+    },
+  }));
 }
 
 export function toMizanTemporalContext(state: TSETemporalState) {

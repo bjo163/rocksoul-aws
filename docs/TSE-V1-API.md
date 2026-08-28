@@ -22,3 +22,16 @@ astronomical events is `UNRESOLVED` for scoring and has no
 The optional `activity` field is metadata only. It cannot affect any temporal
 fact or score. `SUNSET_TO_FAJR` requires an explicit `nightBoundary` end time;
 use `SUNSET_TO_SUNRISE` when no Fajr boundary is available.
+
+## Provider comparison
+
+`compareTemporalProviders(input, providers)` evaluates one unchanged input
+through two or more `EphemerisProvider` adapters and returns each complete,
+provenance-bearing state plus explicit positional and rise/set deltas relative
+to the first provider. It is a diagnostic/validation API only: provider
+differences never alter temporal relevance, confidence, or any Mizan score.
+
+The deterministic reference fixture in the TSE suite validates adapter
+substitutability and comparison-report stability. It is not an external
+astronomical authority; production accuracy remains validated separately
+against versioned external gold vectors.
