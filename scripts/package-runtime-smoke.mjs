@@ -8,6 +8,7 @@ const checks = [
   ['@moonwitness/mizan-engine', 'evaluateMizan'],
   ['@moonwitness/explanation-engine', 'explainLegalResult'],
   ['@moonwitness/tse-engine', 'calculateTemporalState'],
+  ['@moonwitness/cosmic-engine', 'createCosmicEngine'],
   ['@moonwitness/orchestrator', 'runAnalysisWorkflow'],
   ['@moonwitness/sdk', 'UniverseClient'],
 ];
