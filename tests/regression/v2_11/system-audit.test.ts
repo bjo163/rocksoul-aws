@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { auditSystem } from '../../../src/audit/system-audit.js';
 import { buildAnalyticalSemanticVector } from '../../../src/semantic/analytical-vector.js';
-import { evaluateMizan } from '../../../src/engines/mizan.js';
+import { evaluateMizan } from '@moonwitness/mizan-engine';
 
 test('full system audit reports revelation-first score path',()=>{ const a=auditSystem(); assert.equal(a.status,'PASS'); assert.equal(a.scoreIntegration.hardcodedActionAsmaVector,false); assert.equal(a.scoreIntegration.rgblToMizan,true); });
 test('analytical vector carries generic attributes without Asma authority',()=>{ const v=buildAnalyticalSemanticVector({primary:['SIG-A'],secondary:['SIG-B','SIG-C'],mode:'DEVIATION'}); assert.equal(v.semanticReady,true); assert.equal(v.normativeAuthority,false); assert.ok(v.attributes.length>=3); assert.ok(v.weights['SIG-A']>v.weights['SIG-B']); });

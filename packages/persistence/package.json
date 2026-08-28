@@ -3,8 +3,10 @@
   "version": "4.33.0",
   "private": true,
   "type": "module",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
+    "build": "npm exec -- tsc --target ES2022 --module NodeNext --moduleResolution NodeNext --rootDir src --outDir dist --declaration --sourceMap --strict --skipLibCheck",
     "test": "tsx --test test/persistence.test.ts test/idempotency-runtime.test.ts test/universe-store.test.ts"
   },
   "devDependencies": {

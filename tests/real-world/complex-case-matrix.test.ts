@@ -6,7 +6,7 @@ import { KnowledgeGraph } from '../../src/knowledge/source-graph.js';
 import { createCab, createChangeRequest, cabRelations } from '../../src/cab/cab-engine.js';
 import { createShadowProfile, createPersonalScenario, scenarioRelations } from '../../src/shadow/shadow.js';
 import { buildAnalyticalSemanticVector as buildSemanticVector } from '../../src/semantic/analytical-vector.js';
-import { evaluateMizan, calculateXp } from '../../src/engines/mizan.js';
+import { evaluateMizan, calculateXp } from '@moonwitness/mizan-engine';
 import { ImmutableAuditLedger } from '../../src/audit/immutable-ledger.js';
 import { createBaseModel, updateBaseModel, assertBaseModel } from '../../src/models/base-model.js';
 import { detectConflicts, resolveConflicts } from '../../src/conflict/rule-conflict.js';
