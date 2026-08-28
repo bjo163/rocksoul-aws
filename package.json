@@ -8,6 +8,7 @@
   "scripts": {
     "build:packages": "node scripts/build-packages.mjs",
     "test:package-runtime": "npm run build:packages && node scripts/package-runtime-smoke.mjs",
+    "test:fastify-adapter": "npm --prefix apps/api run test:fastify",
     "build:api": "npm run build:packages && npm --prefix apps/api run build",
     "api:dev": "npm run build:packages && npm --prefix apps/api run dev",
     "local:start": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local-apps.ps1 start development",
