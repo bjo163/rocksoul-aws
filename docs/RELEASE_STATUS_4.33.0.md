@@ -1,56 +1,58 @@
-# MoonWitness OS — Release Status 4.33.0
+# Cosmic — Release Status 4.33.0
 
-**Date:** 2026-08-24  
+**Date:** 2026-08-28  
 **Release line:** 4.33.x  
-**Current posture:** release-candidate hardening / CI certification in progress
+**Posture:** engine/API release certification in progress
 
-## Stable semantic spine
+## Canonical spine
 
 ```text
-Entity / Relation / Event / Evidence / Case
-                    ↓
-          Revelation / Knowledge Graph
-                    ↓
-           Universe Read Model
-                    ↓
-                  CAB
-                    ↓
-        Review → Witness → Audit
+Temporal / TSE
+      ↓
+Semantic / Event
+      ↓
+Evidence / Revelation
+      ↓
+Mizan
+      ↓
+Bounded Explanation
+      ↓
+Cosmic Engine
+      ↓
+Orchestrator
+      ↓
+API / Persistence / Jobs / Witness host adapters
 ```
 
-## Release gates
+## Scope
 
-| Gate | State | Requirement |
-|---|---|---|
-| Release identity | 🟢 | Workspace release line is 4.33.0. |
-| PostgreSQL integration | 🟢 | Latest recorded integration evidence passed. |
-| API build | 🟡 | Fresh exact-head CI evidence required after latest changes. |
-| Full build/test/certification | 🟡 | Fresh exact-head run required. |
-| Package migration | 🟡 | Remaining `src/revelation` compatibility/physical migration is still tracked. |
-| Lockfile | 🟡 | Canonical lockfile must be validated with `npm ci` from the exact workspace manifests. |
-| Security checks | 🟡 | Fresh CodeQL and dependency-review/audit evidence required. |
-| Docker release image | 🟡 | Production image build must pass on the exact PR head. |
-| N1–N6 environment certification | 🟡 | Target-environment evidence is still required. |
-| Production release | 🔴 | Do not tag/publish until all required gates are green. |
+Cosmic has no product frontend application. Web/CAB/XRP/Flow are external product surfaces. `apps/api` remains a reference/compatibility host adapter and is certified together with persistence, security, jobs, Witness, PostgreSQL, and deployment contracts.
 
-## Release hygiene
+## Current release truth
 
-The release surface must contain only durable product and engineering infrastructure. Temporary lockfile-repair/bootstrap automation has been removed after the lockfile repair phase. Redundant maintenance, changelog, project-label automation, and documentation deployment workflows are not part of the release gate.
+- Release identity stale CAB workspace dependency (#78) is resolved.
+- The earlier full release gate reached release-focused tests and then failed because `tests/api-entity-boundary-contract.test.ts` read removed `apps/cab/src/lib/api.ts`.
+- That stale product-app dependency is tracked as #94 and must be replaced by direct backend/API contract assertions, not by restoring CAB.
+- Fastify transition work is separate (#88–#93) and must preserve native API semantics until parity is certified.
+- Fresh exact-SHA certification is required after every release-affecting change.
 
-## Scope policy
+## Required gates
 
-The MoonWitness Control Plane implementation and its required contracts/tests remain in scope. Repository-wide automation is retained only when it directly supports build, security, certification, documentation validation, release, or operational governance. Product functionality must not be deleted merely to reduce PR size.
+| Gate | Requirement |
+|---|---|
+| Scope/docs/architecture | engine-only boundaries consistent and guarded |
+| Dependencies | integrity and audit pass |
+| Packages | build/runtime contracts pass |
+| Type safety | lint and typecheck pass |
+| Release identity | current workspace/version contract passes |
+| Release tests | backend/engine/platform contracts pass with no removed UI dependency |
+| PostgreSQL | live certification passes |
+| API | build and supported compatibility tests pass |
+| Final certification | current release checks pass |
+| Docker | exact-SHA image build passes |
 
 ## Certification rule
 
-`implemented` means source/test/docs contract exists.  
-`certification pending` means CI or environment evidence is still outstanding.  
-`certified` requires automated suite success plus required target-environment evidence.
+`implemented` means source/test/docs contract exists. `certified` requires the complete mandatory gate on the exact candidate SHA plus any required environment evidence. Historical, partial, cancelled, queued, or different-SHA results are not release evidence.
 
-For main release evidence, the record must include the **complete full-certification result for that exact commit** under review. Historical or partial results are not sufficient evidence for release promotion.
-
-No production tag should be created while any required release gate is red, pending, or inferred only from historical CI.
-
-## Epistemic boundary
-
-`CORE`, `DERIVED`, and `UNRESOLVED` remain distinct. Revelation provenance, corroboration, observation, inference, AI output, Review, Witness, and Audit are represented as different semantic/governance layers. A Witness commitment proves integrity/ordering of the committed record, not factual truth or Divine acceptance.
+No production tag should be created while a mandatory gate is failing, skipped because of an upstream failure, or only inferred from historical evidence.
