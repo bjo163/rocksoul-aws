@@ -15,7 +15,7 @@ test('release provenance emits deterministic SBOM and artifact integrity manifes
   assert.equal(manifest.protocol, 'COSMIC_RELEASE_PROVENANCE_V1');
   assert.equal(manifest.integrity.algorithm, 'SHA-256');
   assert.ok(manifest.sbom.components.length > 0);
-  assert.ok(manifest.artifacts.some((item: any) => item.path === 'package-lock.json'));
+  assert.ok(manifest.artifacts.some((item: { path?: string }) => item.path === 'package-lock.json'));
 });
 
 test('release provenance verifier detects manifest tampering', () => {

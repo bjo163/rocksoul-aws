@@ -6,7 +6,62 @@ import { hashEvent } from './hash.js';
 import { makeAuditRecord, changedFields, hashAudit } from './audit.js';
 import type { PersistenceStore, EntityRecord, RelationRecord, EventRecord, ProjectionRecord, AuditRecord, EvidenceRecord, SystemTraceRecord, SystemJobRecord } from './types.js';
 
-export interface PgResult { rows: any[]; rowCount?: number }
+export interface PgResult { rows: PgRow[]; rowCount?: number }
+/** PostgreSQL rows are dynamically shaped by the selected projection. */
+export interface PgRow {
+  [column: string]: unknown;
+  id?: string;
+  type?: string;
+  version?: number;
+  payload_json?: Record<string, unknown>;
+  audit_json?: { createdAt?: string; createdBy?: string; updatedAt?: string; updatedBy?: string; version?: number; [key: string]: unknown };
+  createdAt?: string;
+  createdBy?: string;
+  updated_at?: string;
+  updatedAt?: string;
+  updatedBy?: string;
+  event_id?: string;
+  entity_id?: string;
+  event_type?: string;
+  occurred_at?: string;
+  recorded_at?: string;
+  previous_hash?: string;
+  event_hash?: string;
+  from_id?: string;
+  to_id?: string;
+  relation_type?: string;
+  valid_from?: string;
+  valid_to?: string;
+  evidence_id?: string;
+  source_type?: string;
+  reference?: string;
+  status?: string;
+  confidence?: number;
+  created_at?: string;
+  projection_id?: string;
+  projection_type?: string;
+  request_id?: string;
+  correlation_id?: string;
+  route?: string;
+  status_code?: number;
+  duration_ms?: number;
+  error?: string;
+  completed_at?: string;
+  started_at?: string;
+  actor_id?: string;
+  hash?: string;
+  device_id?: string;
+  signature?: string;
+  source?: string;
+  attempt_count?: number;
+  max_attempts?: number;
+  available_at?: string;
+  lease_owner?: string;
+  lease_expires_at?: string;
+  result_json?: Record<string, unknown>;
+  error_message?: string;
+  idempotency_key?: string;
+}
 export interface PostgresClient { query(sql: string, params?: unknown[]): Promise<PgResult>; release(): void }
 export interface PostgresPool { query(sql: string, params?: unknown[]): Promise<PgResult>; connect(): Promise<PostgresClient>; end(): Promise<void> }
 
@@ -111,8 +166,8 @@ export class PostgresProvider implements PersistenceStore {
           if(entity.expectedVersion!==undefined&&(existing?.version??0)!==entity.expectedVersion)throw Object.assign(new Error('ENTITY_VERSION_CONFLICT'),{code:'ENTITY_VERSION_CONFLICT',statusCode:409,currentVersion:existing?.version??0});
           const {expectedVersion:_expectedVersion,...candidate}=entity; const previousAudit=existing?.audit_json??{}; const saved = { ...candidate, version: candidate.version ?? ((existing?.version??0)+1), createdAt: candidate.createdAt ?? previousAudit.createdAt ?? now, createdBy: candidate.createdBy ?? previousAudit.createdBy ?? 'SYSTEM-001', updatedAt: now, updatedBy: candidate.updatedBy ?? 'SYSTEM-001' };
           await this.query(`INSERT INTO entities(id,type,version,payload_json,updated_at,audit_json) VALUES($1,$2,$3,$4,$5,$6) ON CONFLICT(id) DO UPDATE SET type=EXCLUDED.type,version=EXCLUDED.version,payload_json=EXCLUDED.payload_json,updated_at=EXCLUDED.updated_at,audit_json=EXCLUDED.audit_json`, [saved.id, saved.type, saved.version, JSON.stringify(saved.payload), now, JSON.stringify({createdAt:saved.createdAt,createdBy:saved.createdBy,updatedAt:saved.updatedAt,updatedBy:saved.updatedBy,version:saved.version})]);
-          await writeAudit({ query: (sql: string, params?: unknown[]) => this.query(sql, params) },{operation:existing?'UPDATE':'CREATE',modelType:saved.type,recordId:saved.id,actorId:saved.updatedBy??saved.createdBy??'SYSTEM-001',timestamp:now,changedFields:changedFields(existing?existing.payload_json:null,saved.payload),before:existing?{id:existing.id,type:existing.type,version:existing.version,payload:existing.payload_json,audit:existing.audit_json}:null,after:saved as any});
-          return saved;
+          await writeAudit({ query: (sql: string, params?: unknown[]) => this.query(sql, params) },{operation:existing?'UPDATE':'CREATE',modelType:saved.type,recordId:saved.id,actorId:saved.updatedBy??saved.createdBy??'SYSTEM-001',timestamp:now,changedFields:changedFields(existing?existing.payload_json:null,saved.payload),before:existing?{id:existing.id,type:existing.type,version:existing.version,payload:existing.payload_json,audit:existing.audit_json}:null,after:saved as Record<string, unknown>});
+          return saved as EntityRecord;
         };
         return this.txStorage.getStore() ? await execute() : await this.batch(execute);
       },
@@ -140,7 +195,7 @@ export class PostgresProvider implements PersistenceStore {
           const normalized = { ...event, createdAt:event.createdAt??recordedAt, createdBy:event.createdBy??event.actorId??'SYSTEM-001', updatedAt:recordedAt, updatedBy:event.updatedBy??event.actorId??'SYSTEM-001', occurredAt, recordedAt, previousHash };
           const eventHash = hashEvent(normalized, previousHash);
           await this.query(`INSERT INTO event_ledger(event_id,entity_id,event_type,payload_json,occurred_at,recorded_at,previous_hash,event_hash,actor_id,device_id,source,signature,audit_json) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)`, [event.eventId, event.entityId, event.eventType, JSON.stringify(event.payload ?? {}), occurredAt, recordedAt, previousHash, eventHash, event.actorId ?? null, event.deviceId ?? null, event.source ?? null, event.signature ?? null, JSON.stringify({createdAt:normalized.createdAt,createdBy:normalized.createdBy,updatedAt:normalized.updatedAt,updatedBy:normalized.updatedBy,version:normalized.version??1})]);
-          await writeAudit({ query: (sql: string, params?: unknown[]) => this.query(sql, params) },{operation:'CREATE',modelType:'EVENT',recordId:normalized.eventId,actorId:normalized.updatedBy??normalized.actorId??'SYSTEM-001',timestamp:recordedAt,changedFields:Object.keys(normalized),before:null,after:normalized as any});
+          await writeAudit({ query: (sql: string, params?: unknown[]) => this.query(sql, params) },{operation:'CREATE',modelType:'EVENT',recordId:normalized.eventId,actorId:normalized.updatedBy??normalized.actorId??'SYSTEM-001',timestamp:recordedAt,changedFields:Object.keys(normalized),before:null,after:normalized as Record<string, unknown>});
           return { ...normalized, eventHash };
         };
         return this.txStorage.getStore() ? await execute() : await this.batch(execute);
@@ -155,15 +210,15 @@ export class PostgresProvider implements PersistenceStore {
   evidenceRepository() {
     const pool = { query: (sql: string, params?: unknown[]) => this.query(sql, params) };
     return {
-      put: async (evidence: import('./types.js').EvidenceRecord) => { const execute=async()=>{ const saved={...evidence,version:evidence.version??1,createdAt:evidence.createdAt??new Date().toISOString(),createdBy:evidence.createdBy??'SYSTEM-001',updatedAt:new Date().toISOString(),updatedBy:evidence.updatedBy??'SYSTEM-001'}; await this.query('INSERT INTO evidence(evidence_id,entity_id,source_type,reference,status,confidence,payload_json,created_at,audit_json) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9) ON CONFLICT(evidence_id) DO UPDATE SET entity_id=EXCLUDED.entity_id,source_type=EXCLUDED.source_type,reference=EXCLUDED.reference,status=EXCLUDED.status,confidence=EXCLUDED.confidence,payload_json=EXCLUDED.payload_json,created_at=EXCLUDED.created_at',[saved.evidenceId,saved.entityId,saved.sourceType,saved.reference??null,saved.status??'UNKNOWN',saved.confidence??null,JSON.stringify(saved.payload??{}),saved.createdAt,JSON.stringify({createdAt:saved.createdAt,createdBy:saved.createdBy,updatedAt:saved.updatedAt,updatedBy:saved.updatedBy,version:saved.version})]); await writeAudit({ query: (sql: string, params?: unknown[]) => this.query(sql, params) },{operation:'CREATE',modelType:'EVIDENCE',recordId:saved.evidenceId,actorId:saved.updatedBy??'SYSTEM-001',timestamp:saved.updatedAt??new Date().toISOString(),changedFields:Object.keys(saved),before:null,after:saved as any}); return saved; }; return this.txStorage.getStore()?await execute():await this.batch(execute); },
-      get: async (id:string) => { const r=await this.query('SELECT * FROM evidence WHERE evidence_id=$1',[id]); const row=r.rows[0]; return row?{evidenceId:row.evidence_id,entityId:row.entity_id,sourceType:row.source_type,reference:row.reference,status:row.status,confidence:row.confidence,payload:row.payload_json,createdAt:row.created_at,...(row.audit_json??{})}:null; },
-      listByEntity: async (entityId:string) => { const r=await this.query('SELECT * FROM evidence WHERE entity_id=$1 ORDER BY created_at',[entityId]); return r.rows.map(row=>({evidenceId:row.evidence_id,entityId:row.entity_id,sourceType:row.source_type,reference:row.reference,status:row.status,confidence:row.confidence,payload:row.payload_json,createdAt:row.created_at,...(row.audit_json??{})})); },
+  put: async (evidence: import('./types.js').EvidenceRecord) => { const execute=async()=>{ const saved={...evidence,version:evidence.version??1,createdAt:evidence.createdAt??new Date().toISOString(),createdBy:evidence.createdBy??'SYSTEM-001',updatedAt:new Date().toISOString(),updatedBy:evidence.updatedBy??'SYSTEM-001'}; await this.query('INSERT INTO evidence(evidence_id,entity_id,source_type,reference,status,confidence,payload_json,created_at,audit_json) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9) ON CONFLICT(evidence_id) DO UPDATE SET entity_id=EXCLUDED.entity_id,source_type=EXCLUDED.source_type,reference=EXCLUDED.reference,status=EXCLUDED.status,confidence=EXCLUDED.confidence,payload_json=EXCLUDED.payload_json,created_at=EXCLUDED.created_at',[saved.evidenceId,saved.entityId,saved.sourceType,saved.reference??null,saved.status??'UNKNOWN',saved.confidence??null,JSON.stringify(saved.payload??{}),saved.createdAt,JSON.stringify({createdAt:saved.createdAt,createdBy:saved.createdBy,updatedAt:saved.updatedAt,updatedBy:saved.updatedBy,version:saved.version})]); await writeAudit({ query: (sql: string, params?: unknown[]) => this.query(sql, params) },{operation:'CREATE',modelType:'EVIDENCE',recordId:saved.evidenceId,actorId:saved.updatedBy??'SYSTEM-001',timestamp:saved.updatedAt??new Date().toISOString(),changedFields:Object.keys(saved),before:null,after:saved as Record<string, unknown>}); return saved as import('./types.js').EvidenceRecord; }; return this.txStorage.getStore()?await execute():await this.batch(execute); },
+      get: async (id:string) => { const r=await this.query('SELECT * FROM evidence WHERE evidence_id=$1',[id]); const row=r.rows[0]; return row?{evidenceId:row.evidence_id,entityId:row.entity_id,sourceType:row.source_type,reference:row.reference,status:row.status,confidence:row.confidence,payload:row.payload_json,createdAt:row.created_at,...(row.audit_json??{})} as EvidenceRecord:null; },
+      listByEntity: async (entityId:string) => { const r=await this.query('SELECT * FROM evidence WHERE entity_id=$1 ORDER BY created_at',[entityId]); return r.rows.map(row=>({evidenceId:row.evidence_id,entityId:row.entity_id,sourceType:row.source_type,reference:row.reference,status:row.status,confidence:row.confidence,payload:row.payload_json,createdAt:row.created_at,...(row.audit_json??{})} as EvidenceRecord)); },
     };
   }
 
   projectionStore() {
     return {
-      upsert: async (projection: ProjectionRecord) => { const execute=async()=>{ const now = new Date().toISOString(); const saved = { ...projection, version: projection.version ?? 1, createdAt: projection.createdAt ?? now, createdBy: projection.createdBy ?? 'SYSTEM-001', updatedAt: now, updatedBy: projection.updatedBy ?? 'SYSTEM-001' }; await this.query(`INSERT INTO projections(projection_id,entity_id,projection_type,version,payload_json,updated_at,audit_json) VALUES($1,$2,$3,$4,$5,$6,$7) ON CONFLICT(projection_id) DO UPDATE SET version=EXCLUDED.version,payload_json=EXCLUDED.payload_json,updated_at=EXCLUDED.updated_at,audit_json=EXCLUDED.audit_json`, [saved.projectionId, saved.entityId, saved.projectionType, saved.version, JSON.stringify(saved.payload ?? {}), now, JSON.stringify({createdAt:saved.createdAt,createdBy:saved.createdBy,updatedAt:saved.updatedAt,updatedBy:saved.updatedBy,version:saved.version})]); await writeAudit({ query: (sql: string, params?: unknown[]) => this.query(sql, params) },{operation:'CREATE',modelType:'PROJECTION',recordId:saved.projectionId,actorId:saved.updatedBy??'SYSTEM-001',timestamp:now,changedFields:Object.keys(saved),before:null,after:saved as any}); return saved; }; return this.txStorage.getStore()?await execute():await this.batch(execute); },
+      upsert: async (projection: ProjectionRecord) => { const execute=async()=>{ const now = new Date().toISOString(); const saved = { ...projection, version: projection.version ?? 1, createdAt: projection.createdAt ?? now, createdBy: projection.createdBy ?? 'SYSTEM-001', updatedAt: now, updatedBy: projection.updatedBy ?? 'SYSTEM-001' }; await this.query(`INSERT INTO projections(projection_id,entity_id,projection_type,version,payload_json,updated_at,audit_json) VALUES($1,$2,$3,$4,$5,$6,$7) ON CONFLICT(projection_id) DO UPDATE SET version=EXCLUDED.version,payload_json=EXCLUDED.payload_json,updated_at=EXCLUDED.updated_at,audit_json=EXCLUDED.audit_json`, [saved.projectionId, saved.entityId, saved.projectionType, saved.version, JSON.stringify(saved.payload ?? {}), now, JSON.stringify({createdAt:saved.createdAt,createdBy:saved.createdBy,updatedAt:saved.updatedAt,updatedBy:saved.updatedBy,version:saved.version})]); await writeAudit({ query: (sql: string, params?: unknown[]) => this.query(sql, params) },{operation:'CREATE',modelType:'PROJECTION',recordId:saved.projectionId,actorId:saved.updatedBy??'SYSTEM-001',timestamp:now,changedFields:Object.keys(saved),before:null,after:saved as Record<string, unknown>}); return saved; }; return this.txStorage.getStore()?await execute():await this.batch(execute); },
       get: async (entityId: string, projectionType: string) => { const result = await this.query('SELECT * FROM projections WHERE entity_id = $1 AND projection_type = $2', [entityId, projectionType]); return result.rows.length ? { projectionId: result.rows[0].projection_id, entityId: result.rows[0].entity_id, projectionType: result.rows[0].projection_type, version: result.rows[0].version, payload: result.rows[0].payload_json, updatedAt: result.rows[0].updated_at, ...(result.rows[0].audit_json ?? {}) } as ProjectionRecord : null; },
     };
   }
@@ -199,7 +254,7 @@ export class PostgresProvider implements PersistenceStore {
   traceRepository() {
     return {
       put: async (trace: SystemTraceRecord) => { await this.query('INSERT INTO system_traces(request_id,correlation_id,route,status_code,duration_ms,error,started_at,completed_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8)', [trace.requestId,trace.correlationId,trace.route,trace.statusCode??null,trace.durationMs??null,trace.error??null,trace.startedAt,trace.completedAt??null]); },
-      list: async (limit = 100) => { const result = await this.query('SELECT * FROM system_traces ORDER BY started_at DESC LIMIT $1',[limit]); return result.rows.map((row)=>({requestId:row.request_id,correlationId:row.correlation_id,route:row.route,statusCode:row.status_code,durationMs:row.duration_ms,error:row.error,startedAt:row.started_at,completedAt:row.completed_at})); },
+      list: async (limit = 100) => { const result = await this.query('SELECT * FROM system_traces ORDER BY started_at DESC LIMIT $1',[limit]); return result.rows.map((row)=>({requestId:row.request_id,correlationId:row.correlation_id,route:row.route,statusCode:row.status_code,durationMs:row.duration_ms,error:row.error,startedAt:row.started_at,completedAt:row.completed_at} as SystemTraceRecord)); },
     };
   }
 
