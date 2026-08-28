@@ -31,8 +31,8 @@ Cosmic has no product frontend application. Web/CAB/XRP/Flow are external produc
 ## Current release truth
 
 - Release identity stale CAB workspace dependency (#78) is resolved.
-- The earlier full release gate reached release-focused tests and then failed because `tests/api-entity-boundary-contract.test.ts` read removed `apps/cab/src/lib/api.ts`.
-- That stale product-app dependency is tracked as #94 and must be replaced by direct backend/API contract assertions, not by restoring CAB.
+- The earlier full release gate reached release-focused tests and then failed because a stale product-app contract read a removed CAB API helper.
+- Issue #94 is resolved: release contracts now assert backend/API boundaries directly and include a regression guard against removed product-app dependencies.
 - Fastify transition work is separate (#88–#93) and must preserve native API semantics until parity is certified.
 - Fresh exact-SHA certification is required after every release-affecting change.
 

@@ -15,6 +15,8 @@ const approvedSqlAdapters = new Set([
   'src/access/postgres-auth.ts',
   'src/ledger/witness-projection-store.ts',
   'src/persistence/postgres-idempotency.ts',
+  'packages/persistence/src/postgres-idempotency.ts',
+  'packages/witness/src/witness-projection-store.ts',
 ]);
 
 function sourceFiles(directory: string): string[] {

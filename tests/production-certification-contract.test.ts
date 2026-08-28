@@ -25,9 +25,6 @@ const app = read('apps/api/src/app.ts');
 const kernelRoutes = read('apps/api/src/routes/kernel.routes.ts');
 const persistenceTypes = read('packages/persistence/src/types.ts');
 const persistenceMemory = read('packages/persistence/src/memory.ts');
-const cab = readJson<{ name: string; version?: string; scripts?: Record<string, string> }>('apps/cab/package.json');
-const xrp = readJson<{ name: string; version?: string; scripts?: Record<string, string> }>('apps/xrp/package.json');
-const flow = readJson<{ name: string; version?: string; scripts?: Record<string, string> }>('apps/flow/package.json');
 const witnessKeystore = read('src/ledger/single-node-keystore.ts');
 const witnessRoutes = filesUnder('apps/api/src/routes').filter((file) => file.includes('witness'));
 const rootPackage = existsSync(path.join(root, 'package.json')) ? readJson<{ scripts?: Record<string, string> }>('package.json') : {};
@@ -80,14 +77,10 @@ test('N5 deployment security certification has explicit prerequisites in runtime
   assert.match(app, /production/);
 });
 
-test('N6 CAB/XRP/Flow are separate application surfaces with distinct certification targets', () => {
-  for (const dir of ['apps/cab', 'apps/xrp', 'apps/flow']) assert.equal(existsSync(path.join(root, dir)), true, dir);
-  for (const pkg of [cab, xrp, flow]) {
-    assert.ok(pkg.name);
-    assert.equal(pkg.version, '4.33.0');
-    assert.ok(pkg.scripts?.build);
+test('N6 engine-only release scope excludes removed product application surfaces', () => {
+  for (const dir of ['apps/cab', 'apps/xrp', 'apps/flow', 'apps/web']) {
+    assert.equal(existsSync(path.join(root, dir)), false, `${dir} must remain outside the engine release scope`);
   }
-  assert.notEqual(cab.name, xrp.name);
-  assert.notEqual(cab.name, flow.name);
-  assert.notEqual(xrp.name, flow.name);
+  assert.ok(rootPackage.scripts?.['build:packages']);
+  assert.ok(rootPackage.scripts?.['test:package-runtime']);
 });

@@ -16,11 +16,11 @@ Verify idempotent duplicate requests converge, optimistic conflicts reject lost 
 
 ## N2 — PostgreSQL durability / recovery
 
-Verify empty install, migrations, representative upgrade path, backup, isolated restore, row/projection invariants, replay, and recovery. Destructive restore remains offline; no remote destructive restore API is permitted.
+Verify empty install, migrations, representative upgrade path, backup, isolated restore, row/projection invariants, replay, point-in-time recovery, and recovery. Row counts and representative records must match after restore completed into an isolated instance. The database role cannot create schema in production. Destructive restore remains offline; no remote destructive restore API is permitted.
 
 ## N3 — Rate limiting and runtime topology
 
-Verify independent auth/AI/write/read buckets, reverse-proxy behavior, timeout/backpressure limits, and shared distributed enforcement before horizontal multi-instance deployment.
+Verify independent auth/AI/write/read buckets, reverse-proxy behavior, timeout/backpressure limits, and shared distributed enforcement before horizontal multi-instance topology deployment. Distributed enforcement is enabled before more than one API instance is deployed; a shared distributed limiter provides the enforcement mechanism.
 
 ## N4 — Key custody / Witness
 
@@ -28,7 +28,7 @@ Verify managed secret custody, key rotation/revocation, restart persistence, Q-D
 
 ## N5 — Deployment security
 
-Verify strong managed secrets, explicit allowed origins where browser consumers exist, secure transport/cookie policy where applicable, least-privilege database role, redacted production errors/logs, bounded health disclosure, and no secret leakage.
+Verify a non-default managed `JWT_SECRET`, an explicit browser-origin allowlist, secure cookie policy, least-privilege database role, redacted production errors/logs, bounded health disclosure, and confirm secrets are absent from logs and exported artifacts.
 
 ## N6 — Reference-host certification
 
@@ -40,4 +40,4 @@ Every candidate run must be checked for errors and warnings. Classify each warni
 
 ## Final rule
 
-Do not mark a production state certified from source inspection alone. Certification must reference the exact SHA and the complete required gate evidence.
+Do not mark a production state certified from source inspection alone. The current run used as certification evidence must reference the exact SHA and the complete required gate evidence.

@@ -8,7 +8,7 @@ Cosmic is engine/API-first. Mandatory work in this repository covers packages, e
 
 ## Current P0 blockers
 
-- [ ] **#94** — remove stale product-app dependency from mandatory release contracts. The old `apps/cab/src/lib/api.ts` dependency must not return; backend/API invariants must remain covered directly.
+- [x] **#94** — remove stale product-app dependency from mandatory release contracts. Backend/API invariants are covered directly and a release contract prevents regression.
 - [ ] **#23/#44** — complete API DDT root-cause work without reducing coverage.
 - [ ] **#35** — obtain one exact-SHA full release certification through PostgreSQL, API build, final certification, and Docker.
 - [ ] Keep PR `dev → main` aligned with actual implementation and exact-SHA evidence.
@@ -29,7 +29,7 @@ Cosmic is engine/API-first. Mandatory work in this repository covers packages, e
 - [ ] Run fresh exact-SHA CI after this cleanup.
 
 ### N1 — Release contracts
-- [ ] Finish #94 and verify release-focused tests no longer depend on removed product implementations.
+- [x] Finish #94 and verify release-focused tests no longer depend on removed product implementations.
 - [ ] Preserve generic Entity/Relation/Event/Evidence/Case, resource, review, kernel, Witness, SDK, and OpenAPI coverage.
 - [ ] Do not weaken tests merely to make CI green.
 

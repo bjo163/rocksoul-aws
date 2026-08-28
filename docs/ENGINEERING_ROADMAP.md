@@ -1,6 +1,6 @@
 # Cosmic Engineering Roadmap — 4.33.x → 5.0.0
 
-`dev` is the integration trunk. `main` receives only exact-SHA certified release commits.
+`dev` is the integration trunk. `main` receives only certified release commits (each backed by exact-SHA evidence).
 
 ## Architectural direction
 
@@ -16,7 +16,7 @@ orchestrator
 host adapters: API / persistence / Witness / jobs / auth
 ```
 
-Product Web/CAB/XRP/Flow applications live outside Cosmic and consume these contracts.
+Product Web/CAB/XRP/Flow applications live outside Cosmic and consume these contracts. Web, XRP, CAB, and Flow production integration is certified in their owning repositories.
 
 ## 4.33.0 — Certification baseline
 
@@ -30,13 +30,13 @@ Auth/session lifecycle, fail-closed HTTP configuration, PostgreSQL resilience, W
 
 ## 4.34.0 — Platform contracts
 
-OpenAPI completeness, SDK compatibility, canonical errors/pagination/idempotency, authorization matrix, API deprecation policy, AI provider/evaluation boundaries, provenance/evidence integrity, and event/audit compatibility.
+OpenAPI completeness, SDK compatibility, canonical errors/pagination/idempotency, authorization matrix, API deprecation policy, AI provider/evaluation contract, AI provider/evaluation boundaries, provenance/evidence integrity, and event/audit compatibility.
 
 Fastify transition work is tracked independently and must preserve native API semantics until parity is certified.
 
 ## 4.35.0 — Distributed execution
 
-Standalone worker, PostgreSQL claim/lease semantics, retries/dead-letter behavior, graceful drain, concurrency consistency, and capacity/performance baselines.
+Standalone worker, PostgreSQL claim/lease semantics, queue leases/retries/dead-letter semantics, retries/dead-letter behavior, graceful drain, concurrency consistency, and capacity/performance baselines.
 
 ## 4.36.0 — Engine intelligence and integration hardening
 
@@ -44,7 +44,7 @@ Strengthen TSE → semantic → evidence → Mizan → explanation composition, 
 
 ## 5.0.0 — Major contract freeze
 
-Freeze supported package/API/SDK/event/job contracts, schema migration/rollback policy, deployment topology, threat model, DR/upgrade rehearsal, compatibility guarantees, and reproducible release provenance.
+Freeze supported package/API/SDK/event/job contracts, schema migration/rollback policy, deployment topology, threat model, threat-model review, disaster recovery rehearsal, DR/upgrade rehearsal, compatibility guarantees, and reproducible release provenance. Deployment must be reproducible from a clean checkout.
 
 ## Engineering rules
 
