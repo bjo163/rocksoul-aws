@@ -8,5 +8,11 @@
   "types": "./src/index.ts",
   "scripts": {
     "typecheck": "tsc --noEmit --target ES2022 --module NodeNext --moduleResolution NodeNext --skipLibCheck src/index.ts"
+  },
+  "dependencies": {
+    "@moonwitness/explanation-engine": "4.33.0",
+    "@moonwitness/mizan-engine": "4.33.0",
+    "@moonwitness/semantic-engine": "4.33.0",
+    "@moonwitness/temporal-engine": "4.33.0"
   }
 }

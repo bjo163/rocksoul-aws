@@ -4,6 +4,11 @@ import { createCosmicEngine } from '../packages/cosmic-engine/src/index.ts';
 
 test('engine facade supports Moonwitness integration without UI or platform state', async () => {
   const engine = createCosmicEngine(process.cwd());
+  const vector = engine.buildAnalyticalSemanticVector({ primary: ['verify'], relevance: { verify: 1 } });
+  assert.equal(vector.normativeAuthority, false);
+  assert.equal(engine.makeTimeEvent({ occurredAt: '2026-08-28T00:00:00.000Z' }).occurredAt, '2026-08-28T00:00:00.000Z');
+  assert.equal(engine.evaluateMizanModel({ semantic: { R: 0, G: 0, B: 0, L: 0 } }).modelOnly, true);
+  assert.equal(engine.explainTemporalContext('context', {}), null);
   const result = await engine.analyze('Saya memeriksa sumber sebelum membagikan klaim.', {
     timestamp: '2026-08-28T03:00:00+07:00',
     location: { latitude: -6.21, longitude: 107.27, timezone: 'Asia/Jakarta' },

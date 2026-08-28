@@ -2,6 +2,22 @@ import { buildAiAnalysis } from '../../../src/ai/general-analyzer.js';
 import { createDefaultSemanticProvider } from '../../../src/ai/provider.js';
 import { evaluateMizanService } from '../../../src/services/mizan-service.js';
 import { calculateTemporalState, toMizanTemporalContext, type TSEInput } from '../../tse-engine/src/index.js';
+import { explainLegalResult, explainTemporalContext } from '@moonwitness/explanation-engine';
+import { evaluateMizan, evaluateQuranicMizan } from '@moonwitness/mizan-engine';
+import { buildAnalyticalSemanticVector, SemanticRegistry } from '@moonwitness/semantic-engine';
+import { compareTime, makeTimeEvent, now } from '@moonwitness/temporal-engine';
+
+export {
+  buildAnalyticalSemanticVector,
+  compareTime,
+  explainLegalResult,
+  explainTemporalContext,
+  evaluateMizan,
+  evaluateQuranicMizan,
+  makeTimeEvent,
+  now,
+  SemanticRegistry,
+};
 
 export type CosmicSemanticObservationStatus = 'AVAILABLE' | 'UNAVAILABLE';
 
@@ -91,10 +107,21 @@ export function createCosmicEngine(root = process.cwd()) {
     calculateTemporalState(input: TSEInput) {
       return calculateTemporalState(input);
     },
+    makeTimeEvent,
+    compareTime,
+    now,
+    buildAnalyticalSemanticVector,
+    createSemanticRegistry(definitions: ConstructorParameters<typeof SemanticRegistry>[0] = {}) {
+      return new SemanticRegistry(definitions);
+    },
     async analyzeSemantic(text: string) {
       return toCosmicSemanticObservation(await semanticProvider.analyze(text));
     },
     evaluateMizan: evaluateMizanService,
+    evaluateMizanModel: evaluateMizan,
+    evaluateQuranicMizan,
+    explainTemporalContext,
+    explainLegalResult,
     async analyze(text: string, temporalInput?: TSEInput) {
       const semanticObservation = await semanticProvider.analyze(text);
       const timeFactor = temporalInput ? toMizanTemporalContext(calculateTemporalState(temporalInput)) : semanticObservation.timeFactor;
