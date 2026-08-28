@@ -1,8 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { buildAiAnalysis, analyzeWithProvider } from '../../../../../src/ai/general-analyzer.js';
 import { composeReminderBundle } from '../../../../../src/ingress/revelation-reminder-engine.js';
-import { appendMizanWitness } from '../../../../../src/ledger/witness-mizan.js';
-import { signCheckpoint as signWitnessCheckpoint } from '../../../../../src/ledger/distributed-witness.js';
+import { appendMizanWitness, signCheckpoint as signWitnessCheckpoint } from '@moonwitness/witness';
 import { runAiAnalyzeWorkflow, type WorkflowEvidence } from '@moonwitness/orchestrator';
 
 type RecordValue = Record<string, unknown>;

@@ -1,3 +1,5 @@
+import { randomUUID } from 'node:crypto';
+
 /**
  * Host-neutral orchestration for human review records.
  *
@@ -34,6 +36,24 @@ export interface ReviewCreateInput {
   now?: string;
 }
 
+/** Create a review record without coupling the orchestrator to persistence. */
+export function createReview(input: ReviewCreateInput): ReviewRecord {
+  const now = input.now ?? new Date().toISOString();
+  return {
+    reviewId: input.reviewId ?? `REV-${randomUUID()}`,
+    targetId: input.targetId,
+    status: input.assigneeId ? 'ASSIGNED' : 'QUEUED',
+    requestedBy: input.requestedBy,
+    assigneeId: input.assigneeId ?? null,
+    gateDecision: input.gateDecision,
+    evidenceRefs: [...(input.evidenceRefs ?? [])],
+    disposition: null,
+    createdAt: now,
+    updatedAt: now,
+    version: 1,
+  };
+}
+
 export interface ReviewTransitionInput {
   status: ReviewStatus;
   actorId: string;
@@ -41,6 +61,31 @@ export interface ReviewTransitionInput {
   disposition?: HumanDisposition;
   assigneeId?: string;
   now?: string;
+}
+
+/** Apply the review state machine without performing a durable write. */
+export function transitionReview(record: ReviewRecord, input: ReviewTransitionInput): ReviewRecord {
+  if (!input.actorId) throw new Error('REVIEW_ACTOR_REQUIRED');
+  const allowed: Record<ReviewStatus, ReviewStatus[]> = {
+    QUEUED: ['ASSIGNED', 'ACKNOWLEDGED', 'ESCALATED'],
+    ASSIGNED: ['ACKNOWLEDGED', 'EVIDENCE_REQUESTED', 'ESCALATED'],
+    ACKNOWLEDGED: ['EVIDENCE_REQUESTED', 'DISPOSED', 'ESCALATED'],
+    EVIDENCE_REQUESTED: ['ACKNOWLEDGED', 'DISPOSED', 'ESCALATED'],
+    DISPOSED: ['REOPENED'],
+    ESCALATED: ['ACKNOWLEDGED', 'DISPOSED', 'REOPENED'],
+    REOPENED: ['ASSIGNED', 'ACKNOWLEDGED', 'EVIDENCE_REQUESTED', 'ESCALATED'],
+  };
+  if (!allowed[record.status].includes(input.status)) throw new Error(`REVIEW_INVALID_TRANSITION:${record.status}:${input.status}`);
+  if (input.status === 'DISPOSED' && !input.disposition) throw new Error('REVIEW_DISPOSITION_REQUIRED');
+  return {
+    ...record,
+    status: input.status,
+    assigneeId: input.assigneeId ?? record.assigneeId,
+    rationale: input.rationale ?? record.rationale,
+    disposition: input.disposition ?? record.disposition,
+    updatedAt: input.now ?? new Date().toISOString(),
+    version: record.version + 1,
+  };
 }
 
 export interface ReviewWorkflowPorts {

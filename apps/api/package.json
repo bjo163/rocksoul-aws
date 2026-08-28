@@ -13,6 +13,13 @@
     "test:ddt:diagnose": "npm run build && node -e \"const fs=require('fs'); fs.readdirSync('tests').filter(f=>f.startsWith('test-cases-')).forEach(f=>fs.cpSync('tests/'+f, 'dist/apps/api/tests/'+f))\" && node dist/apps/api/tests/ddt-diagnose.mjs"
   },
   "dependencies": {
+    "@moonwitness/contracts": "4.33.0",
+    "@moonwitness/jobs": "4.33.0",
+    "@moonwitness/mizan-engine": "4.33.0",
+    "@moonwitness/orchestrator": "4.33.0",
+    "@moonwitness/persistence": "4.33.0",
+    "@moonwitness/semantic-engine": "4.33.0",
+    "@moonwitness/witness": "4.33.0",
     "@fastify/otel": "^0.20.1",
     "fastify": "^5.12.1"
   },

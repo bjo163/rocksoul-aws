@@ -35,10 +35,9 @@ if (fs.existsSync(gitDir)) {
 function walk(dir) {
   const out = [];
   for (const name of fs.readdirSync(dir)) {
-    // Keep compiled workspace package artifacts available to source tests. The
-    // package entrypoints intentionally resolve to dist/ for production-like
-    // runtime checks, while this runner executes from an isolated temp tree.
-    if (name === 'node_modules') continue;
+    // Generated output is copied selectively below. Never recurse into dist so
+    // a stale root/app build cannot leak into an isolated source test tree.
+    if (name === 'node_modules' || name === 'dist') continue;
     const full = path.join(dir, name); const stat = fs.statSync(full);
     if (stat.isDirectory()) out.push(...walk(full)); else out.push(full);
   }
@@ -54,6 +53,16 @@ for (const dir of copyDirs) {
       fs.writeFileSync(target.replace(/\.ts$/, '.js'), out);
       fs.writeFileSync(target, source);
     } else fs.copyFileSync(file, target);
+  }
+}
+// Workspace package entrypoints intentionally resolve to their package-local
+// dist artifacts. Retain only those runtime artifacts; root `dist/` and
+// `apps/api/dist/` remain excluded to keep source tests hermetic.
+for (const entry of fs.readdirSync(path.join(repo, 'packages'), { withFileTypes: true })) {
+  if (!entry.isDirectory()) continue;
+  const packageDist = path.join(repo, 'packages', entry.name, 'dist');
+  if (fs.existsSync(packageDist)) {
+    fs.cpSync(packageDist, path.join(tmp, 'packages', entry.name, 'dist'), { recursive: true });
   }
 }
 for (const file of rootFiles) {

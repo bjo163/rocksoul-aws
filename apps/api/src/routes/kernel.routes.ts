@@ -3,8 +3,9 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { runtimeDataset } from '@moonwitness/persistence';
+import { isMizanInput } from '@moonwitness/contracts';
 import { evaluateMizan } from '@moonwitness/mizan-engine';
-import { isMizanInput } from '../../../../src/contracts/mizan.js';
+import { engineCatalog } from '../engine-catalog.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 
@@ -44,6 +45,13 @@ kernelRouter.add('GET', '/api/v1/ready', async (_req, _reply, _params, _body, _q
 
 kernelRouter.add('GET', '/api/v1/features', async (_req, _reply, _params, _body, _query, ctx) => ctx.features.list());
 kernelRouter.add('GET', '/api/v1/prophets', async () => runtimeDataset('data/prophets.json') ?? []);
+kernelRouter.add('GET', '/api/v1/engine/catalog', async (req, _reply, _params, _body, _query, ctx) => {
+  if (process.env.NODE_ENV === 'production') {
+    const authz = await requirePermission(req, ctx.auth, 'READ_AUDIT');
+    if (!authz.ok) return authz.error;
+  }
+  return engineCatalog();
+});
 
 kernelRouter.add('POST', '/api/v1/mizan', async (req, _reply, _params, body, _query, ctx) => {
   const authz = await requirePermission(req, ctx.auth, 'EVALUATE');

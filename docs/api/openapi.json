@@ -20,6 +20,18 @@
     { "name": "legacy", "description": "Deprecated reference-host compatibility routes; not new engine integration targets." }
   ],
   "paths": {
+    "/api/v1/engine/catalog": {
+      "get": {
+        "tags": ["kernel"],
+        "summary": "Discover independently testable engine and workflow operations",
+        "description": "Returns the MW_ENGINE_CATALOG_V1 integration catalog. Production access requires READ_AUDIT.",
+        "responses": {
+          "200": { "description": "Engine catalog with unit, snapshot, and workflow operations" },
+          "401": { "$ref": "#/components/responses/Error" },
+          "403": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
     "/api/v1/health": {
       "get": {
         "tags": ["health"],

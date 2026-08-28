@@ -1,10 +1,13 @@
 import path from 'node:path';
-import { WitnessDag } from '../src/ledger/witness-dag.js';
-import { LocalWitnessDagStore } from '../src/ledger/local-dag-store.js';
-import { SingleNodeWitnessKeyStore, resolveSingleNodeWitnessPassword } from '../src/ledger/single-node-keystore.js';
-import { LocalCheckpointStore } from '../src/ledger/local-checkpoint-store.js';
-import { WitnessBackupManager } from '../src/ledger/witness-backup.js';
-import { runWitnessDiagnostics } from '../src/ledger/witness-diagnostics.js';
+import {
+  LocalCheckpointStore,
+  LocalWitnessDagStore,
+  runWitnessDiagnostics,
+  SingleNodeWitnessKeyStore,
+  resolveSingleNodeWitnessPassword,
+  WitnessBackupManager,
+  WitnessDag,
+} from '@moonwitness/witness';
 
 const dataDir=path.resolve(process.env.MOONWITNESS_DATA_DIR ?? '.data');
 const witnessId=process.env.WITNESS_ID || 'SERVICE-WITNESS-001';

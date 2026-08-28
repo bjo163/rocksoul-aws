@@ -2,9 +2,7 @@
 
 ## Transport & Architecture
 
-The API uses **Node.js built-in `node:http`**. Fastify and Express are not required.
-As of `v4.4.0`, the native API is fully modularized with sub-routers for `auth`, `kernel`, `entities`, and `v1` routes.
-It includes built-in middleware for **CORS** and **Rate Limiting** directly atop the native `node:http` server.
+The canonical route surface is transport-neutral. The native `node:http` router remains the compatibility implementation while the Fastify adapter provides the staged production runtime with OpenTelemetry support. Route parity is tested in CI; clients use the same `/api/v1` contract in either mode.
 
 ## Universal endpoints
 
@@ -37,7 +35,18 @@ POST /api/v1/jobs/process
 GET  /api/v1/jobs/:id
 POST /api/v1/ingress/reminder
 POST /api/v1/ingress/reminder/trigger
+GET  /api/v1/engine/catalog
 ```
+
+## Engine test API
+
+`GET /api/v1/engine/catalog` returns `MW_ENGINE_CATALOG_V1`: the supported engine operations, their owning package, required permission, and a safe request example. It intentionally distinguishes three modes:
+
+- `UNIT`: isolated engine calls such as `POST /api/v1/mizan` and `POST /api/v1/ai/analyze`.
+- `SNAPSHOT`: deterministic read-only outputs such as Revelation snapshots.
+- `WORKFLOW`: durable orchestration through `POST /api/v1/observe`, `/analyze`, and `/evaluate`, including persistence, review-gate validation, and Witness commitment.
+
+For integration tests, use an isolated `MOONWITNESS_DATA_DIR`, call the catalog first, run a `UNIT` operation with its example, then run a `WORKFLOW` operation and assert its returned Witness reference. In production the catalog requires `READ_AUDIT`; individual operations retain their own authorization boundaries.
 
 `POST /api/v1/mizan` is the direct Mizan engine boundary. It requires `EVALUATE`, accepts the shared `MizanInput` contract, validates vectors/numeric fields before evaluation, and delegates calculation to the existing `src/engines/mizan.ts` through `src/services/mizan-service.ts`. It does not perform case persistence, Revelation scorecard orchestration, or Witness commitment. Use `/api/v1/analyze` for the complete analysis lifecycle.
 

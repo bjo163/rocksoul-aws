@@ -13,7 +13,7 @@ import { revelationMoralGraph } from '../../../../src/revelation/moral-graph/rev
 import { fourBookCorpusSnapshot } from '../../../../src/revelation/corpus/four-book-corpus.js';
 import { revelationLifecycleSnapshot } from '../../../../src/revelation/lifecycle/revelation-lifecycle.js';
 import { revelationGrammarSnapshot } from '../../../../src/revelation/grammar/revelation-grammar.js';
-import { createReview, transitionReview, type HumanDisposition, type ReviewRecord, type ReviewStatus } from '../../../../src/review/workflow.js';
+import { createReview, transitionReview, type HumanDisposition, type ReviewRecord, type ReviewStatus } from '@moonwitness/orchestrator';
 import { buildXrpWorkspace } from '../xrp-workspace.js';
 import { denyForeignRidWrite, requireScopedEntity } from '../access-control.js';
 import { sha256 } from '@moonwitness/witness';

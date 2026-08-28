@@ -25,7 +25,7 @@ The current release series is `4.x`. The root `package.json` version is the sing
 
 ## Architecture Boundary
 
-No package under `packages/` may import `fastify`, `express`, `hono`, or any module from `apps/api`. This boundary is enforced by `scripts/architecture-boundary.mjs` and validated in CI.
+No package under `packages/` may import `fastify`, `express`, `hono`, `apps/api`, or the legacy root `src/` tree. This boundary is enforced by `scripts/architecture-boundary.mjs` and validated in CI. The API compatibility adapter may import only the explicit root-runtime modules in that script's allowlist; the check reports the current import count so migration progress is visible.
 
 ## Freeze Process
 

@@ -1,4 +1,4 @@
-import { isHumanReviewGate, type HumanReviewGate, type XrpCaseSummary, type XrpWorkspaceResponse } from '../../../packages/contracts/src/index.js';
+import { isHumanReviewGate, type HumanReviewGate, type XrpCaseSummary, type XrpWorkspaceResponse } from '@moonwitness/contracts';
 import type { EntityRecord, EventRecord, EvidenceRecord, PersistenceClient } from '@moonwitness/persistence';
 import type { WitnessDag } from '@moonwitness/witness';
 

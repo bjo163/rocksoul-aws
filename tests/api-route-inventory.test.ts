@@ -8,7 +8,7 @@ const routeFiles = fs.readdirSync(routesDir).filter((file) => file.endsWith('.ts
 const routeDeclaration = /\.add\(\s*(['"])(GET|POST|PUT|PATCH|DELETE|OPTIONS|HEAD)\1\s*,\s*(['"])(\/api\/v1[^'"]+)\3/g;
 const source = fs.readdirSync(routesDir).filter((file) => file.endsWith('.ts')).map((file) => fs.readFileSync(path.join(routesDir, file), 'utf8')).join('\n');
 const declarations = [...source.matchAll(/\.add\(\s*(['"])(GET|POST|PUT|PATCH|DELETE|OPTIONS|HEAD)\1\s*,\s*(['"])(\/api\/v1[^'"]+)\3/g)].map((match) => `${match[2]} ${match[4]}`);
-const required = ['GET /api/v1/health', 'GET /api/v1/ready', 'POST /api/v1/auth/login', 'POST /api/v1/auth/refresh', 'POST /api/v1/auth/logout', 'POST /api/v1/command', 'POST /api/v1/query', 'POST /api/v1/analyze', 'POST /api/v1/evaluate', 'POST /api/v1/mizan', 'POST /api/v1/observe', 'GET /api/v1/resource/:id', 'GET /api/v1/resource/:id/evidence', 'POST /api/v1/resource/:id/evidence', 'GET /api/v1/reviews', 'POST /api/v1/reviews', 'POST /api/v1/reviews/:id/transition', 'POST /api/v1/ingress/reminder', 'POST /api/v1/ingress/reminder/trigger', 'POST /api/v1/ai/analyze'];
+const required = ['GET /api/v1/health', 'GET /api/v1/ready', 'GET /api/v1/engine/catalog', 'POST /api/v1/auth/login', 'POST /api/v1/auth/refresh', 'POST /api/v1/auth/logout', 'POST /api/v1/command', 'POST /api/v1/query', 'POST /api/v1/analyze', 'POST /api/v1/evaluate', 'POST /api/v1/mizan', 'POST /api/v1/observe', 'GET /api/v1/resource/:id', 'GET /api/v1/resource/:id/evidence', 'POST /api/v1/resource/:id/evidence', 'GET /api/v1/reviews', 'POST /api/v1/reviews', 'POST /api/v1/reviews/:id/transition', 'POST /api/v1/ingress/reminder', 'POST /api/v1/ingress/reminder/trigger', 'POST /api/v1/ai/analyze'];
 
 // Deliberately small public surface. Every other v1 operation must call an
 // authorization helper in its handler (including compatibility/legacy routes).
@@ -16,6 +16,7 @@ const publicRoutes = new Set([
   'GET /api/v1/health',
   'GET /api/v1/ready',
   'GET /api/v1/features',
+  'GET /api/v1/engine/catalog',
   'GET /api/v1/prophets',
   'POST /api/v1/auth/register',
   'POST /api/v1/auth/setup',
