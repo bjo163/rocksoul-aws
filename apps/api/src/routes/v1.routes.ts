@@ -1,5 +1,5 @@
 import { Router, isRecord, httpError, requirePermission, requireAuthenticated, idempotencyKey, bearerToken } from '../router.js';
-import { buildAiAnalysis, analyzeWithProvider } from '../../../../src/ai/general-analyzer.js';
+import { buildAiAnalysis, analyzeWithProvider } from '@moonwitness/cosmic-engine';
 import { IdempotencyStore } from '@moonwitness/persistence';
 import { replayCaseEvents } from '@moonwitness/orchestrator';
 import { composeReminderBundle } from '../../../../src/ingress/revelation-reminder-engine.js';

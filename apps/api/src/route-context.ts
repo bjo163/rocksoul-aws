@@ -15,7 +15,7 @@ import type {
   WitnessObservability,
   WitnessTransportService,
 } from '@moonwitness/witness';
-import { createDefaultSemanticProvider } from '../../../src/ai/provider.js';
+import { createDefaultSemanticProvider } from '@moonwitness/cosmic-engine';
 
 export interface Authenticator {
   authenticate(token: string): Promise<AuthorizationUser | null>;

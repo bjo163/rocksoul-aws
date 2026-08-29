@@ -5,13 +5,13 @@ import { fileURLToPath } from 'node:url';
 import { loadLegacyBackend } from './legacy-bridge.js';
 import * as authFactory from '@moonwitness/security';
 import * as featureFactory from '@moonwitness/security';
-import { createDefaultSemanticProvider } from '../../../src/ai/provider.js';
+import { createDefaultSemanticProvider } from '@moonwitness/cosmic-engine';
 import { UniverseStore, IdempotencyStore, PostgresIdempotencyStore, initializeRuntimeData, runtimeDataset } from '@moonwitness/persistence';
 import { Observability } from '@moonwitness/observability';
 import { assertPermission, hasPermission, type ActionPermission, PostgresAuthService } from '@moonwitness/security';
 import { PersistentJobQueue } from '@moonwitness/jobs';
 import { SemanticRegistry } from '@moonwitness/semantic-engine';
-import { replayCaseEvents } from '../../../src/audit/event-replay.js';
+import { replayCaseEvents } from '@moonwitness/orchestrator';
 import { createUnpredictableIngress, triggerIngress } from '../../../src/ingress/divine-ingress.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
