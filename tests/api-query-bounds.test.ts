@@ -48,3 +48,11 @@ test('cursor pages have stable entity-id ordering, a continuation token, and no 
   assert.deepEqual(second.results.map((entity) => entity.entityId), ['ENTITY-C']);
   assert.equal(second.nextCursor, undefined);
 });
+
+test('cursor pages return empty results and no continuation on exhausted cursor', () => {
+  const records = [{ entityId: 'ENTITY-A' }];
+  const page = stableCursorPage(records, 10, 'ENTITY-Z', (entity) => entity.entityId);
+  assert.deepEqual(page.results, []);
+  assert.equal(page.nextCursor, undefined);
+});
+

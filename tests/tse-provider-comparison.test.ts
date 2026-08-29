@@ -3,6 +3,7 @@ import test from 'node:test';
 import {
   astronomyEngineProvider,
   compareTemporalProviders,
+  noaaMeeusProvider,
   type EphemerisProvider,
 } from '../packages/tse-engine/src/index.ts';
 
@@ -49,6 +50,24 @@ test('TSE compares independent provider adapters without changing provider-local
   assert.equal(typeof comparison[1].relativeToBaseline.sunriseDeltaSeconds, 'number');
 });
 
+test('TSE compares astronomy-engine against independent NOAA-Meeus astronomical equations', () => {
+  const comparison = compareTemporalProviders(input, [astronomyEngineProvider, noaaMeeusProvider]);
+  assert.equal(comparison.length, 2);
+  assert.equal(comparison[0].provider.provider, 'astronomy-engine');
+  assert.equal(comparison[1].provider.provider, 'noaa-meeus');
+  assert.equal(comparison[1].provider.algorithmVersion, 'noaa-solar-meeus-v1');
+
+  const baselineSolarAlt = comparison[0].state.solar.altitudeDeg;
+  const noaaSolarAlt = comparison[1].state.solar.altitudeDeg;
+  // Independent solar altitude calculation within 0.1 degree
+  assert.ok(Math.abs(baselineSolarAlt - noaaSolarAlt) < 0.1, `Solar altitude delta ${Math.abs(baselineSolarAlt - noaaSolarAlt)} exceeds 0.1 deg`);
+
+  // Both providers produce valid, activity-independent temporal scoring
+  assert.equal(comparison[0].state.scoring.activityIndependent, true);
+  assert.equal(comparison[1].state.scoring.activityIndependent, true);
+});
+
 test('TSE requires at least two providers for a cross-provider comparison', () => {
   assert.throws(() => compareTemporalProviders(input, [astronomyEngineProvider]), /TSE_PROVIDER_COMPARISON_REQUIRES_TWO_PROVIDERS/);
 });
+

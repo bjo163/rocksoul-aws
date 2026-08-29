@@ -17,13 +17,19 @@ concurrency:
 jobs:
   propose:
     if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main')
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, cosmic]
     steps:
       - name: Checkout certified main candidate
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.workflow_run.head_sha || 'main' }}
           fetch-depth: 0
+
+      - name: Setup Node 26
+        uses: actions/setup-node@v4
+        with:
+          node-version: 26
+          cache: npm
 
       - name: Ensure candidate is current main
         if: github.event_name == 'workflow_run'
