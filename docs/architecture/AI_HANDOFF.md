@@ -1,26 +1,28 @@
 # AI HANDOFF
 
 CURRENT_BRANCH: dev
-CURRENT_COMMIT: a87d6885893034c5d826388f29e85095249e0dba
+CURRENT_COMMIT: 674cf93
 
 CURRENT_PHASE: Phase 16–24: Verification, Benchmarking, Documentation & Sign-Off
-PHASE_STATUS: In Progress — architecture targets met, lint has pre-existing migrated violations
+PHASE_STATUS: Completed
 
 COMPLETED:
 - Phase 6–10: Engine Facade & Capability Packageization
 - Phase 11–15: Host Optimization & Fastify Unification
+- Phase 16–24: Verification, Benchmarking, Documentation & Sign-Off
 - All revelation snapshots migrated to @moonwitness/revelation
 - API legacy root-src imports: 0
 - Custom router isolated to apps/api/src/compat/
+- All lint violations fixed
 - Architecture boundary check: passed
 - Typecheck: passed
+- Lint: passed
 - Build: 19 packages built
 - Engine tests: pass (3 pre-existing failures in api-witness-single-node.test.ts)
+- All commits pushed to origin/dev
 
 NOT_COMPLETED:
-- 6 lint violations (5 pre-existing in migrated root src/ files, 1 pre-existing in orchestrator)
-- 3 pre-existing test failures in api-witness-single-node.test.ts
-- Push to remote
+- 3 pre-existing test failures in api-witness-single-node.test.ts (verified on baseline)
 
 COSMIC_ENGINE:
 - `analyze`: working, unchanged
@@ -36,7 +38,7 @@ WORKFLOW:
 - All Phase 6-10 work intact
 
 API:
-- Legacy imports: 0 (down from 8)
+- Legacy imports: 0
 - All revelation snapshot imports now use `@moonwitness/revelation`
 - Router isolated to `apps/api/src/compat/`
 
@@ -51,7 +53,7 @@ ROOT_SRC:
 ARCHITECTURE:
 - Boundary check: passed with 0 legacy imports
 - Typecheck: passed
-- Lint: 1 pre-existing violation (revelation-story-engine.ts)
+- Lint: passed
 - Package build: 19 packages built
 
 TESTS:
@@ -59,20 +61,19 @@ TESTS:
 - `npm run test:engine`: 3 pre-existing failures in api-witness-single-node.test.ts
 - `npm run architecture:check`: passed (0 legacy imports)
 - `npm run typecheck`: passed
+- `npm run lint`: passed
 - `npm run build:packages`: passed
 
 KNOWN_FAILURES:
-- 3 pre-existing failures in `tests/api-witness-single-node.test.ts`:
+- 3 pre-existing failures in `tests/api-witness-single-node.test.ts` (verified on baseline commit 23a9e37):
   1. evaluation exposes the review gate and commits it to the Witness envelope
   2. persisted evidence is loaded into subsequent case analysis
   3. conflicting persisted evidence remains visible to subsequent analysis
-- 1 pre-existing lint violation in `packages/orchestrator/src/ingress/revelation-story-engine.ts:71`
 
 NEXT_WORKER:
-- Address pre-existing lint violation in revelation-story-engine.ts
 - Investigate and fix 3 pre-existing test failures in api-witness-single-node.test.ts
 - Consider Phase 16-24: Worker Separation & Host Neutrality per WORKER_CONTRACT.md
-- Push commits to remote when ready
+- No further architecture migration work pending
 
 READ_FIRST:
 - docs/architecture/FINAL_REFACTOR_REPORT.md
@@ -82,8 +83,7 @@ READ_FIRST:
 - packages/revelation/src/index.ts
 
 EDIT_FIRST:
-- packages/orchestrator/src/ingress/revelation-story-engine.ts (lint fix)
-- tests/api-witness-single-node.test.ts (investigate failures)
+- tests/api-witness-single-node.test.ts (investigate pre-existing failures)
 
 DO_NOT_REPEAT:
 - Do NOT re-audit architecture (already documented)
@@ -105,7 +105,7 @@ ACCEPTANCE_CRITERIA:
 - package public APIs are clean: YES
 - architecture checker passes: YES
 - typecheck passes: YES
-- lint: 1 pre-existing violation
+- lint passes: YES
 - package tests pass: YES
 - engine tests pass: YES (3 pre-existing failures)
 - full test suite passes or pre-existing failures documented: YES
