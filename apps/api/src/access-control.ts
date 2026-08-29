@@ -1,6 +1,6 @@
 import type { IncomingMessage } from 'node:http';
 import type { EntityRecord } from '@moonwitness/persistence';
-import type { AuthorizationUser } from '../../../src/security/authorization.js';
+import type { AuthorizationUser } from '@moonwitness/security';
 import { bearerToken, httpError } from './router.js';
 
 function object(value: unknown): Record<string, unknown> {

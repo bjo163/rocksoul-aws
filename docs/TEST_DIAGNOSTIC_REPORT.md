@@ -1,8 +1,8 @@
 # Cosmic Engine Diagnostic & Scoring Report
 
-**Generated At:** `2026-08-29T00:57:05.350Z`  
+**Generated At:** `2026-08-29T01:20:17.152Z`  
 **Runtime:** `v26.5.0 (win32)`  
-**Diagnostic Duration:** `66.58 ms` | **Heap Delta:** `0.37 MB`
+**Diagnostic Duration:** `77.21 ms` | **Heap Delta:** `2.77 MB`
 
 ---
 
@@ -15,12 +15,12 @@
 - **Hypothesis 45° Evaluated:** `5` hypotheses
 
 ### B. Mizan Moral & Semantic Engine
-- **Throughput:** `34.508 ops/sec`
-- **Latency:** `0.0290 ms/op`
+- **Throughput:** `31.424 ops/sec`
+- **Latency:** `0.0318 ms/op`
 - **Theological Safeguard Integrity:** **100% Bound**
 
 ### C. Persistence & Conformance
-- **Write Latency:** `0.0564 ms/op`
+- **Write Latency:** `0.0609 ms/op`
 - **Driver Surface:** Clean `Memory`, `File`, `PostgreSQL` (SQLite completely excised)
 
 ---
