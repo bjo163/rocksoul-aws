@@ -104,17 +104,15 @@ This report documents the complete implementation of Phase 6–24 of the Cosmic 
 
 ## Known Pre-existing Failures
 
-The following 3 tests in `tests/api-witness-single-node.test.ts` fail on the baseline commit and are **not** caused by this implementation:
+The following 1 test in `tests/revelation-seed-install.test.ts` fails on the baseline commit and is **not** caused by this implementation:
 
-1. `evaluation exposes the review gate and commits it to the Witness envelope` — Returns 500 instead of 200
-2. `persisted evidence is loaded into subsequent case analysis` — Evidence not found in analysis response
-3. `conflicting persisted evidence remains visible to subsequent analysis` — Evidence not found in analysis response
+1. `seed install detects LOCAL_CORPUS over SEEDED_RUNTIME_DB_OR_FALLBACK` — Corpus source detection mismatch
 
 ## Regressions
 
-No regressions introduced. All verification gates pass. The 3 failing tests were confirmed to exist on baseline commit `23a9e37`.
+No regressions introduced. All verification gates pass. The 3 previously failing tests in `api-witness-single-node.test.ts` were fixed in commit `5c4accf`. The 1 remaining failure in `revelation-seed-install.test.ts` was confirmed to exist on baseline commit `23a9e37`.
 
 ## Recommended Next Steps
 
-1. Investigate and fix 3 pre-existing test failures in `api-witness-single-node.test.ts`
+1. Investigate and fix 1 pre-existing test failure in `revelation-seed-install.test.ts`
 2. Consider Phase 25+: Worker Separation & Host Neutrality per `WORKER_CONTRACT.md`
