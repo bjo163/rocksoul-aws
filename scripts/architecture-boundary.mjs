@@ -8,6 +8,8 @@ const packageHostImportPatterns = [
   /(?:^|[\\/])src[\\/](?:api|routes|server|app)(?:[\\/]|$)/,
   /^(?:express|fastify|hono)(?:\/|$)/,
 ];
+const packageNames = new Set();
+const packageDirs = new Map();
 // The API is the temporary compatibility adapter for the legacy root runtime.
 // Keep this list explicit so new root-src dependencies fail architecture CI and
 // can be migrated deliberately into packages instead of growing silently.
@@ -22,6 +24,31 @@ const apiRootSrcAllowlist = new Set([
 const violations = [];
 const apiRootSrcImports = new Set();
 
+const packageGraph = new Map();
+for (const entry of await readdir('packages', { withFileTypes: true })) {
+  if (!entry.isDirectory()) continue;
+  try {
+    const manifest = JSON.parse(await readFile(join('packages', entry.name, 'package.json'), 'utf8'));
+    const deps = { ...(manifest.dependencies ?? {}), ...(manifest.peerDependencies ?? {}) };
+    packageGraph.set(`@moonwitness/${entry.name}`, Object.keys(deps).filter((name) => name.startsWith('@moonwitness/')));
+  } catch {}
+}
+const visiting = new Set();
+const visited = new Set();
+function findCycles(node, path = []) {
+  if (visiting.has(node)) {
+    const start = path.indexOf(node);
+    violations.push(`circular workspace dependency: ${[...path.slice(start), node].join(' -> ')}`);
+    return;
+  }
+  if (visited.has(node)) return;
+  visiting.add(node);
+  for (const dependency of packageGraph.get(node) ?? []) findCycles(dependency, [...path, node]);
+  visiting.delete(node);
+  visited.add(node);
+}
+for (const packageName of packageGraph.keys()) findCycles(packageName);
+
 async function walk(dir) {
   let entries = [];
   try { entries = await readdir(dir, { withFileTypes: true }); } catch { return; }
@@ -32,14 +59,24 @@ async function walk(dir) {
     else if (sourceExtensions.has(path.slice(path.lastIndexOf('.')))) {
       const text = await readFile(path, 'utf8');
       const imports = [...text.matchAll(/(?:from\s+|import\s*\(\s*|require\(\s*)["']([^"']+)["']/g)].map((m) => m[1]);
+      const normalizedPath = path.replaceAll('\\', '/');
       for (const specifier of imports) {
         if (specifier.startsWith('apps/') || specifier.startsWith('packages/')) {
           violations.push(`${path}: cross-workspace absolute import ${specifier}`);
         }
+        if (normalizedPath.startsWith('packages/')) {
+          const packageName = normalizedPath.split('/')[1];
+          const workspaceMatch = specifier.match(/^@moonwitness\/([^/]+)(?:\/|$)/);
+          if (workspaceMatch && workspaceMatch[1] === packageName) {
+            violations.push(`${path}: package self-imports through workspace name ${specifier}`);
+          }
+          if (workspaceMatch && specifier.includes('/src/')) {
+            violations.push(`${path}: package deep-imports another package source ${specifier}`);
+          }
+        }
         if (specifier.includes('/apps/')) {
           violations.push(`${path}: cross-app import ${specifier}`);
         }
-        const normalizedPath = path.replaceAll('\\', '/');
         if (normalizedPath.startsWith('packages/') && packageHostImportPatterns.some((pattern) => pattern.test(specifier))) {
           violations.push(`${path}: package imports host-specific module ${specifier}`);
         }

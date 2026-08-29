@@ -1,29 +1,23 @@
 {
-  "name": "@moonwitness/cosmic-engine",
+  "name": "@moonwitness/intelligence",
   "version": "4.33.0",
-  "description": "Host-neutral Cosmic facade for temporal facts, candidate semantic observations, Mizan context, and explanations",
+  "description": "Composable, host-neutral Cosmic intelligence engine facade",
   "private": true,
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    }
-  },
+  "exports": { ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" } },
   "scripts": {
     "typecheck": "tsc --noEmit --target ES2022 --module NodeNext --moduleResolution NodeNext --skipLibCheck src/index.ts",
-    "test": "tsx --test test/cosmic-engine.test.ts"
+    "test": "tsx --test test/intelligence.test.ts"
   },
   "dependencies": {
-    "@moonwitness/contracts": "4.33.0",
     "@moonwitness/explanation-engine": "4.33.0",
     "@moonwitness/mizan-engine": "4.33.0",
-    "@moonwitness/orchestrator": "4.33.0",
     "@moonwitness/semantic-engine": "4.33.0",
     "@moonwitness/temporal-engine": "4.33.0",
     "@moonwitness/tse-engine": "4.33.0",
     "@moonwitness/workflow": "4.33.0"
-  }
+  },
+  "devDependencies": { "tsx": "^4.19.0", "typescript": "^5.8.3" }
 }

@@ -5,8 +5,8 @@ import { explainLegalResult, explainTemporalContext } from '@moonwitness/explana
 import { buildAnalyticalSemanticVector, SemanticRegistry } from '@moonwitness/semantic-engine';
 import { compareTime, makeTimeEvent, now } from '@moonwitness/temporal-engine';
 import { createProvenanceAuditPackage } from './provenance-export.js';
-import { executeWorkflow, getWorkflow, type WorkflowDefinition, type WorkflowExecutionResult } from '@moonwitness/workflow';
-import { registerOrchestratorWorkflows } from '@moonwitness/workflow';
+import { executeWorkflow, getWorkflow, globalWorkflowRegistry, type WorkflowDefinition, type WorkflowExecutionResult } from '@moonwitness/workflow';
+import { registerOrchestratorWorkflows } from '@moonwitness/orchestrator';
 export { createProvenanceAuditPackage, serializeProvenanceAuditPackage, verifyProvenanceAuditPackage } from './provenance-export.js';
 export type { AuditExportInput, ProvenanceAuditPackage } from './provenance-export.js';
 export type { WorkflowExecutionResult } from '@moonwitness/workflow';
@@ -157,7 +157,9 @@ export async function createCosmicEngine(configOrRoot: string | CosmicEngineConf
   const config: CosmicEngineConfig = typeof configOrRoot === 'string' ? { root } : { root, ...configOrRoot };
   const semanticProvider = createDefaultSemanticProvider(root);
 
-  await registerOrchestratorWorkflows();
+  // Compatibility behavior for the legacy facade. New consumers should use
+  // @moonwitness/intelligence and pass workflows explicitly.
+  registerOrchestratorWorkflows(globalWorkflowRegistry);
 
   return Object.freeze({
     config,
@@ -255,6 +257,7 @@ export async function createCosmicEngine(configOrRoot: string | CosmicEngineConf
       }
       const startedAt = new Date();
       try {
+        if (!definition.execute) throw new Error(`WORKFLOW_EXECUTOR_UNSUPPORTED_STEPS: ${definition.id}`);
         const output = await definition.execute(input, context ?? ({} as TContext));
         const completedAt = new Date();
         return {
@@ -281,4 +284,3 @@ export async function createCosmicEngine(configOrRoot: string | CosmicEngineConf
     },
   });
 }
-

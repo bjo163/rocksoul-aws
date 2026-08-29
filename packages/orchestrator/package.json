@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@moonwitness/contracts": "4.33.0",
+    "@moonwitness/workflow": "4.33.0",
     "@moonwitness/revelation": "4.33.0",
     "@moonwitness/persistence": "4.33.0"
   }

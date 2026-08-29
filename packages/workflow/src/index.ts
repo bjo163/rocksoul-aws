@@ -1,5 +1,10 @@
 export type {
   WorkflowDefinition,
+  WorkflowStep,
+  WorkflowContext,
+  WorkflowResult,
+  RetryPolicy,
+  WorkflowMetadata,
   WorkflowExecutionContext,
   WorkflowExecutionResult,
   WorkflowRegistry,
@@ -17,22 +22,9 @@ export {
 
 export {
   DefaultWorkflowExecutor,
+  createWorkflowExecutor,
   globalWorkflowExecutor,
   executeWorkflow,
 } from './executor.js';
 
-export {
-  analysisWorkflowDefinition,
-  observationWorkflowDefinition,
-  evaluationWorkflowDefinition,
-  evidenceWorkflowDefinition,
-  createReviewWorkflowDefinition,
-  transitionReviewWorkflowDefinition,
-  aiAnalysisWorkflowDefinition,
-  scheduleIngressWorkflowDefinition,
-  triggerIngressWorkflowDefinition,
-  registerOrchestratorWorkflows,
-  ORCHESTRATOR_WORKFLOW_IDS,
-  type OrchestratorWorkflowId,
-  type OrchestratorPorts,
-} from './orchestrator-adapters.js';
+export { defineWorkflow, composeWorkflows } from './composition.js';

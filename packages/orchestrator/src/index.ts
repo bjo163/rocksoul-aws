@@ -330,3 +330,4 @@ export * from './ingress/divine-ingress.js';
 export * from './ingress/revelation-pattern-engine.js';
 export * from './ingress/revelation-story-engine.js';
 export * from './ingress/quran-narrative-pattern-engine.js';
+export * from './workflow-definitions.js';

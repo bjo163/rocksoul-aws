@@ -8,7 +8,7 @@ const packagesRoot = path.join(repo, 'packages');
 const order = [
   'contracts', 'persistence', 'observability', 'security', 'domains', 'witness', 'jobs', 'data-access', 'kernel',
   'revelation', 'temporal-engine', 'semantic-engine', 'mizan-engine',
-  'explanation-engine', 'tse-engine', 'workflow', 'cosmic-engine', 'orchestrator', 'sdk',
+  'explanation-engine', 'tse-engine', 'workflow', 'orchestrator', 'intelligence', 'cosmic-engine', 'sdk',
 ];
 // These facades still bridge legacy root src/ modules. They remain available to
 // the transpile runner until that compatibility boundary is retired.

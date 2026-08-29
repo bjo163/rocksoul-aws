@@ -1,13 +1,14 @@
-import type { WorkflowDefinition, WorkflowExecutionContext, WorkflowExecutionResult, WorkflowExecutor } from './types.js';
-import { getWorkflow } from './registry.js';
+import type { WorkflowDefinition, WorkflowExecutionContext, WorkflowExecutionResult, WorkflowExecutor, WorkflowRegistry } from './types.js';
+import { globalWorkflowRegistry } from './registry.js';
 
 export class DefaultWorkflowExecutor implements WorkflowExecutor {
+  constructor(private readonly registry: WorkflowRegistry = globalWorkflowRegistry) {}
   async execute<Input, Output, Context>(
     workflowId: string,
     input: Input,
     context: Context
   ): Promise<WorkflowExecutionResult<Output>> {
-    const definition = getWorkflow<Input, Output, Context>(workflowId);
+    const definition = this.registry.get<Input, Output, Context>(workflowId);
     if (!definition) {
       throw new Error(`WORKFLOW_NOT_FOUND: ${workflowId}`);
     }
@@ -21,6 +22,7 @@ export class DefaultWorkflowExecutor implements WorkflowExecutor {
     };
 
     try {
+      if (!definition.execute) throw new Error(`WORKFLOW_EXECUTOR_UNSUPPORTED_STEPS: ${workflowId}`);
       const output = await definition.execute(input, context);
       const completedAt = new Date();
       return {
@@ -48,6 +50,10 @@ export class DefaultWorkflowExecutor implements WorkflowExecutor {
 }
 
 export const globalWorkflowExecutor = new DefaultWorkflowExecutor();
+
+export function createWorkflowExecutor(registry: WorkflowRegistry = globalWorkflowRegistry): WorkflowExecutor {
+  return new DefaultWorkflowExecutor(registry);
+}
 
 export async function executeWorkflow<Input, Output, Context>(
   workflowId: string,
