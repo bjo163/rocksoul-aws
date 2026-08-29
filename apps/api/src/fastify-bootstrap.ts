@@ -1,6 +1,6 @@
 import type { FastifyInstance, FastifyReply } from 'fastify';
 import type { RouteContext } from './route-context.js';
-import type { Router } from './router.js';
+import type { Router } from './compat/router.js';
 import type { UniverseStore } from '@moonwitness/persistence';
 import type { PersistentJobQueue } from '@moonwitness/jobs';
 import type { WitnessRouteContext } from './route-context.js';

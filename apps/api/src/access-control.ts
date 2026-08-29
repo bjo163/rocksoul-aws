@@ -1,7 +1,7 @@
 import type { IncomingMessage } from 'node:http';
 import type { EntityRecord } from '@moonwitness/persistence';
 import type { AuthorizationUser } from '@moonwitness/security';
-import { bearerToken, httpError } from './router.js';
+import { bearerToken, httpError } from './compat/router.js';
 
 function object(value: unknown): Record<string, unknown> {
   return value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : {};

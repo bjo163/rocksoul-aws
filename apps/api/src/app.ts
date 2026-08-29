@@ -25,7 +25,7 @@ export interface HttpApp {
   router: Router;
 }
 
-import { Router, writeJson, isHttpError, isStatusBody, readJsonBody, HttpBodyError } from './router.js';
+import { Router, writeJson, isHttpError, isStatusBody, readJsonBody, HttpBodyError } from './compat/router.js';
 import { authRouter } from './routes/auth.routes.js';
 import { kernelRouter } from './routes/kernel.routes.js';
 import { entitiesRouter } from './routes/entities.routes.js';

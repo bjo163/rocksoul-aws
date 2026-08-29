@@ -1,11 +1,15 @@
-import { scriptureCorpusStatus, scriptureSourcePolicy } from '../source-policy.js';
+import { scriptureSourcePolicy, scriptureCorpusStatus } from '../source-policy.js';
 import { mineAsmaCandidates } from './candidate-miner.js';
+import { mineExplicitDivineRelations } from './relation-miner.js';
+import { buildTopAsmaSemanticFields } from './semantic-field.js';
+import { divineOntologySnapshot } from './divine-ontology.js';
 import type { AsmaCandidate } from './types.js';
 
 export function asmaEngineCandidates(root=process.cwd()): AsmaCandidate[] { return mineAsmaCandidates(root); }
 
 export function asmaEngineSnapshot(root=process.cwd(), options:{maxCandidates?:number;maxFields?:number}={} ) {
   const allCandidates=mineAsmaCandidates(root);
+  const relations=mineExplicitDivineRelations(root);
   const maxCandidates=Math.max(1,Number(options.maxCandidates ?? 120));
   const maxFields=Math.max(0,Number(options.maxFields ?? 30));
   return {
@@ -21,8 +25,10 @@ export function asmaEngineSnapshot(root=process.cwd(), options:{maxCandidates?:n
     unavailableCorpora:[],
     candidates:allCandidates.slice(0,maxCandidates),
     candidateCount:allCandidates.length,
-    semanticFields:[],
-    divineOntology:null,
+    explicitRelations:relations,
+    explicitRelationCount:relations.length,
+    semanticFields:buildTopAsmaSemanticFields(allCandidates,root,maxFields),
+    divineOntology:divineOntologySnapshot(root),
     invariants:{
       canonical99Hardcoded:false,
       humanCuratedNameListUsed:false,

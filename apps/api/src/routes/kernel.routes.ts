@@ -1,4 +1,4 @@
-import { Router, httpError, requirePermission, writeJson } from '../router.js';
+import { Router, httpError, requirePermission, writeJson } from '../compat/router.js';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';

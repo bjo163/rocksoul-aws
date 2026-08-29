@@ -17,10 +17,6 @@ const apiRootSrcAllowlist = new Set([
   'config-loader.js', 'contracts/mizan.js', 'ingress/divine-ingress.js',
   'ingress/revelation-reminder-engine.js', 'ledger/distributed-witness.js',
   'ledger/witness-mizan.js', 'observability/observability.js',
-  'revelation/asma/asma-engine.js', 'revelation/asma/divine-ontology.js',
-  'revelation/corpus/four-book-corpus.js', 'revelation/grammar/revelation-grammar.js',
-  'revelation/lifecycle/revelation-lifecycle.js', 'revelation/moral-graph/revelation-moral-graph.js',
-  'revelation/revelation-geography.js', 'revelation/revelation-semantic-core.js',
   'review/workflow.js', 'security/authorization.js',
 ]);
 const violations = [];
