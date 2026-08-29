@@ -23,9 +23,12 @@
 - [x] Migrate reminder engine into `@moonwitness/orchestrator` / `@moonwitness/revelation`.
 - [x] Reduce legacy imports in `apps/api` to 8 (from 10).
 
-## Phase 11–15: Host Optimization & Fastify Unification
-- [ ] Align `apps/api` strictly as a thin consumer of `@moonwitness/*` packages.
-- [ ] Validate staging Fastify runtime with complete route parity.
+## Phase 11–15: Host Optimization & Fastify Unification (COMPLETED)
+- [x] Align `apps/api` strictly as a thin consumer of `@moonwitness/*` packages.
+- [x] Validate staging Fastify runtime with complete route parity.
+- [x] Migrate all revelation snapshot functions to `@moonwitness/revelation` package.
+- [x] Reduce API legacy root-src imports to 0.
+- [x] Isolate custom router to `apps/api/src/compat/router.ts`.
 
 ## Phase 16–24: Verification, Benchmarking, Documentation & Sign-Off
 - [ ] Run diagnostic benchmark and verify Mizan throughput (>50k ops/sec).
