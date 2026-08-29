@@ -325,3 +325,8 @@ export * from './queue-port.js';
 export * from './ai-analysis-workflow.js';
 export * from './ingress-workflow.js';
 export * from './audit.js';
+export * from './ingress/revelation-reminder-engine.js';
+export * from './ingress/divine-ingress.js';
+export * from './ingress/revelation-pattern-engine.js';
+export * from './ingress/revelation-story-engine.js';
+export * from './ingress/quran-narrative-pattern-engine.js';

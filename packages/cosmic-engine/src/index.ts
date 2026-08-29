@@ -5,8 +5,11 @@ import { explainLegalResult, explainTemporalContext } from '@moonwitness/explana
 import { buildAnalyticalSemanticVector, SemanticRegistry } from '@moonwitness/semantic-engine';
 import { compareTime, makeTimeEvent, now } from '@moonwitness/temporal-engine';
 import { createProvenanceAuditPackage } from './provenance-export.js';
+import { executeWorkflow, getWorkflow, type WorkflowDefinition, type WorkflowExecutionResult } from '@moonwitness/workflow';
+import { registerOrchestratorWorkflows } from '@moonwitness/workflow';
 export { createProvenanceAuditPackage, serializeProvenanceAuditPackage, verifyProvenanceAuditPackage } from './provenance-export.js';
 export type { AuditExportInput, ProvenanceAuditPackage } from './provenance-export.js';
+export type { WorkflowExecutionResult } from '@moonwitness/workflow';
 
 export {
   buildAnalyticalSemanticVector,
@@ -149,10 +152,12 @@ export interface ExplainInput {
  * Integration facade for Moonwitness and host applications.
  * Exposes unified operations: analyze, query, evaluate, explain, execute.
  */
-export function createCosmicEngine(configOrRoot: string | CosmicEngineConfig = process.cwd()) {
+export async function createCosmicEngine(configOrRoot: string | CosmicEngineConfig = process.cwd()) {
   const root = typeof configOrRoot === 'string' ? configOrRoot : (configOrRoot.root ?? process.cwd());
   const config: CosmicEngineConfig = typeof configOrRoot === 'string' ? { root } : { root, ...configOrRoot };
   const semanticProvider = createDefaultSemanticProvider(root);
+
+  await registerOrchestratorWorkflows();
 
   return Object.freeze({
     config,
@@ -232,13 +237,47 @@ export function createCosmicEngine(configOrRoot: string | CosmicEngineConfig = p
         timestamp: now(),
       };
     },
-    async execute(workflow: string, input: Record<string, unknown>, _ports?: Record<string, unknown>) {
-      return {
-        workflow,
-        status: 'ACCEPTED',
-        executedAt: now(),
-        payload: input,
-      };
+    async execute<TInput = Record<string, unknown>, TOutput = unknown, TContext = Record<string, unknown>>(
+      workflow: string | WorkflowDefinition<TInput, TOutput, TContext>,
+      input: TInput,
+      context?: TContext
+    ): Promise<WorkflowExecutionResult<TOutput>> {
+      if (typeof workflow === 'string') {
+        const definition = getWorkflow<TInput, TOutput, TContext>(workflow);
+        if (!definition) {
+          throw new Error(`WORKFLOW_NOT_FOUND: ${workflow}`);
+        }
+        return executeWorkflow(workflow, input, context ?? ({} as TContext));
+      }
+      const definition = workflow;
+      if (!definition.id) {
+        throw new Error('WORKFLOW_DEFINITION_MISSING_ID');
+      }
+      const startedAt = new Date();
+      try {
+        const output = await definition.execute(input, context ?? ({} as TContext));
+        const completedAt = new Date();
+        return {
+          workflowId: definition.id,
+          version: definition.version,
+          status: 'COMPLETED',
+          output,
+          startedAt,
+          completedAt,
+          metadata: {},
+        };
+      } catch (error) {
+        const completedAt = new Date();
+        return {
+          workflowId: definition.id,
+          version: definition.version,
+          status: 'FAILED',
+          error: error instanceof Error ? error : new Error(String(error)),
+          startedAt,
+          completedAt,
+          metadata: {},
+        };
+      }
     },
   });
 }

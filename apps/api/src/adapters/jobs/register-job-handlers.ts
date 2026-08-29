@@ -1,8 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { buildAiAnalysis, analyzeWithProvider } from '@moonwitness/cosmic-engine';
-import { composeReminderBundle } from '../../../../../src/ingress/revelation-reminder-engine.js';
+import { composeReminderBundle, runAiAnalyzeWorkflow, type WorkflowEvidence } from '@moonwitness/orchestrator';
 import { appendMizanWitness, signCheckpoint as signWitnessCheckpoint } from '@moonwitness/witness';
-import { runAiAnalyzeWorkflow, type WorkflowEvidence } from '@moonwitness/orchestrator';
 
 type RecordValue = Record<string, unknown>;
 

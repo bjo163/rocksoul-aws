@@ -11,8 +11,7 @@ import { Observability } from '@moonwitness/observability';
 import { assertPermission, hasPermission, type ActionPermission, PostgresAuthService } from '@moonwitness/security';
 import { PersistentJobQueue } from '@moonwitness/jobs';
 import { SemanticRegistry } from '@moonwitness/semantic-engine';
-import { replayCaseEvents } from '@moonwitness/orchestrator';
-import { createUnpredictableIngress, triggerIngress } from '../../../src/ingress/divine-ingress.js';
+import { replayCaseEvents, createUnpredictableIngress, triggerIngress } from '@moonwitness/orchestrator';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 

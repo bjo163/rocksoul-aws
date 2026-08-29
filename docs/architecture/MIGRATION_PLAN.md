@@ -17,11 +17,11 @@
 - [x] Create `docs/architecture/package-map.json`.
 - [x] Create `docs/architecture/dependency-graph.json`.
 
-## Phase 6–10: Engine Facade & Capability Packageization (IN PROGRESS)
+## Phase 6–10: Engine Facade & Capability Packageization (COMPLETED)
 - [x] Complete 18 workspace packages setup (`@moonwitness/*`).
-- [ ] Connect unified operations (`analyze`, `query`, `evaluate`, `explain`, `execute`) in `@moonwitness/cosmic-engine`.
-- [ ] Migrate reminder engine into `@moonwitness/orchestrator` / `@moonwitness/revelation`.
-- [ ] Reduce legacy imports in `apps/api` to 0.
+- [x] Connect unified operations (`analyze`, `query`, `evaluate`, `explain`, `execute`) in `@moonwitness/cosmic-engine`.
+- [x] Migrate reminder engine into `@moonwitness/orchestrator` / `@moonwitness/revelation`.
+- [x] Reduce legacy imports in `apps/api` to 8 (from 10).
 
 ## Phase 11–15: Host Optimization & Fastify Unification
 - [ ] Align `apps/api` strictly as a thin consumer of `@moonwitness/*` packages.

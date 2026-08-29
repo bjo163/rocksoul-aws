@@ -1,7 +1,7 @@
 {
-  "name": "@moonwitness/orchestrator",
+  "name": "@moonwitness/workflow",
   "version": "4.33.0",
-  "description": "Host-neutral workflows that coordinate Cosmic engines through injected persistence, witness, review, and job ports",
+  "description": "Host-neutral workflow registry and executor for durable business workflows",
   "private": true,
   "type": "module",
   "main": "./dist/index.js",
@@ -16,8 +16,6 @@
     "typecheck": "tsc --noEmit --target ES2022 --module NodeNext --moduleResolution NodeNext --skipLibCheck src/index.ts"
   },
   "dependencies": {
-    "@moonwitness/contracts": "4.33.0",
-    "@moonwitness/revelation": "4.33.0",
-    "@moonwitness/persistence": "4.33.0"
+    "@moonwitness/contracts": "4.33.0"
   }
 }

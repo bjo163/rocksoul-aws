@@ -3,7 +3,7 @@ import test from 'node:test';
 import { createCosmicEngine } from '../packages/cosmic-engine/src/index.ts';
 
 test('createCosmicEngine exposes unified operations (analyze, query, evaluate, explain, execute)', async () => {
-  const cosmic = createCosmicEngine({
+  const cosmic = await createCosmicEngine({
     logLevel: 'info',
     storage: { type: 'memory' }
   });
@@ -45,7 +45,8 @@ test('createCosmicEngine exposes unified operations (analyze, query, evaluate, e
   });
   assert.equal(temporalQuery.type, 'TEMPORAL');
   assert.ok(temporalQuery.temporal);
-  assert.ok(typeof (temporalQuery.temporal as any).solar?.altitudeDeg === 'number');
+  const temporalObj = temporalQuery.temporal as Record<string, unknown>;
+  assert.ok(typeof temporalObj.solar?.altitudeDeg === 'number');
 
   // 4. Evaluate operation (Mizan evaluation)
   const mizanEval = await cosmic.evaluate({
@@ -66,12 +67,22 @@ test('createCosmicEngine exposes unified operations (analyze, query, evaluate, e
   });
   assert.ok(explanation === null || typeof explanation === 'object');
 
-  // 6. Execute operation (Workflow dispatch)
-  const execution = await cosmic.execute('EVIDENCE_ATTACHMENT', {
-    caseId: 'CASE-FACADE-001',
+  // 6. Execute operation (Workflow dispatch) - with mock ports for evidence workflow
+  const mockEvidencePorts = {
+    listEvidence: async () => [],
+    saveEvidence: async (record: Record<string, unknown>) => record,
+  };
+  const execution = await cosmic.execute('evidence-attachment', {
+    entityId: 'CASE-FACADE-001',
+    actorId: 'TEST-ACTOR-001',
     evidenceId: 'EVD-FACADE-001',
-  });
-  assert.equal(execution.workflow, 'EVIDENCE_ATTACHMENT');
-  assert.equal(execution.status, 'ACCEPTED');
-  assert.ok(execution.executedAt);
+    sourceType: 'USER_SUBMITTED',
+    status: 'OBSERVED',
+    payload: { note: 'Test evidence' },
+  }, mockEvidencePorts);
+  assert.equal(execution.workflowId, 'evidence-attachment');
+  assert.equal(execution.status, 'COMPLETED');
+  assert.ok(execution.startedAt);
+  assert.ok(execution.output);
+  assert.equal((execution.output as Record<string, unknown>).status, 'EVIDENCE_RECORDED');
 });

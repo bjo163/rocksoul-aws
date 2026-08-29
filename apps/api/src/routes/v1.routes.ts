@@ -1,9 +1,7 @@
 import { Router, isRecord, httpError, requirePermission, requireAuthenticated, idempotencyKey, bearerToken } from '../router.js';
 import { buildAiAnalysis, analyzeWithProvider } from '@moonwitness/cosmic-engine';
 import { IdempotencyStore } from '@moonwitness/persistence';
-import { replayCaseEvents } from '@moonwitness/orchestrator';
-import { composeReminderBundle } from '../../../../src/ingress/revelation-reminder-engine.js';
-import { createUnpredictableIngress, triggerIngress } from '../../../../src/ingress/divine-ingress.js';
+import { replayCaseEvents, createUnpredictableIngress, triggerIngress, composeReminderBundle } from '@moonwitness/orchestrator';
 import { v } from '../validator.js';
 import { revelationSemanticCoreSnapshot } from '../../../../src/revelation/revelation-semantic-core.js';
 import { revelationGeographyReport } from '../../../../src/revelation/revelation-geography.js';

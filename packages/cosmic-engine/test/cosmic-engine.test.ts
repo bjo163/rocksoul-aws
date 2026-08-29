@@ -3,7 +3,7 @@ import test from 'node:test';
 import { createCosmicEngine, createProvenanceAuditPackage, serializeProvenanceAuditPackage, toCosmicSemanticObservation, verifyProvenanceAuditPackage } from '../src/index.js';
 
 test('Cosmic facade is deterministic and host-neutral', async () => {
-  const engine = createCosmicEngine();
+  const engine = await createCosmicEngine();
   const first = await engine.analyzeSemantic('ambiguous input');
   const second = await engine.analyzeSemantic('ambiguous input');
   assert.deepEqual(first, second);
@@ -23,8 +23,8 @@ test('Cosmic facade keeps provider observations non-authoritative', () => {
   assert.match(result.diagnostics[0], /non-authoritative/);
 });
 
-test('Cosmic facade exposes bounded Mizan evaluation', () => {
-  const engine = createCosmicEngine();
+test('Cosmic facade exposes bounded Mizan evaluation', async () => {
+  const engine = await createCosmicEngine();
   const result = engine.evaluateMizan({ semantic: { R: 1, G: 0, B: 0, L: 0 } });
   assert.equal(result.modelOnly, true);
   assert.ok(Number.isFinite(result.raw));
