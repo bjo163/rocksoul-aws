@@ -6,7 +6,7 @@ type Loose=Record<string,any>;
 const uniq=<T>(xs:T[])=>[...new Set(xs)];
 const clamp01=(n:number)=>Math.max(0,Math.min(1,n));
 const stageCache=new Map<string,LifecycleGrounding>();
-let snapshotCache:{key:string;value:any}|null=null;
+  let snapshotCache:{key:string;value:unknown}|null=null;
 
 function profile():Loose{return runtimeDatasetOr('data/revelation/lifecycle-query-profile.json',{stages:{}}) as Loose;}
 

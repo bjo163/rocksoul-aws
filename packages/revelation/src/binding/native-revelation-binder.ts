@@ -82,7 +82,7 @@ function localDirectionFor(reference:string, matched:string[], focus:string[], f
   if(exact.length){
     const maxP=Math.max(...exact.map(x=>x.priority));
     const best=exact.filter(x=>x.priority===maxP);
-    return {direction:dirFrom(best.map(x=>x.direction)),evidenceKind:uniq(best.map(x=>x.kind)),grammarFrameIds:uniq(best.map((x:any)=>String(x.grammarFrameId??'')).filter(Boolean))};
+    return {direction:dirFrom(best.map(x=>x.direction)),evidenceKind:uniq(best.map(x=>x.kind)),grammarFrameIds:uniq(best.map((x)=>String(x.grammarFrameId??'')).filter(Boolean))};
   }
 
   const negativeConsequence=scored.filter(x=>['NEGATIVE_CONSEQUENCE_NAKAL','CONDEMNATION_FISQ_SURFACE','PUNISHMENT_SURFACE','DIVINE_DOES_NOT_GUIDE','DIVINE_DOES_NOT_FORGIVE'].includes(x.kind));
@@ -96,7 +96,7 @@ function localDirectionFor(reference:string, matched:string[], focus:string[], f
   const nearby=scored.filter(x=>x.distance<=bestDistance+2);
   const maxP=Math.max(...nearby.map(x=>x.priority));
   const best=nearby.filter(x=>x.priority===maxP);
-  return {direction:dirFrom(best.map(x=>x.direction)),evidenceKind:uniq(best.map(x=>x.kind)),grammarFrameIds:uniq(best.map((x:any)=>String(x.grammarFrameId??'')).filter(Boolean))};
+  return {direction:dirFrom(best.map(x=>x.direction)),evidenceKind:uniq(best.map(x=>x.kind)),grammarFrameIds:uniq(best.map((x)=>String(x.grammarFrameId??'')).filter(Boolean))};
 }
 
 export function bindActionToRevelation(input:{action?:string;text?:string;root?:string}={}):RevelationNativeBinding{

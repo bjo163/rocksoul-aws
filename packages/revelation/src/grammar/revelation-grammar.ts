@@ -5,7 +5,7 @@ import { runtimeDataReady, runtimeDataset, runtimeDataRevision } from '@moonwitn
 import { loadQuranCorpus, normalizedArabic, type QuranAyah } from '../quran-corpus.js';
 import type { GrammarFrame, GrammarFrameKind, GrammarToken, QuranGrammarAnalysis } from './types.js';
 type Loose=Record<string,any>;
-let profileCache:Loose|null=null; let profileRevision=-1; let profileRoot=''; let snapshotCache:{key:string;value:any}|null=null;
+let profileCache:Loose|null=null; let profileRevision=-1; let profileRoot='';   let snapshotCache:{key:string;value:unknown}|null=null;
 function loadProfile(root=process.cwd()):Loose{const rev=runtimeDataRevision(),rr=path.resolve(root);if(profileCache&&profileRevision===rev&&profileRoot===rr)return profileCache;profileCache=null;profileRevision=rev;profileRoot=rr;if(runtimeDataReady()){try{profileCache=runtimeDataset('data/revelation/grammar-profile.json') as Loose;}catch{profileCache=null;}}if(!profileCache)profileCache=JSON.parse(fs.readFileSync(path.resolve(root,'data/revelation/grammar-profile.json'),'utf8'));return profileCache!;}
 const uniq=<T>(xs:T[])=>[...new Set(xs)];
 function id(kind:string,reference:string|null,index:number,surface:string){return `GRAM-${crypto.createHash('sha256').update(`${kind}|${reference??'SURFACE'}|${index}|${surface}`).digest('hex').slice(0,16)}`;}

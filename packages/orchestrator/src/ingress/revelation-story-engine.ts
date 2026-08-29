@@ -68,9 +68,9 @@ export async function listQuranNarrativeStoryCandidates():Promise<RevelationStor
 
 export async function listHistoricalPassagePatterns():Promise<RevelationStoryCandidate[]> {
   const raw=await readFile(PATTERN_PATH,'utf8');
-  const data=JSON.parse(raw) as {patterns:Array<any>};
+  const data=JSON.parse(raw) as {patterns:Array<{id:string;passage:string;selection:string;count?:number;evidenceClass?:string;references?:string[]}>};
   return data.patterns.filter(p=>p.passage && p.selection!=='DO_NOT_USE_FOR_AUTOMATIC_SCHEDULING').map(p=>({
-    id:p.id,kind:'HISTORICAL_PASSAGE',references:[p.passage],ayahCount:p.count??0,sourceClass:p.evidenceClass,sourceRefs:p.references,status:'REPORTED_CONTEXT'
+    id:p.id,kind:'HISTORICAL_PASSAGE',references:[p.passage],ayahCount:p.count??0,sourceClass:p.evidenceClass??'',sourceRefs:p.references??[],status:'REPORTED_CONTEXT'
   }));
 }
 

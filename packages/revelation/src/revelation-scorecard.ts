@@ -2,6 +2,7 @@ import { loadQuranCorpus } from './quran-corpus.js';
 import { revelationMoralGraph } from './moral-graph/revelation-moral-graph.js';
 import { assessQuranPassageDirections } from './quran-passage-direction.js';
 import { deriveRevelationMagnitudeSignals } from './scoring/revelation-magnitude.js';
+import type { RevelationNativeBinding } from './binding/types.js';
 import { runtimeDatasetOr } from '@moonwitness/persistence';
 
 type Loose = Record<string, any>;
@@ -35,7 +36,7 @@ export function revelationAnalyticalScorecard(input:{observed?:Loose;mizan?:Loos
   const explicitNegative=graphPerspectives.includes('RED');
   const graphDirection:RevelationDirection = explicitPositive && explicitNegative ? 'MIXED' : explicitPositive ? 'POSITIVE' : explicitNegative ? 'NEGATIVE' : 'UNRESOLVED';
   const semanticRegistry=runtimeDatasetOr('data/semantic/registry.json',{vectors:{impact:{length:13,axes:[]}}}) as Loose;
-  const revelationSignals=deriveRevelationMagnitudeSignals({binding:(input.binding??observed.revelationBinding??null) as any,semanticRegistry,root});
+  const revelationSignals=deriveRevelationMagnitudeSignals({binding:(input.binding??observed.revelationBinding??null) as RevelationNativeBinding | null,semanticRegistry,root});
   const nativeBinding=input.binding??observed.revelationBinding??null;
   const corroborationBoost=clamp01(input.fourBook?.confidenceBoost ?? 0);
   const refIntegrity=refs.length ? verifiedRefs.length/refs.length : 0;
