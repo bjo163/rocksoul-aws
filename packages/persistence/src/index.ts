@@ -11,5 +11,6 @@ export * from './idempotency.js';
 export * from './postgres-idempotency.js';
 export * from './runtime-data.js';
 export * from './universe-store.js';
+export * from './config-loader.js';
 
 export * from './client.js';

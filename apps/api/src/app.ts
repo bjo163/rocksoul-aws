@@ -6,7 +6,7 @@ import { loadLegacyBackend } from './legacy-bridge.js';
 import * as authFactory from '@moonwitness/security';
 import * as featureFactory from '@moonwitness/security';
 import { createDefaultSemanticProvider } from '@moonwitness/cosmic-engine';
-import { UniverseStore, IdempotencyStore, PostgresIdempotencyStore, initializeRuntimeData, runtimeDataset } from '@moonwitness/persistence';
+import { UniverseStore, IdempotencyStore, PostgresIdempotencyStore, initializeRuntimeData, runtimeDataset, loadDatabaseConfig } from '@moonwitness/persistence';
 import { Observability } from '@moonwitness/observability';
 import { assertPermission, hasPermission, type ActionPermission, PostgresAuthService } from '@moonwitness/security';
 import { PersistentJobQueue } from '@moonwitness/jobs';
@@ -26,7 +26,6 @@ export interface HttpApp {
   router: Router;
 }
 
-import { loadDatabaseConfig } from '../../../src/config-loader.js';
 import { Router, writeJson, isHttpError, isStatusBody, readJsonBody, HttpBodyError } from './router.js';
 import { authRouter } from './routes/auth.routes.js';
 import { kernelRouter } from './routes/kernel.routes.js';
