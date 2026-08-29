@@ -68,17 +68,11 @@ function calculateSolarCoordinates(t: number, longitude: number): SolarCoordinat
 }
 
 function atmosphericRefraction(altitudeDeg: number): number {
-  if (altitudeDeg < -1) return 0;
+  if (altitudeDeg < 0) return 0;
   if (altitudeDeg > 85) return 0;
-  const refr =
-    altitudeDeg > 5
-      ? 58.1 / Math.tan(altitudeDeg * DEG2RAD) -
-        0.07 / Math.pow(Math.tan(altitudeDeg * DEG2RAD), 3) +
-        0.000086 / Math.pow(Math.tan(altitudeDeg * DEG2RAD), 5)
-      : altitudeDeg > -0.575
-        ? 1735 + altitudeDeg * (-518.2 + altitudeDeg * (103.4 + altitudeDeg * (-12.79 + altitudeDeg * 0.711)))
-        : -20.774 / Math.tan(altitudeDeg * DEG2RAD);
-  return refr / 3600;
+  // Bennett / Saemundsson atmospheric refraction formula in arcminutes
+  const r = 1.02 / Math.tan((altitudeDeg + 10.3 / (altitudeDeg + 5.11)) * DEG2RAD);
+  return r / 60;
 }
 
 function sunPositionAt(date: Date, location: EphemerisLocation, refraction: HorizonRefraction): { altitudeDeg: number; azimuthDeg: number } {
@@ -86,9 +80,12 @@ function sunPositionAt(date: Date, location: EphemerisLocation, refraction: Hori
   const t = julianCentury(jd);
   const solar = calculateSolarCoordinates(t, location.longitude);
 
-  const utcMinutes = date.getUTCHours() * 60 + date.getUTCMinutes() + date.getUTCSeconds() / 60 + date.getUTCMilliseconds() / 60000;
-  const trueSolarTime = normalizeDeg((utcMinutes + solar.equationOfTimeMinutes + 4 * location.longitude) * 0.25);
-  const hourAngle = trueSolarTime < 0 ? trueSolarTime + 180 : trueSolarTime - 180;
+  const totalMinutes = date.getUTCHours() * 60 + date.getUTCMinutes() + date.getUTCSeconds() / 60 + date.getUTCMilliseconds() / 60000;
+  let trueSolarTimeMinutes = (totalMinutes + solar.equationOfTimeMinutes + 4 * location.longitude) % 1440;
+  if (trueSolarTimeMinutes < 0) trueSolarTimeMinutes += 1440;
+  let hourAngle = trueSolarTimeMinutes / 4 - 180;
+  if (hourAngle < -180) hourAngle += 360;
+  if (hourAngle > 180) hourAngle -= 360;
 
   const lat = location.latitude;
   const dec = solar.declinationDeg;
