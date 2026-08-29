@@ -213,7 +213,7 @@ v1Router.add('POST', '/api/v1/analyze', async (req, _reply, _params, body, _quer
         loadCase: (id) => ctx.universeStore.getCase(id),
         listEvidence: (id) => ctx.universeStore.listCaseEvidence(id),
         analyze: async ({ text: analysisText, options: analysisOptions, semanticObservation }) => semanticObservation
-          ? buildAiAnalysis(analysisText, analysisOptions)
+          ? buildAiAnalysis(analysisText, { ...analysisOptions, semanticObservation })
           : analyzeWithProvider(analysisText, { ...analysisOptions, provider: ctx.semanticProvider }),
         composeReminder: (seed) => composeReminderBundle(seed),
         saveCase: ({ aggregate, eventType, actorId: savedBy }) => ctx.universeStore.saveCase(aggregate, eventType, savedBy),

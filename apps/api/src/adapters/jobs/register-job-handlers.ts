@@ -112,8 +112,8 @@ export function registerJobHandlers(deps: JobHandlerDependencies): void {
             },
           };
           return semanticObservation
-            ? buildAiAnalysis(analysisText, enriched as Parameters<typeof buildAiAnalysis>[1])
-            : analyzeWithProvider(analysisText, enriched as Parameters<typeof analyzeWithProvider>[1]);
+            ? buildAiAnalysis(analysisText, { ...enriched, semanticObservation })
+            : analyzeWithProvider(analysisText, { ...enriched, provider: deps.semanticProvider });
         },
         composeReminder: (seed) => composeReminderBundle(seed),
         saveCase: ({ aggregate, eventType, actorId: saveActor }) => deps.universeStore
