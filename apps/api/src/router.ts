@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'node:http';
-import { hasPermission, type ActionPermission, type AuthorizationUser } from '../../../src/security/authorization.js';
+import { hasPermission, type ActionPermission, type AuthorizationUser } from '@moonwitness/security';
 import type { RouteContext, Authenticator } from './route-context.js';
 
 export const CANONICAL_V1_ROUTES = {

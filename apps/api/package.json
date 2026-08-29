@@ -14,10 +14,13 @@
   },
   "dependencies": {
     "@moonwitness/contracts": "4.33.0",
+    "@moonwitness/cosmic-engine": "4.33.0",
     "@moonwitness/jobs": "4.33.0",
     "@moonwitness/mizan-engine": "4.33.0",
+    "@moonwitness/observability": "4.33.0",
     "@moonwitness/orchestrator": "4.33.0",
     "@moonwitness/persistence": "4.33.0",
+    "@moonwitness/security": "4.33.0",
     "@moonwitness/semantic-engine": "4.33.0",
     "@moonwitness/witness": "4.33.0",
     "@fastify/otel": "^0.20.1",

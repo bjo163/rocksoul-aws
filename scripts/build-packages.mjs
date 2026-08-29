@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const packagesRoot = path.join(repo, 'packages');
 const order = [
-  'contracts', 'persistence', 'witness', 'jobs', 'data-access', 'kernel',
+  'contracts', 'persistence', 'observability', 'security', 'domains', 'witness', 'jobs', 'data-access', 'kernel',
   'revelation', 'temporal-engine', 'semantic-engine', 'mizan-engine',
   'explanation-engine', 'tse-engine', 'cosmic-engine', 'orchestrator', 'sdk',
 ];

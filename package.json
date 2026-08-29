@@ -38,6 +38,8 @@
     "certify:current": "npm run architecture:check && npm run preflight && npm run final:certify",
     "db:status": "node scripts/transpile-exec.mjs scripts/db-status.ts",
     "persistence:migration:test": "node scripts/transpile-runner.mjs tests/final/persistence/migration-contract.test.ts tests/sql-boundary-contract.test.ts",
+    "test:diagnostic": "node scripts/test-diagnostic-report.mjs",
+    "test:report": "node scripts/test-diagnostic-report.mjs",
     "test": "npm run test:engine",
     "test:engine": "npm run test:semantic && npm run test:tse && npm run test:orchestrator && npm run test:witness && npm run test:revelation && npm run test:event && npm run test:mizan-adversarial && npm run test:review-gate && npm run test:review-workflow",
     "test:full": "npm run test:engine",

@@ -1,7 +1,7 @@
 import { Router, isRecord, httpError, requirePermission, requireAuthenticated, idempotencyKey, bearerToken } from '../router.js';
-import { buildAiAnalysis, analyzeWithProvider } from '../../../../src/ai/general-analyzer.js';
+import { buildAiAnalysis, analyzeWithProvider } from '@moonwitness/cosmic-engine';
 import { IdempotencyStore } from '@moonwitness/persistence';
-import { replayCaseEvents } from '../../../../src/audit/event-replay.js';
+import { replayCaseEvents } from '@moonwitness/orchestrator';
 import { composeReminderBundle } from '../../../../src/ingress/revelation-reminder-engine.js';
 import { createUnpredictableIngress, triggerIngress } from '../../../../src/ingress/divine-ingress.js';
 import { v } from '../validator.js';
@@ -17,7 +17,7 @@ import { createReview, transitionReview, type HumanDisposition, type ReviewRecor
 import { buildXrpWorkspace } from '../xrp-workspace.js';
 import { denyForeignRidWrite, requireScopedEntity } from '../access-control.js';
 import { sha256 } from '@moonwitness/witness';
-import { hasPermission } from '../../../../src/security/authorization.js';
+import { hasPermission } from '@moonwitness/security';
 import { runAnalysisWorkflow, runCreateReviewWorkflow, runEvaluationWorkflow, runEvidenceWorkflow, runObservationWorkflow, runTransitionReviewWorkflow } from '@moonwitness/orchestrator';
 import { boundedInteger, cursorQueryBounds, listQueryBounds, queryFilters, stableCursorPage } from '../query-bounds.js';
 

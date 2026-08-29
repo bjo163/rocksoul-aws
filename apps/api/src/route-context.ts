@@ -1,10 +1,9 @@
 import type { AuthSessionContract } from '@moonwitness/contracts';
-import type { AuthorizationUser } from '../../../src/security/authorization.js';
+import type { AuthorizationUser, createFeatureRegistry } from '@moonwitness/security';
 import type { UniverseStore } from '@moonwitness/persistence';
-import type { Observability } from '../../../src/observability/observability.js';
+import type { Observability } from '@moonwitness/observability';
 import type { PersistentJobQueue } from '@moonwitness/jobs';
 import type { SemanticRegistry } from '@moonwitness/semantic-engine';
-import type { createFeatureRegistry } from '../../../src/access/feature-registry.js';
 import type { loadLegacyBackend } from './legacy-bridge.js';
 import type {
   LocalCheckpointStore,
@@ -16,7 +15,7 @@ import type {
   WitnessObservability,
   WitnessTransportService,
 } from '@moonwitness/witness';
-import { createDefaultSemanticProvider } from '../../../src/ai/provider.js';
+import { createDefaultSemanticProvider } from '@moonwitness/cosmic-engine';
 
 export interface Authenticator {
   authenticate(token: string): Promise<AuthorizationUser | null>;
