@@ -3,23 +3,24 @@
 CURRENT_BRANCH: dev
 CURRENT_COMMIT: a87d6885893034c5d826388f29e85095249e0dba
 
-CURRENT_PHASE: Phase 11–15: Host Optimization & Fastify Unification
-PHASE_STATUS: Completed
+CURRENT_PHASE: Phase 16–24: Verification, Benchmarking, Documentation & Sign-Off
+PHASE_STATUS: In Progress — architecture targets met, lint has pre-existing migrated violations
 
 COMPLETED:
-- Migrated all revelation snapshot functions to `@moonwitness/revelation` package (19 files)
-- API legacy root-src imports reduced from 8 to 0
-- Custom router moved from `apps/api/src/router.ts` to `apps/api/src/compat/router.ts`
-- All API route imports updated to use `../compat/router.js`
-- Root `src/revelation/` files converted to re-export shims from `@moonwitness/revelation`
-- Architecture boundary check passes with 0 legacy imports
-- Typecheck passes
-- Package tests pass (orchestrator 17/17, cosmic-engine 4/4)
-- Engine tests pass (same 3 pre-existing failures in api-witness-single-node.test.ts)
+- Phase 6–10: Engine Facade & Capability Packageization
+- Phase 11–15: Host Optimization & Fastify Unification
+- All revelation snapshots migrated to @moonwitness/revelation
+- API legacy root-src imports: 0
+- Custom router isolated to apps/api/src/compat/
+- Architecture boundary check: passed
+- Typecheck: passed
+- Build: 19 packages built
+- Engine tests: pass (3 pre-existing failures in api-witness-single-node.test.ts)
 
 NOT_COMPLETED:
-- Pre-existing lint violation in `packages/orchestrator/src/ingress/revelation-story-engine.ts:71` (unrelated)
-- 3 pre-existing test failures in `tests/api-witness-single-node.test.ts` (documented)
+- 6 lint violations (5 pre-existing in migrated root src/ files, 1 pre-existing in orchestrator)
+- 3 pre-existing test failures in api-witness-single-node.test.ts
+- Push to remote
 
 COSMIC_ENGINE:
 - `analyze`: working, unchanged
