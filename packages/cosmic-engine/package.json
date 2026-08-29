@@ -17,9 +17,11 @@
     "test": "tsx --test test/cosmic-engine.test.ts"
   },
   "dependencies": {
+    "@moonwitness/contracts": "4.33.0",
     "@moonwitness/explanation-engine": "4.33.0",
     "@moonwitness/mizan-engine": "4.33.0",
     "@moonwitness/semantic-engine": "4.33.0",
-    "@moonwitness/temporal-engine": "4.33.0"
+    "@moonwitness/temporal-engine": "4.33.0",
+    "@moonwitness/tse-engine": "4.33.0"
   }
 }
