@@ -39,13 +39,7 @@ jobs:
 
       - name: Plan version from conventional commits
         id: plan
-        run: |
-          node scripts/release-version.mjs plan > release-plan.json
-          cat release-plan.json
-          echo "current=$(node -p \"JSON.parse(require('fs').readFileSync('release-plan.json', 'utf8')).current\")" >> "$GITHUB_OUTPUT"
-          echo "version=$(node -p \"JSON.parse(require('fs').readFileSync('release-plan.json', 'utf8')).version || ''\")" >> "$GITHUB_OUTPUT"
-          echo "tag=$(node -p \"JSON.parse(require('fs').readFileSync('release-plan.json', 'utf8')).tag\")" >> "$GITHUB_OUTPUT"
-          echo "tag_version=$(node -p \"JSON.parse(require('fs').readFileSync('release-plan.json', 'utf8')).previousVersion\")" >> "$GITHUB_OUTPUT"
+        run: node scripts/release-version.mjs plan
 
       - name: Stop when a version already awaits tagging
         if: steps.plan.outputs.current != steps.plan.outputs.tag_version

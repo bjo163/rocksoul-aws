@@ -113,7 +113,20 @@ export function applyReleaseVersion(version, previousVersion, subjects) {
 function main() {
   const command = process.argv[2] ?? 'plan';
   if (command === 'plan') {
-    console.log(JSON.stringify(releasePlan()));
+    const plan = releasePlan();
+    if (process.env.GITHUB_OUTPUT) {
+      try {
+        fs.appendFileSync(process.env.GITHUB_OUTPUT, [
+          `current=${plan.current}`,
+          `version=${plan.version || ''}`,
+          `tag=${plan.tag}`,
+          `tag_version=${plan.previousVersion}`,
+        ].join('\n') + '\n');
+      } catch {
+        // ignore in non-CI environment
+      }
+    }
+    console.log(JSON.stringify(plan));
     return;
   }
   if (command === 'apply') {
