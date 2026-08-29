@@ -16,8 +16,8 @@ import { buildXrpWorkspace } from '../xrp-workspace.js';
 import { denyForeignRidWrite, requireScopedEntity } from '../access-control.js';
 import { sha256 } from '@moonwitness/witness';
 import { hasPermission } from '@moonwitness/security';
-import { runAnalysisWorkflow, runCreateReviewWorkflow, runEvaluationWorkflow, runEvidenceWorkflow, runObservationWorkflow, runTransitionReviewWorkflow } from '@moonwitness/orchestrator';
 import { boundedInteger, cursorQueryBounds, listQueryBounds, queryFilters, stableCursorPage } from '../query-bounds.js';
+import { runCreateReviewWorkflow, runEvidenceWorkflow, runObservationWorkflow, runTransitionReviewWorkflow } from '@moonwitness/orchestrator';
 
 export const v1Router = new Router();
 
@@ -198,7 +198,7 @@ v1Router.add('POST', '/api/v1/analyze', async (req, _reply, _params, body, _quer
   try {
     return await ctx.idempotency.execute(scopedIdempotencyKey(req, actorId, `ANALYZE:${caseId}`), IdempotencyStore.hash(p), async () => {
       const options = isRecord(p.options) ? { ...p.options } : {};
-      const workflow = await runAnalysisWorkflow({
+      const workflow = await ctx.application.analyze({
         caseId,
         actorId,
         text,
@@ -209,15 +209,6 @@ v1Router.add('POST', '/api/v1/analyze', async (req, _reply, _params, body, _quer
         ownerRid: authUser?.rid,
         modelVersion: '4.32.0',
         source: '/api/v1/analyze',
-      }, {
-        loadCase: (id) => ctx.universeStore.getCase(id),
-        listEvidence: (id) => ctx.universeStore.listCaseEvidence(id),
-        analyze: async ({ text: analysisText, options: analysisOptions, semanticObservation }) => semanticObservation
-          ? buildAiAnalysis(analysisText, { ...analysisOptions, semanticObservation })
-          : analyzeWithProvider(analysisText, { ...analysisOptions, provider: ctx.semanticProvider }),
-        composeReminder: (seed) => composeReminderBundle(seed),
-        saveCase: ({ aggregate, eventType, actorId: savedBy }) => ctx.universeStore.saveCase(aggregate, eventType, savedBy),
-        commitWitness: (input) => ctx.witness.commitMizan(input),
       });
       return { statusCode: 200, body: { id: caseId, kind: 'ANALYSIS', status: 'PERSISTED', persisted: { entityId: caseId, version: workflow.aggregate.version, actorId }, witness: workflow.witness, ...workflow.analysis } };
     });
@@ -242,7 +233,7 @@ v1Router.add('POST', '/api/v1/evaluate', async (req, _reply, _params, body, _que
   const actorId=authz.user?.userId ?? 'SERVICE-API-001';
   const eventId=`EVT-MIZAN-${evaluationId}-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
   try {
-    const workflow = await runEvaluationWorkflow({
+    const workflow = await ctx.application.evaluate({
       evaluationId,
       actorId,
       eventId,
@@ -251,13 +242,6 @@ v1Router.add('POST', '/api/v1/evaluate', async (req, _reply, _params, body, _que
       semanticObservation: isRecord(p.semanticObservation) ? p.semanticObservation : undefined,
       modelVersion: '4.32.0',
       source: '/api/v1/evaluate',
-    }, {
-      listEvidence: (id) => ctx.universeStore.listCaseEvidence(id),
-      analyze: async ({ text: analysisText, options: analysisOptions, semanticObservation }) => semanticObservation
-        ? buildAiAnalysis(analysisText, analysisOptions)
-        : analyzeWithProvider(analysisText, { ...analysisOptions, provider: ctx.semanticProvider }),
-      appendEvent: (event) => ctx.universeStore.persistence.asActor(actorId).appendEvent(event),
-      commitWitness: (witness) => ctx.witness.commitMizan(witness),
     });
     return workflow;
   } catch (error) {

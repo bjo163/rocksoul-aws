@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@moonwitness/contracts": "4.33.0",
+    "@moonwitness/application": "4.33.0",
     "@moonwitness/cosmic-engine": "4.33.0",
     "@moonwitness/jobs": "4.33.0",
     "@moonwitness/mizan-engine": "4.33.0",
