@@ -3,7 +3,7 @@ import { createRequire } from 'node:module';
 import { hashPassword, verifyPassword, type AuthService, type AuthSession, type AuthUser, type CreateUserInput, type PublicUser, type SessionRecord } from './auth.js';
 import { createRefreshToken, hashOpaqueToken, signAccessToken, verifyAccessToken } from './session-token.js';
 
-interface PgResult { rows: any[]; rowCount?: number }
+interface PgResult { rows: Record<string, unknown>[]; rowCount?: number }
 interface PgPool { query(sql: string, params?: unknown[]): Promise<PgResult>; end(): Promise<void> }
 const require = createRequire(import.meta.url);
 function getPool(): PgPool { const pg = require('pg'); return new pg.Pool(); }
@@ -37,20 +37,20 @@ export class PostgresAuthService implements AuthService {
       audience: options.audience ?? process.env.MW_JWT_AUDIENCE,
     });
     const users = await service.pool.query('SELECT * FROM auth_users ORDER BY username');
-    for (const row of users.rows) service._users.set(row.username, service.userFromRow(row));
+    for (const row of users.rows) service._users.set(String(row.username), service.userFromRow(row));
     const revoked = await service.pool.query('SELECT token_hash FROM auth_revoked_tokens');
-    for (const row of revoked.rows) service._revokedTokens.add(row.token_hash);
+    for (const row of revoked.rows) service._revokedTokens.add(String(row.token_hash));
     const sessions = await service.pool.query('SELECT * FROM auth_sessions WHERE refresh_expires_at > NOW() ORDER BY created_at');
-    for (const row of sessions.rows) service._sessions.set(row.session_id, service.sessionFromRow(row));
+    for (const row of sessions.rows) service._sessions.set(String(row.session_id), service.sessionFromRow(row));
     return service;
   }
 
-  private userFromRow(row: any): AuthUser {
-    return { userId: row.user_id, username: row.username, passwordHash: row.password_hash, rid: row.rid ?? null, roles: Array.isArray(row.roles_json) ? row.roles_json : [], active: row.active === true, createdAt: new Date(row.created_at).toISOString() };
+  private userFromRow(row: Record<string, unknown>): AuthUser {
+    return { userId: String(row.user_id), username: String(row.username), passwordHash: String(row.password_hash), rid: typeof row.rid === 'string' ? row.rid : null, roles: Array.isArray(row.roles_json) ? (row.roles_json as string[]) : [], active: row.active === true, createdAt: new Date(String(row.created_at)).toISOString() };
   }
 
-  private sessionFromRow(row: any): SessionRecord {
-    return { sessionId: row.session_id, userId: row.user_id, refreshTokenHash: row.refresh_token_hash, createdAt: new Date(row.created_at).toISOString(), refreshExpiresAt: new Date(row.refresh_expires_at).toISOString(), lastSeen: new Date(row.last_seen_at).toISOString(), revokedAt: row.revoked_at ? new Date(row.revoked_at).toISOString() : undefined, rotationCounter: Number(row.rotation_counter ?? 1) };
+  private sessionFromRow(row: Record<string, unknown>): SessionRecord {
+    return { sessionId: String(row.session_id), userId: String(row.user_id), refreshTokenHash: String(row.refresh_token_hash), createdAt: new Date(String(row.created_at)).toISOString(), refreshExpiresAt: new Date(String(row.refresh_expires_at)).toISOString(), lastSeen: new Date(String(row.last_seen_at)).toISOString(), revokedAt: row.revoked_at ? new Date(String(row.revoked_at)).toISOString() : undefined, rotationCounter: Number(row.rotation_counter ?? 1) };
   }
 
   private findUserById(userId: string): AuthUser | undefined {
@@ -144,7 +144,7 @@ export class PostgresAuthService implements AuthService {
     const result = claims
       ? await this.pool.query('UPDATE auth_sessions SET revoked_at=COALESCE(revoked_at,NOW()) WHERE session_id=$1 RETURNING *', [claims.sid])
       : await this.pool.query('UPDATE auth_sessions SET revoked_at=COALESCE(revoked_at,NOW()) WHERE refresh_token_hash=$1 RETURNING *', [tokenHash]);
-    for (const row of result.rows) this._sessions.set(row.session_id, this.sessionFromRow(row));
+    for (const row of result.rows) this._sessions.set(String(row.session_id), this.sessionFromRow(row));
     if (claims) {
       this._revokedTokens.add(tokenHash);
       await this.pool.query('INSERT INTO auth_revoked_tokens(token_hash,revoked_at) VALUES($1,$2) ON CONFLICT(token_hash) DO NOTHING', [tokenHash, new Date().toISOString()]);
@@ -154,14 +154,14 @@ export class PostgresAuthService implements AuthService {
 
   async revokeAll(userId: string): Promise<number> {
     const result = await this.pool.query('UPDATE auth_sessions SET revoked_at=COALESCE(revoked_at,NOW()) WHERE user_id=$1 AND revoked_at IS NULL RETURNING *', [userId]);
-    for (const row of result.rows) this._sessions.set(row.session_id, this.sessionFromRow(row));
+    for (const row of result.rows) this._sessions.set(String(row.session_id), this.sessionFromRow(row));
     return result.rows.length;
   }
 
   async getOnlineUsers(): Promise<PublicUser[]> {
     const result = await this.pool.query(`SELECT DISTINCT ON (user_id) * FROM auth_sessions WHERE revoked_at IS NULL AND refresh_expires_at>NOW() AND last_seen_at>NOW()-INTERVAL '5 minutes' ORDER BY user_id,last_seen_at DESC`);
-    for (const row of result.rows) this._sessions.set(row.session_id, this.sessionFromRow(row));
-    return result.rows.map((row) => this.findUserById(row.user_id)).filter((user): user is AuthUser => Boolean(user?.active)).map((user) => this.publicUser(user));
+    for (const row of result.rows) this._sessions.set(String(row.session_id), this.sessionFromRow(row));
+    return result.rows.map((row) => this.findUserById(String(row.user_id))).filter((user): user is AuthUser => Boolean(user?.active)).map((user) => this.publicUser(user));
   }
 
   async close(): Promise<void> { await this.pool.end(); }
