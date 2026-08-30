@@ -5,6 +5,8 @@ import {
   type EvidenceWorkflowPorts, type ReviewWorkflowPorts,
   type EvidenceWorkflowInput, type EvidenceWorkflowResult,
 } from '@moonwitness/orchestrator';
+import type { IntelligenceEngine } from '@moonwitness/intelligence';
+import { InMemoryWorkflowRegistry, type WorkflowRegistry } from '@moonwitness/workflow';
 
 export interface ApplicationServices {
   observe(input: Parameters<typeof runObservationWorkflow>[0]): ReturnType<typeof runObservationWorkflow>;
@@ -21,6 +23,31 @@ export interface ApplicationServiceOptions {
   evaluation: (actorId: string) => EvaluationWorkflowPorts;
   evidence: (actorId: string) => EvidenceWorkflowPorts;
   review: (actorId: string) => Pick<ReviewWorkflowPorts, 'createReview' | 'transitionReview' | 'saveEntity' | 'appendEvent'>;
+}
+
+export interface ApplicationRuntime extends ApplicationServices {
+  readonly intelligence: IntelligenceEngine;
+  readonly workflows: WorkflowRegistry;
+}
+
+export interface ApplicationRuntimeOptions {
+  intelligence: IntelligenceEngine;
+  services: ApplicationServices;
+  workflows?: WorkflowRegistry;
+}
+
+export function createApplicationRuntime(options: ApplicationRuntimeOptions): ApplicationRuntime {
+  const workflows = options.workflows ?? new InMemoryWorkflowRegistry();
+  return Object.freeze({
+    intelligence: options.intelligence,
+    workflows,
+    observe: options.services.observe,
+    analyze: options.services.analyze,
+    evaluate: options.services.evaluate,
+    evidence: options.services.evidence,
+    createReview: options.services.createReview,
+    transitionReview: options.services.transitionReview,
+  });
 }
 
 export function createApplicationServices(options: ApplicationServiceOptions): ApplicationServices {

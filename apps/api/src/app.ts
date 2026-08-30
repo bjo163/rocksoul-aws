@@ -35,7 +35,8 @@ import { witnessRouter } from './routes/witness.routes.js';
 import { appendMizanWitness, LocalCheckpointStore, LocalWitnessDagStore, PostgresWitnessProjectionStore, resolveSingleNodeWitnessPassword, SingleNodeWitnessKeyStore, runWitnessDiagnostics, signCheckpoint, WitnessBackupManager, WitnessDag, WitnessObservability, WitnessTransportService } from '@moonwitness/witness';
 import { assertApiResponseContract, ContractValidationError } from '@moonwitness/contracts';
 import { registerJobHandlers } from './adapters/jobs/register-job-handlers.js';
-import { createApplicationServices } from '@moonwitness/application';
+import { createApplicationRuntime, createApplicationServices } from '@moonwitness/application';
+import { createIntelligenceEngine } from '@moonwitness/intelligence';
 import { composeReminderBundle, createReview, transitionReview } from '@moonwitness/orchestrator';
 
 export async function buildApp(options: AppOptions = {}): Promise<HttpApp> {
@@ -102,7 +103,7 @@ export async function buildApp(options: AppOptions = {}): Promise<HttpApp> {
     }
     return { node, checkpoint, root: witnessDag.root() };
   };
-  const application = createApplicationServices({
+  const services = createApplicationServices({
     observation: (actorId) => ({
       loadEntity: (id) => universeStore.persistence.entities().get(id),
       batch: (work) => universeStore.persistence.store.batch(work),
@@ -134,6 +135,7 @@ export async function buildApp(options: AppOptions = {}): Promise<HttpApp> {
       appendEvent: (input) => universeStore.persistence.asActor(input.actorId).appendEvent(input),
     }),
   });
+  const application = createApplicationRuntime({ services, intelligence: createIntelligenceEngine() });
   const ctx = { application, backend, universeStore, observability, auth, features, idempotency, jobs, semanticRegistry, semanticProvider, witness: { dag: witnessDag, dagStore: witnessDagStore, get identity() { return witnessKeyStore.activeIdentity(); }, transport: witnessTransport, store: witnessStore, keyStore: witnessKeyStore, checkpoints: witnessCheckpointStore, backups: witnessBackups, metrics: witnessMetrics, dataDir, keyPasswordSource: witnessPassword.source, async refreshTransportIdentity() { const active=witnessKeyStore.activeIdentity(); if(!active) throw new Error('WITNESS_ACTIVE_KEY_NOT_FOUND'); witnessTransport.setIdentity(active); return active; }, async persistKeys() { if(witnessStore) for(const key of witnessKeyStore.list()) await witnessStore.putKey(key); }, async appendMizan(input: Parameters<typeof appendMizanWitness>[1]) { const node=appendMizanWitness(witnessDag,input); await witnessDagStore.save(witnessDag); if(witnessStore) await witnessStore.putNode(node); witnessMetrics.record('NODE_APPENDED'); return node; }, async commitMizan(input: Parameters<typeof appendMizanWitness>[1]) { const node=appendMizanWitness(witnessDag,input); await witnessDagStore.save(witnessDag); if(witnessStore) await witnessStore.putNode(node); witnessMetrics.record('NODE_APPENDED'); let checkpoint=null; if(process.env.WITNESS_AUTO_CHECKPOINT!=='0' && witnessKeyStore.activeIdentity()){ const active=witnessKeyStore.activeIdentity()!; checkpoint=signCheckpoint(witnessDag.checkpoint(),active); await witnessCheckpointStore.put(checkpoint); if(witnessStore) await witnessStore.putCheckpoint(checkpoint); witnessMetrics.record('CHECKPOINT_CREATED'); } return { node, checkpoint, root:witnessDag.root() }; }, async commit(input:{ nodeId?:string; kind:string; payload:Record<string,unknown>; actorId?:string|null }) { const node=witnessDag.append(input); await witnessDagStore.save(witnessDag); if(witnessStore) await witnessStore.putNode(node); witnessMetrics.record('NODE_APPENDED'); let checkpoint=null; if(process.env.WITNESS_AUTO_CHECKPOINT!=='0' && witnessKeyStore.activeIdentity()){ const active=witnessKeyStore.activeIdentity()!; checkpoint=signCheckpoint(witnessDag.checkpoint(),active); await witnessCheckpointStore.put(checkpoint); if(witnessStore) await witnessStore.putCheckpoint(checkpoint); witnessMetrics.record('CHECKPOINT_CREATED'); } return { node, checkpoint, root:witnessDag.root() }; }, async createCheckpoint(at?: string) { const active=witnessKeyStore.activeIdentity(); if(!active) throw new Error('WITNESS_ACTIVE_KEY_NOT_FOUND'); const signed=signCheckpoint(witnessDag.checkpoint(at),active); await witnessCheckpointStore.put(signed); if(witnessStore) await witnessStore.putCheckpoint(signed); witnessMetrics.record('CHECKPOINT_CREATED'); return signed; }, async createBackup(at?: string) { const result=await witnessBackups.create(at); witnessMetrics.record('BACKUP_CREATED'); return result; }, async diagnostics() { const result=await runWitnessDiagnostics({ dataDir, dag:witnessDag, keyStore:witnessKeyStore, checkpoints:witnessCheckpointStore, backups:witnessBackups }); witnessMetrics.record('DIAGNOSTIC_RUN'); return result; } } };
 
   const rootRouter = new Router(); rootRouter.use(authRouter); rootRouter.use(kernelRouter); rootRouter.use(entitiesRouter); rootRouter.use(v1Router); rootRouter.use(witnessRouter);

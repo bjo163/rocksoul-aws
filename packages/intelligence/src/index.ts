@@ -75,16 +75,22 @@ export interface IntelligenceEngine {
   useBundle(bundle: EngineBundle): this;
 }
 
-export function createIntelligenceEngine(options: { workflows?: readonly WorkflowDefinition[]; metadata?: Record<string, unknown>; clock?: { now(): Date }; logger?: EngineContext['logger'] } = {}): IntelligenceEngine {
+export interface IntelligenceEngineOptions {
+  capabilities?: readonly EngineCapability[];
+  workflows?: readonly WorkflowDefinition[];
+  context?: Partial<Pick<EngineContext, 'clock' | 'logger' | 'metadata'>>;
+}
+
+export function createIntelligenceEngine(options: IntelligenceEngineOptions = {}): IntelligenceEngine {
   const workflows = new InMemoryWorkflowRegistry();
   for (const workflow of options.workflows ?? []) workflows.register(workflow);
   const capabilities = new InMemoryCapabilityRegistry();
   const context: EngineContext = {
-    clock: options.clock ?? { now: () => new Date() },
-    logger: options.logger ?? {},
+    clock: options.context?.clock ?? { now: () => new Date() },
+    logger: options.context?.logger ?? {},
     capabilities,
     workflows,
-    metadata: { ...(options.metadata ?? {}) },
+    metadata: { ...(options.context?.metadata ?? {}) },
   };
   const engine: IntelligenceEngine = {
     context,
@@ -106,5 +112,6 @@ export function createIntelligenceEngine(options: { workflows?: readonly Workflo
     use(capability) { capabilities.register(capability); void capability.initialize?.(context); return this; },
     useBundle(bundle) { for (const capability of bundle.capabilities) this.use(capability); for (const workflow of bundle.workflows) if (!workflows.has(workflow.id)) workflows.register(workflow); return this; },
   };
+  for (const capability of options.capabilities ?? []) engine.use(capability);
   return engine;
 }

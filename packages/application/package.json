@@ -9,6 +9,7 @@
   "exports": { ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" } },
   "scripts": { "typecheck": "tsc --noEmit --target ES2022 --module NodeNext --moduleResolution NodeNext --skipLibCheck src/index.ts" },
   "dependencies": {
+    "@moonwitness/intelligence": "4.33.0",
     "@moonwitness/orchestrator": "4.33.0",
     "@moonwitness/persistence": "4.33.0",
     "@moonwitness/witness": "4.33.0"

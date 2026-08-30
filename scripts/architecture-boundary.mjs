@@ -73,6 +73,9 @@ async function walk(dir) {
           if (workspaceMatch && specifier.includes('/src/')) {
             violations.push(`${path}: package deep-imports another package source ${specifier}`);
           }
+          if (workspaceMatch && workspaceMatch[1] === 'application' && packageName !== 'application') {
+            violations.push(`${path}: lower-level package imports application layer ${specifier}`);
+          }
         }
         if (specifier.includes('/apps/')) {
           violations.push(`${path}: cross-app import ${specifier}`);
