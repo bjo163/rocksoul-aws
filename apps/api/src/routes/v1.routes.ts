@@ -1,4 +1,5 @@
 import { Router, isRecord, httpError, requirePermission, requireAuthenticated, idempotencyKey, bearerToken } from '../compat/router.js';
+import { scopedIdempotencyKey, idempotencyError } from './route-utils.js';
 import { buildAiAnalysis, analyzeWithProvider } from '@moonwitness/cosmic-engine';
 import { IdempotencyStore } from '@moonwitness/persistence';
 import { replayCaseEvents, createUnpredictableIngress, triggerIngress, composeReminderBundle } from '@moonwitness/orchestrator';
@@ -29,17 +30,6 @@ function publicJob(job: any): Record<string, unknown> {
     updatedAt: job.updatedAt,
     ...(job.status === 'FAILED' ? { error: 'JOB_FAILED' } : {}),
   };
-}
-
-function scopedIdempotencyKey(req: any, actorId: string, operation: string): string | null {
-  const key = idempotencyKey(req);
-  return key ? `${actorId}:${operation}:${key}` : null;
-}
-
-function idempotencyError(error: unknown) {
-  return error instanceof Error && (error as any).code === 'IDEMPOTENCY_CONFLICT'
-    ? httpError(409, 'IDEMPOTENCY_CONFLICT')
-    : null;
 }
 
 v1Router.add('GET', '/api/v1/observability/recent', async (req, _reply, _params, _body, query, ctx) => {
@@ -140,110 +130,6 @@ v1Router.add('POST', '/api/v1/jobs/process', async (req, _reply, _params, _body,
   const authz = await requirePermission(req, ctx.auth, 'COMMAND');
   if (!authz.ok) return authz.error;
   return { statusCode: 202, body: { processed: (await ctx.jobs.processAvailable(8)).map(publicJob) } };
-});
-
-v1Router.add('POST', '/api/v1/observe', async (req, _reply, _params, body, _query, ctx) => {
-  try {
-    const productionAuth = process.env.NODE_ENV === 'production' ? await requirePermission(req, ctx.auth, 'OBSERVE') : null;
-    if (productionAuth && !productionAuth.ok) return productionAuth.error;
-    const p = isRecord(body) ? body : {};
-    const payload = isRecord(p.payload) ? p.payload : p;
-    const authUser = productionAuth?.ok ? productionAuth.user : await ctx.auth.authenticate(bearerToken(req));
-    const actorId = authUser?.userId ?? 'SERVICE-API-001';
-    const requestKey = idempotencyKey(req);
-    let entityId = typeof p.entityId === 'string' ? p.entityId : 'UNBOUND';
-    if (entityId === 'UNBOUND') entityId = requestKey ? `OBS-${sha256(`${actorId}:${requestKey}`).slice(0, 24)}` : `OBS-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
-    const foreign = await denyForeignRidWrite(req, ctx, entityId);
-    if (foreign) return foreign;
-    return await ctx.idempotency.execute(scopedIdempotencyKey(req, actorId, `OBSERVE:${entityId}`), IdempotencyStore.hash(p), async () => {
-      if (!ctx.universeStore.persistence.store.batch) throw new Error('TRANSACTION_NOT_SUPPORTED');
-      const source = typeof p.source === 'string' ? p.source : 'API';
-      const workflow = await ctx.application.observe({
-        entityId,
-        actorId,
-        eventId: `EVT-${Date.now()}-${Math.random().toString(36).slice(2,8)}`,
-        source,
-        payload,
-        context: isRecord(p.context) ? p.context : {},
-        ownerRid: authUser?.rid,
-      });
-      return { statusCode: 200, body: workflow };
-    });
-  } catch(error) {
-    const conflict = idempotencyError(error);
-    if (conflict) return conflict;
-    return httpError(500, 'OBSERVATION_FAILED', error instanceof Error ? error.message : String(error));
-  }
-});
-
-v1Router.add('POST', '/api/v1/analyze', async (req, _reply, _params, body, _query, ctx) => {
-  const productionAuth = process.env.NODE_ENV === 'production' ? await requirePermission(req, ctx.auth, 'ANALYZE') : null;
-  if (productionAuth && !productionAuth.ok) return productionAuth.error;
-  const p = isRecord(body) ? body : {};
-  const authUser = productionAuth?.ok ? productionAuth.user : await ctx.auth.authenticate(bearerToken(req));
-  const actorId = authUser?.userId ?? 'SERVICE-API-001';
-  const requestKey = idempotencyKey(req);
-  const caseId = typeof p.caseId === 'string' && p.caseId ? p.caseId : requestKey ? `CASE-${sha256(`${actorId}:${requestKey}`).slice(0, 24)}` : `CASE-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
-  const foreign = await denyForeignRidWrite(req, ctx, caseId);
-  if (foreign) return foreign;
-  const observation = isRecord(p.observation) ? p.observation : {};
-  const text = typeof observation.text === 'string' ? observation.text : (typeof p.text === 'string' ? p.text : '');
-  if (!text) return httpError(400, 'TEXT_REQUIRED');
-  try {
-    return await ctx.idempotency.execute(scopedIdempotencyKey(req, actorId, `ANALYZE:${caseId}`), IdempotencyStore.hash(p), async () => {
-      const options = isRecord(p.options) ? { ...p.options } : {};
-      const workflow = await ctx.application.analyze({
-        caseId,
-        actorId,
-        text,
-        options,
-        semanticObservation: isRecord(p.semanticObservation) ? p.semanticObservation : undefined,
-        includeReminder: p.includeReminder === true,
-        reminderSeed: typeof p.reminderSeed === 'number' ? p.reminderSeed : undefined,
-        ownerRid: authUser?.rid,
-        modelVersion: '4.32.0',
-        source: '/api/v1/analyze',
-      });
-      return { statusCode: 200, body: { id: caseId, kind: 'ANALYSIS', status: 'PERSISTED', persisted: { entityId: caseId, version: workflow.aggregate.version, actorId }, witness: workflow.witness, ...workflow.analysis } };
-    });
-  } catch (error) {
-    return idempotencyError(error) ?? httpError(500, 'ANALYSIS_FAILED', error instanceof Error ? error.message : String(error));
-  }
-});
-
-v1Router.add('POST', '/api/v1/evaluate', async (req, _reply, _params, body, _query, ctx) => {
-  const authz = await requirePermission(req, ctx.auth, 'EVALUATE');
-  if (!authz.ok) return authz.error;
-  const p = isRecord(body) ? body : {};
-  if (typeof p.target === 'string' && p.target && await ctx.universeStore.persistence.entities().get(p.target)) {
-    const scope = await requireScopedEntity(req, ctx, p.target);
-    if (!scope.ok) return scope.error;
-  }
-  const input = isRecord(p.input) ? p.input : {};
-  const evaluationId = typeof p.target === 'string' && p.target ? p.target : `EVAL-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
-  const text = typeof input.text === 'string' ? input.text : (typeof p.text === 'string' ? p.text : '');
-  if (!text) return httpError(400, 'TEXT_REQUIRED');
-  const options = isRecord(input.options) ? { ...input.options } : {};
-  const actorId=authz.user?.userId ?? 'SERVICE-API-001';
-  const eventId=`EVT-MIZAN-${evaluationId}-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
-  try {
-    const workflow = await ctx.application.evaluate({
-      evaluationId,
-      actorId,
-      eventId,
-      text,
-      options,
-      semanticObservation: isRecord(p.semanticObservation) ? p.semanticObservation : undefined,
-      modelVersion: '4.32.0',
-      source: '/api/v1/evaluate',
-    });
-    return workflow;
-  } catch (error) {
-    const code = error instanceof Error ? (error as Error & { code?: unknown }).code : undefined;
-    if (code === 'INVALID_ANALYSIS_CONTRACT') return httpError(500, 'INVALID_ANALYSIS_CONTRACT', error instanceof Error ? error.message : String(error));
-    if (code === 'WITNESS_ROOT_MISSING') return httpError(500, 'EVALUATION_PERSISTENCE_FAILED', error instanceof Error ? error.message : String(error));
-    return httpError(500, 'EVALUATION_PERSISTENCE_FAILED', error instanceof Error ? error.message : String(error));
-  }
 });
 
 v1Router.add('POST', '/api/v1/query', async (req, _reply, _params, body, query, ctx) => {
@@ -585,22 +471,6 @@ v1Router.add('GET', '/api/v1/reviews', async (req, _reply, _params, _body, _quer
   }) };
 });
 
-v1Router.add('POST', '/api/v1/reviews', async (req, _reply, _params, body, _query, ctx) => {
-  const authz = await requirePermission(req, ctx.auth, 'EVALUATE'); if (!authz.ok) return authz.error;
-  const p=isRecord(body)?body:{}; if(typeof p.targetId!=='string'||!p.targetId) return httpError(400,'REVIEW_TARGET_REQUIRED');
-  if (await ctx.universeStore.persistence.entities().get(p.targetId)) {
-    const scope = await requireScopedEntity(req, ctx, p.targetId);
-    if (!scope.ok) return scope.error;
-  }
-  const actor=authz.user?.userId??'SERVICE-API-001';
-  try {
-    const review = await ctx.application.createReview({ targetId: p.targetId, requestedBy: actor, actorId: actor, assigneeId: typeof p.assigneeId === 'string' ? p.assigneeId : null, gateDecision: typeof p.gateDecision === 'string' ? p.gateDecision : 'REQUIRE_HUMAN_REVIEW', evidenceRefs: Array.isArray(p.evidenceRefs) ? p.evidenceRefs.filter((x): x is string => typeof x === 'string') : [] });
-    return {statusCode:201,body:review};
-  } catch (error) {
-    return httpError(409, 'REVIEW_CREATE_REJECTED', error instanceof Error ? error.message : String(error));
-  }
-});
-
 v1Router.add('POST', '/api/v1/reviews/:id/transition', async (req, _reply, params, body, _query, ctx) => {
   const authz = await requirePermission(req, ctx.auth, 'EVALUATE'); if (!authz.ok) return authz.error;
   const current=await ctx.universeStore.persistence.entities().get(params.id); if(!current||current.type!=='HUMAN_REVIEW') return httpError(404,'REVIEW_NOT_FOUND');
@@ -631,54 +501,6 @@ v1Router.add('GET', '/api/v1/resource/:id/evidence', async (req, _reply, params,
   const supersededBy=new Map<string,string>();
   for(const item of evidence){const prior=isRecord(item.payload)&&typeof item.payload.supersedes==='string'?item.payload.supersedes:null;if(prior)supersededBy.set(prior,item.evidenceId);}
   return { id: params.id, evidence: evidence.map((item:any)=>({...item,supersedes:isRecord(item.payload)&&typeof item.payload.supersedes==='string'?item.payload.supersedes:undefined,supersededBy:supersededBy.get(item.evidenceId)})) };
-});
-
-v1Router.add('POST', '/api/v1/resource/:id/evidence', async (req, _reply, params, body, _query, ctx) => {
-  const authz = await requireAuthenticated(req, ctx.auth);
-  if (!authz.ok) return authz.error;
-  const scope = await requireScopedEntity(req, ctx, params.id);
-  if (!scope.ok) return scope.error;
-  if (scope.entity.type !== 'CASE') return httpError(404, 'RESOURCE_NOT_FOUND');
-  const p = isRecord(body) ? body : {};
-  const status = typeof p.status === 'string' ? p.status.toUpperCase() : 'UNKNOWN';
-  const allowed = new Set(['OBSERVED', 'SUPPORTED', 'VERIFIED', 'CORROBORATED', 'INFERRED', 'UNKNOWN', 'CONFLICTED']);
-  if (!allowed.has(status)) return httpError(400, 'INVALID_EVIDENCE_STATUS');
-  if (!['ADMIN', 'REVIEWER'].some((role) => scope.user.roles.includes(role)) && status !== 'OBSERVED') return httpError(403, 'EVIDENCE_STATUS_REVIEW_REQUIRED');
-  const payload = isRecord(p.payload) ? p.payload : {};
-  const evidenceId = typeof p.evidenceId === 'string' && p.evidenceId ? p.evidenceId : `EVD-${params.id}-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
-  const history=await ctx.universeStore.listCaseEvidence(params.id);
-  if(history.some((item)=>isRecord(item)&&item.evidenceId===evidenceId)) return httpError(409,'EVIDENCE_IMMUTABLE','Create a new evidenceId and use supersedes instead of updating an existing record.');
-  const supersedes=typeof p.supersedes==='string'&&p.supersedes?p.supersedes:undefined;
-  if(supersedes){
-    if(supersedes===evidenceId) return httpError(400,'EVIDENCE_SELF_SUPERSESSION');
-    if(!history.some((item)=>isRecord(item)&&item.evidenceId===supersedes)) return httpError(404,'SUPERSEDED_EVIDENCE_NOT_FOUND');
-    if(typeof p.supersessionReason!=='string'||!p.supersessionReason.trim()) return httpError(400,'SUPERSESSION_REASON_REQUIRED');
-    if(history.some((item)=>isRecord(item)&&isRecord(item.payload)&&item.payload.supersedes===supersedes)) return httpError(409,'EVIDENCE_ALREADY_SUPERSEDED');
-  }
-  const actorId = scope.user.userId;
-  try {
-    return await ctx.application.evidence({
-      entityId: params.id,
-      actorId,
-      evidenceId,
-      sourceType: typeof p.sourceType === 'string' ? p.sourceType : undefined,
-      reference: typeof p.reference === 'string' ? p.reference : undefined,
-      status,
-      confidence: typeof p.confidence === 'number' ? p.confidence : undefined,
-      payload,
-      supersedes,
-      supersessionReason: typeof p.supersessionReason === 'string' ? p.supersessionReason : undefined,
-      submittedThrough: '/api/v1/resource/:id/evidence',
-    });
-  } catch (error) {
-    const code = error instanceof Error ? (error as Error & { code?: unknown }).code : undefined;
-    if (code === 'EVIDENCE_IMMUTABLE') return httpError(409, 'EVIDENCE_IMMUTABLE', error instanceof Error ? error.message : String(error));
-    if (code === 'EVIDENCE_SELF_SUPERSESSION') return httpError(400, 'EVIDENCE_SELF_SUPERSESSION');
-    if (code === 'SUPERSEDED_EVIDENCE_NOT_FOUND') return httpError(404, 'SUPERSEDED_EVIDENCE_NOT_FOUND');
-    if (code === 'SUPERSESSION_REASON_REQUIRED') return httpError(400, 'SUPERSESSION_REASON_REQUIRED');
-    if (code === 'EVIDENCE_ALREADY_SUPERSEDED') return httpError(409, 'EVIDENCE_ALREADY_SUPERSEDED');
-    return httpError(500, 'EVIDENCE_PERSISTENCE_FAILED', error instanceof Error ? error.message : String(error));
-  }
 });
 
 v1Router.add('POST', '/api/v1/ingress/reminder', async (req, _reply, _params, body, _query, ctx) => {
