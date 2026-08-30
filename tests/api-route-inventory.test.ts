@@ -21,43 +21,29 @@ const extractedCapabilityRoutes = new Map([
   ['evaluation.routes.ts', ['POST /api/v1/evaluate']],
   ['evidence.routes.ts', ['POST /api/v1/resource/:id/evidence']],
   ['review.routes.ts', ['POST /api/v1/reviews']],
+  ['revelation.routes.ts', [
+    'GET /api/v1/revelation/core', 'GET /api/v1/revelation/geography', 'GET /api/v1/revelation/asma',
+    'GET /api/v1/revelation/divine-ontology', 'GET /api/v1/revelation/moral-graph',
+    'GET /api/v1/revelation/corpora', 'GET /api/v1/revelation/lifecycle', 'GET /api/v1/revelation/grammar',
+  ]],
+  ['workflow.routes.ts', [
+    'GET /api/v1/flow/workflows', 'POST /api/v1/flow/workflows', 'POST /api/v1/flow/workflows/:id/request-review',
+  ]],
+  ['jobs.routes.ts', ['GET /api/v1/jobs/:id', 'POST /api/v1/jobs/process']],
+  ['semantic.routes.ts', ['GET /api/v1/semantic/registry']],
+  ['observability.routes.ts', ['GET /api/v1/observability/recent', 'GET /api/v1/stream', 'GET /api/v1/metrics']],
 ]);
 
-const deferredSelectorModules = [
-  'observability.routes.ts',
-  'jobs.routes.ts',
-  'semantic.routes.ts',
-  'revelation.routes.ts',
-  'workflow.routes.ts',
-];
-
-// This is the intentionally deferred boundary after capability extraction.
+// This is the intentionally explicit boundary after capability extraction.
 // Keep the list exact so a new route in v1.routes.ts cannot silently fall back
 // into the compatibility adapter without an inventory decision.
 const expectedLegacyV1Routes = [
-  'GET /api/v1/observability/recent',
-  'GET /api/v1/stream',
-  'GET /api/v1/metrics',
-  'GET /api/v1/semantic/registry',
-  'GET /api/v1/revelation/core',
-  'GET /api/v1/revelation/geography',
-  'GET /api/v1/revelation/asma',
-  'GET /api/v1/revelation/divine-ontology',
-  'GET /api/v1/revelation/moral-graph',
-  'GET /api/v1/revelation/corpora',
-  'GET /api/v1/revelation/lifecycle',
-  'GET /api/v1/revelation/grammar',
-  'GET /api/v1/jobs/:id',
-  'POST /api/v1/jobs/process',
   'POST /api/v1/query',
   'GET /api/v1/xrp/workspace',
   'POST /api/v1/xrp/cases',
   'POST /api/v1/xrp/cases/:id/evidence',
   'POST /api/v1/xrp/work-items',
   'POST /api/v1/xrp/cases/:id/request-review',
-  'GET /api/v1/flow/workflows',
-  'POST /api/v1/flow/workflows',
-  'POST /api/v1/flow/workflows/:id/request-review',
   'POST /api/v1/command',
   'GET /api/v1/resource/:id/audit',
   'GET /api/v1/resource/:id/replay',
@@ -120,16 +106,19 @@ test('capability modules and the legacy v1 adapter have explicit route ownership
   assert.deepEqual(operationsIn('v1.routes.ts'), expectedLegacyV1Routes, 'legacy v1 migration boundary changed without an inventory decision');
 
   const composition = fs.readFileSync(path.join(routesDir, 'index.ts'), 'utf8');
+  const importNames = new Map([
+    ['analysis.routes.ts', 'router as analysisRouter'], ['observation.routes.ts', 'router as observationRouter'],
+    ['evaluation.routes.ts', 'router as evaluationRouter'], ['evidence.routes.ts', 'router as evidenceRouter'],
+    ['review.routes.ts', 'router as reviewRouter'], ['revelation.routes.ts', 'revelationRouter'],
+    ['workflow.routes.ts', 'workflowRouter'], ['jobs.routes.ts', 'jobsRouter'],
+    ['semantic.routes.ts', 'semanticRouter'], ['observability.routes.ts', 'observabilityRouter'],
+  ]);
   for (const file of extractedCapabilityRoutes.keys()) {
-    const importName = file.replace('.routes.ts', 'Router');
-    assert.match(composition, new RegExp(`import \\{ router as ${importName} \\} from './${file.replace('.ts', '.js')}'`), `${file} is not imported by the active composition`);
+    const importName = importNames.get(file)!;
+    assert.match(composition, new RegExp(`import \\{ ${importName} \\} from './${file.replace('.ts', '.js')}'`), `${file} is not imported by the active composition`);
     assert.match(composition, new RegExp(`\\b${importName}\\b`), `${file} is not mounted by the active composition`);
   }
   assert.match(composition, /apiCapabilityRouter\.use\(legacyV1Router\)/, 'legacy v1 compatibility adapter is no longer explicit');
-  for (const file of deferredSelectorModules) {
-    const importName = file.replace('.routes.ts', 'Router');
-    assert.doesNotMatch(composition, new RegExp(`\\b${importName}\\b`), `${file} is a deferred selector and must not be mounted alongside legacyV1Router`);
-  }
 });
 
 test('native route inventory contains no duplicate method/path declarations', () => {
