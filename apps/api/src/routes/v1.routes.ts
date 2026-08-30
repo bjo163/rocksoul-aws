@@ -4,14 +4,6 @@ import { buildAiAnalysis, analyzeWithProvider } from '@moonwitness/cosmic-engine
 import { IdempotencyStore } from '@moonwitness/persistence';
 import { replayCaseEvents, createUnpredictableIngress, triggerIngress, composeReminderBundle } from '@moonwitness/orchestrator';
 import { v } from '../validator.js';
-import { revelationSemanticCoreSnapshot } from '@moonwitness/revelation';
-import { revelationGeographyReport } from '@moonwitness/revelation';
-import { asmaEngineSnapshot } from '@moonwitness/revelation';
-import { divineOntologySnapshot } from '@moonwitness/revelation';
-import { revelationMoralGraph } from '@moonwitness/revelation';
-import { fourBookCorpusSnapshot } from '@moonwitness/revelation';
-import { revelationLifecycleSnapshot } from '@moonwitness/revelation';
-import { revelationGrammarSnapshot } from '@moonwitness/revelation';
 import { createReview, transitionReview, type HumanDisposition, type ReviewRecord, type ReviewStatus } from '@moonwitness/orchestrator';
 import { buildXrpWorkspace } from '../xrp-workspace.js';
 import { denyForeignRidWrite, requireScopedEntity } from '../access-control.js';
@@ -99,21 +91,6 @@ v1Router.add('GET', '/api/v1/semantic/registry', async (req, _reply, _params, _b
   }
   return ctx.semanticRegistry.snapshot();
 });
-
-v1Router.add('GET', '/api/v1/revelation/core', async (_req, _reply, _params, _body, _query, _ctx) => revelationSemanticCoreSnapshot(process.cwd()));
-
-v1Router.add('GET', '/api/v1/revelation/geography', async (_req, _reply, _params, _body, _query, _ctx) => revelationGeographyReport(process.cwd()));
-
-v1Router.add('GET', '/api/v1/revelation/asma', async (_req, _reply, _params, _body, _query, _ctx) => asmaEngineSnapshot(process.cwd()));
-v1Router.add('GET', '/api/v1/revelation/divine-ontology', async (_req, _reply, _params, _body, _query, _ctx) => divineOntologySnapshot(process.cwd()));
-
-v1Router.add('GET', '/api/v1/revelation/moral-graph', async (_req, _reply, _params, _body, _query, _ctx) => revelationMoralGraph(process.cwd()));
-
-v1Router.add('GET', '/api/v1/revelation/corpora', async (_req, _reply, _params, _body, _query, _ctx) => fourBookCorpusSnapshot(process.cwd()));
-
-v1Router.add('GET', '/api/v1/revelation/lifecycle', async (_req, _reply, _params, _body, _query, _ctx) => revelationLifecycleSnapshot(process.cwd()));
-
-v1Router.add('GET', '/api/v1/revelation/grammar', async (_req, _reply, _params, _body, _query, _ctx) => revelationGrammarSnapshot(process.cwd()));
 
 v1Router.add('GET', '/api/v1/jobs/:id', async (req, _reply, params, _body, _query, ctx) => {
   const authz = await requireAuthenticated(req, ctx.auth);
