@@ -17,19 +17,19 @@ export interface ApplicationServices {
 
 export interface ApplicationServiceOptions {
   analysis: AnalysisWorkflowPorts;
-  observation: ObservationWorkflowPorts;
-  evaluation: EvaluationWorkflowPorts;
-  evidence: EvidenceWorkflowPorts;
-  review: Pick<ReviewWorkflowPorts, 'createReview' | 'transitionReview' | 'saveEntity' | 'appendEvent'>;
+  observation: (actorId: string) => ObservationWorkflowPorts;
+  evaluation: (actorId: string) => EvaluationWorkflowPorts;
+  evidence: (actorId: string) => EvidenceWorkflowPorts;
+  review: (actorId: string) => Pick<ReviewWorkflowPorts, 'createReview' | 'transitionReview' | 'saveEntity' | 'appendEvent'>;
 }
 
 export function createApplicationServices(options: ApplicationServiceOptions): ApplicationServices {
   return {
-    observe: (input) => runObservationWorkflow(input, options.observation),
+    observe: (input) => runObservationWorkflow(input, options.observation(input.actorId)),
     analyze: (input) => runAnalysisWorkflow(input, options.analysis),
-    evaluate: (input) => runEvaluationWorkflow(input, options.evaluation),
-    evidence: (input) => runEvidenceWorkflow(input, options.evidence),
-    createReview: (input) => runCreateReviewWorkflow(input, options.review),
-    transitionReview: (input) => runTransitionReviewWorkflow(input, options.review),
+    evaluate: (input) => runEvaluationWorkflow(input, options.evaluation(input.actorId)),
+    evidence: (input) => runEvidenceWorkflow(input, options.evidence(input.actorId)),
+    createReview: (input) => runCreateReviewWorkflow(input, options.review(input.actorId)),
+    transitionReview: (input) => runTransitionReviewWorkflow(input, options.review(input.transition.actorId)),
   };
 }

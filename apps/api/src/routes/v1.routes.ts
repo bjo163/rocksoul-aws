@@ -17,7 +17,6 @@ import { denyForeignRidWrite, requireScopedEntity } from '../access-control.js';
 import { sha256 } from '@moonwitness/witness';
 import { hasPermission } from '@moonwitness/security';
 import { boundedInteger, cursorQueryBounds, listQueryBounds, queryFilters, stableCursorPage } from '../query-bounds.js';
-import { runCreateReviewWorkflow, runEvidenceWorkflow, runObservationWorkflow, runTransitionReviewWorkflow } from '@moonwitness/orchestrator';
 
 export const v1Router = new Router();
 
@@ -159,7 +158,7 @@ v1Router.add('POST', '/api/v1/observe', async (req, _reply, _params, body, _quer
     return await ctx.idempotency.execute(scopedIdempotencyKey(req, actorId, `OBSERVE:${entityId}`), IdempotencyStore.hash(p), async () => {
       if (!ctx.universeStore.persistence.store.batch) throw new Error('TRANSACTION_NOT_SUPPORTED');
       const source = typeof p.source === 'string' ? p.source : 'API';
-      const workflow = await runObservationWorkflow({
+      const workflow = await ctx.application.observe({
         entityId,
         actorId,
         eventId: `EVT-${Date.now()}-${Math.random().toString(36).slice(2,8)}`,
@@ -167,11 +166,6 @@ v1Router.add('POST', '/api/v1/observe', async (req, _reply, _params, body, _quer
         payload,
         context: isRecord(p.context) ? p.context : {},
         ownerRid: authUser?.rid,
-      }, {
-        loadEntity: (id) => ctx.universeStore.persistence.entities().get(id),
-        batch: (work) => ctx.universeStore.persistence.store.batch(work),
-        saveEntity: (input) => ctx.universeStore.persistence.asActor(actorId).saveEntity(input),
-        appendEvent: (input) => ctx.universeStore.persistence.asActor(actorId).appendEvent(input),
       });
       return { statusCode: 200, body: workflow };
     });
@@ -600,11 +594,7 @@ v1Router.add('POST', '/api/v1/reviews', async (req, _reply, _params, body, _quer
   }
   const actor=authz.user?.userId??'SERVICE-API-001';
   try {
-    const review = await runCreateReviewWorkflow({ targetId: p.targetId, requestedBy: actor, actorId: actor, assigneeId: typeof p.assigneeId === 'string' ? p.assigneeId : null, gateDecision: typeof p.gateDecision === 'string' ? p.gateDecision : 'REQUIRE_HUMAN_REVIEW', evidenceRefs: Array.isArray(p.evidenceRefs) ? p.evidenceRefs.filter((x): x is string => typeof x === 'string') : [] }, {
-      createReview,
-      saveEntity: (input) => ctx.universeStore.persistence.asActor(actor).saveEntity(input),
-      appendEvent: (input) => ctx.universeStore.persistence.asActor(actor).appendEvent(input),
-    });
+    const review = await ctx.application.createReview({ targetId: p.targetId, requestedBy: actor, actorId: actor, assigneeId: typeof p.assigneeId === 'string' ? p.assigneeId : null, gateDecision: typeof p.gateDecision === 'string' ? p.gateDecision : 'REQUIRE_HUMAN_REVIEW', evidenceRefs: Array.isArray(p.evidenceRefs) ? p.evidenceRefs.filter((x): x is string => typeof x === 'string') : [] });
     return {statusCode:201,body:review};
   } catch (error) {
     return httpError(409, 'REVIEW_CREATE_REJECTED', error instanceof Error ? error.message : String(error));
@@ -627,11 +617,7 @@ v1Router.add('POST', '/api/v1/reviews/:id/transition', async (req, _reply, param
   const currentAssignee = typeof currentPayload.assigneeId === 'string' ? currentPayload.assigneeId : null;
   const assigneeId = requestedAssignee ?? (!authz.user.roles.includes('ADMIN') && !currentAssignee ? actor : undefined);
   try {
-    return await runTransitionReviewWorkflow({ current: current.payload as ReviewRecord, currentVersion: Number(current.version ?? currentPayload.version ?? 1), transition: { status: p.status as ReviewStatus, actorId: actor, rationale: typeof p.rationale === 'string' ? p.rationale : undefined, disposition: typeof p.disposition === 'string' ? p.disposition as HumanDisposition : undefined, assigneeId } }, {
-      transitionReview,
-      saveEntity: (input) => ctx.universeStore.persistence.asActor(actor).saveEntity(input),
-      appendEvent: (input) => ctx.universeStore.persistence.asActor(actor).appendEvent(input),
-    });
+    return await ctx.application.transitionReview({ current: current.payload as ReviewRecord, currentVersion: Number(current.version ?? currentPayload.version ?? 1), transition: { status: p.status as ReviewStatus, actorId: actor, rationale: typeof p.rationale === 'string' ? p.rationale : undefined, disposition: typeof p.disposition === 'string' ? p.disposition as HumanDisposition : undefined, assigneeId } });
   } catch(error) { return httpError(409,'REVIEW_TRANSITION_REJECTED',error instanceof Error?error.message:String(error)); }
 });
 
@@ -671,7 +657,7 @@ v1Router.add('POST', '/api/v1/resource/:id/evidence', async (req, _reply, params
   }
   const actorId = scope.user.userId;
   try {
-    return await runEvidenceWorkflow({
+    return await ctx.application.evidence({
       entityId: params.id,
       actorId,
       evidenceId,
@@ -683,9 +669,6 @@ v1Router.add('POST', '/api/v1/resource/:id/evidence', async (req, _reply, params
       supersedes,
       supersessionReason: typeof p.supersessionReason === 'string' ? p.supersessionReason : undefined,
       submittedThrough: '/api/v1/resource/:id/evidence',
-    }, {
-      listEvidence: (id) => ctx.universeStore.listCaseEvidence(id),
-      saveEvidence: (record) => ctx.universeStore.persistence.asActor(actorId).saveEvidence(record) as Promise<typeof record>,
     });
   } catch (error) {
     const code = error instanceof Error ? (error as Error & { code?: unknown }).code : undefined;
