@@ -334,3 +334,13 @@ export * from './workflow-definitions.js';
 
 export * from './aws/legal-store.js';
 export * from './aws/source-worker.js';
+
+export * from './aws/source-http.js';
+export * from './aws/html-normalization.js';
+export * from './aws/icrc-adapter.js';
+export * from './aws/untc-adapter.js';
+export * from './aws/treaty-actions.js';
+
+export * from './aws/official-ingestion.js';
+
+export * from './aws/content-canonicalization.js';
