@@ -10,6 +10,7 @@ import type {
 export type AwsLegalRecordKind =
   | 'SOURCE'
   | 'INSTRUMENT'
+  | 'TREATY_ACTION'
   | 'JURISDICTION'
   | 'APPLICABILITY'
   | 'CLAIM'
