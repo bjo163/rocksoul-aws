@@ -1,5 +1,5 @@
 import crypto from 'node:crypto';
-import { isDeepStrictEqual } from 'node:util';
+import { isAwsContentEqual } from './content-canonicalization.js';
 import type {
   EntityRecord,
   EvidenceRecord,
@@ -106,7 +106,7 @@ export class AwsLegalStore {
     actorId = 'SYSTEM-AWS',
   ): Promise<{ changed: boolean; record: AwsLegalRecord<T> }> {
     const existing = await this.getRecord<T>(id);
-    if (existing && existing.kind === kind && isDeepStrictEqual(existing.payload, payload)) {
+    if (existing && existing.kind === kind && isAwsContentEqual(existing.payload, payload)) {
       return { changed: false, record: existing };
     }
     return {
