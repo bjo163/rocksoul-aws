@@ -2,6 +2,7 @@ import type { AwsVerifiedSourceSnapshot } from './source-worker.js';
 import { AwsOfficialSourceHttpClient } from './source-http.js';
 import { awsHtmlTableRows, awsHtmlToText, parseAwsEnglishDate } from './html-normalization.js';
 import { createAwsActorRef, type AwsTreatyActionCandidate, type AwsTreatyActionType } from './treaty-actions.js';
+import { parseUntcGenocideLegalNotices } from './untc-legal-notices.js';
 
 export const AWS_UNTC_ORIGIN = 'https://treaties.un.org';
 export const AWS_UNTC_GENOCIDE_URL =
@@ -117,6 +118,8 @@ export function parseUntcGenocidePage(
     const participationCandidate = parseParticipantAction(participant, participation, sourceUrl, retrievedAt);
     if (participationCandidate) actions.push(participationCandidate);
   }
+
+  actions.push(...parseUntcGenocideLegalNotices(html, retrievedAt, sourceUrl));
 
   return {
     source_family: 'UNTC',
