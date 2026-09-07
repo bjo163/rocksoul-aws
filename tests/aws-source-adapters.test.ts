@@ -24,6 +24,7 @@ import {
   persistAwsTreatyActionCandidates,
 } from '../packages/orchestrator/src/aws/treaty-actions.js';
 import { AwsLegalStore } from '../packages/orchestrator/src/aws/legal-store.js';
+import { AwsOfficialSourceIngestionService } from '../packages/orchestrator/src/aws/official-ingestion.js';
 import { AwsSourceWorker, fingerprintAwsSourcePayload } from '../packages/orchestrator/src/aws/source-worker.js';
 
 const fixture = (name: string) =>
@@ -198,4 +199,62 @@ test('UNTC status snapshots are content-sensitive but polling time is provenance
     '2026-09-08T02:00:00.000Z',
   );
   assert.notEqual(fingerprintAwsSourcePayload(first), fingerprintAwsSourcePayload(changed));
+});
+
+
+test('official ingestion is idempotent across identical UNTC polls', async () => {
+  const html = await readFile(fixture('untc-genocide-status.html'), 'utf8');
+  const untcClient = new AwsOfficialSourceHttpClient(
+    new StubTransport([
+      response(AWS_UNTC_GENOCIDE_URL, html),
+      response(AWS_UNTC_GENOCIDE_URL, html),
+    ]),
+  );
+  const untc = new AwsUntcAdapter(
+    untcClient,
+    (() => {
+      let index = 0;
+      const times = [
+        new Date('2026-09-08T00:00:00.000Z'),
+        new Date('2026-09-08T01:00:00.000Z'),
+      ];
+      return () => times[Math.min(index++, times.length - 1)];
+    })(),
+  );
+
+  const icrc = new AwsIcrcAdapter(
+    new AwsOfficialSourceHttpClient(new StubTransport([])),
+    () => new Date('2026-09-08T00:00:00.000Z'),
+  );
+
+  const persistence = new MemoryProvider();
+  const legal = new AwsLegalStore(persistence);
+  const jobs = new PersistentJobQueue(persistence, 60_000, {
+    workerId: 'aws-ingestion-idempotency-test',
+    now: () => new Date('2026-09-08T00:00:00.000Z'),
+  });
+  const worker = new AwsSourceWorker(legal, jobs);
+  const ingestion = new AwsOfficialSourceIngestionService(legal, worker, icrc, untc);
+
+  const first = await ingestion.ingestUntcGenocideConvention();
+  assert.equal(first.sourceResult.changed, true);
+  assert.equal(first.instrumentChanged, true);
+  assert.equal(first.treatyActionIds.length, 4);
+
+  const actionId = first.treatyActionIds[0];
+  const actionAfterFirst = await legal.getRecord(actionId);
+  const instrumentAfterFirst = await legal.getRecord('LAW-UN-GENOCIDE-1948');
+  assert.equal(actionAfterFirst?.version, 1);
+  assert.equal(instrumentAfterFirst?.version, 1);
+
+  const second = await ingestion.ingestUntcGenocideConvention();
+  assert.equal(second.sourceResult.changed, false);
+  assert.equal(second.instrumentChanged, false);
+  assert.deepEqual(second.treatyActionIds, first.treatyActionIds);
+
+  const actionAfterSecond = await legal.getRecord(actionId);
+  const instrumentAfterSecond = await legal.getRecord('LAW-UN-GENOCIDE-1948');
+  assert.equal(actionAfterSecond?.version, 1);
+  assert.equal(instrumentAfterSecond?.version, 1);
+  assert.equal((await jobs.list('QUEUED')).length, 0);
 });
