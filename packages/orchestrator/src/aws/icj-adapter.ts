@@ -150,4 +150,30 @@ export class AwsIcjAdapter {
       payload: parseIcjBosniaSerbiaJudgmentPage(html),
     };
   }
+
+  async fetchBosniaSerbiaBundle(): Promise<AwsVerifiedSourceSnapshot> {
+    const [caseHtml, judgmentHtml] = await Promise.all([
+      this.http.getText(AWS_ICJ_BOSNIA_SERBIA_CASE_URL, {
+        allowedOrigins: [AWS_ICJ_ORIGIN],
+        maxBytes: 4 * 1024 * 1024,
+      }),
+      this.http.getText(AWS_ICJ_BOSNIA_SERBIA_JUDGMENT_URL, {
+        allowedOrigins: [AWS_ICJ_ORIGIN],
+        maxBytes: 8 * 1024 * 1024,
+      }),
+    ]);
+    const capturedAt = this.now().toISOString();
+
+    return {
+      sourceId: 'SRC-AWS-ICJ',
+      sourceUrl: AWS_ICJ_BOSNIA_SERBIA_CASE_URL,
+      capturedAt,
+      payload: {
+        source_family: 'ICJ',
+        bundle_id: 'icj:case:91:judgment:2007-02-26',
+        case: parseIcjBosniaSerbiaCasePage(caseHtml),
+        judgment: parseIcjBosniaSerbiaJudgmentPage(judgmentHtml),
+      },
+    };
+  }
 }
