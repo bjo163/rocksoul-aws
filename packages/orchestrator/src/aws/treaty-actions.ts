@@ -55,7 +55,7 @@ export async function persistAwsTreatyActionCandidates(
   const ids: string[] = [];
   for (const candidate of candidates) {
     const id = createAwsTreatyActionId(candidate);
-    await legalStore.upsertRecord('TREATY_ACTION', id, {
+    await legalStore.upsertRecordIfChanged('TREATY_ACTION', id, {
       ...structuredClone(candidate),
       id,
     });
