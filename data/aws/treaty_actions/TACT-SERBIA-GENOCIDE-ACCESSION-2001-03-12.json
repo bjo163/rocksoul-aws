@@ -1,0 +1,17 @@
+{
+  "id": "TACT-SERBIA-GENOCIDE-ACCESSION-2001-03-12",
+  "instrument_ref": "LAW-UN-GENOCIDE-1948",
+  "actor_ref": "state-name:SERBIA",
+  "action": "accession",
+  "action_date": "2001-03-12",
+  "effective_date": null,
+  "text": null,
+  "related_action_refs": [],
+  "source": {
+    "url": "https://treaties.un.org/pages/ViewDetails.aspx?chapter=4&mtdsg_no=IV-1&src=TREATY",
+    "depositary_notification_id": null,
+    "retrieved_at": "2026-09-08T00:00:00Z",
+    "sha256": null
+  },
+  "research_state": "CANONICAL"
+}
