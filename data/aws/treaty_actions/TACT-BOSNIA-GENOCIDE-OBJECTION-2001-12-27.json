@@ -1,0 +1,20 @@
+{
+  "id": "TACT-BOSNIA-GENOCIDE-OBJECTION-2001-12-27",
+  "instrument_ref": "LAW-UN-GENOCIDE-1948",
+  "actor_ref": "state-name:BOSNIA-AND-HERZEGOVINA",
+  "action": "objection",
+  "action_date": "2001-12-27",
+  "effective_date": null,
+  "text": "Bosnia and Herzegovina objected to the deposition of the Federal Republic of Yugoslavia instrument of accession and challenged the attempted Article IX reservation in light of succession and the earlier ICJ jurisdiction judgment.",
+  "related_action_refs": [
+    "TACT-SERBIA-GENOCIDE-ACCESSION-2001-03-12",
+    "TACT-SERBIA-GENOCIDE-RESERVATION-2001-03-12"
+  ],
+  "source": {
+    "url": "https://treaties.un.org/pages/ViewDetails.aspx?chapter=4&mtdsg_no=IV-1&src=TREATY",
+    "depositary_notification_id": null,
+    "retrieved_at": "2026-09-08T00:00:00Z",
+    "sha256": null
+  },
+  "research_state": "CANONICAL"
+}
