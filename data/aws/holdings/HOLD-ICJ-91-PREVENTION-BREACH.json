@@ -1,0 +1,17 @@
+{
+  "id": "HOLD-ICJ-91-PREVENTION-BREACH",
+  "authority_ref": "AUTH-ICJ-91-JUDGMENT-2007-02-26",
+  "case_ref": "LCASE-ICJ-BOSNIA-SERBIA-91",
+  "holding_type": "BREACH",
+  "determination": "BREACH",
+  "proposition": "Serbia breached its obligation under the Genocide Convention to prevent genocide in Srebrenica.",
+  "subject_refs": [
+    "state-name:SERBIA"
+  ],
+  "basis_refs": [
+    "AUTH-ICJ-91-JUDGMENT-2007-02-26",
+    "LAW-UN-GENOCIDE-1948"
+  ],
+  "scope_note": "This holding concerns the prevention obligation and is distinct from responsibility for commission of genocide.",
+  "research_state": "CANONICAL"
+}
