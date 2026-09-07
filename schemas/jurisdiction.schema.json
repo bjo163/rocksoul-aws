@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moonwitness.dev/schemas/aws/jurisdiction.schema.json",
+  "title": "AWS Jurisdiction / Forum",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "name",
+    "jurisdiction_type",
+    "competence",
+    "sources"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^JUR-[A-Z0-9][A-Z0-9._-]*$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "jurisdiction_type": {
+      "type": "string",
+      "enum": [
+        "international_court",
+        "regional_court",
+        "international_tribunal",
+        "arbitral_tribunal",
+        "treaty_body",
+        "international_organization",
+        "regional_organization",
+        "national_legal_order",
+        "specialized_forum",
+        "other"
+      ]
+    },
+    "competence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "temporal",
+        "territorial",
+        "personal",
+        "subject_matter"
+      ],
+      "properties": {
+        "temporal": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "territorial": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "personal": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "subject_matter": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "constitutive_instrument_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "format": "uri"
+      }
+    },
+    "notes": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}
