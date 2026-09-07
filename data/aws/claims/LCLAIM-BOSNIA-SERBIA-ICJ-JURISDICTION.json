@@ -1,0 +1,24 @@
+{
+  "id": "LCLAIM-BOSNIA-SERBIA-ICJ-JURISDICTION",
+  "case_ref": "LCASE-ICJ-BOSNIA-SERBIA-91",
+  "proposition": "The International Court of Justice had jurisdiction, on the basis of Article IX of the Genocide Convention, to adjudicate the dispute brought by Bosnia and Herzegovina on 20 March 1993.",
+  "claim_type": "jurisdiction",
+  "asserted_by_refs": [
+    "AUTH-ICJ-91-JUDGMENT-2007-02-26"
+  ],
+  "basis_refs": [
+    "LAW-UN-GENOCIDE-1948",
+    "JUR-ICJ",
+    "AUTH-ICJ-91-JUDGMENT-2007-02-26",
+    "APPL-BOSNIA-SERBIA-GENOCIDE-ICJ"
+  ],
+  "evidence_refs": [
+    "SRC-AWS-ICJ",
+    "SRC-AWS-UNTC"
+  ],
+  "contrary_authority_refs": [],
+  "counterclaim_refs": [],
+  "scope_note": "This proposition concerns jurisdiction and treaty applicability. It is not a proposition that every merits allegation made in the case was established.",
+  "status": "SUPPORTED",
+  "confidence": 0.99
+}
