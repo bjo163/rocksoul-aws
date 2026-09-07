@@ -2,7 +2,7 @@ name: TSE Engine Integration
 
 on:
   push:
-    branches: [dev]
+    branches: [dev, main]
     paths:
       - 'packages/tse-engine/**'
       - 'packages/temporal-engine/**'
@@ -10,7 +10,7 @@ on:
       - 'docs/TSE_GOLD_VALIDATION.md'
       - '.github/workflows/tse-integration.yml'
   pull_request:
-    branches: [dev, main]
+    branches: [main]
     paths:
       - 'packages/tse-engine/**'
       - 'packages/temporal-engine/**'
