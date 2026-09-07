@@ -189,9 +189,10 @@ For operator inspection only:
 \`\`\`bash
 npm run aws:source:probe -- icrc-gciv
 npm run aws:source:probe -- untc-genocide
+npm run aws:source:probe -- icj-bosnia-serbia
 \`\`\`
 
-The probe prints the normalized verified snapshot.
+The probe prints the normalized verified snapshot. Phase 3B extends the same operator boundary to the bundled ICJ case-91 + judgment source.
 
 It does not persist a verdict.
 
