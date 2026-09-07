@@ -1,0 +1,75 @@
+{
+  "id": "APPL-BOSNIA-SERBIA-GENOCIDE-ICJ",
+  "case_ref": "LCASE-ICJ-BOSNIA-SERBIA-91",
+  "legal_basis_ref": "LAW-UN-GENOCIDE-1948",
+  "jurisdiction_ref": "JUR-ICJ",
+  "dimensions": {
+    "temporal": {
+      "status": "APPLIES",
+      "reasons": [
+        "The Genocide Convention entered into force on 1951-01-12, before the interstate application was filed on 1993-03-20."
+      ],
+      "basis_refs": [
+        "LAW-UN-GENOCIDE-1948"
+      ]
+    },
+    "territorial": {
+      "status": "APPLIES",
+      "reasons": [
+        "The dispute concerned alleged conduct in Bosnia and Herzegovina and was adjudicated by the ICJ as a dispute under the Genocide Convention."
+      ],
+      "basis_refs": [
+        "AUTH-ICJ-91-JUDGMENT-2007-02-26"
+      ]
+    },
+    "personal": {
+      "status": "APPLIES",
+      "reasons": [
+        "Bosnia and Herzegovina recorded succession to the Convention on 1992-12-29, and the ICJ final judgment affirmed jurisdiction over the respondent for the dispute despite later status and reservation arguments."
+      ],
+      "basis_refs": [
+        "TACT-BOSNIA-GENOCIDE-SUCCESSION-1992-12-29",
+        "TACT-SFRY-GENOCIDE-RATIFICATION-1950-08-29",
+        "AUTH-ICJ-91-JUDGMENT-2007-02-26"
+      ]
+    },
+    "subject_matter": {
+      "status": "APPLIES",
+      "reasons": [
+        "The dispute concerned interpretation, application or fulfilment of the Genocide Convention and State responsibility claims of the kind addressed by Article IX."
+      ],
+      "basis_refs": [
+        "LAW-UN-GENOCIDE-1948",
+        "AUTH-ICJ-91-JUDGMENT-2007-02-26"
+      ]
+    },
+    "jurisdiction": {
+      "status": "APPLIES",
+      "reasons": [
+        "The ICJ expressly affirmed jurisdiction on the basis of Article IX of the Genocide Convention for the dispute filed on 1993-03-20."
+      ],
+      "basis_refs": [
+        "JUR-ICJ",
+        "LAW-UN-GENOCIDE-1948",
+        "AUTH-ICJ-91-JUDGMENT-2007-02-26"
+      ]
+    }
+  },
+  "overall": "APPLICABLE",
+  "basis_refs": [
+    "LAW-UN-GENOCIDE-1948",
+    "JUR-ICJ",
+    "AUTH-ICJ-91-JUDGMENT-2007-02-26",
+    "TACT-BOSNIA-GENOCIDE-SUCCESSION-1992-12-29",
+    "TACT-SFRY-GENOCIDE-RATIFICATION-1950-08-29"
+  ],
+  "contrary_refs": [
+    "TACT-SERBIA-GENOCIDE-RESERVATION-2001-03-12",
+    "TACT-BOSNIA-GENOCIDE-OBJECTION-2001-12-27"
+  ],
+  "reasoning": [
+    "Applicability here means that the Convention and Article IX supplied an applicable legal and jurisdictional framework for the dispute; it does not predetermine the merits.",
+    "Later accession/reservation/objection history is preserved as data and not flattened into a new jurisdiction conclusion contrary to the final ICJ judgment."
+  ],
+  "review_state": "REVIEW_REQUIRED"
+}
