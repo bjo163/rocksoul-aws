@@ -15,7 +15,7 @@ export function evaluateAwsClaimAssessment(
   input: AwsClaimAssessmentInput,
 ): AwsClaimAssessmentResult {
   if (input.applicability === 'NOT_APPLICABLE') return 'NOT_REACHED';
-  if (input.applicability === 'UNCERTAIN') return 'UNRESOLVED';
+  if (input.applicability === 'UNCERTAIN' || input.applicability === 'PARTIALLY_APPLICABLE') return 'UNRESOLVED';
 
   const hasSupport = input.supportingHoldingRefs.length > 0;
   const hasContradiction = input.contradictingHoldingRefs.length > 0;
