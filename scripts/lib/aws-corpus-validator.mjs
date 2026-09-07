@@ -72,7 +72,7 @@ function validateResolvedRefs(errors, indexed, refs, file, label) {
 
 function expectedClaimAssessmentResult(applicability, supportRefs, contradictionRefs) {
   if (applicability === "NOT_APPLICABLE") return "NOT_REACHED";
-  if (applicability === "UNCERTAIN") return "UNRESOLVED";
+  if (applicability === "UNCERTAIN" || applicability === "PARTIALLY_APPLICABLE") return "UNRESOLVED";
   const hasSupport = (supportRefs ?? []).length > 0;
   const hasContradiction = (contradictionRefs ?? []).length > 0;
   if (hasSupport && hasContradiction) return "MIXED";
