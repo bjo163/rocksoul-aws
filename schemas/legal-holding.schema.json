@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moonwitness.dev/schemas/aws/legal-holding.schema.json",
+  "title": "AWS Legal Holding",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "authority_ref",
+    "case_ref",
+    "holding_type",
+    "determination",
+    "proposition",
+    "basis_refs",
+    "research_state"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^HOLD-[A-Z0-9][A-Z0-9._-]*$"
+    },
+    "authority_ref": {
+      "type": "string",
+      "pattern": "^AUTH-"
+    },
+    "case_ref": {
+      "type": "string",
+      "pattern": "^LCASE-"
+    },
+    "holding_type": {
+      "type": "string",
+      "enum": [
+        "JURISDICTION",
+        "RESPONSIBILITY",
+        "BREACH",
+        "REMEDY",
+        "PROCEDURE",
+        "INTERPRETATION",
+        "FACT",
+        "OTHER"
+      ]
+    },
+    "determination": {
+      "type": "string",
+      "enum": [
+        "AFFIRMED",
+        "DENIED",
+        "ESTABLISHED",
+        "NOT_ESTABLISHED",
+        "BREACH",
+        "NO_BREACH",
+        "ORDERED",
+        "DISMISSED",
+        "OTHER"
+      ]
+    },
+    "proposition": {
+      "type": "string",
+      "minLength": 1
+    },
+    "subject_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "basis_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "scope_note": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "research_state": {
+      "type": "string",
+      "enum": [
+        "CANDIDATE",
+        "REVIEW_REQUIRED",
+        "REVIEWED",
+        "CANONICAL",
+        "SUPERSEDED"
+      ]
+    }
+  }
+}
