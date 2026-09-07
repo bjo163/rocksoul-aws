@@ -1,4 +1,4 @@
-name: Cosmic CI
+name: AWS CI
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: cosmic-ci-${{ github.ref }}
+  group: aws-ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
