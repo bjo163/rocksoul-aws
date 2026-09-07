@@ -119,7 +119,8 @@
     "test:aws": "node --test tests/aws-legal-corpus.test.mjs",
     "aws:check": "npm run aws:ingest:icrc -- --check && npm run aws:validate && npm run test:aws && npm run test:aws:runtime && npm run test:aws:adapters",
     "test:aws:runtime": "node scripts/transpile-runner.mjs tests/aws-legal-runtime.test.ts",
-    "test:aws:adapters": "node scripts/transpile-runner.mjs tests/aws-source-adapters.test.ts"
+    "test:aws:adapters": "node scripts/transpile-runner.mjs tests/aws-source-adapters.test.ts",
+    "aws:source:probe": "node scripts/transpile-exec.mjs scripts/aws-source-probe.ts"
   },
   "devDependencies": {
     "@types/node": "^26.0.0",
