@@ -1,4 +1,5 @@
 import crypto from 'node:crypto';
+import { isDeepStrictEqual } from 'node:util';
 import type {
   EntityRecord,
   EvidenceRecord,
@@ -96,6 +97,22 @@ export class AwsLegalStore {
       updatedBy: actorId,
     });
     return toRecord(saved) as AwsLegalRecord<T>;
+  }
+
+  async upsertRecordIfChanged<T extends Record<string, unknown>>(
+    kind: AwsLegalRecordKind,
+    id: string,
+    payload: T,
+    actorId = 'SYSTEM-AWS',
+  ): Promise<{ changed: boolean; record: AwsLegalRecord<T> }> {
+    const existing = await this.getRecord<T>(id);
+    if (existing && existing.kind === kind && isDeepStrictEqual(existing.payload, payload)) {
+      return { changed: false, record: existing };
+    }
+    return {
+      changed: true,
+      record: await this.upsertRecord(kind, id, payload, actorId),
+    };
   }
 
   async getRecord<T extends Record<string, unknown> = Record<string, unknown>>(id: string): Promise<AwsLegalRecord<T> | null> {
