@@ -1,0 +1,24 @@
+{
+  "id": "JUR-ICJ",
+  "name": "International Court of Justice",
+  "jurisdiction_type": "international_court",
+  "competence": {
+    "temporal": [
+      "Jurisdiction is case- and legal-basis-specific; this record does not imply retroactive competence over historical conduct."
+    ],
+    "territorial": [
+      "No generic territorial jurisdiction is inferred; competence depends on the applicable jurisdictional basis."
+    ],
+    "personal": [
+      "Only States may be parties in contentious cases under Article 34 of the Statute."
+    ],
+    "subject_matter": [
+      "Cases referred by the parties and matters specially provided for in the UN Charter or treaties/conventions in force; other jurisdictional bases remain case-specific."
+    ]
+  },
+  "constitutive_instrument_refs": [],
+  "sources": [
+    "https://www.icj-cij.org/statute"
+  ],
+  "notes": "Registry seed for forum competence. Presence of JUR-ICJ never proves that the Court has jurisdiction over a particular dispute."
+}

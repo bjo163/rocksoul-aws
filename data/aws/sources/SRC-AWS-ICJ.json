@@ -1,0 +1,15 @@
+{
+  "id": "SRC-AWS-ICJ",
+  "name": "Statute of the International Court of Justice",
+  "publisher": "International Court of Justice",
+  "authority_role": "OFFICIAL_JUDICIAL",
+  "canonical_url": "https://www.icj-cij.org/statute",
+  "scope": [
+    "international_law_sources",
+    "court_competence",
+    "jurisdiction",
+    "procedure"
+  ],
+  "retrieved_at": "2026-09-07T22:56:43Z",
+  "notes": "Official ICJ source. Articles 34-38 are used to model forum competence and source categories without treating the Court as a universal enforcement body."
+}

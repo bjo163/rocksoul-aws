@@ -1,0 +1,41 @@
+{
+  "id": "CASE-AWS-JERUSALEM-70",
+  "title": "Jerusalem 70 CE — five-domain legal boundary proof",
+  "question": "Can Geneva Convention IV be used as treaty law to classify the 70 CE destruction event?",
+  "event_year_ce": 70,
+  "external_refs": {
+    "story": [
+      "mftl:MYTH-JERUSALEM-TEMPLE-DESTRUCTION-PROPHECY-000001"
+    ],
+    "event": [
+      "legend:EVT-JERUSALEM-SECOND-TEMPLE-DESTRUCTION-70"
+    ],
+    "person": [
+      "superhero:PER-JERUSALEM-FLAVIUS-JOSEPHUS"
+    ],
+    "rgbl": [
+      "rgbl:mw:passage:sblgnt:v1-2:mark:13:2",
+      "rgbl:mw:passage:web-classic:2020:mar:13:2"
+    ]
+  },
+  "aws_refs": {
+    "legal_basis": [
+      "LAW-IHL-GCIV-1949"
+    ],
+    "applicability": [
+      "APPL-JERUSALEM-70-GCIV"
+    ],
+    "claims": [
+      "LCLAIM-JERUSALEM-70-GCIV-TEMPORAL"
+    ],
+    "assessments": [
+      "LASSMT-JERUSALEM-70-GCIV"
+    ]
+  },
+  "result": {
+    "applicability": "NOT_APPLICABLE",
+    "legal_result": "UNRESOLVED",
+    "summary": "The four evidence domains remain intact. AWS adds a real legal instrument and concludes only that GC IV is temporally inapplicable to 70 CE; it does not convert that negative applicability finding into permission or prohibition."
+  },
+  "research_state": "REVIEW_REQUIRED"
+}

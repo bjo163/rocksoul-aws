@@ -149,14 +149,16 @@ Treaty actions, reservations, declarations, withdrawals, new judgments, corrigen
 
 ## Canonical machine contracts
 
-Phase 0 introduces legal-domain contracts in `schemas/`:
+The legal-domain contracts in `schemas/` now include:
 
+- `legal-source.schema.json`
 - `legal-instrument.schema.json`
 - `jurisdiction.schema.json`
 - `treaty-action.schema.json`
 - `applicability.schema.json`
 - `legal-claim.schema.json`
 - `legal-assessment.schema.json`
+- `cross-repo-case.schema.json`
 
 Stable identifiers use explicit prefixes such as:
 
@@ -210,8 +212,8 @@ This repository was created from a mature MoonWitness/Cosmic-derived engine code
 Migration therefore proceeds in layers:
 
 ```text
-PHASE 0  DOMAIN CONTRACT        ← current
-PHASE 1  LEGAL DATA MODEL
+PHASE 0  DOMAIN CONTRACT        ✓
+PHASE 1  LEGAL CORPUS PROOF     ← active
 PHASE 2  OFFICIAL-SOURCE INGESTION
 PHASE 3  APPLICABILITY ENGINE
 PHASE 4  LEGAL + MIZAN ANALYSIS
@@ -229,7 +231,10 @@ Start here:
 - [Legal research model](docs/LEGAL_RESEARCH_MODEL.md)
 - [Rocksoul interoperability](docs/ROCKSOUL_INTEROP.md)
 - [Automation & freshness](docs/AUTOMATION.md)
+- [Canonical legal data](data/aws/README.md)
+- [Five-domain case — Jerusalem 70 CE](docs/cases/JERUSALEM-70-FIVE-WAY.md)
 - [Foundation issue #101](https://github.com/bjo163/rocksoul-aws/issues/101)
+- [Phase-1 issue #103](https://github.com/bjo163/rocksoul-aws/issues/103)
 
 ---
 

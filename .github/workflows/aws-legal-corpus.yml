@@ -1,0 +1,51 @@
+name: AWS Legal Corpus
+
+on:
+  push:
+    branches: [main, dev]
+    paths:
+      - "data/aws/**"
+      - "schemas/legal-*.json"
+      - "schemas/cross-repo-case.schema.json"
+      - "scripts/aws-*.mjs"
+      - "scripts/lib/aws-*.mjs"
+      - "tests/aws-*.mjs"
+      - "package.json"
+      - ".github/workflows/aws-legal-corpus.yml"
+  pull_request:
+    branches: [main, dev]
+    paths:
+      - "data/aws/**"
+      - "schemas/legal-*.json"
+      - "schemas/cross-repo-case.schema.json"
+      - "scripts/aws-*.mjs"
+      - "scripts/lib/aws-*.mjs"
+      - "tests/aws-*.mjs"
+      - "package.json"
+      - ".github/workflows/aws-legal-corpus.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: aws-legal-corpus-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Validate provenance, ingestion, graph, and boundary invariants
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 26
+        uses: actions/setup-node@v4
+        with:
+          node-version: 26
+
+      - name: AWS legal corpus check
+        run: npm run aws:check

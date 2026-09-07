@@ -1,0 +1,15 @@
+{
+  "id": "SRC-AWS-ICRC-IHL",
+  "name": "ICRC International Humanitarian Law Databases",
+  "publisher": "International Committee of the Red Cross",
+  "authority_role": "OFFICIAL_INSTITUTIONAL_DATABASE",
+  "canonical_url": "https://ihl-databases.icrc.org/en/ihl-treaties",
+  "scope": [
+    "international_humanitarian_law",
+    "treaties",
+    "states_parties",
+    "commentaries"
+  ],
+  "retrieved_at": "2026-09-07T22:56:43Z",
+  "notes": "Official ICRC treaty, States Parties, and commentary database. Used as the first deterministic AWS ingestion source."
+}

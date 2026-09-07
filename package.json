@@ -3,8 +3,14 @@
   "version": "4.33.0",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=26 <27", "npm": ">=11 <12" },
-  "workspaces": ["apps/*", "packages/*"],
+  "engines": {
+    "node": ">=26 <27",
+    "npm": ">=11 <12"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "build:packages": "node scripts/build-packages.mjs",
     "test:package-runtime": "npm run build:packages && node scripts/package-runtime-smoke.mjs",
@@ -107,7 +113,14 @@
     "test:sdk-session": "node scripts/transpile-runner.mjs tests/sdk-session-contract.test.ts",
     "test:lifecycle": "node scripts/transpile-runner.mjs tests/moral-lifecycle-100-cases.test.ts",
     "test:grammar": "node scripts/transpile-runner.mjs tests/revelation-grammar.test.ts tests/revelation-grammar-100-cases.test.ts",
-    "test:ontology": "node scripts/transpile-runner.mjs tests/revelation-divine-ontology.test.ts tests/revelation-divine-ontology-100-cases.test.ts"
+    "test:ontology": "node scripts/transpile-runner.mjs tests/revelation-divine-ontology.test.ts tests/revelation-divine-ontology-100-cases.test.ts",
+    "aws:ingest:icrc": "node scripts/aws-ingest-icrc.mjs",
+    "aws:validate": "node scripts/aws-validate.mjs",
+    "test:aws": "node --test tests/aws-legal-corpus.test.mjs",
+    "aws:check": "npm run aws:ingest:icrc -- --check && npm run aws:validate && npm run test:aws"
   },
-  "devDependencies": { "@types/node": "^26.0.0", "typescript": "^5.8.3" }
+  "devDependencies": {
+    "@types/node": "^26.0.0",
+    "typescript": "^5.8.3"
+  }
 }
