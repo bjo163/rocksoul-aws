@@ -205,6 +205,17 @@ The UI and visual design source of truth remains **`rocksoul-assets`**, includin
 
 AWS owns machine contracts, research data, ingestion, legal analysis, and APIs. It does not become the design-source repository.
 
+## Branch model
+
+```text
+main   ← stable / release
+dev    ← all development
+```
+
+No other remote branches are part of the repository contract. Development lands directly in `dev`; release promotion is only `dev → main`. Release automation may create tags/releases, never release branches.
+
+[Read the canonical branching contract →](docs/BRANCHING.md)
+
 ## Current repository state
 
 This repository was created from a mature MoonWitness/Cosmic-derived engine codebase. That inherited code is useful technical substrate—persistence, orchestration, evidence, Mizan, review, audit, and API infrastructure—but its old **Cosmic** naming and astronomy/revelation-specific surfaces are **not** the canonical AWS domain definition.
@@ -214,7 +225,7 @@ Migration therefore proceeds in layers:
 ```text
 PHASE 0  DOMAIN CONTRACT        ✓
 PHASE 1  LEGAL CORPUS PROOF     ✓
-PHASE 2  PERSISTENCE + SOURCE WORKER ← active
+PHASE 2  PERSISTENCE + SOURCE WORKER ✓
 PHASE 3  OFFICIAL-SOURCE INGESTION
 PHASE 4  APPLICABILITY ENGINE
 PHASE 5  LEGAL + MIZAN ANALYSIS
@@ -229,6 +240,7 @@ Do not bulk-rename or delete inherited engine packages until their replacement/r
 Start here:
 
 - [Documentation index](docs/README.md)
+- [Branching contract](docs/BRANCHING.md)
 - [Legal research model](docs/LEGAL_RESEARCH_MODEL.md)
 - [Rocksoul interoperability](docs/ROCKSOUL_INTEROP.md)
 - [Automation & freshness](docs/AUTOMATION.md)
