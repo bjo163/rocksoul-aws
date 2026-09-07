@@ -87,3 +87,36 @@ JURISDICTION != MERITS
 JUDGMENT != ONE-BIT VERDICT
 LEGAL RESULT != MIZAN
 ```
+
+
+## Phase-5 holding synthesis
+
+The final judgment is now represented as four narrow holdings:
+
+```text
+JURISDICTION      AFFIRMED
+COMMISSION        NOT_ESTABLISHED
+PREVENTION        BREACH
+COOPERATION       BREACH
+```
+
+Matching claim assessments:
+
+```text
+JURISDICTION      SUPPORTED
+COMMISSION        CONTRADICTED
+PREVENTION        SUPPORTED
+COOPERATION       SUPPORTED
+──────────────────────────
+CASE SYNTHESIS    MIXED_HOLDINGS
+```
+
+This does not change the case-wide guardrail:
+
+```text
+LEGAL RESULT      UNRESOLVED
+MIZAN             NOT_RUN
+REVIEW            REQUIRED
+```
+
+A finding that commission responsibility was not established is not treated as permission. A breach finding is not treated as a case-wide prohibition or Mizan judgment.
