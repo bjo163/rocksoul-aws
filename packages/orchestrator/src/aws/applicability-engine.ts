@@ -61,12 +61,12 @@ export function deriveAwsTreatyPartyDimension(
         action.actor_ref === input.actorRef &&
         action.instrument_ref === input.instrumentRef,
     )
-    .sort((a, b) => a.action_date.localeCompare(b.action_date));
+    .sort((a, b) => (a.action_date ?? '').localeCompare(b.action_date ?? ''));
 
   const bindingBefore = actions.find(
     (action) =>
       BINDING_PARTICIPATION_ACTIONS.has(action.action) &&
-      action.action_date <= input.asOfDate,
+      action.action_date !== null && action.action_date <= input.asOfDate,
   );
 
   if (bindingBefore) {
@@ -80,7 +80,7 @@ export function deriveAwsTreatyPartyDimension(
   }
 
   const bindingAfter = actions.find((action) =>
-    BINDING_PARTICIPATION_ACTIONS.has(action.action),
+    BINDING_PARTICIPATION_ACTIONS.has(action.action) && action.action_date !== null,
   );
   if (bindingAfter) {
     return {
@@ -93,7 +93,7 @@ export function deriveAwsTreatyPartyDimension(
   }
 
   const signature = actions.find(
-    (action) => action.action === 'signature' && action.action_date <= input.asOfDate,
+    (action) => action.action === 'signature' && action.action_date !== null && action.action_date <= input.asOfDate,
   );
   if (signature) {
     return {
