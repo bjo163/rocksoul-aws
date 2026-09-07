@@ -1,0 +1,24 @@
+{
+  "id": "LAW-UN-GENOCIDE-1948",
+  "title": "Convention on the Prevention and Punishment of the Crime of Genocide",
+  "short_title": "Genocide Convention",
+  "instrument_type": "convention",
+  "issuing_body": null,
+  "adoption_date": "1948-12-09",
+  "entry_into_force_date": "1951-01-12",
+  "termination_date": null,
+  "languages": [],
+  "source": {
+    "url": "https://treaties.un.org/pages/ViewDetails.aspx?chapter=4&mtdsg_no=IV-1&src=IND",
+    "stable_id": "untc:IV-1",
+    "source_role": "DEPOSITARY_STATUS",
+    "publisher": "United Nations",
+    "language": "en",
+    "retrieved_at": "2026-09-07T22:56:43Z",
+    "sha256": null
+  },
+  "supersedes": [],
+  "superseded_by": [],
+  "research_state": "CANONICAL",
+  "notes": "Initial UN Treaty Collection-backed metadata seed. Full treaty text ingestion and treaty-action normalization are deferred to a later phase."
+}
