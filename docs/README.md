@@ -34,3 +34,12 @@ AWS may use inherited MoonWitness/Cosmic infrastructure where useful, but inheri
 Many files in this repository still describe the repository's earlier Cosmic engine identity. Until migrated or retired, treat them as **technical history / implementation substrate**, not as the canonical product/domain definition of AWS.
 
 The migration must preserve useful capabilities while removing stale domain ownership safely through reviewed changes.
+
+
+## Phase-1 executable proof
+
+- [AWS canonical legal data](../data/aws/README.md)
+- [Jerusalem 70 CE — five-domain legal boundary proof](cases/JERUSALEM-70-FIVE-WAY.md)
+- [Phase-1 implementation issue #103](https://github.com/bjo163/rocksoul-aws/issues/103)
+
+The first executable proof intentionally produces `NOT_APPLICABLE → UNRESOLVED` for Geneva Convention IV against a 70 CE event. This verifies non-anachronism and the rule that a non-applicable legal basis does not imply permission.
