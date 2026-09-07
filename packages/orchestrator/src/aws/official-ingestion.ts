@@ -2,12 +2,16 @@ import type { AwsLegalStore } from './legal-store.js';
 import type { AwsSourceWorker, AwsSourceWorkerResult } from './source-worker.js';
 import type { AwsIcrcAdapter } from './icrc-adapter.js';
 import type { AwsUntcAdapter, AwsUntcGenocidePayload } from './untc-adapter.js';
+import type { AwsIcjAdapter } from './icj-adapter.js';
+import { persistAwsAuthorityCandidate } from './legal-authorities.js';
 import { persistAwsTreatyActionCandidates } from './treaty-actions.js';
 
 export interface AwsOfficialIngestionResult {
   sourceResult: AwsSourceWorkerResult;
   instrumentChanged: boolean;
   treatyActionIds: string[];
+  authorityIds?: string[];
+  legalCaseChanged?: boolean;
 }
 
 export class AwsOfficialSourceIngestionService {
@@ -16,6 +20,7 @@ export class AwsOfficialSourceIngestionService {
     private readonly sourceWorker: AwsSourceWorker,
     private readonly icrc: AwsIcrcAdapter,
     private readonly untc: AwsUntcAdapter,
+    private readonly icj?: AwsIcjAdapter,
   ) {}
 
   async ingestIcrcGciv(): Promise<AwsOfficialIngestionResult> {
@@ -39,6 +44,44 @@ export class AwsOfficialSourceIngestionService {
       sourceResult,
       instrumentChanged: instrument.changed,
       treatyActionIds: [],
+    };
+  }
+
+  async ingestIcjBosniaSerbia(): Promise<AwsOfficialIngestionResult> {
+    if (!this.icj) throw new Error('AWS_ICJ_ADAPTER_REQUIRED');
+
+    const snapshot = await this.icj.fetchBosniaSerbiaBundle();
+    const payload = snapshot.payload as {
+      case: Record<string, unknown>;
+      judgment: { authority: Parameters<typeof persistAwsAuthorityCandidate>[1] };
+    };
+
+    await this.legalStore.upsertRecordIfChanged('SOURCE', snapshot.sourceId, {
+      canonical_url: snapshot.sourceUrl,
+      authority_role: 'OFFICIAL_JUDICIAL',
+      publisher: 'International Court of Justice',
+    });
+
+    const legalCase = await this.legalStore.upsertRecordIfChanged(
+      'LEGAL_CASE',
+      'LCASE-ICJ-BOSNIA-SERBIA-91',
+      structuredClone(payload.case),
+    );
+
+    const authority = await persistAwsAuthorityCandidate(
+      this.legalStore,
+      payload.judgment.authority,
+      'AUTH-ICJ-91-JUDGMENT-2007-02-26',
+    );
+
+    const sourceResult = await this.sourceWorker.process(snapshot);
+
+    return {
+      sourceResult,
+      instrumentChanged: false,
+      treatyActionIds: [],
+      authorityIds: [authority.id],
+      legalCaseChanged: legalCase.changed,
     };
   }
 
