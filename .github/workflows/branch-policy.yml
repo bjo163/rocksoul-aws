@@ -1,0 +1,56 @@
+name: AWS Branch Policy
+
+on:
+  push:
+    branches: [dev]
+    paths:
+      - ".github/workflows/branch-policy.yml"
+      - "CONTRIBUTING.md"
+      - "docs/BRANCHING.md"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: aws-branch-policy
+  cancel-in-progress: false
+
+jobs:
+  enforce:
+    name: Keep only main and dev
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout dev
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Delete noncanonical remote branches
+        run: |
+          set -euo pipefail
+          git fetch --prune origin '+refs/heads/*:refs/remotes/origin/*'
+          while IFS= read -r branch; do
+            case "$branch" in
+              main|dev) ;;
+              *)
+                echo "Deleting noncanonical remote branch: $branch"
+                git push origin --delete "$branch"
+                ;;
+            esac
+          done < <(
+            git ls-remote --heads origin               | awk '{sub("refs/heads/", "", $2); print $2}'               | sort -u
+          )
+
+      - name: Verify branch set
+        run: |
+          set -euo pipefail
+          branches="$(
+            git ls-remote --heads origin               | awk '{sub("refs/heads/", "", $2); print $2}'               | sort -u
+          )"
+          printf '%s\n' "$branches"
+          unexpected="$(printf '%s\n' "$branches" | grep -Ev '^(main|dev)$' || true)"
+          test -z "$unexpected"
+          printf '%s\n' "$branches" | grep -qx main
+          printf '%s\n' "$branches" | grep -qx dev
