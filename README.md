@@ -213,12 +213,13 @@ Migration therefore proceeds in layers:
 
 ```text
 PHASE 0  DOMAIN CONTRACT        ✓
-PHASE 1  LEGAL CORPUS PROOF     ← active
-PHASE 2  OFFICIAL-SOURCE INGESTION
-PHASE 3  APPLICABILITY ENGINE
-PHASE 4  LEGAL + MIZAN ANALYSIS
-PHASE 5  CROSS-REPO CASE GRAPH
-PHASE 6  CONTINUOUS RESEARCH / RE-ANALYSIS
+PHASE 1  LEGAL CORPUS PROOF     ✓
+PHASE 2  PERSISTENCE + SOURCE WORKER ← active
+PHASE 3  OFFICIAL-SOURCE INGESTION
+PHASE 4  APPLICABILITY ENGINE
+PHASE 5  LEGAL + MIZAN ANALYSIS
+PHASE 6  CROSS-REPO CASE GRAPH
+PHASE 7  CONTINUOUS RESEARCH / RE-ANALYSIS
 ```
 
 Do not bulk-rename or delete inherited engine packages until their replacement/retention role is explicit and tested.
@@ -233,6 +234,7 @@ Start here:
 - [Automation & freshness](docs/AUTOMATION.md)
 - [Canonical legal data](data/aws/README.md)
 - [Five-domain case — Jerusalem 70 CE](docs/cases/JERUSALEM-70-FIVE-WAY.md)
+- [Phase-2 persistence & source worker](docs/AWS-PHASE-2-RUNTIME.md)
 - [Foundation issue #101](https://github.com/bjo163/rocksoul-aws/issues/101)
 - [Phase-1 issue #103](https://github.com/bjo163/rocksoul-aws/issues/103)
 
