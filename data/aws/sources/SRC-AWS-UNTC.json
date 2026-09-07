@@ -11,5 +11,5 @@
     "certified_true_copies"
   ],
   "retrieved_at": "2026-09-07T22:56:43Z",
-  "notes": "Official UN treaty/depositary system. Phase 1 stores one UNTC-backed instrument metadata record; live status polling is deferred."
+  "notes": "Official UN treaty/depositary system. Phase 3A provides a hardened live status adapter for selected instruments; broad catalog polling and depositary-notification ingestion remain later scope."
 }
