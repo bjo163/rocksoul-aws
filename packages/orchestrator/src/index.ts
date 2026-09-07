@@ -340,3 +340,5 @@ export * from './aws/html-normalization.js';
 export * from './aws/icrc-adapter.js';
 export * from './aws/untc-adapter.js';
 export * from './aws/treaty-actions.js';
+
+export * from './aws/official-ingestion.js';
