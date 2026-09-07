@@ -1,0 +1,16 @@
+{
+  "id": "CASSMT-BOSNIA-SERBIA-JURISDICTION",
+  "case_ref": "LCASE-ICJ-BOSNIA-SERBIA-91",
+  "claim_ref": "LCLAIM-BOSNIA-SERBIA-ICJ-JURISDICTION",
+  "applicability_ref": "APPL-BOSNIA-SERBIA-GENOCIDE-ICJ",
+  "supporting_holding_refs": [
+    "HOLD-ICJ-91-JURISDICTION-AFFIRMED"
+  ],
+  "contradicting_holding_refs": [],
+  "result": "SUPPORTED",
+  "reasoning": [
+    "The Convention is applicable to the dispute and the final ICJ judgment expressly affirmed jurisdiction on the basis of Article IX."
+  ],
+  "confidence": 0.99,
+  "review_state": "REVIEW_REQUIRED"
+}
