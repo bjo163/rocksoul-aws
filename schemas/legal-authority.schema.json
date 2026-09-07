@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moonwitness.dev/schemas/aws/legal-authority.schema.json",
+  "title": "AWS Legal Authority",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "authority_type",
+    "title",
+    "issuing_body",
+    "date",
+    "source",
+    "research_state"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^AUTH-[A-Z0-9][A-Z0-9._-]*$"
+    },
+    "authority_type": {
+      "type": "string",
+      "enum": [
+        "JUDGMENT",
+        "ORDER",
+        "ADVISORY_OPINION",
+        "OFFICIAL_INTERPRETATION",
+        "PRESS_RELEASE",
+        "OTHER"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "case_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "issuing_body": {
+      "type": "string",
+      "minLength": 1
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "document_number": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "jurisdiction_basis_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "holding_summary": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "url",
+        "source_ref",
+        "source_role"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "source_ref": {
+          "type": "string",
+          "pattern": "^SRC-AWS-"
+        },
+        "source_role": {
+          "type": "string",
+          "enum": [
+            "JUDGMENT",
+            "ORDER",
+            "ADVISORY_OPINION",
+            "OFFICIAL_INTERPRETATION",
+            "OFFICIAL_SUMMARY"
+          ]
+        }
+      }
+    },
+    "research_state": {
+      "type": "string",
+      "enum": [
+        "DISCOVERED",
+        "CROSS_CHECKED",
+        "REVIEW_REQUIRED",
+        "CANONICAL",
+        "SUPERSEDED",
+        "STALE"
+      ]
+    }
+  }
+}
