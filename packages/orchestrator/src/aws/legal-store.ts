@@ -12,6 +12,8 @@ export type AwsLegalRecordKind =
   | 'SOURCE'
   | 'INSTRUMENT'
   | 'TREATY_ACTION'
+  | 'AUTHORITY'
+  | 'LEGAL_CASE'
   | 'JURISDICTION'
   | 'APPLICABILITY'
   | 'CLAIM'
