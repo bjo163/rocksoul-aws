@@ -24,7 +24,7 @@ import {
   persistAwsTreatyActionCandidates,
 } from '../packages/orchestrator/src/aws/treaty-actions.js';
 import { AwsLegalStore } from '../packages/orchestrator/src/aws/legal-store.js';
-import { AwsSourceWorker } from '../packages/orchestrator/src/aws/source-worker.js';
+import { AwsSourceWorker, fingerprintAwsSourcePayload } from '../packages/orchestrator/src/aws/source-worker.js';
 
 const fixture = (name: string) =>
   path.join(process.cwd(), 'tests', 'fixtures', 'aws', name);
@@ -191,4 +191,11 @@ test('UNTC status snapshots are content-sensitive but polling time is provenance
   });
 
   assert.deepEqual(scrub(first), scrub(second));
+  assert.equal(fingerprintAwsSourcePayload(first), fingerprintAwsSourcePayload(second));
+
+  const changed = parseUntcGenocidePage(
+    html.replace('Parties : 154', 'Parties : 155'),
+    '2026-09-08T02:00:00.000Z',
+  );
+  assert.notEqual(fingerprintAwsSourcePayload(first), fingerprintAwsSourcePayload(changed));
 });
