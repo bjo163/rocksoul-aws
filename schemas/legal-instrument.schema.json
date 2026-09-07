@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moonwitness.dev/schemas/aws/legal-instrument.schema.json",
+  "title": "AWS Legal Instrument",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "title",
+    "instrument_type",
+    "source",
+    "research_state"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^LAW-[A-Z0-9][A-Z0-9._-]*$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "short_title": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "instrument_type": {
+      "type": "string",
+      "enum": [
+        "treaty",
+        "convention",
+        "charter",
+        "protocol",
+        "statute",
+        "agreement",
+        "regulation",
+        "resolution",
+        "declaration",
+        "rules",
+        "other"
+      ]
+    },
+    "issuing_body": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "adoption_date": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "entry_into_force_date": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "termination_date": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "languages": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "url",
+        "source_role",
+        "retrieved_at"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "stable_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_role": {
+          "type": "string",
+          "enum": [
+            "PRIMARY_TEXT",
+            "DEPOSITARY_STATUS",
+            "OFFICIAL_DATABASE",
+            "OTHER_OFFICIAL"
+          ]
+        },
+        "publisher": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "language": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "retrieved_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[a-fA-F0-9]{64}$"
+        }
+      }
+    },
+    "supersedes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "superseded_by": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "research_state": {
+      "type": "string",
+      "enum": [
+        "DISCOVERED",
+        "FETCHED",
+        "PARSED",
+        "CROSS_CHECKED",
+        "REVIEW_REQUIRED",
+        "CANONICAL",
+        "REJECTED",
+        "SUPERSEDED",
+        "STALE"
+      ]
+    },
+    "notes": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}
