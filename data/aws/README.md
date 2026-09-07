@@ -13,9 +13,12 @@ data/aws/
 ├── treaty_actions/    participation, reservations, objections, withdrawals
 ├── jurisdictions/    forum / competence records
 ├── authorities/      judgments, orders, advisory opinions
+├── holdings/         narrow authoritative determinations
 ├── legal_cases/      AWS-native legal golden/research cases
 ├── applicability/    case × legal-basis applicability records
 ├── claims/           legal propositions and counterpositions
+├── claim_assessments/ claim × applicability × holding determinations
+├── case_syntheses/   multi-claim synthesis without binary flattening
 ├── assessments/      explainable legal / Mizan assessment records
 └── cases/            five-domain integration records
 ```
@@ -76,3 +79,21 @@ A legal basis that fails applicability cannot, by its absence alone, generate pe
 - Mizan remains `NOT_RUN`
 
 This deliberately proves that applicability and jurisdiction can be established without collapsing a judicial decision into one binary merits verdict.
+
+
+## Phase-5 canonical proof
+
+The Bosnia / Serbia case now decomposes the final ICJ authority into separate holdings and claim assessments.
+
+```text
+jurisdiction       SUPPORTED
+commission         CONTRADICTED
+prevention breach  SUPPORTED
+cooperation breach SUPPORTED
+                   ↓
+             MIXED_HOLDINGS
+```
+
+The case-wide legal result remains `UNRESOLVED` and Mizan remains `NOT_RUN`.
+
+This is intentional: a mixed judicial disposition is not converted into one permission/prohibition label.
