@@ -1,0 +1,37 @@
+{
+  "id": "LCASE-ICJ-BOSNIA-SERBIA-91",
+  "title": "Application of the Genocide Convention — Bosnia and Herzegovina v. Serbia and Montenegro",
+  "question": "Was the Genocide Convention, including Article IX, applicable as the treaty and jurisdictional basis for the interstate dispute filed on 20 March 1993?",
+  "event_date": "1993-03-20",
+  "actors": [
+    "state-name:BOSNIA-AND-HERZEGOVINA",
+    "state-historical:FEDERAL-REPUBLIC-OF-YUGOSLAVIA",
+    "state-name:SERBIA"
+  ],
+  "legal_basis_refs": [
+    "LAW-UN-GENOCIDE-1948"
+  ],
+  "treaty_action_refs": [
+    "TACT-BOSNIA-GENOCIDE-SUCCESSION-1992-12-29",
+    "TACT-SFRY-GENOCIDE-RATIFICATION-1950-08-29",
+    "TACT-SERBIA-GENOCIDE-ACCESSION-2001-03-12",
+    "TACT-SERBIA-GENOCIDE-RESERVATION-2001-03-12",
+    "TACT-BOSNIA-GENOCIDE-OBJECTION-2001-12-27"
+  ],
+  "jurisdiction_refs": [
+    "JUR-ICJ"
+  ],
+  "authority_refs": [
+    "AUTH-ICJ-91-JUDGMENT-2007-02-26"
+  ],
+  "applicability_refs": [
+    "APPL-BOSNIA-SERBIA-GENOCIDE-ICJ"
+  ],
+  "claim_refs": [
+    "LCLAIM-BOSNIA-SERBIA-ICJ-JURISDICTION"
+  ],
+  "assessment_refs": [
+    "LASSMT-BOSNIA-SERBIA-GENOCIDE"
+  ],
+  "research_state": "REVIEW_REQUIRED"
+}

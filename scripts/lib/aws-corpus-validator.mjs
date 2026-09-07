@@ -4,7 +4,10 @@ import path from "node:path";
 const COLLECTIONS = [
   "sources",
   "instruments",
+  "treaty_actions",
   "jurisdictions",
+  "authorities",
+  "legal_cases",
   "applicability",
   "claims",
   "assessments",
@@ -49,6 +52,21 @@ function allRecords(corpus) {
   );
 }
 
+function expectedApplicabilityOverall(dimensions) {
+  const required = ["temporal", "territorial", "personal", "subject_matter", "jurisdiction"];
+  const statuses = required.map((key) => dimensions?.[key]?.status);
+  if (statuses.includes("DOES_NOT_APPLY")) return "NOT_APPLICABLE";
+  if (statuses.includes("UNCERTAIN") || statuses.some((status) => !status)) return "UNCERTAIN";
+  if (statuses.includes("PARTIAL")) return "PARTIALLY_APPLICABLE";
+  return "APPLICABLE";
+}
+
+function validateResolvedRefs(errors, indexed, refs, file, label) {
+  for (const ref of refs ?? []) {
+    add(errors, indexed.has(ref), `${file}: unresolved ${label} ${ref}`);
+  }
+}
+
 export function validateAwsCorpus(corpus) {
   const errors = [];
   const indexed = new Map();
@@ -80,9 +98,40 @@ export function validateAwsCorpus(corpus) {
     }
   }
 
+  for (const { record, file } of corpus.treaty_actions) {
+    add(errors, /^TACT-/.test(record.id), `${file}: invalid treaty action id`);
+    add(errors, indexed.has(record.instrument_ref), `${file}: unresolved instrument_ref ${record.instrument_ref}`);
+    add(errors, typeof record.actor_ref === "string" && record.actor_ref.length > 0, `${file}: missing actor_ref`);
+    add(errors, record.action_date === null || /^\d{4}-\d{2}-\d{2}$/.test(record.action_date), `${file}: invalid action_date`);
+    add(errors, record.source && isUrl(record.source.url), `${file}: treaty action source.url must be http(s)`);
+    validateResolvedRefs(errors, indexed, record.related_action_refs, file, "related_action_ref");
+  }
+
   for (const { record, file } of corpus.jurisdictions) {
     add(errors, /^JUR-/.test(record.id), `${file}: invalid jurisdiction id`);
     add(errors, Array.isArray(record.sources) && record.sources.every(isUrl), `${file}: invalid jurisdiction source`);
+  }
+
+  for (const { record, file } of corpus.authorities) {
+    add(errors, /^AUTH-/.test(record.id), `${file}: invalid authority id`);
+    add(errors, typeof record.title === "string" && record.title.length > 0, `${file}: authority missing title`);
+    add(errors, record.source && isUrl(record.source.url), `${file}: authority source.url must be http(s)`);
+    add(errors, indexed.has(record.source?.source_ref), `${file}: unresolved authority source_ref ${record.source?.source_ref}`);
+    if (record.case_ref !== null) {
+      add(errors, indexed.has(record.case_ref), `${file}: unresolved authority case_ref ${record.case_ref}`);
+    }
+    validateResolvedRefs(errors, indexed, record.jurisdiction_basis_refs, file, "jurisdiction_basis_ref");
+  }
+
+  for (const { record, file } of corpus.legal_cases) {
+    add(errors, /^LCASE-/.test(record.id), `${file}: invalid legal case id`);
+    validateResolvedRefs(errors, indexed, record.legal_basis_refs, file, "legal_basis_ref");
+    validateResolvedRefs(errors, indexed, record.treaty_action_refs, file, "treaty_action_ref");
+    validateResolvedRefs(errors, indexed, record.jurisdiction_refs, file, "jurisdiction_ref");
+    validateResolvedRefs(errors, indexed, record.authority_refs, file, "authority_ref");
+    validateResolvedRefs(errors, indexed, record.applicability_refs, file, "applicability_ref");
+    validateResolvedRefs(errors, indexed, record.claim_refs, file, "claim_ref");
+    validateResolvedRefs(errors, indexed, record.assessment_refs, file, "assessment_ref");
   }
 
   const applicabilityById = new Map();
@@ -94,24 +143,32 @@ export function validateAwsCorpus(corpus) {
     if (record.jurisdiction_ref !== null) {
       add(errors, indexed.has(record.jurisdiction_ref), `${file}: unresolved jurisdiction_ref ${record.jurisdiction_ref}`);
     }
-    if (record.dimensions?.temporal?.status === "DOES_NOT_APPLY") {
-      add(
-        errors,
-        record.overall === "NOT_APPLICABLE",
-        `${file}: failed temporal applicability must produce NOT_APPLICABLE for this legal-basis record`
-      );
+
+    const requiredDimensions = ["temporal", "territorial", "personal", "subject_matter", "jurisdiction"];
+    for (const key of requiredDimensions) {
+      const dimension = record.dimensions?.[key];
+      add(errors, dimension && typeof dimension.status === "string", `${file}: missing applicability dimension ${key}`);
+      validateResolvedRefs(errors, indexed, dimension?.basis_refs, file, `${key}.basis_ref`);
     }
+
+    validateResolvedRefs(errors, indexed, record.basis_refs, file, "basis_ref");
+    validateResolvedRefs(errors, indexed, record.contrary_refs, file, "contrary_ref");
+
+    const expected = expectedApplicabilityOverall(record.dimensions);
+    add(
+      errors,
+      record.overall === expected,
+      `${file}: overall ${record.overall} does not match five-dimension result ${expected}`
+    );
   }
 
   for (const { record, file } of corpus.claims) {
     add(errors, /^LCLAIM-/.test(record.id), `${file}: invalid legal claim id`);
     add(errors, indexed.has(record.case_ref), `${file}: unresolved case_ref ${record.case_ref}`);
-    for (const ref of record.basis_refs ?? []) {
-      add(errors, indexed.has(ref), `${file}: unresolved basis_ref ${ref}`);
-    }
-    for (const ref of record.evidence_refs ?? []) {
-      add(errors, indexed.has(ref), `${file}: unresolved evidence_ref ${ref}`);
-    }
+    validateResolvedRefs(errors, indexed, record.basis_refs, file, "basis_ref");
+    validateResolvedRefs(errors, indexed, record.evidence_refs, file, "evidence_ref");
+    validateResolvedRefs(errors, indexed, record.contrary_authority_refs, file, "contrary_authority_ref");
+    validateResolvedRefs(errors, indexed, record.counterclaim_refs, file, "counterclaim_ref");
   }
 
   for (const { record, file } of corpus.assessments) {
@@ -122,8 +179,11 @@ export function validateAwsCorpus(corpus) {
       add(errors, indexed.has(ref), `${file}: unresolved applicability_ref ${ref}`);
       if (applicabilityById.has(ref)) applicableRecords.push(applicabilityById.get(ref));
     }
-    for (const ref of record.claim_refs ?? []) {
-      add(errors, indexed.has(ref), `${file}: unresolved claim_ref ${ref}`);
+    validateResolvedRefs(errors, indexed, record.claim_refs, file, "claim_ref");
+    validateResolvedRefs(errors, indexed, record.contrary_authority_refs, file, "contrary_authority_ref");
+
+    for (const item of record.reasoning ?? []) {
+      validateResolvedRefs(errors, indexed, item.basis_refs, file, "reasoning.basis_ref");
     }
 
     const allNotApplicable =
@@ -145,6 +205,12 @@ export function validateAwsCorpus(corpus) {
         `${file}: decisive legal result requires APPROVED review`
       );
     }
+
+    add(
+      errors,
+      record.mizan?.status !== undefined,
+      `${file}: assessment must explicitly state Mizan status`
+    );
   }
 
   for (const { record, file } of corpus.cases) {
@@ -183,13 +249,17 @@ export function validateAwsCorpus(corpus) {
       }
     }
 
-    for (const ref of [
-      ...(record.aws_refs?.applicability ?? []),
-      ...(record.aws_refs?.claims ?? []),
-      ...(record.aws_refs?.assessments ?? [])
-    ]) {
-      add(errors, indexed.has(ref), `${file}: unresolved AWS ref ${ref}`);
-    }
+    validateResolvedRefs(
+      errors,
+      indexed,
+      [
+        ...(record.aws_refs?.applicability ?? []),
+        ...(record.aws_refs?.claims ?? []),
+        ...(record.aws_refs?.assessments ?? [])
+      ],
+      file,
+      "AWS ref"
+    );
 
     if (record.result?.applicability === "NOT_APPLICABLE") {
       add(

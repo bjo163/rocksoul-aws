@@ -1,6 +1,17 @@
 import crypto from 'node:crypto';
 import type { AwsLegalStore } from './legal-store.js';
 
+export function createAwsActorRef(name: string): string {
+  const normalized = name
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s*\^\{[^}]*\}\s*/g, ' ')
+    .replace(/[^A-Za-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .toUpperCase();
+  return `state-name:${normalized}`;
+}
+
 export type AwsTreatyActionType =
   | 'signature'
   | 'ratification'
@@ -23,7 +34,7 @@ export interface AwsTreatyActionCandidate extends Record<string, unknown> {
   actor_ref: string;
   actor_name: string;
   action: AwsTreatyActionType;
-  action_date: string;
+  action_date: string | null;
   effective_date: string | null;
   source: {
     url: string;
@@ -42,7 +53,7 @@ export function createAwsTreatyActionId(candidate: Pick<
     candidate.instrument_ref,
     candidate.actor_ref,
     candidate.action,
-    candidate.action_date,
+    candidate.action_date ?? 'undated',
   ].join('|');
   return `TACT-${crypto.createHash('sha256').update(canonical).digest('hex').slice(0, 24).toUpperCase()}`;
 }

@@ -1,6 +1,6 @@
 {
   "id": "SRC-AWS-ICJ",
-  "name": "Statute of the International Court of Justice",
+  "name": "International Court of Justice Official Case and Statute Sources",
   "publisher": "International Court of Justice",
   "authority_role": "OFFICIAL_JUDICIAL",
   "canonical_url": "https://www.icj-cij.org/statute",
@@ -8,8 +8,12 @@
     "international_law_sources",
     "court_competence",
     "jurisdiction",
-    "procedure"
+    "procedure",
+    "cases",
+    "judgments",
+    "orders",
+    "advisory_opinions"
   ],
   "retrieved_at": "2026-09-07T22:56:43Z",
-  "notes": "Official ICJ source. Articles 34-38 are used to model forum competence and source categories without treating the Court as a universal enforcement body."
+  "notes": "Official ICJ source registry. Phase 3B adds case/judgment normalization for case 91 while preserving the rule that forum presence or a judgment does not become an automatic legal/Mizan verdict."
 }

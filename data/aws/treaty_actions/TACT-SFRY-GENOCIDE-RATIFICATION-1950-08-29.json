@@ -1,0 +1,17 @@
+{
+  "id": "TACT-SFRY-GENOCIDE-RATIFICATION-1950-08-29",
+  "instrument_ref": "LAW-UN-GENOCIDE-1948",
+  "actor_ref": "state-historical:SOCIALIST-FEDERAL-REPUBLIC-OF-YUGOSLAVIA",
+  "action": "ratification",
+  "action_date": "1950-08-29",
+  "effective_date": "1951-01-12",
+  "text": null,
+  "related_action_refs": [],
+  "source": {
+    "url": "https://treaties.un.org/pages/ViewDetails.aspx?chapter=4&mtdsg_no=IV-1&src=TREATY",
+    "depositary_notification_id": null,
+    "retrieved_at": "2026-09-08T00:00:00Z",
+    "sha256": null
+  },
+  "research_state": "CANONICAL"
+}

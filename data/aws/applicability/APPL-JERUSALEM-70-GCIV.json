@@ -39,6 +39,15 @@
       "basis_refs": [
         "LAW-IHL-GCIV-1949"
       ]
+    },
+    "jurisdiction": {
+      "status": "UNCERTAIN",
+      "reasons": [
+        "No modern forum competence is projected onto a 70 CE event; the temporal treaty condition already fails."
+      ],
+      "basis_refs": [
+        "LAW-IHL-GCIV-1949"
+      ]
     }
   },
   "overall": "NOT_APPLICABLE",

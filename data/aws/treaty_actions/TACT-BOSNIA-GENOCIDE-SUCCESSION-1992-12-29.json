@@ -1,0 +1,17 @@
+{
+  "id": "TACT-BOSNIA-GENOCIDE-SUCCESSION-1992-12-29",
+  "instrument_ref": "LAW-UN-GENOCIDE-1948",
+  "actor_ref": "state-name:BOSNIA-AND-HERZEGOVINA",
+  "action": "succession",
+  "action_date": "1992-12-29",
+  "effective_date": null,
+  "text": null,
+  "related_action_refs": [],
+  "source": {
+    "url": "https://treaties.un.org/pages/ViewDetails.aspx?chapter=4&mtdsg_no=IV-1&src=TREATY",
+    "depositary_notification_id": null,
+    "retrieved_at": "2026-09-08T00:00:00Z",
+    "sha256": null
+  },
+  "research_state": "CANONICAL"
+}

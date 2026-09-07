@@ -8,6 +8,8 @@ on:
       - "schemas/legal-*.json"
       - "schemas/cross-repo-case.schema.json"
       - "scripts/aws-*.mjs"
+      - "scripts/aws-*.ts"
+      - "scripts/aws-*.ts"
       - "scripts/lib/aws-*.mjs"
       - "packages/orchestrator/src/aws/**"
       - "packages/orchestrator/src/index.ts"

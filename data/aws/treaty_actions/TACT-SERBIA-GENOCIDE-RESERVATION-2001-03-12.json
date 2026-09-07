@@ -1,0 +1,19 @@
+{
+  "id": "TACT-SERBIA-GENOCIDE-RESERVATION-2001-03-12",
+  "instrument_ref": "LAW-UN-GENOCIDE-1948",
+  "actor_ref": "state-name:SERBIA",
+  "action": "reservation",
+  "action_date": "2001-03-12",
+  "effective_date": null,
+  "text": "The Federal Republic of Yugoslavia did not consider itself bound by Article IX and stated that specific and explicit consent would be required for submission of a dispute under that Article.",
+  "related_action_refs": [
+    "TACT-SERBIA-GENOCIDE-ACCESSION-2001-03-12"
+  ],
+  "source": {
+    "url": "https://treaties.un.org/pages/ViewDetails.aspx?chapter=4&mtdsg_no=IV-1&src=TREATY",
+    "depositary_notification_id": null,
+    "retrieved_at": "2026-09-08T00:00:00Z",
+    "sha256": null
+  },
+  "research_state": "CANONICAL"
+}

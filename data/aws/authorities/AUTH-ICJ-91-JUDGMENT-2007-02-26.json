@@ -1,0 +1,25 @@
+{
+  "id": "AUTH-ICJ-91-JUDGMENT-2007-02-26",
+  "authority_type": "JUDGMENT",
+  "title": "Judgment of 26 February 2007 — Application of the Convention on the Prevention and Punishment of the Crime of Genocide (Bosnia and Herzegovina v. Serbia and Montenegro)",
+  "case_ref": "LCASE-ICJ-BOSNIA-SERBIA-91",
+  "issuing_body": "International Court of Justice",
+  "date": "2007-02-26",
+  "document_number": "091-20070226-JUD-01-00-EN",
+  "jurisdiction_basis_refs": [
+    "LAW-UN-GENOCIDE-1948",
+    "JUR-ICJ"
+  ],
+  "holding_summary": [
+    "The Court affirmed jurisdiction on the basis of Article IX of the Genocide Convention.",
+    "The Court found that Serbia had not committed genocide through organs or persons whose acts engaged its responsibility.",
+    "The Court found that Serbia violated its obligation under the Genocide Convention to prevent genocide in Srebrenica.",
+    "The Court found a breach connected with failure fully to cooperate with the ICTY."
+  ],
+  "source": {
+    "url": "https://www.icj-cij.org/node/103164",
+    "source_ref": "SRC-AWS-ICJ",
+    "source_role": "JUDGMENT"
+  },
+  "research_state": "CANONICAL"
+}

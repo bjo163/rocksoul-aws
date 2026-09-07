@@ -226,8 +226,8 @@ Migration therefore proceeds in layers:
 PHASE 0  DOMAIN CONTRACT        ✓
 PHASE 1  LEGAL CORPUS PROOF     ✓
 PHASE 2  PERSISTENCE + SOURCE WORKER ✓
-PHASE 3  OFFICIAL-SOURCE INGESTION ← active
-PHASE 4  APPLICABILITY ENGINE
+PHASE 3  OFFICIAL-SOURCE INGESTION ✓
+PHASE 4  APPLICABILITY ENGINE ✓
 PHASE 5  LEGAL + MIZAN ANALYSIS
 PHASE 6  CROSS-REPO CASE GRAPH
 PHASE 7  CONTINUOUS RESEARCH / RE-ANALYSIS
@@ -248,6 +248,9 @@ Start here:
 - [Five-domain case — Jerusalem 70 CE](docs/cases/JERUSALEM-70-FIVE-WAY.md)
 - [Phase-2 persistence & source worker](docs/AWS-PHASE-2-RUNTIME.md)
 - [Phase-3 official source adapters](docs/AWS-PHASE-3-OFFICIAL-SOURCES.md)
+- [Phase-3B treaty notices & ICJ authority](docs/AWS-PHASE-3B-AUTHORITY.md)
+- [Phase-4 five-dimension applicability](docs/AWS-PHASE-4-APPLICABILITY.md)
+- [Modern golden legal case — ICJ case 91](docs/cases/BOSNIA-SERBIA-ICJ-91.md)
 - [Foundation issue #101](https://github.com/bjo163/rocksoul-aws/issues/101)
 - [Phase-1 issue #103](https://github.com/bjo163/rocksoul-aws/issues/103)
 

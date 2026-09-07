@@ -38,7 +38,8 @@
         "temporal",
         "territorial",
         "personal",
-        "subject_matter"
+        "subject_matter",
+        "jurisdiction"
       ],
       "properties": {
         "temporal": {
@@ -51,6 +52,9 @@
           "$ref": "#/$defs/dimension"
         },
         "subject_matter": {
+          "$ref": "#/$defs/dimension"
+        },
+        "jurisdiction": {
           "$ref": "#/$defs/dimension"
         }
       }

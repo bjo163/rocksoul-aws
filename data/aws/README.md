@@ -10,7 +10,10 @@ data/aws/
 ├── raw/              captured source metadata / provenance inputs
 ├── recipes/          deterministic normalization recipes
 ├── instruments/      canonical legal instruments
+├── treaty_actions/    participation, reservations, objections, withdrawals
 ├── jurisdictions/    forum / competence records
+├── authorities/      judgments, orders, advisory opinions
+├── legal_cases/      AWS-native legal golden/research cases
 ├── applicability/    case × legal-basis applicability records
 ├── claims/           legal propositions and counterpositions
 ├── assessments/      explainable legal / Mizan assessment records
@@ -45,7 +48,7 @@ npm run test:aws
 npm run aws:check
 ```
 
-`aws:check` is network-free. Live source discovery and freshness polling belong to later workers.
+`aws:check` is network-free. Live official-source inspection is available through `aws:source:probe`; canonical verification remains fixture-driven and deterministic.
 
 ## Current Phase-1 seeds
 
@@ -61,3 +64,15 @@ npm run aws:check
 **NOT_APPLICABLE ≠ PERMITTED.**
 
 A legal basis that fails applicability cannot, by its absence alone, generate permission, prohibition, or a Mizan verdict.
+
+
+## Phase-3B / Phase-4 canonical proofs
+
+- Treaty participation and notice history for the Genocide Convention
+- ICJ judgment authority for case 91
+- AWS-native legal case: Bosnia and Herzegovina v. Serbia and Montenegro
+- Five-dimension applicability result: `APPLICABLE`
+- Case-level legal result remains `UNRESOLVED`
+- Mizan remains `NOT_RUN`
+
+This deliberately proves that applicability and jurisdiction can be established without collapsing a judicial decision into one binary merits verdict.
