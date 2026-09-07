@@ -1,7 +1,7 @@
 import type { AwsVerifiedSourceSnapshot } from './source-worker.js';
 import { AwsOfficialSourceHttpClient } from './source-http.js';
 import { awsHtmlTableRows, awsHtmlToText, parseAwsEnglishDate } from './html-normalization.js';
-import type { AwsTreatyActionCandidate, AwsTreatyActionType } from './treaty-actions.js';
+import { createAwsActorRef, type AwsTreatyActionCandidate, type AwsTreatyActionType } from './treaty-actions.js';
 
 export const AWS_UNTC_ORIGIN = 'https://treaties.un.org';
 export const AWS_UNTC_GENOCIDE_URL =
@@ -20,17 +20,6 @@ export interface AwsUntcGenocidePayload extends Record<string, unknown> {
   parties: number;
   treaty_actions: AwsTreatyActionCandidate[];
   source_role: 'DEPOSITARY_STATUS';
-}
-
-function actorRef(name: string): string {
-  const normalized = name
-    .normalize('NFKD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/\s*\^\{[^}]*\}\s*/g, ' ')
-    .replace(/[^A-Za-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .toUpperCase();
-  return `state-name:${normalized}`;
 }
 
 function parseParticipantAction(
@@ -54,7 +43,7 @@ function parseParticipantAction(
 
   return {
     instrument_ref: 'LAW-UN-GENOCIDE-1948',
-    actor_ref: actorRef(actorName),
+    actor_ref: createAwsActorRef(actorName),
     actor_name: actorName,
     action,
     action_date: actionDate,
@@ -79,7 +68,7 @@ function signatureAction(
   if (!actionDate) return null;
   return {
     instrument_ref: 'LAW-UN-GENOCIDE-1948',
-    actor_ref: actorRef(actorName),
+    actor_ref: createAwsActorRef(actorName),
     actor_name: actorName,
     action: 'signature',
     action_date: actionDate,
