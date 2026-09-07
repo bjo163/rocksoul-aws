@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moonwitness.dev/schemas/aws/claim-assessment.schema.json",
+  "title": "AWS Claim Assessment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "case_ref",
+    "claim_ref",
+    "applicability_ref",
+    "supporting_holding_refs",
+    "contradicting_holding_refs",
+    "result",
+    "reasoning",
+    "review_state"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^CASSMT-[A-Z0-9][A-Z0-9._-]*$"
+    },
+    "case_ref": {
+      "type": "string",
+      "pattern": "^LCASE-"
+    },
+    "claim_ref": {
+      "type": "string",
+      "pattern": "^LCLAIM-"
+    },
+    "applicability_ref": {
+      "type": "string",
+      "pattern": "^APPL-"
+    },
+    "supporting_holding_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^HOLD-"
+      },
+      "uniqueItems": true
+    },
+    "contradicting_holding_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^HOLD-"
+      },
+      "uniqueItems": true
+    },
+    "result": {
+      "type": "string",
+      "enum": [
+        "SUPPORTED",
+        "CONTRADICTED",
+        "MIXED",
+        "UNRESOLVED",
+        "NOT_REACHED"
+      ]
+    },
+    "reasoning": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "confidence": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1
+    },
+    "review_state": {
+      "type": "string",
+      "enum": [
+        "CANDIDATE",
+        "REVIEW_REQUIRED",
+        "REVIEWED",
+        "SUPERSEDED"
+      ]
+    }
+  }
+}
