@@ -64,3 +64,12 @@ The runtime persists legal-domain state through the shared persistence abstracti
 - Implementation tracking: issue #109
 
 Phase 3A connects verified official-source snapshots to the Phase-2 persistence/re-analysis runtime while keeping source changes separate from legal verdicts.
+
+
+## Phase-3B / Phase-4
+
+- [Treaty notices and judicial authority](AWS-PHASE-3B-AUTHORITY.md)
+- [Five-dimension applicability engine](AWS-PHASE-4-APPLICABILITY.md)
+- [Modern golden legal case — ICJ case 91](cases/BOSNIA-SERBIA-ICJ-91.md)
+
+These layers preserve the chain `SOURCE → ACTION/AUTHORITY → APPLICABILITY → REVIEW` without allowing source ingestion to create an automatic merits or Mizan verdict.
