@@ -26,6 +26,7 @@ import {
 import { AwsLegalStore } from '../packages/orchestrator/src/aws/legal-store.js';
 import { AwsOfficialSourceIngestionService } from '../packages/orchestrator/src/aws/official-ingestion.js';
 import { AwsSourceWorker, fingerprintAwsSourcePayload } from '../packages/orchestrator/src/aws/source-worker.js';
+import { AwsIcjAdapter, AWS_ICJ_BOSNIA_SERBIA_CASE_URL, AWS_ICJ_BOSNIA_SERBIA_JUDGMENT_URL } from '../packages/orchestrator/src/aws/icj-adapter.js';
 
 const fixture = (name: string) =>
   path.join(process.cwd(), 'tests', 'fixtures', 'aws', name);
@@ -257,4 +258,50 @@ test('official ingestion is idempotent across identical UNTC polls', async () =>
   assert.equal(actionAfterSecond?.version, 1);
   assert.equal(instrumentAfterSecond?.version, 1);
   assert.equal((await jobs.list('QUEUED')).length, 0);
+});
+
+
+test('ICJ bundled ingestion persists authority and queues the dependent legal case without changing a verdict', async () => {
+  const caseHtml = await readFile(fixture('icj-case-91.html'), 'utf8');
+  const judgmentHtml = await readFile(fixture('icj-judgment-91.html'), 'utf8');
+
+  const icjClient = new AwsOfficialSourceHttpClient(
+    new StubTransport([
+      response(AWS_ICJ_BOSNIA_SERBIA_CASE_URL, caseHtml),
+      response(AWS_ICJ_BOSNIA_SERBIA_JUDGMENT_URL, judgmentHtml),
+    ]),
+  );
+  const icj = new AwsIcjAdapter(icjClient, () => new Date('2026-09-08T00:00:00.000Z'));
+
+  const emptyClient = () => new AwsOfficialSourceHttpClient(new StubTransport([]));
+  const icrc = new AwsIcrcAdapter(emptyClient(), () => new Date('2026-09-08T00:00:00.000Z'));
+  const untc = new AwsUntcAdapter(emptyClient(), () => new Date('2026-09-08T00:00:00.000Z'));
+
+  const persistence = new MemoryProvider();
+  const legal = new AwsLegalStore(persistence);
+  const jobs = new PersistentJobQueue(persistence, 60_000, {
+    workerId: 'aws-icj-ingestion-test',
+    now: () => new Date('2026-09-08T00:00:00.000Z'),
+  });
+  const worker = new AwsSourceWorker(legal, jobs);
+  const ingestion = new AwsOfficialSourceIngestionService(legal, worker, icrc, untc, icj);
+
+  const result = await ingestion.ingestIcjBosniaSerbia();
+
+  assert.equal(result.sourceResult.changed, true);
+  assert.deepEqual(result.authorityIds, ['AUTH-ICJ-91-JUDGMENT-2007-02-26']);
+  assert.equal(result.legalCaseChanged, true);
+  assert.deepEqual(result.sourceResult.affectedCaseIds, ['LCASE-ICJ-BOSNIA-SERBIA-91']);
+
+  const authority = await legal.getRecord('AUTH-ICJ-91-JUDGMENT-2007-02-26');
+  assert.equal(authority?.kind, 'AUTHORITY');
+
+  const legalCase = await legal.getRecord('LCASE-ICJ-BOSNIA-SERBIA-91');
+  assert.equal(legalCase?.kind, 'LEGAL_CASE');
+  assert.equal(legalCase?.payload.legal_result, undefined);
+
+  const queued = await jobs.list('QUEUED');
+  assert.equal(queued.length, 1);
+  assert.equal(queued[0]?.type, 'AWS_REANALYZE_CASE');
+  assert.equal(queued[0]?.payload.caseId, 'LCASE-ICJ-BOSNIA-SERBIA-91');
 });
