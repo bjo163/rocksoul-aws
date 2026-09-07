@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moonwitness.dev/schemas/aws/case-synthesis.schema.json",
+  "title": "AWS Case Synthesis",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "case_ref",
+    "claim_assessment_refs",
+    "result",
+    "summary",
+    "legal_result",
+    "mizan_status",
+    "review_state"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^CSYN-[A-Z0-9][A-Z0-9._-]*$"
+    },
+    "case_ref": {
+      "type": "string",
+      "pattern": "^LCASE-"
+    },
+    "claim_assessment_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^CASSMT-"
+      },
+      "uniqueItems": true
+    },
+    "result": {
+      "type": "string",
+      "enum": [
+        "CONSISTENT_SUPPORT",
+        "CONSISTENT_CONTRADICTION",
+        "MIXED_HOLDINGS",
+        "UNRESOLVED"
+      ]
+    },
+    "summary": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "legal_result": {
+      "type": "string",
+      "enum": [
+        "PERMITTED",
+        "RESTRICTED",
+        "PROHIBITED",
+        "DISPUTED",
+        "UNRESOLVED"
+      ]
+    },
+    "mizan_status": {
+      "type": "string",
+      "enum": [
+        "NOT_RUN",
+        "BALANCED",
+        "CONCERN",
+        "SERIOUS_CONCERN",
+        "DISPUTED",
+        "UNRESOLVED"
+      ]
+    },
+    "review_state": {
+      "type": "string",
+      "enum": [
+        "CANDIDATE",
+        "REVIEW_REQUIRED",
+        "REVIEWED",
+        "SUPERSEDED"
+      ]
+    }
+  }
+}
