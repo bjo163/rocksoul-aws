@@ -1,0 +1,21 @@
+{
+  "id": "CSYN-BOSNIA-SERBIA-ICJ-91",
+  "case_ref": "LCASE-ICJ-BOSNIA-SERBIA-91",
+  "claim_assessment_refs": [
+    "CASSMT-BOSNIA-SERBIA-JURISDICTION",
+    "CASSMT-BOSNIA-SERBIA-COMMISSION",
+    "CASSMT-BOSNIA-SERBIA-PREVENTION",
+    "CASSMT-BOSNIA-SERBIA-COOPERATION"
+  ],
+  "result": "MIXED_HOLDINGS",
+  "summary": [
+    "Jurisdiction under Article IX is supported by the final judgment.",
+    "The claim that Serbia committed genocide through organs or attributable persons is contradicted by the final judgment.",
+    "The prevention-breach claim is supported by the final judgment.",
+    "The cooperation-related breach claim is supported by the final judgment.",
+    "These different determinations are compatible parts of one judgment and are not collapsed into a single merits label."
+  ],
+  "legal_result": "UNRESOLVED",
+  "mizan_status": "NOT_RUN",
+  "review_state": "REVIEW_REQUIRED"
+}

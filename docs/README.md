@@ -73,3 +73,11 @@ Phase 3A connects verified official-source snapshots to the Phase-2 persistence/
 - [Modern golden legal case — ICJ case 91](cases/BOSNIA-SERBIA-ICJ-91.md)
 
 These layers preserve the chain `SOURCE → ACTION/AUTHORITY → APPLICABILITY → REVIEW` without allowing source ingestion to create an automatic merits or Mizan verdict.
+
+
+## Phase-5 holding-level legal assessment
+
+- [Holding-level claim assessment & case synthesis](AWS-PHASE-5-LEGAL-ASSESSMENT.md)
+- Implementation tracking: issue #114
+
+Phase 5 decomposes authorities into narrow holdings, evaluates claims against applicability + holdings, and synthesizes multiple claim outcomes without creating an automatic case-wide legal or Mizan verdict.

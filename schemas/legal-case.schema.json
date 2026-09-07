@@ -17,7 +17,10 @@
     "applicability_refs",
     "claim_refs",
     "assessment_refs",
-    "research_state"
+    "research_state",
+    "holding_refs",
+    "claim_assessment_refs",
+    "case_synthesis_refs"
   ],
   "properties": {
     "id": {
@@ -110,6 +113,30 @@
       "items": {
         "type": "string",
         "pattern": "^TACT-"
+      },
+      "uniqueItems": true
+    },
+    "holding_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^HOLD-"
+      },
+      "uniqueItems": true
+    },
+    "claim_assessment_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^CASSMT-"
+      },
+      "uniqueItems": true
+    },
+    "case_synthesis_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^CSYN-"
       },
       "uniqueItems": true
     }

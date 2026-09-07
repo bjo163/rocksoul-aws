@@ -349,3 +349,6 @@ export * from './aws/applicability-engine.js';
 export * from './aws/legal-authorities.js';
 export * from './aws/icj-adapter.js';
 export * from './aws/untc-legal-notices.js';
+
+export * from './aws/legal-assessment-engine.js';
+export * from './aws/legal-assessment-service.js';

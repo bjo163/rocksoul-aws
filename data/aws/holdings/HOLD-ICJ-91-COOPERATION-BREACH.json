@@ -1,0 +1,17 @@
+{
+  "id": "HOLD-ICJ-91-COOPERATION-BREACH",
+  "authority_ref": "AUTH-ICJ-91-JUDGMENT-2007-02-26",
+  "case_ref": "LCASE-ICJ-BOSNIA-SERBIA-91",
+  "holding_type": "BREACH",
+  "determination": "BREACH",
+  "proposition": "Serbia breached obligations connected with failure fully to cooperate with the International Criminal Tribunal for the former Yugoslavia.",
+  "subject_refs": [
+    "state-name:SERBIA"
+  ],
+  "basis_refs": [
+    "AUTH-ICJ-91-JUDGMENT-2007-02-26",
+    "LAW-UN-GENOCIDE-1948"
+  ],
+  "scope_note": "This is a distinct cooperation-related holding and must not be merged with the prevention or commission holdings.",
+  "research_state": "CANONICAL"
+}

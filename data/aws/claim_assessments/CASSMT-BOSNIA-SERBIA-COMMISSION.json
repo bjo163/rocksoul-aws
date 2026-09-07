@@ -1,0 +1,16 @@
+{
+  "id": "CASSMT-BOSNIA-SERBIA-COMMISSION",
+  "case_ref": "LCASE-ICJ-BOSNIA-SERBIA-91",
+  "claim_ref": "LCLAIM-BOSNIA-SERBIA-COMMISSION",
+  "applicability_ref": "APPL-BOSNIA-SERBIA-GENOCIDE-ICJ",
+  "supporting_holding_refs": [],
+  "contradicting_holding_refs": [
+    "HOLD-ICJ-91-COMMISSION-NOT-ESTABLISHED"
+  ],
+  "result": "CONTRADICTED",
+  "reasoning": [
+    "The final ICJ judgment did not establish that Serbia committed genocide through organs or persons whose acts engaged its international responsibility."
+  ],
+  "confidence": 0.99,
+  "review_state": "REVIEW_REQUIRED"
+}

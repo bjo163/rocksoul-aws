@@ -1,0 +1,16 @@
+{
+  "id": "CASSMT-BOSNIA-SERBIA-PREVENTION",
+  "case_ref": "LCASE-ICJ-BOSNIA-SERBIA-91",
+  "claim_ref": "LCLAIM-BOSNIA-SERBIA-PREVENTION-BREACH",
+  "applicability_ref": "APPL-BOSNIA-SERBIA-GENOCIDE-ICJ",
+  "supporting_holding_refs": [
+    "HOLD-ICJ-91-PREVENTION-BREACH"
+  ],
+  "contradicting_holding_refs": [],
+  "result": "SUPPORTED",
+  "reasoning": [
+    "The final ICJ judgment established a breach of the obligation to prevent genocide in Srebrenica."
+  ],
+  "confidence": 0.99,
+  "review_state": "REVIEW_REQUIRED"
+}

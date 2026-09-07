@@ -1,0 +1,17 @@
+{
+  "id": "HOLD-ICJ-91-COMMISSION-NOT-ESTABLISHED",
+  "authority_ref": "AUTH-ICJ-91-JUDGMENT-2007-02-26",
+  "case_ref": "LCASE-ICJ-BOSNIA-SERBIA-91",
+  "holding_type": "RESPONSIBILITY",
+  "determination": "NOT_ESTABLISHED",
+  "proposition": "Serbia was not found to have committed genocide through its organs or persons whose acts engaged its international responsibility.",
+  "subject_refs": [
+    "state-name:SERBIA"
+  ],
+  "basis_refs": [
+    "AUTH-ICJ-91-JUDGMENT-2007-02-26",
+    "LAW-UN-GENOCIDE-1948"
+  ],
+  "scope_note": "A failure to establish State responsibility for commission is not a finding that all underlying conduct was permitted or lawful.",
+  "research_state": "CANONICAL"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "CASSMT-BOSNIA-SERBIA-COOPERATION",
+  "case_ref": "LCASE-ICJ-BOSNIA-SERBIA-91",
+  "claim_ref": "LCLAIM-BOSNIA-SERBIA-COOPERATION-BREACH",
+  "applicability_ref": "APPL-BOSNIA-SERBIA-GENOCIDE-ICJ",
+  "supporting_holding_refs": [
+    "HOLD-ICJ-91-COOPERATION-BREACH"
+  ],
+  "contradicting_holding_refs": [],
+  "result": "SUPPORTED",
+  "reasoning": [
+    "The final ICJ judgment established a cooperation-related breach connected with failure fully to cooperate with the ICTY."
+  ],
+  "confidence": 0.99,
+  "review_state": "REVIEW_REQUIRED"
+}

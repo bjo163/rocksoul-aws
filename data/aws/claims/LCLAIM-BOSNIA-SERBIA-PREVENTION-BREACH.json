@@ -1,0 +1,22 @@
+{
+  "id": "LCLAIM-BOSNIA-SERBIA-PREVENTION-BREACH",
+  "case_ref": "LCASE-ICJ-BOSNIA-SERBIA-91",
+  "proposition": "Serbia breached its obligation under the Genocide Convention to prevent genocide in Srebrenica.",
+  "claim_type": "responsibility",
+  "asserted_by_refs": [
+    "AUTH-ICJ-91-JUDGMENT-2007-02-26"
+  ],
+  "basis_refs": [
+    "LAW-UN-GENOCIDE-1948",
+    "APPL-BOSNIA-SERBIA-GENOCIDE-ICJ",
+    "HOLD-ICJ-91-PREVENTION-BREACH"
+  ],
+  "evidence_refs": [
+    "SRC-AWS-ICJ"
+  ],
+  "contrary_authority_refs": [],
+  "counterclaim_refs": [],
+  "scope_note": "This claim concerns breach of the prevention obligation, not commission of genocide.",
+  "status": "SUPPORTED",
+  "confidence": 0.99
+}

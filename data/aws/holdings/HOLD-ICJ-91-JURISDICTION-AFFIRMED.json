@@ -1,0 +1,19 @@
+{
+  "id": "HOLD-ICJ-91-JURISDICTION-AFFIRMED",
+  "authority_ref": "AUTH-ICJ-91-JUDGMENT-2007-02-26",
+  "case_ref": "LCASE-ICJ-BOSNIA-SERBIA-91",
+  "holding_type": "JURISDICTION",
+  "determination": "AFFIRMED",
+  "proposition": "The International Court of Justice had jurisdiction, on the basis of Article IX of the Genocide Convention, to adjudicate the dispute.",
+  "subject_refs": [
+    "JUR-ICJ",
+    "LAW-UN-GENOCIDE-1948"
+  ],
+  "basis_refs": [
+    "AUTH-ICJ-91-JUDGMENT-2007-02-26",
+    "LAW-UN-GENOCIDE-1948",
+    "JUR-ICJ"
+  ],
+  "scope_note": "This holding concerns jurisdiction only and does not establish any merits allegation.",
+  "research_state": "CANONICAL"
+}
