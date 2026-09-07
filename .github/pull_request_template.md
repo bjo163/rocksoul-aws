@@ -1,21 +1,28 @@
-## Summary
+## Release promotion
 
-- What changed?
-- Why is it needed?
+- Source branch: `dev`
+- Target branch: `main`
+- Dev commit / SHA:
+- Release scope:
 
-## Validation
+## Required validation
 
+- [ ] This PR is exactly `dev → main`
+- [ ] `dev` AWS Legal Corpus gate is green
+- [ ] `dev` full AWS CI/certification is green or any infrastructure blocker is explicitly documented
 - [ ] `npm run lint`
 - [ ] `npm run typecheck`
 - [ ] Relevant tests/builds passed
+- [ ] `npm run aws:check` when AWS legal/runtime surfaces changed
 
-## Risk
+## Risk / compatibility
 
-- [ ] No security impact
-- [ ] No data migration
-- [ ] No API contract change
-- [ ] If any box above is not applicable, explain below
+- [ ] Security impact reviewed
+- [ ] Data/persistence migration impact reviewed
+- [ ] API compatibility impact reviewed
+- [ ] Legal research provenance/review boundaries preserved
+- [ ] Deferred scope is documented
 
-## Notes
+## Release rule
 
-Document known limitations, follow-up work, or CI exceptions here.
+No release/feature/hotfix remote branch may be created for this promotion. `main` receives only verified state from `dev`.
