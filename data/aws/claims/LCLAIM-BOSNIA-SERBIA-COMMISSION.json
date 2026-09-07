@@ -1,0 +1,23 @@
+{
+  "id": "LCLAIM-BOSNIA-SERBIA-COMMISSION",
+  "case_ref": "LCASE-ICJ-BOSNIA-SERBIA-91",
+  "proposition": "Serbia committed genocide through organs or persons whose acts engaged its international responsibility.",
+  "claim_type": "responsibility",
+  "asserted_by_refs": [
+    "state-name:BOSNIA-AND-HERZEGOVINA"
+  ],
+  "basis_refs": [
+    "LAW-UN-GENOCIDE-1948",
+    "APPL-BOSNIA-SERBIA-GENOCIDE-ICJ"
+  ],
+  "evidence_refs": [
+    "SRC-AWS-ICJ"
+  ],
+  "contrary_authority_refs": [
+    "HOLD-ICJ-91-COMMISSION-NOT-ESTABLISHED"
+  ],
+  "counterclaim_refs": [],
+  "scope_note": "This claim is assessed only against the State-responsibility holding in the final ICJ judgment.",
+  "status": "CONTRADICTED",
+  "confidence": 0.99
+}
