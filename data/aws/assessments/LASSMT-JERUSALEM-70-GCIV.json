@@ -1,0 +1,49 @@
+{
+  "id": "LASSMT-JERUSALEM-70-GCIV",
+  "case_ref": "CASE-AWS-JERUSALEM-70",
+  "evaluated_conduct": "The 70 CE Jerusalem / Second Temple destruction event as reconstructed by the LEGEND record.",
+  "applicability_refs": [
+    "APPL-JERUSALEM-70-GCIV"
+  ],
+  "claim_refs": [
+    "LCLAIM-JERUSALEM-70-GCIV-TEMPORAL"
+  ],
+  "legal_result": "UNRESOLVED",
+  "reasoning": [
+    {
+      "statement": "Geneva Convention IV is not temporally applicable as treaty law to the 70 CE event.",
+      "basis_refs": [
+        "APPL-JERUSALEM-70-GCIV",
+        "LAW-IHL-GCIV-1949"
+      ]
+    },
+    {
+      "statement": "Non-applicability of this treaty does not establish that the conduct was permitted, prohibited, or lawful under another legal system.",
+      "basis_refs": [
+        "APPL-JERUSALEM-70-GCIV",
+        "LCLAIM-JERUSALEM-70-GCIV-TEMPORAL"
+      ]
+    }
+  ],
+  "contrary_authority_refs": [],
+  "unresolved_questions": [
+    "What legal norms, if any, governed the conduct in its own historical legal context?",
+    "What other non-retroactive legal frameworks could be researched without importing modern treaty obligations anachronistically?"
+  ],
+  "confidence": 0.99,
+  "mizan": {
+    "status": "NOT_RUN",
+    "principle_refs": [],
+    "explanation": "No Mizan verdict is derived from a treaty that is not applicable to the event."
+  },
+  "review": {
+    "status": "REQUIRED",
+    "reviewer_ref": null,
+    "reviewed_at": null,
+    "notes": "Phase-1 boundary proof; human review remains required before this is presented as reviewed legal analysis."
+  },
+  "source_revision_refs": [
+    "RAW-ICRC-GCIV-1949-20260908"
+  ],
+  "generated_at": "2026-09-07T22:56:43Z"
+}
