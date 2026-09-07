@@ -166,7 +166,7 @@ export class AwsLegalStore {
         visited.add(dependentId);
         const entity = await this.persistence.entityRepository().get(dependentId);
         if (!entity || !entity.type.startsWith(ENTITY_PREFIX)) continue;
-        if (entity.type === `${ENTITY_PREFIX}CASE`) cases.add(dependentId);
+        if ([`${ENTITY_PREFIX}CASE`, `${ENTITY_PREFIX}LEGAL_CASE`].includes(entity.type)) cases.add(dependentId);
         queue.push(dependentId);
       }
     }
