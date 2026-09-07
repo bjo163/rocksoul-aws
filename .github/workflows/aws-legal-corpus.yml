@@ -2,7 +2,7 @@ name: AWS Legal Corpus
 
 on:
   push:
-    branches: [main, dev]
+    branches: [main]
     paths:
       - "data/aws/**"
       - "schemas/legal-*.json"
