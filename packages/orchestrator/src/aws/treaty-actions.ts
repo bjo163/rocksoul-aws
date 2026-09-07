@@ -1,6 +1,17 @@
 import crypto from 'node:crypto';
 import type { AwsLegalStore } from './legal-store.js';
 
+export function createAwsActorRef(name: string): string {
+  const normalized = name
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s*\^\{[^}]*\}\s*/g, ' ')
+    .replace(/[^A-Za-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .toUpperCase();
+  return `state-name:${normalized}`;
+}
+
 export type AwsTreatyActionType =
   | 'signature'
   | 'ratification'
