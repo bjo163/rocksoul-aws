@@ -6,7 +6,10 @@
     "APPL-BOSNIA-SERBIA-GENOCIDE-ICJ"
   ],
   "claim_refs": [
-    "LCLAIM-BOSNIA-SERBIA-ICJ-JURISDICTION"
+    "LCLAIM-BOSNIA-SERBIA-ICJ-JURISDICTION",
+    "LCLAIM-BOSNIA-SERBIA-COMMISSION",
+    "LCLAIM-BOSNIA-SERBIA-PREVENTION-BREACH",
+    "LCLAIM-BOSNIA-SERBIA-COOPERATION-BREACH"
   ],
   "legal_result": "UNRESOLVED",
   "reasoning": [
@@ -14,19 +17,33 @@
       "statement": "The Genocide Convention and Article IX were applicable as the treaty and jurisdictional framework for the dispute.",
       "basis_refs": [
         "APPL-BOSNIA-SERBIA-GENOCIDE-ICJ",
-        "AUTH-ICJ-91-JUDGMENT-2007-02-26"
+        "HOLD-ICJ-91-JURISDICTION-AFFIRMED"
       ]
     },
     {
-      "statement": "The final judgment contains distinct merits holdings, including findings both against and in favor of Serbia on different alleged breaches; AWS does not collapse the entire judgment into one PERMITTED or PROHIBITED label.",
+      "statement": "The commission-responsibility claim was not established by the final ICJ judgment.",
       "basis_refs": [
-        "AUTH-ICJ-91-JUDGMENT-2007-02-26"
+        "HOLD-ICJ-91-COMMISSION-NOT-ESTABLISHED"
+      ]
+    },
+    {
+      "statement": "The final ICJ judgment established distinct prevention and cooperation-related breaches.",
+      "basis_refs": [
+        "HOLD-ICJ-91-PREVENTION-BREACH",
+        "HOLD-ICJ-91-COOPERATION-BREACH"
+      ]
+    },
+    {
+      "statement": "Because the judgment contains different determinations on different claims, AWS preserves a mixed holding synthesis and does not collapse the case into PERMITTED or PROHIBITED.",
+      "basis_refs": [
+        "CSYN-BOSNIA-SERBIA-ICJ-91"
       ]
     }
   ],
   "contrary_authority_refs": [],
   "unresolved_questions": [
-    "A single case-level permitted/prohibited label is not an adequate representation of the separate responsibility findings in the judgment."
+    "A single case-level permitted/prohibited label is not an adequate representation of the separate responsibility findings in the judgment.",
+    "Any future conduct-level legal result must target a specific claim/obligation and pass review rather than inherit the case synthesis."
   ],
   "confidence": 0.99,
   "mizan": {
@@ -38,7 +55,7 @@
     "status": "REQUIRED",
     "reviewer_ref": null,
     "reviewed_at": null,
-    "notes": "Golden case validates applicability and authority separation; it does not substitute an automated case-wide merits verdict for the Court's individual holdings."
+    "notes": "Phase-5 holding-level synthesis preserves the distinct judicial determinations. Case-wide legal_result remains UNRESOLVED and Mizan remains NOT_RUN."
   },
   "source_revision_refs": [],
   "generated_at": "2026-09-08T00:00:00Z"
