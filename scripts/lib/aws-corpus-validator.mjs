@@ -7,9 +7,12 @@ const COLLECTIONS = [
   "treaty_actions",
   "jurisdictions",
   "authorities",
+  "holdings",
   "legal_cases",
   "applicability",
   "claims",
+  "claim_assessments",
+  "case_syntheses",
   "assessments",
   "cases"
 ];
@@ -65,6 +68,30 @@ function validateResolvedRefs(errors, indexed, refs, file, label) {
   for (const ref of refs ?? []) {
     add(errors, indexed.has(ref), `${file}: unresolved ${label} ${ref}`);
   }
+}
+
+function expectedClaimAssessmentResult(applicability, supportRefs, contradictionRefs) {
+  if (applicability === "NOT_APPLICABLE") return "NOT_REACHED";
+  if (applicability === "UNCERTAIN") return "UNRESOLVED";
+  const hasSupport = (supportRefs ?? []).length > 0;
+  const hasContradiction = (contradictionRefs ?? []).length > 0;
+  if (hasSupport && hasContradiction) return "MIXED";
+  if (hasSupport) return "SUPPORTED";
+  if (hasContradiction) return "CONTRADICTED";
+  return "UNRESOLVED";
+}
+
+function expectedCaseSynthesis(results) {
+  if (!results || results.length === 0) return "UNRESOLVED";
+  const material = results.filter((result) => result !== "NOT_REACHED");
+  if (material.length === 0) return "UNRESOLVED";
+  if (material.some((result) => ["UNRESOLVED", "MIXED"].includes(result))) return "UNRESOLVED";
+  const hasSupported = material.includes("SUPPORTED");
+  const hasContradicted = material.includes("CONTRADICTED");
+  if (hasSupported && hasContradicted) return "MIXED_HOLDINGS";
+  if (hasSupported) return "CONSISTENT_SUPPORT";
+  if (hasContradicted) return "CONSISTENT_CONTRADICTION";
+  return "UNRESOLVED";
 }
 
 export function validateAwsCorpus(corpus) {
@@ -123,14 +150,24 @@ export function validateAwsCorpus(corpus) {
     validateResolvedRefs(errors, indexed, record.jurisdiction_basis_refs, file, "jurisdiction_basis_ref");
   }
 
+  for (const { record, file } of corpus.holdings) {
+    add(errors, /^HOLD-/.test(record.id), `${file}: invalid holding id`);
+    add(errors, indexed.has(record.authority_ref), `${file}: unresolved authority_ref ${record.authority_ref}`);
+    add(errors, indexed.has(record.case_ref), `${file}: unresolved case_ref ${record.case_ref}`);
+    validateResolvedRefs(errors, indexed, record.basis_refs, file, "basis_ref");
+  }
+
   for (const { record, file } of corpus.legal_cases) {
     add(errors, /^LCASE-/.test(record.id), `${file}: invalid legal case id`);
     validateResolvedRefs(errors, indexed, record.legal_basis_refs, file, "legal_basis_ref");
     validateResolvedRefs(errors, indexed, record.treaty_action_refs, file, "treaty_action_ref");
     validateResolvedRefs(errors, indexed, record.jurisdiction_refs, file, "jurisdiction_ref");
     validateResolvedRefs(errors, indexed, record.authority_refs, file, "authority_ref");
+    validateResolvedRefs(errors, indexed, record.holding_refs, file, "holding_ref");
     validateResolvedRefs(errors, indexed, record.applicability_refs, file, "applicability_ref");
     validateResolvedRefs(errors, indexed, record.claim_refs, file, "claim_ref");
+    validateResolvedRefs(errors, indexed, record.claim_assessment_refs, file, "claim_assessment_ref");
+    validateResolvedRefs(errors, indexed, record.case_synthesis_refs, file, "case_synthesis_ref");
     validateResolvedRefs(errors, indexed, record.assessment_refs, file, "assessment_ref");
   }
 
@@ -169,6 +206,50 @@ export function validateAwsCorpus(corpus) {
     validateResolvedRefs(errors, indexed, record.evidence_refs, file, "evidence_ref");
     validateResolvedRefs(errors, indexed, record.contrary_authority_refs, file, "contrary_authority_ref");
     validateResolvedRefs(errors, indexed, record.counterclaim_refs, file, "counterclaim_ref");
+  }
+
+  const claimAssessmentById = new Map();
+  for (const { record, file } of corpus.claim_assessments) {
+    claimAssessmentById.set(record.id, record);
+    add(errors, /^CASSMT-/.test(record.id), `${file}: invalid claim assessment id`);
+    add(errors, indexed.has(record.case_ref), `${file}: unresolved case_ref ${record.case_ref}`);
+    add(errors, indexed.has(record.claim_ref), `${file}: unresolved claim_ref ${record.claim_ref}`);
+    add(errors, indexed.has(record.applicability_ref), `${file}: unresolved applicability_ref ${record.applicability_ref}`);
+    validateResolvedRefs(errors, indexed, record.supporting_holding_refs, file, "supporting_holding_ref");
+    validateResolvedRefs(errors, indexed, record.contradicting_holding_refs, file, "contradicting_holding_ref");
+
+    const applicability = applicabilityById.get(record.applicability_ref)?.overall;
+    const expected = expectedClaimAssessmentResult(
+      applicability,
+      record.supporting_holding_refs,
+      record.contradicting_holding_refs
+    );
+    add(
+      errors,
+      record.result === expected,
+      `${file}: claim assessment result ${record.result} does not match deterministic result ${expected}`
+    );
+  }
+
+  for (const { record, file } of corpus.case_syntheses) {
+    add(errors, /^CSYN-/.test(record.id), `${file}: invalid case synthesis id`);
+    add(errors, indexed.has(record.case_ref), `${file}: unresolved case_ref ${record.case_ref}`);
+    validateResolvedRefs(errors, indexed, record.claim_assessment_refs, file, "claim_assessment_ref");
+
+    const results = (record.claim_assessment_refs ?? [])
+      .map((ref) => claimAssessmentById.get(ref)?.result)
+      .filter(Boolean);
+    const expected = expectedCaseSynthesis(results);
+    add(
+      errors,
+      record.result === expected,
+      `${file}: case synthesis result ${record.result} does not match deterministic result ${expected}`
+    );
+
+    if (record.result === "MIXED_HOLDINGS") {
+      add(errors, record.legal_result === "UNRESOLVED", `${file}: mixed holdings must not auto-create a decisive legal result`);
+      add(errors, record.mizan_status === "NOT_RUN", `${file}: mixed holdings must not auto-run Mizan`);
+    }
   }
 
   for (const { record, file } of corpus.assessments) {
