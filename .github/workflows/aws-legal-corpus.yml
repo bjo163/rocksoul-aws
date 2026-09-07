@@ -9,7 +9,12 @@ on:
       - "schemas/cross-repo-case.schema.json"
       - "scripts/aws-*.mjs"
       - "scripts/lib/aws-*.mjs"
+      - "packages/orchestrator/src/aws/**"
+      - "packages/orchestrator/src/index.ts"
+      - "packages/persistence/src/**"
+      - "packages/jobs/src/**"
       - "tests/aws-*.mjs"
+      - "tests/aws-*.ts"
       - "package.json"
       - ".github/workflows/aws-legal-corpus.yml"
   pull_request:
@@ -20,7 +25,12 @@ on:
       - "schemas/cross-repo-case.schema.json"
       - "scripts/aws-*.mjs"
       - "scripts/lib/aws-*.mjs"
+      - "packages/orchestrator/src/aws/**"
+      - "packages/orchestrator/src/index.ts"
+      - "packages/persistence/src/**"
+      - "packages/jobs/src/**"
       - "tests/aws-*.mjs"
+      - "tests/aws-*.ts"
       - "package.json"
       - ".github/workflows/aws-legal-corpus.yml"
   workflow_dispatch:
@@ -46,6 +56,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 26
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
 
       - name: AWS legal corpus check
         run: npm run aws:check

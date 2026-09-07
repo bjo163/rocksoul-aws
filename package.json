@@ -117,7 +117,8 @@
     "aws:ingest:icrc": "node scripts/aws-ingest-icrc.mjs",
     "aws:validate": "node scripts/aws-validate.mjs",
     "test:aws": "node --test tests/aws-legal-corpus.test.mjs",
-    "aws:check": "npm run aws:ingest:icrc -- --check && npm run aws:validate && npm run test:aws"
+    "aws:check": "npm run aws:ingest:icrc -- --check && npm run aws:validate && npm run test:aws && npm run test:aws:runtime",
+    "test:aws:runtime": "node scripts/transpile-runner.mjs tests/aws-legal-runtime.test.ts"
   },
   "devDependencies": {
     "@types/node": "^26.0.0",
