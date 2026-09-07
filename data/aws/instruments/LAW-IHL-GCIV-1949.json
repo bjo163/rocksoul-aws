@@ -1,0 +1,27 @@
+{
+  "id": "LAW-IHL-GCIV-1949",
+  "title": "Convention (IV) relative to the Protection of Civilian Persons in Time of War",
+  "short_title": "Geneva Convention IV",
+  "instrument_type": "convention",
+  "issuing_body": null,
+  "adoption_date": "1949-08-12",
+  "entry_into_force_date": "1950-10-21",
+  "termination_date": null,
+  "languages": [
+    "en",
+    "fr"
+  ],
+  "source": {
+    "url": "https://ihl-databases.icrc.org/en/ihl-treaties/gciv-1949/title",
+    "stable_id": "icrc:gciv-1949",
+    "source_role": "PRIMARY_TEXT",
+    "publisher": "International Committee of the Red Cross",
+    "language": "en",
+    "retrieved_at": "2026-09-07T22:56:43Z",
+    "sha256": null
+  },
+  "supersedes": [],
+  "superseded_by": [],
+  "research_state": "CANONICAL",
+  "notes": "Generated deterministically from data/aws/raw/icrc/gciv-1949.metadata.json. Entry into force is cross-checked against the ICRC 2025 Commentary to Article 159."
+}
