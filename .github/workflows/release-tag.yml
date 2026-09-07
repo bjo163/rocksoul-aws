@@ -2,7 +2,7 @@ name: Certified Release Tag
 
 on:
   workflow_run:
-    workflows: [Cosmic CI]
+    workflows: [AWS CI]
     types: [completed]
 
 permissions:
@@ -44,6 +44,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           target=$(git rev-parse HEAD)
-          git tag -a "v$version" -m "Cosmic v$version"
+          git tag -a "v$version" -m "AWS v$version"
           git push origin "v$version"
-          gh release create "v$version" --title "Cosmic v$version" --notes-file "docs/RELEASE_NOTES_${version}.md" --target "$target"
+          gh release create "v$version" --title "AWS v$version" --notes-file "docs/RELEASE_NOTES_${version}.md" --target "$target"
