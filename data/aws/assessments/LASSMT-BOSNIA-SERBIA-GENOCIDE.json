@@ -1,0 +1,45 @@
+{
+  "id": "LASSMT-BOSNIA-SERBIA-GENOCIDE",
+  "case_ref": "LCASE-ICJ-BOSNIA-SERBIA-91",
+  "evaluated_conduct": "Interstate claims of responsibility under the Genocide Convention as adjudicated in ICJ case 91.",
+  "applicability_refs": [
+    "APPL-BOSNIA-SERBIA-GENOCIDE-ICJ"
+  ],
+  "claim_refs": [
+    "LCLAIM-BOSNIA-SERBIA-ICJ-JURISDICTION"
+  ],
+  "legal_result": "UNRESOLVED",
+  "reasoning": [
+    {
+      "statement": "The Genocide Convention and Article IX were applicable as the treaty and jurisdictional framework for the dispute.",
+      "basis_refs": [
+        "APPL-BOSNIA-SERBIA-GENOCIDE-ICJ",
+        "AUTH-ICJ-91-JUDGMENT-2007-02-26"
+      ]
+    },
+    {
+      "statement": "The final judgment contains distinct merits holdings, including findings both against and in favor of Serbia on different alleged breaches; AWS does not collapse the entire judgment into one PERMITTED or PROHIBITED label.",
+      "basis_refs": [
+        "AUTH-ICJ-91-JUDGMENT-2007-02-26"
+      ]
+    }
+  ],
+  "contrary_authority_refs": [],
+  "unresolved_questions": [
+    "A single case-level permitted/prohibited label is not an adequate representation of the separate responsibility findings in the judgment."
+  ],
+  "confidence": 0.99,
+  "mizan": {
+    "status": "NOT_RUN",
+    "principle_refs": [],
+    "explanation": "No Mizan result is generated from an ICJ judgment or treaty applicability finding."
+  },
+  "review": {
+    "status": "REQUIRED",
+    "reviewer_ref": null,
+    "reviewed_at": null,
+    "notes": "Golden case validates applicability and authority separation; it does not substitute an automated case-wide merits verdict for the Court's individual holdings."
+  },
+  "source_revision_refs": [],
+  "generated_at": "2026-09-08T00:00:00Z"
+}
