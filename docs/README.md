@@ -56,3 +56,11 @@ The first executable proof intentionally produces `NOT_APPLICABLE → UNRESOLVED
 - Phase-2 implementation issue #105
 
 The runtime persists legal-domain state through the shared persistence abstraction and queues only affected cases when verified source payloads change.
+
+
+## Phase-3 official sources
+
+- [ICRC + UNTC official source adapters](AWS-PHASE-3-OFFICIAL-SOURCES.md)
+- Implementation tracking: issue #109
+
+Phase 3A connects verified official-source snapshots to the Phase-2 persistence/re-analysis runtime while keeping source changes separate from legal verdicts.
