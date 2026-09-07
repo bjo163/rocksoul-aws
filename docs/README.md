@@ -8,6 +8,11 @@ Its canonical question is:
 
 > **Was it allowed?**
 
+## Repository governance
+
+- [BRANCHING.md](BRANCHING.md) — canonical remote model: `main` stable/release, `dev` all development.
+- [../CONTRIBUTING.md](../CONTRIBUTING.md) — coding, validation, and promotion rules.
+
 ## Read in this order
 
 1. [../README.md](../README.md) — identity, scope, and golden separation.
@@ -43,3 +48,11 @@ The migration must preserve useful capabilities while removing stale domain owne
 - [Phase-1 implementation issue #103](https://github.com/bjo163/rocksoul-aws/issues/103)
 
 The first executable proof intentionally produces `NOT_APPLICABLE → UNRESOLVED` for Geneva Convention IV against a 70 CE event. This verifies non-anachronism and the rule that a non-applicable legal basis does not imply permission.
+
+
+## Phase-2 runtime
+
+- [AWS Phase-2 persistence & source worker](AWS-PHASE-2-RUNTIME.md)
+- Phase-2 implementation issue #105
+
+The runtime persists legal-domain state through the shared persistence abstraction and queues only affected cases when verified source payloads change.
