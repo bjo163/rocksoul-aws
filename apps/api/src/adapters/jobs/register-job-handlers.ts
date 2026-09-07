@@ -1,8 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { buildAiAnalysis, analyzeWithProvider } from '@moonwitness/cosmic-engine';
-import { composeReminderBundle } from '../../../../../src/ingress/revelation-reminder-engine.js';
+import { composeReminderBundle, runAiAnalyzeWorkflow, type WorkflowEvidence } from '@moonwitness/orchestrator';
 import { appendMizanWitness, signCheckpoint as signWitnessCheckpoint } from '@moonwitness/witness';
-import { runAiAnalyzeWorkflow, type WorkflowEvidence } from '@moonwitness/orchestrator';
 
 type RecordValue = Record<string, unknown>;
 
@@ -113,8 +112,8 @@ export function registerJobHandlers(deps: JobHandlerDependencies): void {
             },
           };
           return semanticObservation
-            ? buildAiAnalysis(analysisText, enriched as Parameters<typeof buildAiAnalysis>[1])
-            : analyzeWithProvider(analysisText, enriched as Parameters<typeof analyzeWithProvider>[1]);
+            ? buildAiAnalysis(analysisText, { ...enriched, semanticObservation })
+            : analyzeWithProvider(analysisText, { ...enriched, provider: deps.semanticProvider });
         },
         composeReminder: (seed) => composeReminderBundle(seed),
         saveCase: ({ aggregate, eventType, actorId: saveActor }) => deps.universeStore

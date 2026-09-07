@@ -2,12 +2,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { composeReminderBundle } from '../../src/ingress/revelation-reminder-engine.js';
 
-test('composes one Qur’an ayah, two Asma references, and one prior-scripture reference metadata record', async () => {
+test('composes one Qur\'an ayah, two Asma references, and one prior-scripture reference metadata record', async () => {
   const bundle = await composeReminderBundle(42);
   assert.equal(bundle.delivery.ayahCount, 1);
   assert.ok(bundle.quran.reference.match(/^\d+:\d+$/));
   assert.equal(bundle.asma.length, 2);
-  assert.notEqual(bundle.asma[0].id, bundle.asma[1].id);
+  assert.notEqual(bundle.asma[0].candidateId, bundle.asma[1].candidateId);
   assert.ok(['TAWRAT', 'ZABUR', 'INJIL'].includes(bundle.previousScripture.book));
   assert.equal(bundle.previousScripture.referenceStatus, 'TEXT_CORPUS_REQUIRED');
   assert.equal(bundle.delivery.distributionPolicy, 'SIMULATION_ONLY');

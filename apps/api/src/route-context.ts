@@ -16,6 +16,7 @@ import type {
   WitnessTransportService,
 } from '@moonwitness/witness';
 import { createDefaultSemanticProvider } from '@moonwitness/cosmic-engine';
+import type { ApplicationServices } from '@moonwitness/application';
 
 export interface Authenticator {
   authenticate(token: string): Promise<AuthorizationUser | null>;
@@ -101,6 +102,7 @@ export type LegacyBackend = Awaited<ReturnType<typeof loadLegacyBackend>>;
 export type SemanticProvider = ReturnType<typeof createDefaultSemanticProvider>;
 
 export interface RouteContext {
+  application: ApplicationServices;
   backend: LegacyBackend;
   universeStore: UniverseStore;
   observability: Observability;

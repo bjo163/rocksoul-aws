@@ -137,6 +137,94 @@ export function assertHumanReviewGate(value: unknown): asserts value is HumanRev
   if (!isHumanReviewGate(value)) throw new ContractValidationError('HumanReviewGate', ['invalid HUMAN_REVIEW_GATE_V1 payload']);
 }
 
+function refs(observed: unknown, scorecard: unknown): string[] {
+  const o = record(observed) ?? {};
+  const s = record(scorecard) ?? {};
+  const quranGrounding = record(o.quranGrounding) ?? {};
+  const grounding = record(s.grounding) ?? {};
+  return [...new Set([
+    ...(Array.isArray(quranGrounding.direct) ? quranGrounding.direct : []),
+    ...(Array.isArray(quranGrounding.principles) ? quranGrounding.principles : []),
+    ...(Array.isArray(grounding.refs) ? grounding.refs : [])
+  ].map(String).filter(Boolean))];
+}
+
+export function buildHumanReviewGate(input: { observed?: unknown; quranicMizan?: unknown; scorecard?: unknown; conflicts?: unknown[] } = {}): HumanReviewGate {
+  const q = (record(input.quranicMizan) ?? {}) as Record<string, any>;
+  const s = (record(input.scorecard) ?? {}) as Record<string, any>;
+  const o = (record(input.observed) ?? {}) as Record<string, any>;
+  const eventResolution = (record(o?.eventInterpretation)?.conflictResolution) ?? null;
+  const actualConflict = (eventResolution && String(record(eventResolution)?.state).toUpperCase() === 'ACTUAL_CONFLICT') ||
+    (Array.isArray(input.conflicts) && input.conflicts.some((conflict) => String(record(conflict)?.status ?? '').toUpperCase() === 'ACTUAL_CONFLICT')) ||
+    Boolean(q?.epistemic?.conflictPresent);
+  const status = String(q?.status ?? 'UNKNOWN').toUpperCase();
+  const evidenceState = String(q?.epistemic?.evidenceState ?? 'INSUFFICIENT').toUpperCase();
+  const quranCoverage = String(q?.quranGrounding?.coverage ?? o?.quranGrounding?.coverage ?? 'NONE').toUpperCase();
+  const evidenceRefs = refs(o, s);
+  const reasons: HumanReviewReason[] = [];
+  const evidenceGap: string[] = [];
+  const reviewActions: string[] = [];
+
+  if (actualConflict) {
+    reasons.push({ code: 'ACTUAL_CONFLICT', detail: 'Opposing event interpretations remain unresolved; software applies no normative priority.', evidenceRefs });
+    reviewActions.push('REVIEW_CONFLICTING_EVENT_SIDES');
+  }
+  if (status === 'RESERVED') {
+    reasons.push({ code: 'FINAL_OUTCOME_RESERVED', detail: 'The input touches unseen or final outcomes reserved outside software analysis.', evidenceRefs });
+    evidenceGap.push('FINAL_OUTCOME_IS_NOT_OBSERVABLE');
+    reviewActions.push('REMOVE_UNSEEN_OUTCOME_CLAIM');
+  }
+  if (evidenceState !== 'VERIFIED') {
+    reasons.push({ code: 'EVIDENCE_NOT_VERIFIED', detail: `Evidence state is ${evidenceState}; the described facts remain conditional.`, evidenceRefs });
+    evidenceGap.push('VERIFY_FACTUAL_EVENT');
+    reviewActions.push('VERIFY_PRIMARY_EVIDENCE');
+  }
+  if (quranCoverage === 'NONE') {
+    reasons.push({ code: 'NO_QURAN_GROUNDING', detail: 'No sufficient Quran-primary grounding was retrieved for this analysis.', evidenceRefs });
+    evidenceGap.push('REVELATION_GROUNDING');
+    reviewActions.push('DO_NOT_INFER_NORMATIVE_DIRECTION');
+  }
+  if (o?.quranGrounding?.empiricalRequired === true) {
+    reasons.push({ code: 'EMPIRICAL_BRIDGE_REQUIRED', detail: 'The available Revelation relation does not supply the empirical fact needed to conclude this case.', evidenceRefs });
+    evidenceGap.push('ALLOWED_EMPIRICAL_EVIDENCE');
+    reviewActions.push('SUPPLY_VERIFIABLE_EMPIRICAL_EVIDENCE');
+  }
+  if (status === 'PROVISIONAL') {
+    reasons.push({ code: 'PROVISIONAL_FINDING', detail: 'The analytical direction is conditional and must not be treated as an established accusation.', evidenceRefs });
+  }
+  if (status === 'INSUFFICIENT_EVIDENCE' || status === 'UNKNOWN') {
+    reasons.push({ code: 'INSUFFICIENT_EVIDENCE', detail: 'The available input is not sufficient for a stable analytical finding.', evidenceRefs });
+    evidenceGap.push('CLEARER_EVENT_DESCRIPTION');
+    reviewActions.push('REQUEST_CLARIFICATION');
+  }
+
+  const decision: ReviewDecision = actualConflict || status === 'RESERVED'
+    ? 'BLOCK_ADVERSE_ACTION'
+    : reasons.length
+      ? 'REQUIRE_HUMAN_REVIEW'
+      : 'ALLOW_ANALYTICAL_DISPLAY';
+  const severity: HumanReviewGate['severity'] = actualConflict || status === 'RESERVED'
+    ? 'CRITICAL'
+    : status === 'INSUFFICIENT_EVIDENCE' || status === 'UNKNOWN'
+      ? 'HIGH'
+      : reasons.length > 1
+        ? 'MEDIUM'
+        : 'LOW';
+
+  return {
+    protocol: 'HUMAN_REVIEW_GATE_V1',
+    decision,
+    analyticalDisplayAllowed: true,
+    adverseActionBlocked: true,
+    requiresHumanReview: decision !== 'ALLOW_ANALYTICAL_DISPLAY',
+    severity,
+    reasons,
+    evidenceGap: [...new Set(evidenceGap)],
+    recommendedReviewActions: [...new Set(reviewActions)],
+    boundary: 'This gate controls software display and adverse-action safety. It is not a divine verdict and does not determine final moral or unseen outcomes.'
+  };
+}
+
 export function isWitnessReference(value: unknown): value is WitnessReference {
   const witness = record(value);
   return Boolean(witness && typeof witness.nodeId === 'string' && witness.nodeId && typeof witness.hash === 'string' && witness.hash && typeof witness.root === 'string' && witness.root && (witness.checkpointId === undefined || witness.checkpointId === null || typeof witness.checkpointId === 'string'));

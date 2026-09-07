@@ -92,3 +92,12 @@ Legacy API/domain compatibility surfaces may remain while consumers migrate, but
 ## Product boundary
 
 Product repositories may implement Web, CAB, XRP, Flow, visual systems, browser state, accessibility/localization, and hosting. They consume Cosmic package/API/SDK contracts. Cosmic does not restore product UI code to satisfy stale tests or documents.
+# Target architecture
+
+```text
+contracts/kernel -> capability packages -> workflow -> orchestrator
+       capability packages + workflow -> intelligence -> API / CLI / worker adapters
+       persistence, jobs, observability, security --------------------------^ (injected)
+```
+
+The intelligence runtime is host-neutral: applications create a context, register capabilities and bundles, and invoke operations directly. Business orchestration is explicit and is not part of generic workflow infrastructure.

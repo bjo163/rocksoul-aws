@@ -1,0 +1,21 @@
+{
+  "id": "LCLAIM-JERUSALEM-70-GCIV-TEMPORAL",
+  "case_ref": "CASE-AWS-JERUSALEM-70",
+  "proposition": "Geneva Convention IV cannot serve as a treaty-law basis for classifying conduct occurring in 70 CE because the Convention did not yet exist or have legal force at that time.",
+  "claim_type": "applicability",
+  "asserted_by_refs": [
+    "aws:research"
+  ],
+  "basis_refs": [
+    "LAW-IHL-GCIV-1949",
+    "APPL-JERUSALEM-70-GCIV"
+  ],
+  "evidence_refs": [
+    "SRC-AWS-ICRC-IHL"
+  ],
+  "contrary_authority_refs": [],
+  "counterclaim_refs": [],
+  "scope_note": "This is a narrow temporal-applicability proposition. It is not a conclusion about legality under every possible legal or normative system.",
+  "status": "SUPPORTED",
+  "confidence": 0.99
+}

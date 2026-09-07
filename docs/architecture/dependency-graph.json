@@ -1,0 +1,71 @@
+{
+  "version": "4.33.0",
+  "generatedAt": "2026-08-29T02:13:00.000Z",
+  "nodes": [
+    "@moonwitness/contracts",
+    "@moonwitness/persistence",
+    "@moonwitness/observability",
+    "@moonwitness/security",
+    "@moonwitness/domains",
+    "@moonwitness/witness",
+    "@moonwitness/jobs",
+    "@moonwitness/data-access",
+    "@moonwitness/kernel",
+    "@moonwitness/revelation",
+    "@moonwitness/temporal-engine",
+    "@moonwitness/semantic-engine",
+    "@moonwitness/mizan-engine",
+    "@moonwitness/explanation-engine",
+    "@moonwitness/tse-engine",
+    "@moonwitness/cosmic-engine",
+    "@moonwitness/orchestrator",
+    "@moonwitness/sdk",
+    "apps/api"
+  ],
+  "adjacency": {
+    "@moonwitness/contracts": [],
+    "@moonwitness/persistence": ["@moonwitness/contracts"],
+    "@moonwitness/observability": ["@moonwitness/contracts"],
+    "@moonwitness/security": ["@moonwitness/contracts", "@moonwitness/persistence"],
+    "@moonwitness/domains": ["@moonwitness/contracts"],
+    "@moonwitness/witness": ["@moonwitness/contracts", "@moonwitness/persistence"],
+    "@moonwitness/jobs": ["@moonwitness/contracts"],
+    "@moonwitness/data-access": ["@moonwitness/contracts", "@moonwitness/persistence"],
+    "@moonwitness/kernel": ["@moonwitness/contracts"],
+    "@moonwitness/revelation": ["@moonwitness/contracts"],
+    "@moonwitness/temporal-engine": ["@moonwitness/contracts"],
+    "@moonwitness/semantic-engine": ["@moonwitness/contracts", "@moonwitness/kernel", "@moonwitness/revelation"],
+    "@moonwitness/mizan-engine": ["@moonwitness/contracts", "@moonwitness/semantic-engine"],
+    "@moonwitness/explanation-engine": ["@moonwitness/contracts", "@moonwitness/mizan-engine"],
+    "@moonwitness/tse-engine": ["@moonwitness/contracts"],
+    "@moonwitness/cosmic-engine": [
+      "@moonwitness/contracts",
+      "@moonwitness/mizan-engine",
+      "@moonwitness/semantic-engine",
+      "@moonwitness/tse-engine",
+      "@moonwitness/temporal-engine",
+      "@moonwitness/explanation-engine",
+      "@moonwitness/revelation"
+    ],
+    "@moonwitness/orchestrator": [
+      "@moonwitness/contracts",
+      "@moonwitness/persistence",
+      "@moonwitness/observability",
+      "@moonwitness/security",
+      "@moonwitness/witness",
+      "@moonwitness/cosmic-engine"
+    ],
+    "@moonwitness/sdk": ["@moonwitness/contracts"],
+    "apps/api": [
+      "@moonwitness/contracts",
+      "@moonwitness/persistence",
+      "@moonwitness/observability",
+      "@moonwitness/security",
+      "@moonwitness/witness",
+      "@moonwitness/cosmic-engine",
+      "@moonwitness/orchestrator",
+      "@moonwitness/revelation",
+      "@moonwitness/domains"
+    ]
+  }
+}

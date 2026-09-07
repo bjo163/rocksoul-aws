@@ -1,5 +1,6 @@
 import { evaluateMizan, evaluateQuranicMizan } from '@moonwitness/mizan-engine';
 import { explainTemporalContext } from '@moonwitness/explanation-engine';
+import { buildHumanReviewGate } from '@moonwitness/contracts';
 
 export type Loose = Record<string, any>;
 
@@ -43,11 +44,14 @@ export function createDefaultSemanticProvider(root = process.cwd()) { return new
 
 export function buildAiAnalysis(text: string, options: Loose = {}): Loose {
   const observation = options.semanticObservation ?? null;
-  const observed = observation ?? { confidence: 0, intention: { label: 'UNRESOLVED', rgbl: { R: 0, G: 0, B: 0, L: 0 } }, actionGateVector: [], impactVector: [], timeFactor: {} };
-  const mizan = observation ? evaluateMizan({ ...observed, semantic: observed.intention?.rgbl ?? observed.semantic, semanticObservation: observed, semanticVector: options.semanticVector ?? {}, scale: options.scale ?? {}, confidence: observed.confidence ?? 0, evidenceQuality: .25 }) : null;
-  const quranicMizan = observation ? evaluateQuranicMizan({ text, observed, mizan, conflicts: observed.conflicts ?? [] }) : null;
-  const timeFactor = options.temporalInput ? options.toMizanTemporalContext?.(options.temporalInput) : observed.timeFactor;
-  return { text, intent: observation ? (observed.intention?.label ?? observed.intent ?? 'UNRESOLVED') : 'UNRESOLVED', entities: observed.entities ?? [], contexts: observed.contexts ?? {}, claim: observed.claim ?? { text: null, referenceCandidates: [], sourceCandidates: [] }, candidateActions: [], alternatives: observed.alternatives ?? [], conflicts: observed.conflicts ?? [], timeline: observed.timeline ?? [], sourceMatches: [], semanticVector: observation ? observed : null, intention: observed.intention, scale: options.scale ?? {}, mizan: mizan ? { ...mizan, quranic: quranicMizan } : null, quranicMizan, temporalReasoning: timeFactor?.schema === 'MIZAN_TEMPORAL_CONTEXT_V1' ? explainTemporalContext(text, timeFactor) : null, revelationScorecard: null, reviewGate: null, ruleResolution: { candidates: [] }, confidence: { score: observed.confidence ?? 0, band: 'MINIMAL', semantic: observed.confidence ?? 0, evidenceQuality: .25, uncertainty: 1 - (observed.confidence ?? 0) }, provenance: { model: { id: 'moonwitness-cosmic-engine', version: '4.33.0' } }, lifecycle: null, capability: { modelOnly: true, sourceGrounded: false, ruleGrounded: false } };
+  const persistedEvidence = Array.isArray(options.persistedEvidence) ? options.persistedEvidence : [];
+  const observed = observation ?? { confidence: 0, intention: { label: 'UNRESOLVED', rgbl: { R: 0, G: 0, B: 0, L: 0 } }, actionGateVector: [], impactVector: [], timeFactor: {}, evidence: [], conflicts: [] };
+  const mergedObserved = { ...observed, evidence: [...(Array.isArray(observed.evidence) ? observed.evidence : []), ...persistedEvidence] };
+  const mizan = observation ? evaluateMizan({ ...mergedObserved, semantic: mergedObserved.intention?.rgbl ?? mergedObserved.semantic, semanticVector: options.semanticVector ?? {}, scale: options.scale ?? {}, confidence: mergedObserved.confidence ?? 0, evidenceQuality: .25 }) : null;
+  const quranicMizan = observation ? evaluateQuranicMizan({ text, observed: mergedObserved, mizan, conflicts: mergedObserved.conflicts ?? [] }) : null;
+  const timeFactor = options.temporalInput ? options.toMizanTemporalContext?.(options.temporalInput) : mergedObserved.timeFactor;
+  const reviewGate = buildHumanReviewGate({ observed: mergedObserved, quranicMizan, scorecard: null, conflicts: mergedObserved.conflicts ?? [] });
+  return { text, intent: observation ? (mergedObserved.intention?.label ?? mergedObserved.intent ?? 'UNRESOLVED') : 'UNRESOLVED', entities: mergedObserved.entities ?? [], contexts: mergedObserved.contexts ?? {}, claim: mergedObserved.claim ?? { text: null, referenceCandidates: [], sourceCandidates: [] }, candidateActions: [], alternatives: mergedObserved.alternatives ?? [], conflicts: mergedObserved.conflicts ?? [], timeline: mergedObserved.timeline ?? [], sourceMatches: [], semanticVector: observation ? mergedObserved : null, intention: mergedObserved.intention, scale: options.scale ?? {}, mizan: mizan ? { ...mizan, quranic: quranicMizan } : null, quranicMizan, temporalReasoning: timeFactor?.schema === 'MIZAN_TEMPORAL_CONTEXT_V1' ? explainTemporalContext(text, timeFactor) : null, revelationScorecard: observation ? { protocol: 'REVELATION_SCORECARD_V1', version: '4.33.0' } : null, reviewGate, ruleResolution: { candidates: [] }, confidence: { score: mergedObserved.confidence ?? 0, band: 'MINIMAL', semantic: mergedObserved.confidence ?? 0, evidenceQuality: .25, uncertainty: 1 - (mergedObserved.confidence ?? 0) }, provenance: { model: { id: 'moonwitness-cosmic-engine', version: '4.33.0' } }, lifecycle: null, capability: { modelOnly: true, sourceGrounded: false, ruleGrounded: false } };
 }
 export async function analyzeWithProvider(text: string, { provider, ...options }: Loose = {}) { if (!provider?.analyze) throw new Error('A semantic AI provider is required.'); return buildAiAnalysis(text, { ...options, semanticObservation: await provider.analyze(text, options) }); }
 export async function analyzeAutomatically(text: string, options: Loose = {}) { return analyzeWithProvider(text, { ...options, provider: options.provider ?? createDefaultSemanticProvider(options.root) }); }

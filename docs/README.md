@@ -1,31 +1,58 @@
-# Cosmic Engine — Canonical Documentation
+# AWS — Canonical Documentation
 
-Version: **4.33.0**
+## ANGEL WITH SHOTGUN
 
-Cosmic is an **engine/API-first** repository. It does not own Web, CAB, XRP, Flow, browser UX, accessibility/localization delivery, or product hosting. Those product surfaces belong in host/product repositories and consume versioned Cosmic packages, API contracts, or SDKs.
+AWS is the **International Law & Regulation Intelligence** domain of MoonWitness / Rocksoul Research.
 
-## Active sources of truth
+Its canonical question is:
 
-Read these in order:
+> **Was it allowed?**
 
-1. [`../README.md`](../README.md) — repository purpose and release surface.
-2. [`TODO_CURRENT.md`](TODO_CURRENT.md) — current blockers and execution order.
-3. [`ENGINEERING_ROADMAP.md`](ENGINEERING_ROADMAP.md) — release progression through 5.0.0.
-4. [`PACKAGE_ARCHITECTURE.md`](PACKAGE_ARCHITECTURE.md) — dependency direction and ownership.
-5. [`ARCHITECTURE.md`](ARCHITECTURE.md) — runtime and host-adapter boundaries.
-6. [`CI_EXECUTION.md`](CI_EXECUTION.md) — exact-SHA CI and branch policy.
-7. [`TESTING.md`](TESTING.md) — engine/API/persistence/Witness test model.
-8. [`RELEASE_CHECKLIST.md`](RELEASE_CHECKLIST.md) — mandatory release gates.
-9. [`RELEASE_STATUS_4.33.0.md`](RELEASE_STATUS_4.33.0.md) — current release status.
+## Repository governance
 
-## Scope boundary
+- [BRANCHING.md](BRANCHING.md) — canonical remote model: `main` stable/release, `dev` all development.
+- [../CONTRIBUTING.md](../CONTRIBUTING.md) — coding, validation, and promotion rules.
 
-**Inside Cosmic:** contracts, deterministic/semantic/Mizan/explanation engines, orchestrator, API/reference host adapter, SDK, persistence, jobs/worker, Witness/audit/provenance, security, observability, backend deployment and certification.
+## Read in this order
 
-**Outside Cosmic:** Web UI, CAB UI, XRP UI, Flow UI, browser presentation state, product accessibility/localization, and product-app hosting/deployment.
+1. [../README.md](../README.md) — identity, scope, and golden separation.
+2. [LEGAL_RESEARCH_MODEL.md](LEGAL_RESEARCH_MODEL.md) — legal source, authority, provenance, uncertainty, and analysis model.
+3. [ROCKSOUL_INTEROP.md](ROCKSOUL_INTEROP.md) — STORY / EVENT / PERSON / RGBL / AWS ownership boundaries.
+4. [AUTOMATION.md](AUTOMATION.md) — automatic research, freshness, supersession, and re-analysis.
+5. [schemas](../schemas) — machine-readable domain contracts.
 
-`apps/api` is a reference/compatibility host adapter. It is not part of the embedded engine facade, but it remains certified because API, persistence, security, Witness, jobs, and deployment compatibility are supported integration surfaces.
+## Canonical AWS boundary
 
-## Historical documentation
+```text
+LEGAL TEXT
+!= APPLICABLE LAW
+!= FACT
+!= ARGUMENT
+!= LEGAL OUTCOME
+!= MIZAN ASSESSMENT
+```
 
-Older release notes, UI ADRs, CAB visual/projection documents, `TODO.md`, test reports, and previous status snapshots remain only for audit/history. Historical documents never override the active sources above.
+AWS may use inherited MoonWitness/Cosmic infrastructure where useful, but inherited Cosmic documents do not override these AWS domain contracts.
+
+## Historical / inherited documentation
+
+Many files in this repository still describe the repository's earlier Cosmic engine identity. Until migrated or retired, treat them as **technical history / implementation substrate**, not as the canonical product/domain definition of AWS.
+
+The migration must preserve useful capabilities while removing stale domain ownership safely through reviewed changes.
+
+
+## Phase-1 executable proof
+
+- [AWS canonical legal data](../data/aws/README.md)
+- [Jerusalem 70 CE — five-domain legal boundary proof](cases/JERUSALEM-70-FIVE-WAY.md)
+- [Phase-1 implementation issue #103](https://github.com/bjo163/rocksoul-aws/issues/103)
+
+The first executable proof intentionally produces `NOT_APPLICABLE → UNRESOLVED` for Geneva Convention IV against a 70 CE event. This verifies non-anachronism and the rule that a non-applicable legal basis does not imply permission.
+
+
+## Phase-2 runtime
+
+- [AWS Phase-2 persistence & source worker](AWS-PHASE-2-RUNTIME.md)
+- Phase-2 implementation issue #105
+
+The runtime persists legal-domain state through the shared persistence abstraction and queues only affected cases when verified source payloads change.

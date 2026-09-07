@@ -1,0 +1,15 @@
+{
+  "id": "SRC-AWS-UNTC",
+  "name": "United Nations Treaty Collection",
+  "publisher": "United Nations",
+  "authority_role": "OFFICIAL_DEPOSITARY",
+  "canonical_url": "https://treaties.un.org/",
+  "scope": [
+    "multilateral_treaties",
+    "depositary_status",
+    "treaty_actions",
+    "certified_true_copies"
+  ],
+  "retrieved_at": "2026-09-07T22:56:43Z",
+  "notes": "Official UN treaty/depositary system. Phase 1 stores one UNTC-backed instrument metadata record; live status polling is deferred."
+}

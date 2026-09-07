@@ -1,21 +1,20 @@
-name: Release Version Proposal
+name: Release Version Audit
 
 on:
   workflow_run:
-    workflows: [Cosmic CI]
+    workflows: [AWS CI]
     types: [completed]
   workflow_dispatch:
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
 
 concurrency:
-  group: release-version-proposal
+  group: release-version-audit
   cancel-in-progress: false
 
 jobs:
-  propose:
+  audit:
     if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main')
     runs-on: [self-hosted, linux, x64, cosmic]
     steps:
@@ -37,33 +36,18 @@ jobs:
           git fetch origin main --tags
           test "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)"
 
-      - name: Plan version from conventional commits
-        id: plan
+      - name: Audit conventional-commit version plan
         run: node scripts/release-version.mjs plan
 
-      - name: Stop when a version already awaits tagging
-        if: steps.plan.outputs.current != steps.plan.outputs.tag_version
-        run: echo "package version differs from the latest tag; waiting for certified tag workflow"
-
-      - name: Create release version pull request
-        if: steps.plan.outputs.version != '' && steps.plan.outputs.current == steps.plan.outputs.tag_version
-        env:
-          GH_TOKEN: ${{ github.token }}
-          VERSION: ${{ steps.plan.outputs.version }}
+      - name: Enforce two-branch release model
         run: |
-          branch="release/v${VERSION}"
-          if git ls-remote --exit-code --heads origin "$branch"; then
-            echo "release proposal already exists"
-            exit 0
+          set -euo pipefail
+          unexpected="$(
+            git ls-remote --heads origin               | awk '{sub("refs/heads/", "", $2); print $2}'               | grep -Ev '^(main|dev)$' || true
+          )"
+          if [ -n "$unexpected" ]; then
+            echo "Noncanonical remote branches detected:"
+            echo "$unexpected"
+            exit 1
           fi
-          git switch -c "$branch"
-          node scripts/release-version.mjs apply --version "$VERSION"
-          npm install --package-lock-only --ignore-scripts --no-audit --no-fund
-          npm run release:identity
-          node --test tests/release-versioning.test.mjs
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add package.json package-lock.json apps/api/package.json packages config/release-version.json docs
-          git commit -m "chore(release): prepare v${VERSION}"
-          git push origin "$branch"
-          gh pr create --base main --head "$branch" --title "chore(release): prepare v${VERSION}" --body "Automated conventional-commit version proposal. This PR must pass Cosmic CI before merge; tagging is performed only after the exact main SHA is certified."
+          echo "Release version changes must be prepared on dev and promoted via dev -> main."

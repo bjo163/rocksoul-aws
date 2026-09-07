@@ -1,4 +1,1 @@
-export type GrammarFrameKind='DIVINE_PREDICATE'|'COORDINATED_PREDICATE'|'PROHIBITION'|'IMPERATIVE_CANDIDATE'|'CONDITION_EXPLICIT'|'CONDITION_CANDIDATE'|'VOCATIVE'|'SPEECH'|'CAUSE_CANDIDATE'|'PURPOSE_RESULT_CANDIDATE';
-export interface GrammarToken{index:number;surface:string;normalized:string;leadingClitics:string[];stemCandidate:string;rootCandidate:string|null;canonicalRoot:null;morphologyConfidence:number;}
-export interface GrammarFrame{frameId:string;kind:GrammarFrameKind;reference:string|null;index:number;subjectSurface:string|null;predicateSurface:string|null;targetSurface:string|null;polarity:'POSITIVE'|'NEGATIVE'|'NEUTRAL'|'UNKNOWN';inheritedSubject:boolean;heuristic:boolean;confidence:number;evidenceSurface:string;}
-export interface QuranGrammarAnalysis{protocol:'REVELATION_GRAMMAR_ANALYSIS_V1';version:string;reference:string|null;text:string;tokens:GrammarToken[];frames:GrammarFrame[];speakerSurfaces:string[];addresseeSurfaces:string[];invariants:{normativeAuthority:false;externalLexiconUsed:false;canonicalRootClaimed:false;placeOfRevelationInferred:false;};boundary:string;}
+export * from '@moonwitness/revelation/grammar/types.js';

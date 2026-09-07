@@ -1,0 +1,55 @@
+{
+  "id": "APPL-JERUSALEM-70-GCIV",
+  "case_ref": "CASE-AWS-JERUSALEM-70",
+  "legal_basis_ref": "LAW-IHL-GCIV-1949",
+  "jurisdiction_ref": null,
+  "dimensions": {
+    "temporal": {
+      "status": "DOES_NOT_APPLY",
+      "reasons": [
+        "The referenced event is dated to 70 CE, while Geneva Convention IV was adopted on 1949-08-12 and entered into force on 1950-10-21."
+      ],
+      "basis_refs": [
+        "LAW-IHL-GCIV-1949"
+      ]
+    },
+    "territorial": {
+      "status": "UNCERTAIN",
+      "reasons": [
+        "Not reached as an independent treaty-applicability conclusion because the temporal condition already fails; no retroactive territorial application is inferred."
+      ],
+      "basis_refs": [
+        "LAW-IHL-GCIV-1949"
+      ]
+    },
+    "personal": {
+      "status": "UNCERTAIN",
+      "reasons": [
+        "Not reached as an independent treaty-applicability conclusion because the temporal condition already fails; modern treaty-party concepts are not projected onto 70 CE actors."
+      ],
+      "basis_refs": [
+        "LAW-IHL-GCIV-1949"
+      ]
+    },
+    "subject_matter": {
+      "status": "UNCERTAIN",
+      "reasons": [
+        "Possible factual resemblance to armed-conflict subject matter cannot overcome the failed temporal condition and is not treated as treaty applicability."
+      ],
+      "basis_refs": [
+        "LAW-IHL-GCIV-1949"
+      ]
+    }
+  },
+  "overall": "NOT_APPLICABLE",
+  "basis_refs": [
+    "LAW-IHL-GCIV-1949",
+    "SRC-AWS-ICRC-IHL"
+  ],
+  "contrary_refs": [],
+  "reasoning": [
+    "A treaty adopted and entering into force in the twentieth century is not applied retroactively as treaty law to a first-century event.",
+    "This record tests temporal applicability only; it does not classify the event under Roman law, customary norms of the period, theology, or modern moral judgment."
+  ],
+  "review_state": "REVIEW_REQUIRED"
+}

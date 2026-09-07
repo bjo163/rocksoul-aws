@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moonwitness.dev/schemas/aws/cross-repo-case.schema.json",
+  "title": "AWS Five-Domain Cross-Repository Case",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "title",
+    "question",
+    "event_year_ce",
+    "external_refs",
+    "aws_refs",
+    "result",
+    "research_state"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^CASE-AWS-[A-Z0-9][A-Z0-9._-]*$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "question": {
+      "type": "string",
+      "minLength": 1
+    },
+    "event_year_ce": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "external_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "story",
+        "event",
+        "person",
+        "rgbl"
+      ],
+      "properties": {
+        "story": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^mftl:"
+          }
+        },
+        "event": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^legend:"
+          }
+        },
+        "person": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^superhero:"
+          }
+        },
+        "rgbl": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^rgbl:"
+          }
+        }
+      }
+    },
+    "aws_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "legal_basis",
+        "applicability",
+        "claims",
+        "assessments"
+      ],
+      "properties": {
+        "legal_basis": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^LAW-"
+          }
+        },
+        "applicability": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^APPL-"
+          }
+        },
+        "claims": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^LCLAIM-"
+          }
+        },
+        "assessments": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^LASSMT-"
+          }
+        }
+      }
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "applicability",
+        "legal_result",
+        "summary"
+      ],
+      "properties": {
+        "applicability": {
+          "type": "string",
+          "enum": [
+            "APPLICABLE",
+            "NOT_APPLICABLE",
+            "PARTIALLY_APPLICABLE",
+            "UNCERTAIN"
+          ]
+        },
+        "legal_result": {
+          "type": "string",
+          "enum": [
+            "PERMITTED",
+            "RESTRICTED",
+            "PROHIBITED",
+            "DISPUTED",
+            "UNRESOLVED"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "research_state": {
+      "type": "string",
+      "enum": [
+        "CANDIDATE",
+        "REVIEW_REQUIRED",
+        "REVIEWED",
+        "SUPERSEDED"
+      ]
+    }
+  }
+}

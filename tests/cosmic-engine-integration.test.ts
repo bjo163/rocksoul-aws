@@ -3,7 +3,7 @@ import test from 'node:test';
 import { createCosmicEngine } from '../packages/cosmic-engine/src/index.ts';
 
 test('engine facade supports Moonwitness integration without UI or platform state', async () => {
-  const engine = createCosmicEngine(process.cwd());
+  const engine = await createCosmicEngine(process.cwd());
   const vector = engine.buildAnalyticalSemanticVector({ primary: ['verify'], relevance: { verify: 1 } });
   assert.equal(vector.normativeAuthority, false);
   assert.equal(engine.makeTimeEvent({ occurredAt: '2026-08-28T00:00:00.000Z' }).occurredAt, '2026-08-28T00:00:00.000Z');

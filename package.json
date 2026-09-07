@@ -3,8 +3,14 @@
   "version": "4.33.0",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=26 <27", "npm": ">=11 <12" },
-  "workspaces": ["apps/*", "packages/*"],
+  "engines": {
+    "node": ">=26 <27",
+    "npm": ">=11 <12"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "build:packages": "node scripts/build-packages.mjs",
     "test:package-runtime": "npm run build:packages && node scripts/package-runtime-smoke.mjs",
@@ -32,7 +38,7 @@
     "architecture:check": "node scripts/architecture-boundary.mjs",
     "typecheck": "tsc -p apps/api/tsconfig.json --noEmit",
     "pretypecheck": "npm run build:packages",
-    "typecheck:engine": "tsc --noEmit --target ES2022 --module NodeNext --moduleResolution NodeNext --skipLibCheck packages/tse-engine/src/index.ts packages/cosmic-engine/src/index.ts packages/orchestrator/src/index.ts packages/orchestrator/src/evidence-workflow.ts packages/orchestrator/src/review-workflow.ts packages/orchestrator/src/queue-port.ts packages/orchestrator/src/ai-analysis-workflow.ts packages/orchestrator/src/ingress-workflow.ts packages/persistence/src/index.ts packages/jobs/src/index.ts packages/witness/src/index.ts packages/temporal-engine/src/index.ts packages/semantic-engine/src/index.ts packages/mizan-engine/src/index.ts packages/explanation-engine/src/index.ts",
+    "typecheck:engine": "tsc --noEmit --target ES2022 --module NodeNext --moduleResolution NodeNext --skipLibCheck packages/tse-engine/src/index.ts packages/intelligence/src/index.ts packages/cosmic-engine/src/index.ts packages/orchestrator/src/index.ts packages/orchestrator/src/evidence-workflow.ts packages/orchestrator/src/review-workflow.ts packages/orchestrator/src/queue-port.ts packages/orchestrator/src/ai-analysis-workflow.ts packages/orchestrator/src/ingress-workflow.ts packages/persistence/src/index.ts packages/jobs/src/index.ts packages/witness/src/index.ts packages/temporal-engine/src/index.ts packages/semantic-engine/src/index.ts packages/mizan-engine/src/index.ts packages/explanation-engine/src/index.ts",
     "pretypecheck:engine": "npm run build:packages",
     "release:check": "node scripts/release-check.mjs",
     "certify:current": "npm run architecture:check && npm run preflight && npm run final:certify",
@@ -65,7 +71,7 @@
     "test:semantic": "node scripts/transpile-runner.mjs tests/semantic-no-hardcode.test.ts tests/semantic-mizan-matrix.test.ts tests/automatic-semantic-engine.test.ts tests/ai-mizan-contract.test.ts tests/ai-analyzer-v14.test.ts tests/quranic-mizan.test.ts tests/config-loader.test.ts tests/mizan-service-contract.test.ts",
     "test:tse": "node scripts/transpile-runner.mjs tests/tse-cosmic-integration.test.ts tests/tse-usno-gold.test.ts tests/tse-gold-validation.test.ts tests/tse-provider-comparison.test.ts tests/tse-hypothesis-scoring.test.ts tests/mizan-temporal-context.test.ts tests/ai-temporal-reasoning.test.ts tests/cosmic-engine-integration.test.ts",
     "test:orchestrator": "node scripts/transpile-runner.mjs tests/orchestrator-analysis-workflow.test.ts tests/evidence-workflow.test.ts tests/orchestrator-review-workflow.test.ts tests/ai-analysis-workflow.test.ts tests/orchestrator-queue-port.test.ts tests/orchestrator-ingress-workflow.test.ts",
-    "test:packages": "npm run --workspace @moonwitness/persistence test && npm run --workspace @moonwitness/jobs test && npm run --workspace @moonwitness/witness test && npm run --workspace @moonwitness/temporal-engine test && npm run --workspace @moonwitness/semantic-engine test && npm run --workspace @moonwitness/mizan-engine test && npm run --workspace @moonwitness/explanation-engine test && npm run --workspace @moonwitness/cosmic-engine test",
+    "test:packages": "npm run --workspace @moonwitness/persistence test && npm run --workspace @moonwitness/jobs test && npm run --workspace @moonwitness/witness test && npm run --workspace @moonwitness/temporal-engine test && npm run --workspace @moonwitness/semantic-engine test && npm run --workspace @moonwitness/mizan-engine test && npm run --workspace @moonwitness/explanation-engine test && npm run --workspace @moonwitness/intelligence test && npm run --workspace @moonwitness/cosmic-engine test",
     "db:install": "node scripts/transpile-exec.mjs scripts/db-install.ts",
     "setup": "node scripts/transpile-exec.mjs scripts/setup-wizard.ts",
     "db:check": "node scripts/transpile-exec.mjs scripts/db-postgres-check.ts",
@@ -107,7 +113,15 @@
     "test:sdk-session": "node scripts/transpile-runner.mjs tests/sdk-session-contract.test.ts",
     "test:lifecycle": "node scripts/transpile-runner.mjs tests/moral-lifecycle-100-cases.test.ts",
     "test:grammar": "node scripts/transpile-runner.mjs tests/revelation-grammar.test.ts tests/revelation-grammar-100-cases.test.ts",
-    "test:ontology": "node scripts/transpile-runner.mjs tests/revelation-divine-ontology.test.ts tests/revelation-divine-ontology-100-cases.test.ts"
+    "test:ontology": "node scripts/transpile-runner.mjs tests/revelation-divine-ontology.test.ts tests/revelation-divine-ontology-100-cases.test.ts",
+    "aws:ingest:icrc": "node scripts/aws-ingest-icrc.mjs",
+    "aws:validate": "node scripts/aws-validate.mjs",
+    "test:aws": "node --test tests/aws-legal-corpus.test.mjs",
+    "aws:check": "npm run aws:ingest:icrc -- --check && npm run aws:validate && npm run test:aws && npm run test:aws:runtime",
+    "test:aws:runtime": "node scripts/transpile-runner.mjs tests/aws-legal-runtime.test.ts"
   },
-  "devDependencies": { "@types/node": "^26.0.0", "typescript": "^5.8.3" }
+  "devDependencies": {
+    "@types/node": "^26.0.0",
+    "typescript": "^5.8.3"
+  }
 }

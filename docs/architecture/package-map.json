@@ -1,0 +1,132 @@
+{
+  "version": "4.33.0",
+  "generatedAt": "2026-08-29T02:13:00.000Z",
+  "packages": [
+    {
+      "name": "@moonwitness/contracts",
+      "location": "packages/contracts",
+      "layer": "L0",
+      "type": "contract",
+      "description": "Core TypeScript interfaces, DTOs, schemas, and epistemic assertions"
+    },
+    {
+      "name": "@moonwitness/persistence",
+      "location": "packages/persistence",
+      "layer": "L1",
+      "type": "adapter",
+      "description": "Universal persistence layer (PostgreSQL, file, memory drivers, YAML config parser)"
+    },
+    {
+      "name": "@moonwitness/observability",
+      "location": "packages/observability",
+      "layer": "L1",
+      "type": "tooling",
+      "description": "Distributed tracing, correlation IDs, Prometheus metrics, and secret redaction"
+    },
+    {
+      "name": "@moonwitness/security",
+      "location": "packages/security",
+      "layer": "L1",
+      "type": "adapter",
+      "description": "Authentication services, RBAC matrix, token signer, and rate limiter"
+    },
+    {
+      "name": "@moonwitness/domains",
+      "location": "packages/domains",
+      "layer": "L2",
+      "type": "domain-engine",
+      "description": "10 state and society analytical domain profile evaluators"
+    },
+    {
+      "name": "@moonwitness/witness",
+      "location": "packages/witness",
+      "layer": "L2",
+      "type": "ledger",
+      "description": "QDAG ledger, distributed Merkle tree, Ed25519 signing, and projection store"
+    },
+    {
+      "name": "@moonwitness/jobs",
+      "location": "packages/jobs",
+      "layer": "L2",
+      "type": "infrastructure",
+      "description": "Background task queue and worker execution lifecycle"
+    },
+    {
+      "name": "@moonwitness/data-access",
+      "location": "packages/data-access",
+      "layer": "L2",
+      "type": "port",
+      "description": "High-level entity repositories, DAO abstractions, and transactional unit of work"
+    },
+    {
+      "name": "@moonwitness/kernel",
+      "location": "packages/kernel",
+      "layer": "L2",
+      "type": "core-domain",
+      "description": "Universal knowledge ontology, conceptual graph, and semantic entity grounding"
+    },
+    {
+      "name": "@moonwitness/revelation",
+      "location": "packages/revelation",
+      "layer": "L2",
+      "type": "core-domain",
+      "description": "Asma engine, 4-book scripture corpus, moral graph, grammar, and divine ontology"
+    },
+    {
+      "name": "@moonwitness/temporal-engine",
+      "location": "packages/temporal-engine",
+      "layer": "L3",
+      "type": "engine",
+      "description": "Astronomical time factors, lunar/solar calendar models, and temporal reasoning"
+    },
+    {
+      "name": "@moonwitness/semantic-engine",
+      "location": "packages/semantic-engine",
+      "layer": "L3",
+      "type": "engine",
+      "description": "Natural language semantic parsing, action-to-Mizan matrix, and registry provider"
+    },
+    {
+      "name": "@moonwitness/mizan-engine",
+      "location": "packages/mizan-engine",
+      "layer": "L3",
+      "type": "engine",
+      "description": "Deterministic moral balance algorithms, RGBL vector weights, and adversarial safety"
+    },
+    {
+      "name": "@moonwitness/explanation-engine",
+      "location": "packages/explanation-engine",
+      "layer": "L3",
+      "type": "engine",
+      "description": "Decision provenance trees, audit rationale generator, and transparency traces"
+    },
+    {
+      "name": "@moonwitness/tse-engine",
+      "location": "packages/tse-engine",
+      "layer": "L3",
+      "type": "engine",
+      "description": "Astronomical ephemeris (USNO, NOAA-Meeus), 45-degree hypotheses, and gold calibrations"
+    },
+    {
+      "name": "@moonwitness/cosmic-engine",
+      "location": "packages/cosmic-engine",
+      "layer": "L4",
+      "type": "facade",
+      "description": "Unified platform engine facade (analyze, query, evaluate, explain, execute)"
+    },
+    {
+      "name": "@moonwitness/orchestrator",
+      "location": "packages/orchestrator",
+      "layer": "L4",
+      "type": "workflow",
+      "description": "Host-neutral workflows (Evidence, Review, Ingress, Analysis, Audit Replay)"
+    },
+    {
+      "name": "@moonwitness/sdk",
+      "location": "packages/sdk",
+      "layer": "L5",
+      "type": "sdk",
+      "description": "Consumer TypeScript SDK, HTTP transport, retry resilience, and contract typing"
+    }
+  ]
+}

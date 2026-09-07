@@ -5,14 +5,13 @@ import { fileURLToPath } from 'node:url';
 import { loadLegacyBackend } from './legacy-bridge.js';
 import * as authFactory from '@moonwitness/security';
 import * as featureFactory from '@moonwitness/security';
-import { createDefaultSemanticProvider } from '@moonwitness/cosmic-engine';
+import { buildAiAnalysis, analyzeWithProvider, createDefaultSemanticProvider } from '@moonwitness/cosmic-engine';
 import { UniverseStore, IdempotencyStore, PostgresIdempotencyStore, initializeRuntimeData, runtimeDataset, loadDatabaseConfig } from '@moonwitness/persistence';
 import { Observability } from '@moonwitness/observability';
 import { assertPermission, hasPermission, type ActionPermission, PostgresAuthService } from '@moonwitness/security';
 import { PersistentJobQueue } from '@moonwitness/jobs';
 import { SemanticRegistry } from '@moonwitness/semantic-engine';
-import { replayCaseEvents } from '@moonwitness/orchestrator';
-import { createUnpredictableIngress, triggerIngress } from '../../../src/ingress/divine-ingress.js';
+import { replayCaseEvents, createUnpredictableIngress, triggerIngress } from '@moonwitness/orchestrator';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 
@@ -26,16 +25,19 @@ export interface HttpApp {
   router: Router;
 }
 
-import { Router, writeJson, isHttpError, isStatusBody, readJsonBody, HttpBodyError } from './router.js';
+import { Router, writeJson, isHttpError, isStatusBody, readJsonBody, HttpBodyError } from './compat/router.js';
 import { authRouter } from './routes/auth.routes.js';
 import { kernelRouter } from './routes/kernel.routes.js';
 import { entitiesRouter } from './routes/entities.routes.js';
-import { v1Router } from './routes/v1.routes.js';
+import { apiCapabilityRouter } from './routes/index.js';
 import type { RouteContext } from './route-context.js';
 import { witnessRouter } from './routes/witness.routes.js';
 import { appendMizanWitness, LocalCheckpointStore, LocalWitnessDagStore, PostgresWitnessProjectionStore, resolveSingleNodeWitnessPassword, SingleNodeWitnessKeyStore, runWitnessDiagnostics, signCheckpoint, WitnessBackupManager, WitnessDag, WitnessObservability, WitnessTransportService } from '@moonwitness/witness';
 import { assertApiResponseContract, ContractValidationError } from '@moonwitness/contracts';
 import { registerJobHandlers } from './adapters/jobs/register-job-handlers.js';
+import { createApplicationRuntime, createApplicationServices } from '@moonwitness/application';
+import { createIntelligenceEngine } from '@moonwitness/intelligence';
+import { composeReminderBundle, createReview, transitionReview } from '@moonwitness/orchestrator';
 
 export async function buildApp(options: AppOptions = {}): Promise<HttpApp> {
   const cookieSameSite = process.env.MW_COOKIE_SAME_SITE ?? 'Lax';
@@ -87,9 +89,56 @@ export async function buildApp(options: AppOptions = {}): Promise<HttpApp> {
   registerJobHandlers({ jobs, universeStore, semanticProvider, backend, witnessDag, witnessDagStore, witnessTransport, witnessStore, witnessMetrics, witnessKeyStore, witnessCheckpointStore });
   jobs.start();
 
-  const ctx = { backend, universeStore, observability, auth, features, idempotency, jobs, semanticRegistry, semanticProvider, witness: { dag: witnessDag, dagStore: witnessDagStore, get identity() { return witnessKeyStore.activeIdentity(); }, transport: witnessTransport, store: witnessStore, keyStore: witnessKeyStore, checkpoints: witnessCheckpointStore, backups: witnessBackups, metrics: witnessMetrics, dataDir, keyPasswordSource: witnessPassword.source, async refreshTransportIdentity() { const active=witnessKeyStore.activeIdentity(); if(!active) throw new Error('WITNESS_ACTIVE_KEY_NOT_FOUND'); witnessTransport.setIdentity(active); return active; }, async persistKeys() { if(witnessStore) for(const key of witnessKeyStore.list()) await witnessStore.putKey(key); }, async appendMizan(input: Parameters<typeof appendMizanWitness>[1]) { const node=appendMizanWitness(witnessDag,input); await witnessDagStore.save(witnessDag); if(witnessStore) await witnessStore.putNode(node); witnessMetrics.record('NODE_APPENDED'); return node; }, async commitMizan(input: Parameters<typeof appendMizanWitness>[1]) { const node=appendMizanWitness(witnessDag,input); await witnessDagStore.save(witnessDag); if(witnessStore) await witnessStore.putNode(node); witnessMetrics.record('NODE_APPENDED'); let checkpoint=null; if(process.env.WITNESS_AUTO_CHECKPOINT!=='0' && witnessKeyStore.activeIdentity()){ const active=witnessKeyStore.activeIdentity()!; checkpoint=signCheckpoint(witnessDag.checkpoint(),active); await witnessCheckpointStore.put(checkpoint); if(witnessStore) await witnessStore.putCheckpoint(checkpoint); witnessMetrics.record('CHECKPOINT_CREATED'); } return { node, checkpoint, root:witnessDag.root() }; }, async commit(input:{ nodeId?:string; kind:string; payload:Record<string,unknown>; actorId?:string|null }) { const node=witnessDag.append(input); await witnessDagStore.save(witnessDag); if(witnessStore) await witnessStore.putNode(node); witnessMetrics.record('NODE_APPENDED'); let checkpoint=null; if(process.env.WITNESS_AUTO_CHECKPOINT!=='0' && witnessKeyStore.activeIdentity()){ const active=witnessKeyStore.activeIdentity()!; checkpoint=signCheckpoint(witnessDag.checkpoint(),active); await witnessCheckpointStore.put(checkpoint); if(witnessStore) await witnessStore.putCheckpoint(checkpoint); witnessMetrics.record('CHECKPOINT_CREATED'); } return { node, checkpoint, root:witnessDag.root() }; }, async createCheckpoint(at?: string) { const active=witnessKeyStore.activeIdentity(); if(!active) throw new Error('WITNESS_ACTIVE_KEY_NOT_FOUND'); const signed=signCheckpoint(witnessDag.checkpoint(at),active); await witnessCheckpointStore.put(signed); if(witnessStore) await witnessStore.putCheckpoint(signed); witnessMetrics.record('CHECKPOINT_CREATED'); return signed; }, async createBackup(at?: string) { const result=await witnessBackups.create(at); witnessMetrics.record('BACKUP_CREATED'); return result; }, async diagnostics() { const result=await runWitnessDiagnostics({ dataDir, dag:witnessDag, keyStore:witnessKeyStore, checkpoints:witnessCheckpointStore, backups:witnessBackups }); witnessMetrics.record('DIAGNOSTIC_RUN'); return result; } } };
+  const commitMizan = async (input: Parameters<typeof appendMizanWitness>[1]) => {
+    const node = appendMizanWitness(witnessDag, input);
+    await witnessDagStore.save(witnessDag);
+    if (witnessStore) await witnessStore.putNode(node);
+    witnessMetrics.record('NODE_APPENDED');
+    let checkpoint = null;
+    if (process.env.WITNESS_AUTO_CHECKPOINT !== '0' && witnessKeyStore.activeIdentity()) {
+      checkpoint = signCheckpoint(witnessDag.checkpoint(), witnessKeyStore.activeIdentity()!);
+      await witnessCheckpointStore.put(checkpoint);
+      if (witnessStore) await witnessStore.putCheckpoint(checkpoint);
+      witnessMetrics.record('CHECKPOINT_CREATED');
+    }
+    return { node, checkpoint, root: witnessDag.root() };
+  };
+  const services = createApplicationServices({
+    observation: (actorId) => ({
+      loadEntity: (id) => universeStore.persistence.entities().get(id),
+      batch: (work) => universeStore.persistence.store.batch(work),
+      saveEntity: (input) => universeStore.persistence.asActor(actorId).saveEntity(input),
+      appendEvent: (input) => universeStore.persistence.asActor(actorId).appendEvent(input),
+    }),
+    analysis: {
+      loadCase: (id) => universeStore.getCase(id),
+      listEvidence: (id) => universeStore.listCaseEvidence(id),
+      analyze: async ({ text, options, semanticObservation }) => semanticObservation ? buildAiAnalysis(text, { ...options, semanticObservation }) : analyzeWithProvider(text, { ...options, provider: semanticProvider }),
+      composeReminder: (seed) => composeReminderBundle(seed),
+      saveCase: ({ aggregate, eventType, actorId }) => universeStore.saveCase(aggregate, eventType, actorId),
+      commitWitness: commitMizan,
+    },
+    evaluation: (_actorId) => ({
+      listEvidence: (id) => universeStore.listCaseEvidence(id),
+      analyze: async ({ text, options, semanticObservation }) => semanticObservation ? buildAiAnalysis(text, { ...options, semanticObservation }) : analyzeWithProvider(text, { ...options, provider: semanticProvider }),
+      appendEvent: (input) => universeStore.persistence.asActor(input.actorId).appendEvent(input),
+      commitWitness: commitMizan,
+    }),
+    evidence: (actorId) => ({
+      listEvidence: (id) => universeStore.listCaseEvidence(id),
+      saveEvidence: (record) => universeStore.persistence.asActor(actorId).saveEvidence(record),
+    }),
+    review: (actorId) => ({
+      createReview,
+      transitionReview,
+      saveEntity: (input) => universeStore.persistence.asActor(actorId).saveEntity(input),
+      appendEvent: (input) => universeStore.persistence.asActor(input.actorId).appendEvent(input),
+    }),
+  });
+  const application = createApplicationRuntime({ services, intelligence: createIntelligenceEngine() });
+  const ctx = { application, backend, universeStore, observability, auth, features, idempotency, jobs, semanticRegistry, semanticProvider, witness: { dag: witnessDag, dagStore: witnessDagStore, get identity() { return witnessKeyStore.activeIdentity(); }, transport: witnessTransport, store: witnessStore, keyStore: witnessKeyStore, checkpoints: witnessCheckpointStore, backups: witnessBackups, metrics: witnessMetrics, dataDir, keyPasswordSource: witnessPassword.source, async refreshTransportIdentity() { const active=witnessKeyStore.activeIdentity(); if(!active) throw new Error('WITNESS_ACTIVE_KEY_NOT_FOUND'); witnessTransport.setIdentity(active); return active; }, async persistKeys() { if(witnessStore) for(const key of witnessKeyStore.list()) await witnessStore.putKey(key); }, async appendMizan(input: Parameters<typeof appendMizanWitness>[1]) { const node=appendMizanWitness(witnessDag,input); await witnessDagStore.save(witnessDag); if(witnessStore) await witnessStore.putNode(node); witnessMetrics.record('NODE_APPENDED'); return node; }, async commitMizan(input: Parameters<typeof appendMizanWitness>[1]) { const node=appendMizanWitness(witnessDag,input); await witnessDagStore.save(witnessDag); if(witnessStore) await witnessStore.putNode(node); witnessMetrics.record('NODE_APPENDED'); let checkpoint=null; if(process.env.WITNESS_AUTO_CHECKPOINT!=='0' && witnessKeyStore.activeIdentity()){ const active=witnessKeyStore.activeIdentity()!; checkpoint=signCheckpoint(witnessDag.checkpoint(),active); await witnessCheckpointStore.put(checkpoint); if(witnessStore) await witnessStore.putCheckpoint(checkpoint); witnessMetrics.record('CHECKPOINT_CREATED'); } return { node, checkpoint, root:witnessDag.root() }; }, async commit(input:{ nodeId?:string; kind:string; payload:Record<string,unknown>; actorId?:string|null }) { const node=witnessDag.append(input); await witnessDagStore.save(witnessDag); if(witnessStore) await witnessStore.putNode(node); witnessMetrics.record('NODE_APPENDED'); let checkpoint=null; if(process.env.WITNESS_AUTO_CHECKPOINT!=='0' && witnessKeyStore.activeIdentity()){ const active=witnessKeyStore.activeIdentity()!; checkpoint=signCheckpoint(witnessDag.checkpoint(),active); await witnessCheckpointStore.put(checkpoint); if(witnessStore) await witnessStore.putCheckpoint(checkpoint); witnessMetrics.record('CHECKPOINT_CREATED'); } return { node, checkpoint, root:witnessDag.root() }; }, async createCheckpoint(at?: string) { const active=witnessKeyStore.activeIdentity(); if(!active) throw new Error('WITNESS_ACTIVE_KEY_NOT_FOUND'); const signed=signCheckpoint(witnessDag.checkpoint(at),active); await witnessCheckpointStore.put(signed); if(witnessStore) await witnessStore.putCheckpoint(signed); witnessMetrics.record('CHECKPOINT_CREATED'); return signed; }, async createBackup(at?: string) { const result=await witnessBackups.create(at); witnessMetrics.record('BACKUP_CREATED'); return result; }, async diagnostics() { const result=await runWitnessDiagnostics({ dataDir, dag:witnessDag, keyStore:witnessKeyStore, checkpoints:witnessCheckpointStore, backups:witnessBackups }); witnessMetrics.record('DIAGNOSTIC_RUN'); return result; } } };
 
-  const rootRouter = new Router(); rootRouter.use(authRouter); rootRouter.use(kernelRouter); rootRouter.use(entitiesRouter); rootRouter.use(v1Router); rootRouter.use(witnessRouter);
+  const rootRouter = new Router(); rootRouter.use(authRouter); rootRouter.use(kernelRouter); rootRouter.use(entitiesRouter); rootRouter.use(apiCapabilityRouter); rootRouter.use(witnessRouter);
   const httpServer = createServer((request, response) => { void handleRequest(request, response, rootRouter, ctx); });
   httpServer.requestTimeout = Number(process.env.MW_REQUEST_TIMEOUT_MS ?? 30_000); httpServer.headersTimeout = Number(process.env.MW_HEADERS_TIMEOUT_MS ?? 15_000); httpServer.keepAliveTimeout = Number(process.env.MW_KEEP_ALIVE_TIMEOUT_MS ?? 5_000); httpServer.maxRequestsPerSocket = Number(process.env.MW_MAX_REQUESTS_PER_SOCKET ?? 1_000);
   return { context: ctx as unknown as RouteContext, router: rootRouter, handler: (request, response) => handleRequest(request, response, rootRouter, ctx), server: httpServer, start: (port, host) => new Promise<void>((resolve, reject) => { const onError=(error:Error):void=>{httpServer.off('listening',onListening);reject(error)}; const onListening=():void=>{httpServer.off('error',onError);resolve()}; httpServer.once('error',onError);httpServer.once('listening',onListening);httpServer.listen(port,host)}), close: () => new Promise<void>(async (resolve, reject) => { jobs.stop(); if (!httpServer.listening) { await universeStore.close(); await (idempotency as { close?: () => Promise<void> }).close?.(); await (auth as { close?: () => Promise<void> }).close?.(); await witnessStore?.close?.(); resolve(); return; } httpServer.close(async (error)=>{ if(error){reject(error);return;} try{await universeStore.close();await (idempotency as { close?: () => Promise<void> }).close?.();await (auth as { close?: () => Promise<void> }).close?.();await witnessStore?.close?.();resolve()}catch(error){reject(error)} }); }) };

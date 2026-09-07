@@ -154,3 +154,13 @@ export function buildPropheticRelations(input: PropheticRelationInput) {
     },
   };
 }
+
+import { runtimeDatasetOr } from '@moonwitness/persistence';
+
+export function propheticRelationsSnapshot() {
+  const prophets = runtimeDatasetOr<ProphetRecord[]>('data/prophets.json', []);
+  const scriptureReferences = runtimeDatasetOr<ScriptureReference[]>('data/knowledge/prophet-scripture-index.json', []);
+  const events = runtimeDatasetOr<PropheticEvent[]>('data/knowledge/prophetic-events.json', []);
+
+  return buildPropheticRelations({ prophets, scriptureReferences, events });
+}

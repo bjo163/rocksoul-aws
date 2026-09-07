@@ -51,3 +51,13 @@ export function corroborationSourceGuardPure(input: { book?: string; sourceClass
   }
   return { allowed: true, reason: 'TEXTUAL_WITNESS_CORROBORATION_ALLOWED_CONFIDENCE_ONLY' } as const;
 }
+
+import { runtimeDatasetOr } from '@moonwitness/persistence';
+
+export function scriptureSourcePolicy(): Record<string, unknown> {
+  return runtimeDatasetOr('data/revelation/source-policy.json', { version: 'unknown', mode: 'FOUR_BOOKS_ONLY', normativeSources: [], excludedFromNormativeReasoning: [] }) as Record<string, unknown>;
+}
+
+export function scriptureCorpusStatus(): Record<string, unknown> {
+  return runtimeDatasetOr('data/revelation/corpus-status.json', { version: 'unknown', books: {} }) as Record<string, unknown>;
+}

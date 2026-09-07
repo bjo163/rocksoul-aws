@@ -1,0 +1,18 @@
+{
+  "id": "RECIPE-AWS-ICRC-GCIV-1949-V1",
+  "source_id": "SRC-AWS-ICRC-IHL",
+  "parser": "scripts/aws-ingest-icrc.mjs",
+  "parser_version": 1,
+  "input": "data/aws/raw/icrc/gciv-1949.metadata.json",
+  "output": "data/aws/instruments/LAW-IHL-GCIV-1949.json",
+  "mapping": {
+    "id": "LAW-IHL-GCIV-1949",
+    "instrument_type": "convention",
+    "research_state": "CANONICAL"
+  },
+  "invariants": [
+    "source_id must resolve to the official ICRC source registry",
+    "adoption_date must not be after entry_into_force_date",
+    "check mode must reproduce the committed canonical JSON byte-for-byte after normalized formatting"
+  ]
+}

@@ -12,6 +12,7 @@ const interpolatedStatementPattern = /\.(?:query|prepare|exec)\(\s*`[^`]*\$\{/gs
 const approvedSqlAdapters = new Set([
   'packages/persistence/src/postgres.ts',
   'packages/persistence/src/schema.ts',
+  'packages/security/src/postgres-auth.ts',
   'src/access/postgres-auth.ts',
   'src/ledger/witness-projection-store.ts',
   'src/persistence/postgres-idempotency.ts',

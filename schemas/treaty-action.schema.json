@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moonwitness.dev/schemas/aws/treaty-action.schema.json",
+  "title": "AWS Treaty Action",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "instrument_ref",
+    "actor_ref",
+    "action",
+    "action_date",
+    "source"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^TACT-[A-Z0-9][A-Z0-9._-]*$"
+    },
+    "instrument_ref": {
+      "type": "string",
+      "pattern": "^LAW-"
+    },
+    "actor_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "signature",
+        "ratification",
+        "accession",
+        "acceptance",
+        "approval",
+        "succession",
+        "reservation",
+        "declaration",
+        "objection",
+        "withdrawal",
+        "denunciation",
+        "suspension",
+        "territorial_extension",
+        "territorial_withdrawal",
+        "other"
+      ]
+    },
+    "action_date": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "effective_date": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "text": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "related_action_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "url",
+        "retrieved_at"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "depositary_notification_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "retrieved_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[a-fA-F0-9]{64}$"
+        }
+      }
+    },
+    "research_state": {
+      "type": "string",
+      "enum": [
+        "DISCOVERED",
+        "CROSS_CHECKED",
+        "REVIEW_REQUIRED",
+        "CANONICAL",
+        "SUPERSEDED",
+        "STALE"
+      ],
+      "default": "DISCOVERED"
+    }
+  }
+}

@@ -1,0 +1,190 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moonwitness.dev/schemas/aws/legal-assessment.schema.json",
+  "title": "AWS Legal / Mizan Assessment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "case_ref",
+    "evaluated_conduct",
+    "applicability_refs",
+    "claim_refs",
+    "legal_result",
+    "reasoning",
+    "review",
+    "generated_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^LASSMT-[A-Z0-9][A-Z0-9._-]*$"
+    },
+    "case_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evaluated_conduct": {
+      "type": "string",
+      "minLength": 1
+    },
+    "applicability_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "claim_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "legal_result": {
+      "type": "string",
+      "enum": [
+        "PERMITTED",
+        "RESTRICTED",
+        "PROHIBITED",
+        "DISPUTED",
+        "UNRESOLVED"
+      ]
+    },
+    "reasoning": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "statement",
+          "basis_refs"
+        ],
+        "properties": {
+          "statement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "basis_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "contrary_authority_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "unresolved_questions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "confidence": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1
+    },
+    "mizan": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "principle_refs",
+        "explanation"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "NOT_RUN",
+            "BALANCED",
+            "CONCERN",
+            "SERIOUS_CONCERN",
+            "DISPUTED",
+            "UNRESOLVED"
+          ]
+        },
+        "principle_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "explanation": {
+          "type": "string"
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "REQUIRED",
+            "IN_REVIEW",
+            "APPROVED",
+            "REJECTED",
+            "SUPERSEDED"
+          ]
+        },
+        "reviewer_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reviewed_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "notes": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "source_revision_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

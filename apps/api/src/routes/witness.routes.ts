@@ -1,4 +1,4 @@
-import { Router, isRecord, httpError, requirePermission } from '../router.js';
+import { Router, isRecord, httpError, requirePermission } from '../compat/router.js';
 import { proofForNode, verifySignedCheckpoint } from '@moonwitness/witness';
 
 export const witnessRouter = new Router();

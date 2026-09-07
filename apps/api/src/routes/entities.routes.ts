@@ -1,4 +1,4 @@
-import { Router, asRecord, httpError, requirePermission } from '../router.js';
+import { Router, asRecord, httpError, requirePermission } from '../compat/router.js';
 import { boundedFilter, cursorQueryBounds, listQueryBounds, rejectUnsupportedSort, stableCursorPage } from '../query-bounds.js';
 
 export const entitiesRouter = new Router();

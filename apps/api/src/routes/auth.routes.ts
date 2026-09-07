@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { Router, bearerToken, httpError, isRecord, requestCookie, requirePermission, requireAuthenticated } from '../router.js';
+import { Router, bearerToken, httpError, isRecord, requestCookie, requirePermission, requireAuthenticated } from '../compat/router.js';
 
 export const authRouter = new Router();
 

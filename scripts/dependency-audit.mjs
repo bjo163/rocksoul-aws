@@ -1,9 +1,11 @@
 import { writeFileSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
-const result = spawnSync(process.platform === 'win32' ? 'npm.cmd' : 'npm', ['audit', '--omit=dev', '--audit-level=critical', '--json'], {
+const npmExecutable = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+const result = spawnSync(npmExecutable, ['audit', '--omit=dev', '--audit-level=critical', '--json'], {
   encoding: 'utf8',
   maxBuffer: 20 * 1024 * 1024,
+  shell: process.platform === 'win32',
 });
 
 const output = result.stdout || '';

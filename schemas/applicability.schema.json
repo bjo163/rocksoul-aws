@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moonwitness.dev/schemas/aws/applicability.schema.json",
+  "title": "AWS Legal Applicability",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "case_ref",
+    "legal_basis_ref",
+    "dimensions",
+    "overall",
+    "basis_refs"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^APPL-[A-Z0-9][A-Z0-9._-]*$"
+    },
+    "case_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "legal_basis_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "jurisdiction_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "dimensions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "temporal",
+        "territorial",
+        "personal",
+        "subject_matter"
+      ],
+      "properties": {
+        "temporal": {
+          "$ref": "#/$defs/dimension"
+        },
+        "territorial": {
+          "$ref": "#/$defs/dimension"
+        },
+        "personal": {
+          "$ref": "#/$defs/dimension"
+        },
+        "subject_matter": {
+          "$ref": "#/$defs/dimension"
+        }
+      }
+    },
+    "overall": {
+      "type": "string",
+      "enum": [
+        "APPLICABLE",
+        "NOT_APPLICABLE",
+        "PARTIALLY_APPLICABLE",
+        "UNCERTAIN"
+      ]
+    },
+    "basis_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "contrary_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "reasoning": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "review_state": {
+      "type": "string",
+      "enum": [
+        "CANDIDATE",
+        "REVIEW_REQUIRED",
+        "REVIEWED",
+        "DISPUTED",
+        "SUPERSEDED"
+      ],
+      "default": "CANDIDATE"
+    }
+  },
+  "$defs": {
+    "dimension": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reasons"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "APPLIES",
+            "DOES_NOT_APPLY",
+            "PARTIAL",
+            "UNCERTAIN"
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "basis_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}
