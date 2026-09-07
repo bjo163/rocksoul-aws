@@ -344,3 +344,8 @@ export * from './aws/treaty-actions.js';
 export * from './aws/official-ingestion.js';
 
 export * from './aws/content-canonicalization.js';
+
+export * from './aws/applicability-engine.js';
+export * from './aws/legal-authorities.js';
+export * from './aws/icj-adapter.js';
+export * from './aws/untc-legal-notices.js';
