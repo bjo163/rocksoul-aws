@@ -2,7 +2,7 @@ name: AWS Legal Corpus
 
 on:
   push:
-    branches: [main]
+    branches: [main, dev]
     paths:
       - "data/aws/**"
       - "schemas/legal-*.json"
@@ -18,7 +18,7 @@ on:
       - "package.json"
       - ".github/workflows/aws-legal-corpus.yml"
   pull_request:
-    branches: [main, dev]
+    branches: [main]
     paths:
       - "data/aws/**"
       - "schemas/legal-*.json"
