@@ -166,3 +166,30 @@ test('runtime graph refuses an edge whose deterministic identity was forged', as
     /AWS_CASE_GRAPH_EDGE_ID_MISMATCH/,
   );
 });
+
+test('modern ecosystem bindings support TEXT, PERSPECTIVE and RELATIONSHIP while preserving RGBL replay', () => {
+  for (const [domain, canonical_ref, repository] of [
+    ['TEXT', 'rgbl:mw:passage:example', 'bjo163/rocksoul-rgbl'],
+    ['PERSPECTIVE', 'jizz:PERSP-EXAMPLE', 'bjo163/rocksoul-jizz'],
+    ['RELATIONSHIP', 'correlation:CORR-EXAMPLE', 'bjo163/rocksoul-correlation'],
+    ['RGBL', 'rgbl:mw:passage:legacy', 'bjo163/rocksoul-rgbl'],
+  ] as const) {
+    validateAwsForeignReferenceBinding({
+      id: createAwsForeignRefId(domain, canonical_ref),
+      domain,
+      canonical_ref,
+      repository,
+    });
+  }
+
+  assert.ok(createAwsForeignRefId('TEXT', 'rgbl:mw:passage:example').startsWith('XREF-TEXT-'));
+  assert.ok(createAwsForeignRefId('PERSPECTIVE', 'jizz:PERSP-EXAMPLE').startsWith('XREF-PERSPECTIVE-'));
+  assert.ok(createAwsForeignRefId('RELATIONSHIP', 'correlation:CORR-EXAMPLE').startsWith('XREF-RELATIONSHIP-'));
+  assert.ok(createAwsForeignRefId('RGBL', 'rgbl:mw:passage:legacy').startsWith('XREF-RGBL-'));
+});
+
+test('new legal case composition relations distinguish TEXT, PERSPECTIVE and reviewed RELATIONSHIP context', () => {
+  assert.ok(createAwsCaseGraphEdgeId('CASE-AWS-X', 'CASE_HAS_TEXT', 'XREF-TEXT-X').startsWith('GEDGE-'));
+  assert.ok(createAwsCaseGraphEdgeId('CASE-AWS-X', 'CASE_HAS_PERSPECTIVE', 'XREF-PERSPECTIVE-X').startsWith('GEDGE-'));
+  assert.ok(createAwsCaseGraphEdgeId('CASE-AWS-X', 'CASE_HAS_RELATIONSHIP', 'XREF-RELATIONSHIP-X').startsWith('GEDGE-'));
+});
