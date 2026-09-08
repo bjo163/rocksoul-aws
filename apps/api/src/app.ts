@@ -11,11 +11,24 @@ import { Observability } from '@moonwitness/observability';
 import { assertPermission, hasPermission, type ActionPermission, PostgresAuthService } from '@moonwitness/security';
 import { PersistentJobQueue } from '@moonwitness/jobs';
 import { SemanticRegistry } from '@moonwitness/semantic-engine';
-import { replayCaseEvents, createUnpredictableIngress, triggerIngress } from '@moonwitness/orchestrator';
+import {
+  replayCaseEvents,
+  createUnpredictableIngress,
+  triggerIngress,
+  AwsContinuousResearchService,
+  AwsResearchScheduler,
+  AwsLegalStore,
+  AwsSourceWorker,
+  AwsIcrcAdapter,
+  AwsUntcAdapter,
+  AwsIcjAdapter,
+  createAwsOfficialSourcePollers,
+  AWS_DEFAULT_SOURCE_MONITORS,
+} from '@moonwitness/orchestrator';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 
-export interface AppOptions { dataDir?: string; persistenceDriver?: 'file' | 'postgres'; }
+export interface AppOptions { dataDir?: string; persistenceDriver?: 'file' | 'postgres'; continuousResearch?: boolean; }
 export interface HttpApp {
   handler: (request: IncomingMessage, response: ServerResponse) => Promise<void>;
   start: (port: number, host: string) => Promise<void>;
@@ -87,7 +100,35 @@ export async function buildApp(options: AppOptions = {}): Promise<HttpApp> {
   const initialWitnessIdentity = witnessKeyStore.activeIdentity();
   const witnessTransport = new WitnessTransportService(witnessDag, initialWitnessIdentity);
   registerJobHandlers({ jobs, universeStore, semanticProvider, backend, witnessDag, witnessDagStore, witnessTransport, witnessStore, witnessMetrics, witnessKeyStore, witnessCheckpointStore });
+
+  const continuousResearchEnabled =
+    options.continuousResearch ??
+    (process.env.AWS_CONTINUOUS_RESEARCH === '1' ||
+      (process.env.NODE_ENV === 'production' && process.env.AWS_CONTINUOUS_RESEARCH !== '0'));
+  let awsResearchScheduler: AwsResearchScheduler | null = null;
+
+  if (continuousResearchEnabled) {
+    const awsLegalStore = new AwsLegalStore(universeStore.persistence.store);
+    const awsSourceWorker = new AwsSourceWorker(awsLegalStore, jobs);
+    const awsContinuousResearch = new AwsContinuousResearchService(
+      awsLegalStore,
+      awsSourceWorker,
+      jobs,
+      createAwsOfficialSourcePollers({
+        icrc: new AwsIcrcAdapter(),
+        untc: new AwsUntcAdapter(),
+        icj: new AwsIcjAdapter(),
+      }),
+    );
+    awsContinuousResearch.registerHandlers(AWS_DEFAULT_SOURCE_MONITORS);
+    awsResearchScheduler = new AwsResearchScheduler(
+      awsContinuousResearch,
+      AWS_DEFAULT_SOURCE_MONITORS,
+    );
+  }
+
   jobs.start();
+  awsResearchScheduler?.start();
 
   const commitMizan = async (input: Parameters<typeof appendMizanWitness>[1]) => {
     const node = appendMizanWitness(witnessDag, input);
@@ -141,7 +182,7 @@ export async function buildApp(options: AppOptions = {}): Promise<HttpApp> {
   const rootRouter = new Router(); rootRouter.use(authRouter); rootRouter.use(kernelRouter); rootRouter.use(entitiesRouter); rootRouter.use(apiCapabilityRouter); rootRouter.use(witnessRouter);
   const httpServer = createServer((request, response) => { void handleRequest(request, response, rootRouter, ctx); });
   httpServer.requestTimeout = Number(process.env.MW_REQUEST_TIMEOUT_MS ?? 30_000); httpServer.headersTimeout = Number(process.env.MW_HEADERS_TIMEOUT_MS ?? 15_000); httpServer.keepAliveTimeout = Number(process.env.MW_KEEP_ALIVE_TIMEOUT_MS ?? 5_000); httpServer.maxRequestsPerSocket = Number(process.env.MW_MAX_REQUESTS_PER_SOCKET ?? 1_000);
-  return { context: ctx as unknown as RouteContext, router: rootRouter, handler: (request, response) => handleRequest(request, response, rootRouter, ctx), server: httpServer, start: (port, host) => new Promise<void>((resolve, reject) => { const onError=(error:Error):void=>{httpServer.off('listening',onListening);reject(error)}; const onListening=():void=>{httpServer.off('error',onError);resolve()}; httpServer.once('error',onError);httpServer.once('listening',onListening);httpServer.listen(port,host)}), close: () => new Promise<void>(async (resolve, reject) => { jobs.stop(); if (!httpServer.listening) { await universeStore.close(); await (idempotency as { close?: () => Promise<void> }).close?.(); await (auth as { close?: () => Promise<void> }).close?.(); await witnessStore?.close?.(); resolve(); return; } httpServer.close(async (error)=>{ if(error){reject(error);return;} try{await universeStore.close();await (idempotency as { close?: () => Promise<void> }).close?.();await (auth as { close?: () => Promise<void> }).close?.();await witnessStore?.close?.();resolve()}catch(error){reject(error)} }); }) };
+  return { context: ctx as unknown as RouteContext, router: rootRouter, handler: (request, response) => handleRequest(request, response, rootRouter, ctx), server: httpServer, start: (port, host) => new Promise<void>((resolve, reject) => { const onError=(error:Error):void=>{httpServer.off('listening',onListening);reject(error)}; const onListening=():void=>{httpServer.off('error',onError);resolve()}; httpServer.once('error',onError);httpServer.once('listening',onListening);httpServer.listen(port,host)}), close: () => new Promise<void>(async (resolve, reject) => { awsResearchScheduler?.stop(); jobs.stop(); if (!httpServer.listening) { await universeStore.close(); await (idempotency as { close?: () => Promise<void> }).close?.(); await (auth as { close?: () => Promise<void> }).close?.(); await witnessStore?.close?.(); resolve(); return; } httpServer.close(async (error)=>{ if(error){reject(error);return;} try{await universeStore.close();await (idempotency as { close?: () => Promise<void> }).close?.();await (auth as { close?: () => Promise<void> }).close?.();await witnessStore?.close?.();resolve()}catch(error){reject(error)} }); }) };
 }
 
 function positiveInteger(value: string | undefined, fallback: number): number { const parsed=Number(value); return Number.isInteger(parsed)&&parsed>0?parsed:fallback; }
