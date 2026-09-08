@@ -1,5 +1,11 @@
 # AWS Canonical Legal Data
 
+## **THE RECEIPTS LIVE HERE.**
+
+> **/// OFFICIAL SOURCE → NORMALIZATION → REVIEWABLE LEGAL OBJECT ///**
+
+This directory is the canonical legal-research surface for AWS. Raw source metadata, treaty actions, authorities, holdings, applicability, claims, and case graphs stay separated so one impressive citation cannot silently become a verdict.
+
 This directory is the Phase-1 canonical research surface for **AWS — Angel With Shotgun**.
 
 ## Layout
