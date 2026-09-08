@@ -47,7 +47,7 @@ test('native HTTP API exposes deployment readiness', async () => {
   }
 });
 
-test('native HTTP API serves AI analysis', async () => {
+test('native HTTP API serves AI analysis without fabricating lifecycle grounding', async () => {
   const dataDir = await fs.mkdtemp(path.join(os.tmpdir(), 'mw-api-ai-'));
   const app = await buildApp({ dataDir, persistenceDriver: 'file' });
   try {
@@ -75,7 +75,8 @@ test('native HTTP API serves AI analysis', async () => {
     const body = await response.json() as { mizan?: unknown; semantic?: unknown; lifecycle?: unknown };
     assert.ok(body.mizan);
     assert.ok(body.semantic);
-    assert.ok(body.lifecycle);
+    assert.ok(Object.prototype.hasOwnProperty.call(body, 'lifecycle'));
+    assert.equal(body.lifecycle, null);
   } finally {
     await app.close();
     await fs.rm(dataDir, { recursive: true, force: true });
