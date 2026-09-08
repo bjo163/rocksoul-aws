@@ -16,6 +16,12 @@ function operationsIn(file: string): string[] {
 }
 
 const extractedCapabilityRoutes = new Map([
+  ['aws.routes.ts', [
+    'GET /api/v1/aws/cases/:id', 'GET /api/v1/aws/cases/:id/graph', 'GET /api/v1/aws/cases/:id/history',
+    'GET /api/v1/aws/sources', 'GET /api/v1/aws/sources/:id/revisions',
+    'GET /api/v1/aws/research/runs', 'GET /api/v1/aws/research/reviews',
+    'GET /api/v1/aws/observability', 'POST /api/v1/aws/research/reanalyze',
+  ]],
   ['analysis.routes.ts', ['POST /api/v1/analyze']],
   ['observation.routes.ts', ['POST /api/v1/observe']],
   ['evaluation.routes.ts', ['POST /api/v1/evaluate']],
@@ -107,6 +113,7 @@ test('capability modules and the legacy v1 adapter have explicit route ownership
 
   const composition = fs.readFileSync(path.join(routesDir, 'index.ts'), 'utf8');
   const importNames = new Map([
+    ['aws.routes.ts', 'awsRouter'],
     ['analysis.routes.ts', 'router as analysisRouter'], ['observation.routes.ts', 'router as observationRouter'],
     ['evaluation.routes.ts', 'router as evaluationRouter'], ['evidence.routes.ts', 'router as evidenceRouter'],
     ['review.routes.ts', 'router as reviewRouter'], ['revelation.routes.ts', 'revelationRouter'],

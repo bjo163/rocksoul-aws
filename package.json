@@ -117,7 +117,7 @@
     "aws:ingest:icrc": "node scripts/aws-ingest-icrc.mjs",
     "aws:validate": "node scripts/aws-validate.mjs",
     "test:aws": "node --test tests/aws-legal-corpus.test.mjs",
-    "aws:check": "npm run aws:ingest:icrc -- --check && npm run aws:validate && npm run test:aws && npm run test:aws:runtime && npm run test:aws:adapters && npm run test:aws:authority && npm run test:aws:applicability && npm run test:aws:assessment && npm run test:aws:graph && npm run test:aws:continuous",
+    "aws:check": "npm run aws:ingest:icrc -- --check && npm run aws:validate && npm run test:aws && npm run test:aws:runtime && npm run test:aws:adapters && npm run test:aws:authority && npm run test:aws:applicability && npm run test:aws:assessment && npm run test:aws:graph && npm run test:aws:continuous && npm run test:aws:api",
     "test:aws:runtime": "node scripts/transpile-runner.mjs tests/aws-legal-runtime.test.ts",
     "test:aws:adapters": "node scripts/transpile-runner.mjs tests/aws-source-adapters.test.ts",
     "aws:source:probe": "node scripts/transpile-exec.mjs scripts/aws-source-probe.ts",
@@ -125,7 +125,8 @@
     "test:aws:applicability": "node scripts/transpile-runner.mjs tests/aws-applicability-engine.test.ts",
     "test:aws:assessment": "node scripts/transpile-runner.mjs tests/aws-legal-assessment-engine.test.ts",
     "test:aws:graph": "node scripts/transpile-runner.mjs tests/aws-cross-repo-graph.test.ts",
-    "test:aws:continuous": "node scripts/transpile-runner.mjs tests/aws-continuous-research.test.ts"
+    "test:aws:continuous": "node scripts/transpile-runner.mjs tests/aws-continuous-research.test.ts",
+    "test:aws:api": "node scripts/transpile-runner.mjs tests/aws-query-api.test.ts tests/api-route-inventory.test.ts tests/api-contract-parity.test.ts"
   },
   "devDependencies": {
     "@types/node": "^26.0.0",

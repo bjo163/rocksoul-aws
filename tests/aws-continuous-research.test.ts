@@ -457,6 +457,10 @@ test('API lifecycle wiring exposes explicit continuous-research control and stop
   assert.match(source, /AWS_CONTINUOUS_RESEARCH === '1'/);
   assert.match(source, /NODE_ENV === 'production'/);
   assert.match(source, /awsResearchScheduler\?\.start\(\)/);
+  const handlerIndex = source.indexOf('awsContinuousResearch.registerHandlers(AWS_DEFAULT_SOURCE_MONITORS);');
+  const schedulerDecisionIndex = source.indexOf('const awsResearchScheduler = continuousResearchEnabled');
+  assert.ok(handlerIndex >= 0, 'AWS job handlers must be registered');
+  assert.ok(schedulerDecisionIndex > handlerIndex, 'handler registration must not be gated by scheduler enablement');
   const closeIndex = source.indexOf('awsResearchScheduler?.stop(); jobs.stop();');
   assert.ok(closeIndex >= 0, 'scheduler must stop before shared queue shutdown');
 });

@@ -226,6 +226,7 @@ PHASE 4  APPLICABILITY ENGINE              ✓
 PHASE 5  HOLDING-LEVEL LEGAL ASSESSMENT    ✓
 PHASE 6  CROSS-REPO CASE GRAPH             ✓
 PHASE 7  CONTINUOUS RESEARCH / RE-ANALYSIS ✓
+PHASE 8  QUERY API + OBSERVABILITY            ✓
 ```
 
 Do not bulk-rename or delete inherited engine packages until their replacement/retention role is explicit and tested.
@@ -255,6 +256,7 @@ rocksoul-aws/
 | [Jerusalem five-way case](docs/cases/JERUSALEM-70-FIVE-WAY.md) | Cross-domain proof case |
 | [ICJ Case 91](docs/cases/BOSNIA-SERBIA-ICJ-91.md) | Modern golden legal case |
 | [Phase 7](docs/AWS-PHASE-7-CONTINUOUS-RESEARCH.md) | Continuous research and targeted re-analysis |
+| [Phase 8](docs/AWS-PHASE-8-QUERY-API.md) | Query API, observability and operator re-analysis |
 
 ---
 
