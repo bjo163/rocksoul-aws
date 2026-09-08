@@ -1,6 +1,6 @@
 import { Router, isRecord, httpError, requirePermission, requireAuthenticated, idempotencyKey, bearerToken } from '../compat/router.js';
 import { scopedIdempotencyKey, idempotencyError } from './route-utils.js';
-import { buildAiAnalysis, analyzeWithProvider } from '@moonwitness/cosmic-engine';
+import { buildAiAnalysis, analyzeWithProvider } from '@moonwitness/aws-engine';
 import { IdempotencyStore } from '@moonwitness/persistence';
 import { replayCaseEvents, createUnpredictableIngress, triggerIngress, composeReminderBundle } from '@moonwitness/orchestrator';
 import { v } from '../validator.js';
