@@ -21,6 +21,16 @@ export interface AwsClaimAssessmentRecord extends Record<string, unknown> {
   result: AwsClaimAssessmentResult;
 }
 
+export interface AwsClaimAssessmentInput {
+  id: string;
+  case_ref: string;
+  claim_ref: string;
+  applicability_ref: string;
+  supporting_holding_refs: string[];
+  contradicting_holding_refs: string[];
+  applicability: 'APPLICABLE' | 'NOT_APPLICABLE' | 'PARTIALLY_APPLICABLE' | 'UNCERTAIN';
+}
+
 export interface AwsCaseSynthesisRecord extends Record<string, unknown> {
   id: string;
   case_ref: string;
@@ -41,9 +51,7 @@ export class AwsLegalAssessmentService {
   }
 
   async persistClaimAssessment(
-    record: Omit<AwsClaimAssessmentRecord, 'result'> & {
-      applicability: 'APPLICABLE' | 'NOT_APPLICABLE' | 'PARTIALLY_APPLICABLE' | 'UNCERTAIN';
-    },
+    record: AwsClaimAssessmentInput,
   ): Promise<AwsClaimAssessmentRecord> {
     const result = evaluateAwsClaimAssessment({
       applicability: record.applicability,
