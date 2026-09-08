@@ -7,6 +7,7 @@ import {
 export * from '@moonwitness/cosmic-engine';
 
 export type AwsEngineConfig = CosmicEngineConfig;
+export type AwsEngine = Awaited<ReturnType<typeof createCosmicEngine>>;
 export type AwsSemanticObservationStatus = 'AVAILABLE' | 'UNAVAILABLE';
 
 export interface AwsSemanticObservation {
@@ -27,7 +28,7 @@ export interface AwsSemanticObservation {
   diagnostics: string[];
 }
 
-export async function createAwsEngine(configOrRoot: string | AwsEngineConfig = process.cwd()) {
+export async function createAwsEngine(configOrRoot: string | AwsEngineConfig = process.cwd()): Promise<AwsEngine> {
   return createCosmicEngine(configOrRoot);
 }
 
