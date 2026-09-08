@@ -354,3 +354,8 @@ export * from './aws/legal-assessment-engine.js';
 export * from './aws/legal-assessment-service.js';
 
 export * from './aws/cross-repo-graph.js';
+
+export * from './aws/revision-diff.js';
+export * from './aws/source-freshness.js';
+export * from './aws/continuous-research.js';
+export * from './aws/official-pollers.js';
