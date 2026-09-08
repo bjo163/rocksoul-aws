@@ -1,5 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
 import { MemoryProvider } from '../packages/persistence/src/memory.js';
 import { PersistentJobQueue } from '../packages/jobs/src/index.js';
 import { AwsLegalStore } from '../packages/orchestrator/src/aws/legal-store.js';
@@ -12,8 +15,10 @@ import {
   awsFreshnessId,
   evaluateAwsFreshness,
   type AwsSourceMonitor,
+  AWS_DEFAULT_SOURCE_MONITORS,
 } from '../packages/orchestrator/src/aws/source-freshness.js';
 import { diffAwsSourceRevisions } from '../packages/orchestrator/src/aws/revision-diff.js';
+import { buildApp } from '../apps/api/src/app.js';
 
 const applies = (label: string) => ({
   status: 'APPLIES' as const,
@@ -423,4 +428,39 @@ test('targeted legal-case reanalysis recomputes all deterministic derived layers
   assert.equal(synthesis?.version, 1);
   assert.equal(synthesis?.payload.result, 'UNRESOLVED');
   assert.equal(synthesis?.payload.mizan_status, 'NOT_RUN');
+});
+
+
+test('canonical monitor JSON matches runtime default policy', async () => {
+  const filenames = [
+    'MON-AWS-ICRC-GCIV.json',
+    'MON-AWS-UNTC-GENOCIDE.json',
+    'MON-AWS-ICJ-BOSNIA-SERBIA.json',
+  ];
+  const canonical = [];
+  for (const filename of filenames) {
+    canonical.push(JSON.parse(await fs.readFile(
+      path.join(process.cwd(), 'data', 'aws', 'monitors', filename),
+      'utf8',
+    )));
+  }
+  assert.deepEqual(
+    canonical.sort((a, b) => a.id.localeCompare(b.id)),
+    [...AWS_DEFAULT_SOURCE_MONITORS].sort((a, b) => a.id.localeCompare(b.id)),
+  );
+});
+
+test('API lifecycle can explicitly disable continuous research without live polling', async () => {
+  const dataDir = await fs.mkdtemp(path.join(os.tmpdir(), 'aws-phase7-host-'));
+  const app = await buildApp({
+    dataDir,
+    persistenceDriver: 'file',
+    continuousResearch: false,
+  });
+  try {
+    assert.ok(app.context);
+  } finally {
+    await app.close();
+    await fs.rm(dataDir, { recursive: true, force: true });
+  }
 });
