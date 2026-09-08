@@ -1,0 +1,28 @@
+{
+  "name": "@moonwitness/aws-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@rocksoul/ui": "github:bjo163/rocksoul-ui#main",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "^5.8.3",
+    "vite": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=22",
+    "npm": ">=11.6.0"
+  },
+  "packageManager": "npm@11.6.0"
+}
