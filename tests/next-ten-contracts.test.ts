@@ -47,7 +47,9 @@ test('9 roadmap keeps dev as integration trunk and main as certified destination
 });
 
 test('10 native router has permission and authentication boundaries', () => {
-  const router = read('apps/api/src/router.ts');
+  // apps/api/src/router.ts is a deprecated compatibility barrel. The transport
+  // implementation and security boundaries are canonically owned here.
+  const router = read('apps/api/src/compat/router.ts');
   assert.match(router, /requirePermission/);
   assert.match(router, /requireAuthenticated/);
 });
