@@ -1,0 +1,30 @@
+{
+  "id": "BIND-AWS-ROCKSOUL-V1",
+  "version": "1.0.0",
+  "bindings": [
+    {
+      "domain": "STORY",
+      "repository": "bjo163/rocksoul-mftl",
+      "ref_prefix": "mftl:",
+      "ownership": "FOREIGN"
+    },
+    {
+      "domain": "EVENT",
+      "repository": "bjo163/rocksoul-legend",
+      "ref_prefix": "legend:",
+      "ownership": "FOREIGN"
+    },
+    {
+      "domain": "PERSON",
+      "repository": "bjo163/rocksoul-superhero",
+      "ref_prefix": "superhero:",
+      "ownership": "FOREIGN"
+    },
+    {
+      "domain": "RGBL",
+      "repository": "bjo163/rocksoul-rgbl",
+      "ref_prefix": "rgbl:",
+      "ownership": "FOREIGN"
+    }
+  ]
+}
