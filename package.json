@@ -126,7 +126,7 @@
     "test:aws:assessment": "node scripts/transpile-runner.mjs tests/aws-legal-assessment-engine.test.ts",
     "test:aws:graph": "node scripts/transpile-runner.mjs tests/aws-cross-repo-graph.test.ts",
     "test:aws:continuous": "node scripts/transpile-runner.mjs tests/aws-continuous-research.test.ts",
-    "test:aws:api": "node scripts/transpile-runner.mjs tests/aws-query-api.test.ts"
+    "test:aws:api": "node scripts/transpile-runner.mjs tests/aws-query-api.test.ts tests/api-route-inventory.test.ts tests/api-contract-parity.test.ts"
   },
   "devDependencies": {
     "@types/node": "^26.0.0",
