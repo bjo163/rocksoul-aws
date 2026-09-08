@@ -4,56 +4,30 @@
   "title": "AWS Cross-Repository Binding Registry",
   "type": "object",
   "additionalProperties": false,
-  "required": [
-    "id",
-    "version",
-    "bindings"
-  ],
+  "required": ["id", "version", "bindings"],
   "properties": {
-    "version": {
-      "type": "string",
-      "minLength": 1
-    },
+    "version": { "type": "string", "minLength": 1 },
     "bindings": {
       "type": "array",
-      "minItems": 4,
+      "minItems": 6,
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-          "domain",
-          "repository",
-          "ref_prefix",
-          "ownership"
-        ],
+        "required": ["domain", "repository", "ref_prefix", "ownership"],
         "properties": {
           "domain": {
             "type": "string",
-            "enum": [
-              "STORY",
-              "EVENT",
-              "PERSON",
-              "RGBL"
-            ]
+            "enum": ["STORY", "EVENT", "PERSON", "TEXT", "RGBL", "PERSPECTIVE", "RELATIONSHIP"]
           },
           "repository": {
             "type": "string",
             "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
           },
-          "ref_prefix": {
-            "type": "string",
-            "minLength": 1
-          },
-          "ownership": {
-            "type": "string",
-            "const": "FOREIGN"
-          }
+          "ref_prefix": { "type": "string", "minLength": 1 },
+          "ownership": { "type": "string", "const": "FOREIGN" }
         }
       }
     },
-    "id": {
-      "type": "string",
-      "pattern": "^BIND-AWS-[A-Z0-9][A-Z0-9._-]*$"
-    }
+    "id": { "type": "string", "pattern": "^BIND-AWS-[A-Z0-9][A-Z0-9._-]*$" }
   }
 }
