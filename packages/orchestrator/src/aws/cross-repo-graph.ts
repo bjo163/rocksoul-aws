@@ -1,7 +1,14 @@
 import crypto from 'node:crypto';
 import type { AwsLegalStore } from './legal-store.js';
 
-export type AwsForeignDomain =\n  | 'STORY'\n  | 'EVENT'\n  | 'PERSON'\n  | 'TEXT'\n  | 'PERSPECTIVE'\n  | 'RELATIONSHIP'\n  | 'RGBL'; // legacy semantic alias for TEXT
+export type AwsForeignDomain =
+  | 'STORY'
+  | 'EVENT'
+  | 'PERSON'
+  | 'TEXT'
+  | 'PERSPECTIVE'
+  | 'RELATIONSHIP'
+  | 'RGBL'; // legacy semantic alias for TEXT
 export type AwsForeignVerificationState = 'VERIFIED' | 'UNVERIFIED' | 'MISSING' | 'STALE';
 
 export interface AwsRepositoryBinding {
@@ -15,6 +22,9 @@ export const AWS_FOREIGN_REPOSITORY_BINDINGS: readonly AwsRepositoryBinding[] = 
   { domain: 'STORY', repository: 'bjo163/rocksoul-mftl', ref_prefix: 'mftl:', ownership: 'FOREIGN' },
   { domain: 'EVENT', repository: 'bjo163/rocksoul-legend', ref_prefix: 'legend:', ownership: 'FOREIGN' },
   { domain: 'PERSON', repository: 'bjo163/rocksoul-superhero', ref_prefix: 'superhero:', ownership: 'FOREIGN' },
+  { domain: 'TEXT', repository: 'bjo163/rocksoul-rgbl', ref_prefix: 'rgbl:', ownership: 'FOREIGN' },
+  { domain: 'PERSPECTIVE', repository: 'bjo163/rocksoul-jizz', ref_prefix: 'jizz:', ownership: 'FOREIGN' },
+  { domain: 'RELATIONSHIP', repository: 'bjo163/rocksoul-correlation', ref_prefix: 'correlation:', ownership: 'FOREIGN' },
   { domain: 'RGBL', repository: 'bjo163/rocksoul-rgbl', ref_prefix: 'rgbl:', ownership: 'FOREIGN' },
 ] as const;
 
@@ -39,6 +49,9 @@ export type AwsCaseGraphRelation =
   | 'CASE_HAS_STORY'
   | 'CASE_HAS_EVENT'
   | 'CASE_HAS_PERSON'
+  | 'CASE_HAS_TEXT'
+  | 'CASE_HAS_PERSPECTIVE'
+  | 'CASE_HAS_RELATIONSHIP'
   | 'CASE_HAS_RGBL'
   | 'CASE_HAS_LEGAL_BASIS'
   | 'CASE_HAS_APPLICABILITY'
