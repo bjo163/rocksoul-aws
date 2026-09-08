@@ -38,10 +38,11 @@ import * as witness from '../packages/witness/src/index.js';
 import * as persistence from '../packages/persistence/src/index.js';
 import * as jobs from '../packages/jobs/src/index.js';
 import * as orchestrator from '../packages/orchestrator/src/index.js';
+import * as awsEngine from '../packages/aws-engine/src/index.js';
 import * as cosmicEngine from '../packages/cosmic-engine/src/index.js';
 import * as sdk from '../packages/sdk/src/index.js';
 
-const mods = [contracts, tseEngine, temporalEngine, semanticEngine, mizanEngine, explanationEngine, witness, persistence, jobs, orchestrator, cosmicEngine, sdk];
+const mods = [contracts, tseEngine, temporalEngine, semanticEngine, mizanEngine, explanationEngine, witness, persistence, jobs, orchestrator, awsEngine, cosmicEngine, sdk];
 
 test('packages export main entry points resolve', () => {
   for (const mod of mods) {
@@ -117,7 +118,14 @@ test('@moonwitness/orchestrator key exports exist', () => {
   assert.ok(typeof orchestrator.toEvidenceObservations === 'function');
 });
 
-test('@moonwitness/cosmic-engine key exports exist', () => {
+test('@moonwitness/aws-engine key exports exist', () => {
+  assert.strictEqual(typeof awsEngine.createAwsEngine, 'function');
+  assert.strictEqual(typeof awsEngine.toAwsSemanticObservation, 'function');
+  assert.strictEqual(typeof awsEngine.evaluateMizanService, 'function');
+  assert.strictEqual(typeof awsEngine.explainLegalResult, 'function');
+});
+
+test('@moonwitness/cosmic-engine compatibility exports remain available', () => {
   assert.strictEqual(typeof cosmicEngine.createCosmicEngine, 'function');
   assert.strictEqual(typeof cosmicEngine.evaluateMizanService, 'function');
   assert.strictEqual(typeof cosmicEngine.toCosmicSemanticObservation, 'function');
@@ -144,6 +152,7 @@ test('packages can be imported from a simulated consumer project', () => {
   assert.ok(persistence.PersistenceClient !== undefined || typeof persistence.factory === 'function');
   assert.ok(typeof jobs.PersistentJobQueue === 'function');
   assert.ok(typeof orchestrator.runAnalysisWorkflow === 'function');
+  assert.ok(typeof awsEngine.createAwsEngine === 'function');
   assert.ok(typeof cosmicEngine.createCosmicEngine === 'function');
   assert.ok(typeof sdk.UniverseClient === 'function');
 });
