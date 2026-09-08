@@ -89,3 +89,11 @@ Phase 5 decomposes authorities into narrow holdings, evaluates claims against ap
 - Implementation tracking: issue #116
 
 Phase 6 preserves foreign ownership through verified `FOREIGN_REF` nodes, materializes typed case relations, and maintains a separate dependency graph for targeted re-analysis.
+
+
+## Phase-7 continuous research
+
+- [Continuous research, freshness & targeted re-analysis](AWS-PHASE-7-CONTINUOUS-RESEARCH.md)
+- Implementation tracking: issue #118
+
+Phase 7 schedules official-source polling on the existing persistent queue, creates immutable source revisions and diffs, marks freshness independently from review state, queues only affected cases, and writes review-gated re-analysis candidates without canonical legal or Mizan mutation.
