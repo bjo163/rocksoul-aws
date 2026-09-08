@@ -12,7 +12,7 @@ export interface AwsRevisionChange {
   after: unknown;
 }
 
-export interface AwsRevisionDiff {
+export interface AwsRevisionDiff extends Record<string, unknown> {
   id: string;
   source_ref: string;
   from_revision_ref: string | null;
