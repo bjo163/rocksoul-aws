@@ -75,7 +75,7 @@ function spawnFastify(port) {
     STORAGE_DRIVER: 'file',
     HOST: '127.0.0.1',
     PORT: String(port),
-    COSMIC_FASTIFY_RUNTIME: '1',
+    AWS_FASTIFY_RUNTIME: '1',
   };
   const child = spawn(process.execPath, [starterPath], { cwd: repo, env, stdio: 'pipe', detached: false });
   const baseUrl = `http://127.0.0.1:${port}`;
@@ -123,9 +123,9 @@ async function main() {
     report.phases.nativeStop = { stopped: true };
 
     // Phase 2: Start Fastify server
-    console.log('\n=== Phase 2: Fastify server (COSMIC_FASTIFY_RUNTIME=1) ===');
+    console.log('\n=== Phase 2: Fastify server (AWS_FASTIFY_RUNTIME=1) ===');
     const fastify = spawnFastify(fastifyPort);
-    report.phases.fastifyStart = { started: true, env: { COSMIC_FASTIFY_RUNTIME: '1' } };
+    report.phases.fastifyStart = { started: true, env: { AWS_FASTIFY_RUNTIME: '1' } };
     await waitForHealth(fastify.baseUrl, '/health', 30000);
     const fastifyReady = await fetch(`${fastify.baseUrl}/ready`);
     report.phases.fastifyHealth = { status: fastifyReady.status, ok: fastifyReady.ok };
