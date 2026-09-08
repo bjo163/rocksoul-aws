@@ -248,6 +248,7 @@ PHASE 4  APPLICABILITY ENGINE ✓
 PHASE 5  HOLDING-LEVEL LEGAL ASSESSMENT ✓
 PHASE 6  CROSS-REPO CASE GRAPH ✓
 PHASE 7  CONTINUOUS RESEARCH / RE-ANALYSIS ✓
+PHASE 8  QUERY API + OBSERVABILITY ✓
 ```
 
 Do not bulk-rename or delete inherited engine packages until their replacement/retention role is explicit and tested.
@@ -270,6 +271,7 @@ Start here:
 - [Phase-5 holding-level legal assessment](docs/AWS-PHASE-5-LEGAL-ASSESSMENT.md)
 - [Phase-6 cross-repo case graph](docs/AWS-PHASE-6-CROSS-REPO-GRAPH.md)
 - [Phase-7 continuous research](docs/AWS-PHASE-7-CONTINUOUS-RESEARCH.md)
+- [Phase-8 query API & observability](docs/AWS-PHASE-8-QUERY-API.md)
 - [Modern golden legal case — ICJ case 91](docs/cases/BOSNIA-SERBIA-ICJ-91.md)
 - [Foundation issue #101](https://github.com/bjo163/rocksoul-aws/issues/101)
 - [Phase-1 issue #103](https://github.com/bjo163/rocksoul-aws/issues/103)
