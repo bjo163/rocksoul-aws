@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="https://raw.githubusercontent.com/bjo163/rocksoul-assets/main/moonwitness/brand/logo-horizontal.svg" alt="MoonWitness" width="380" />
+
 # AWS
 
 ## ANGEL WITH SHOTGUN
@@ -19,10 +21,12 @@ A provenance-first **International Law & Regulation Intelligence** repository fo
 ![Development](https://img.shields.io/badge/development-dev-555555)
 ![Domain](https://img.shields.io/badge/domain-LAW-6F6F6F)
 ![Method](https://img.shields.io/badge/method-provenance--first-B43A32)
+![Design](https://img.shields.io/badge/design-rocksoul--assets-6C63FF)
+![Console](https://img.shields.io/badge/console-rocksoul--crayon-2E8B57)
 
 <br/>
 
-[Architecture](#legal-intelligence-graph) · [Source model](#research-source-model) · [Machine contracts](#canonical-machine-contracts) · [Documentation](#documentation)
+[Architecture](#legal-intelligence-graph) · [Source model](#research-source-model) · [Machine contracts](#canonical-machine-contracts) · [Documentation](#documentation) · [Assets](https://github.com/bjo163/rocksoul-assets) · [Console](https://github.com/bjo163/rocksoul-crayon)
 
 </div>
 
@@ -38,6 +42,18 @@ A disputed legal position is not automatically false.
 A legal conclusion is not the same thing as a Mizan assessment.
 
 That separation is the foundation of AWS.
+
+## Visual + console boundary
+
+<div align="center">
+
+<img src="https://raw.githubusercontent.com/bjo163/rocksoul-assets/main/moonwitness/ui/v2/17-dashboard.svg" alt="Rocksoul dashboard" width="860" />
+
+</div>
+
+- **`rocksoul-assets`** owns the visual language, legal-analysis surface references, dashboard widgets, data-viz, state illustrations, and shared shell.
+- **`rocksoul-crayon`** is the operator console that exposes LAW resources beside STORY, EVENT, PERSON, and TEXT.
+- **AWS remains canonical owner of legal research, applicability, authority, and legal-analysis contracts.**
 
 ## Core question
 
@@ -85,13 +101,15 @@ flowchart LR
 
 ## MoonWitness / Rocksoul research map
 
-| Repository | Domain | Core question | Mantra |
-|---|---|---|---|
-| [`rocksoul-mftl`](https://github.com/bjo163/rocksoul-mftl) | STORY | What was told? | TRACE THE STORY. |
-| [`rocksoul-legend`](https://github.com/bjo163/rocksoul-legend) | EVENT | What happened? | TRACE THE EVENT. |
-| [`rocksoul-superhero`](https://github.com/bjo163/rocksoul-superhero) | PERSON | Who was involved? | TRACE THE PERSON. |
-| [`rocksoul-rgbl`](https://github.com/bjo163/rocksoul-rgbl) | TEXT | What does the exact text say? | TRACE THE TEXT. |
-| **`rocksoul-aws`** | LAW | Was it allowed? | TRACE THE LAW. |
+| Repository | Layer | Core question / role |
+|---|---|---|
+| [`rocksoul-assets`](https://github.com/bjo163/rocksoul-assets) | DESIGN | How should the ecosystem look? |
+| [`rocksoul-crayon`](https://github.com/bjo163/rocksoul-crayon) | CONSOLE | How do operators work across it? |
+| [`rocksoul-mftl`](https://github.com/bjo163/rocksoul-mftl) | STORY | What was told? |
+| [`rocksoul-legend`](https://github.com/bjo163/rocksoul-legend) | EVENT | What happened? |
+| [`rocksoul-superhero`](https://github.com/bjo163/rocksoul-superhero) | PERSON | Who was involved? |
+| [`rocksoul-rgbl`](https://github.com/bjo163/rocksoul-rgbl) | TEXT | What does the exact text say? |
+| **`rocksoul-aws`** | LAW | Was it allowed? |
 
 AWS consumes cross-repository references. It does **not** duplicate canonical STORY, EVENT, PERSON, or TEXT objects.
 
@@ -198,9 +216,7 @@ This is a research and analysis system, not a substitute for case-specific profe
 
 ## MoonWitness / UI boundary
 
-The UI and visual design source of truth remains **`rocksoul-assets`**, including the public STORY / EVENT / PERSON / RGBL / AWS navigation and legal-analysis screens.
-
-AWS owns machine contracts, research data, ingestion, legal analysis, and APIs. It does not become the design-source repository.
+The UI and visual design source of truth remains **`rocksoul-assets`**. Operator workflows and shared navigation belong in **`rocksoul-crayon`**. AWS owns machine contracts, research data, ingestion, legal analysis, and APIs; it does not become either the design-source repository or the console.
 
 ## Branch model
 
@@ -226,7 +242,7 @@ PHASE 4  APPLICABILITY ENGINE              ✓
 PHASE 5  HOLDING-LEVEL LEGAL ASSESSMENT    ✓
 PHASE 6  CROSS-REPO CASE GRAPH             ✓
 PHASE 7  CONTINUOUS RESEARCH / RE-ANALYSIS ✓
-PHASE 8  QUERY API + OBSERVABILITY            ✓
+PHASE 8  QUERY API + OBSERVABILITY          ✓
 ```
 
 Do not bulk-rename or delete inherited engine packages until their replacement/retention role is explicit and tested.
@@ -261,6 +277,8 @@ rocksoul-aws/
 ---
 
 <div align="center">
+
+<img src="https://raw.githubusercontent.com/bjo163/rocksoul-assets/main/moonwitness/brand/rocksoul-lockup.svg" alt="Rocksoul" width="480" />
 
 ## **ANGEL WITH SHOTGUN**
 
