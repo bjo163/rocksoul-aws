@@ -1,5 +1,13 @@
 # AWS — Canonical Documentation
 
+## **TRACE THE LAW.**
+
+> **/// LAW IS NOT A VIBE. SHOW THE AUTHORITY. ///**
+
+This is the canonical documentation map for MoonWitness AWS. The job is not to sound legally certain; the job is to make the route from source → rule → jurisdiction → applicability → argument → review inspectable.
+
+**LEGAL TEXT ≠ APPLICABLE LAW · JURISDICTION ≠ MERITS · LEGAL RESULT ≠ MIZAN**
+
 ## ANGEL WITH SHOTGUN
 
 AWS is the **International Law & Regulation Intelligence** domain of MoonWitness / Rocksoul Research.
