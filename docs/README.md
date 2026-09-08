@@ -81,3 +81,11 @@ These layers preserve the chain `SOURCE → ACTION/AUTHORITY → APPLICABILITY �
 - Implementation tracking: issue #114
 
 Phase 5 decomposes authorities into narrow holdings, evaluates claims against applicability + holdings, and synthesizes multiple claim outcomes without creating an automatic case-wide legal or Mizan verdict.
+
+
+## Phase-6 cross-repository graph
+
+- [Typed STORY × EVENT × PERSON × RGBL × AWS graph](AWS-PHASE-6-CROSS-REPO-GRAPH.md)
+- Implementation tracking: issue #116
+
+Phase 6 preserves foreign ownership through verified `FOREIGN_REF` nodes, materializes typed case relations, and maintains a separate dependency graph for targeted re-analysis.
