@@ -21,7 +21,7 @@ export interface AwsClaimAssessmentRecord extends Record<string, unknown> {
   result: AwsClaimAssessmentResult;
 }
 
-export interface AwsClaimAssessmentInput {
+export interface AwsClaimAssessmentPersistInput {
   id: string;
   case_ref: string;
   claim_ref: string;
@@ -51,7 +51,7 @@ export class AwsLegalAssessmentService {
   }
 
   async persistClaimAssessment(
-    record: AwsClaimAssessmentInput,
+    record: AwsClaimAssessmentPersistInput,
   ): Promise<AwsClaimAssessmentRecord> {
     const result = evaluateAwsClaimAssessment({
       applicability: record.applicability,
