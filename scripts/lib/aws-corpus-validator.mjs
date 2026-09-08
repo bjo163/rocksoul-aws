@@ -4,6 +4,7 @@ import path from "node:path";
 
 const COLLECTIONS = [
   "bindings",
+  "monitors",
   "sources",
   "foreign_refs",
   "instruments",
@@ -120,6 +121,19 @@ export function validateAwsCorpus(corpus) {
       add(errors, !indexed.has(record.id), `${file}: duplicate id ${record.id}`);
       indexed.set(record.id, { collection, record, file });
     }
+  }
+
+  for (const { record, file } of corpus.monitors) {
+    add(errors, /^MON-AWS-/.test(record.id), `${file}: invalid monitor id`);
+    add(errors, indexed.has(record.source_ref), `${file}: unresolved monitor source_ref ${record.source_ref}`);
+    add(errors, record.poll_interval_minutes >= 60, `${file}: poll interval below supported minimum`);
+    add(
+      errors,
+      record.stale_after_minutes >= record.poll_interval_minutes,
+      `${file}: stale threshold must not be shorter than poll interval`
+    );
+    add(errors, record.max_attempts >= 1, `${file}: max_attempts must be positive`);
+    add(errors, record.retry_base_ms >= 100, `${file}: retry_base_ms too small`);
   }
 
   const bindingByDomain = new Map();
