@@ -1,7 +1,7 @@
 import crypto from 'node:crypto';
 import type { AwsLegalStore } from './legal-store.js';
 
-export type AwsForeignDomain = 'STORY' | 'EVENT' | 'PERSON' | 'RGBL';
+export type AwsForeignDomain =\n  | 'STORY'\n  | 'EVENT'\n  | 'PERSON'\n  | 'TEXT'\n  | 'PERSPECTIVE'\n  | 'RELATIONSHIP'\n  | 'RGBL'; // legacy semantic alias for TEXT
 export type AwsForeignVerificationState = 'VERIFIED' | 'UNVERIFIED' | 'MISSING' | 'STALE';
 
 export interface AwsRepositoryBinding {
