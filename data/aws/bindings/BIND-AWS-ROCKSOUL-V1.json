@@ -27,6 +27,13 @@
       "ownership": "FOREIGN"
     },
     {
+      "domain": "RGBL",
+      "repository": "bjo163/rocksoul-rgbl",
+      "ref_prefix": "rgbl:",
+      "ownership": "FOREIGN",
+      "deprecated_alias_for": "TEXT"
+    },
+    {
       "domain": "PERSPECTIVE",
       "repository": "bjo163/rocksoul-jizz",
       "ref_prefix": "jizz:",
