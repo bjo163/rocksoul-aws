@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moonwitness.dev/schemas/aws/foreign-reference.schema.json",
+  "title": "AWS Foreign Canonical Reference",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "domain",
+    "canonical_ref",
+    "repository",
+    "canonical_path",
+    "verification",
+    "ownership"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^XREF-(STORY|EVENT|PERSON|RGBL)-[A-F0-9]{24}$"
+    },
+    "domain": {
+      "type": "string",
+      "enum": [
+        "STORY",
+        "EVENT",
+        "PERSON",
+        "RGBL"
+      ]
+    },
+    "canonical_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "repository": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+    },
+    "canonical_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "commit_sha",
+        "verified_at",
+        "evidence_path",
+        "match_kind"
+      ],
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": [
+            "VERIFIED",
+            "UNVERIFIED",
+            "MISSING",
+            "STALE"
+          ]
+        },
+        "commit_sha": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "verified_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "evidence_path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "match_kind": {
+          "type": "string",
+          "enum": [
+            "CANONICAL_RECORD",
+            "CANONICAL_INDEX",
+            "INTEROP_CONTRACT",
+            "NOT_FOUND"
+          ]
+        }
+      }
+    },
+    "ownership": {
+      "type": "string",
+      "const": "FOREIGN"
+    },
+    "snapshot": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "Optional derived/non-authoritative metadata only; never canonical foreign payload."
+    }
+  }
+}
