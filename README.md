@@ -12,7 +12,7 @@
 
 A provenance-first **International Law & Regulation Intelligence** repository for reconstructing applicable law, jurisdiction, legal status, competing arguments, uncertainty, and explainable Mizan analysis.
 
-**MOONWITNESS · ROCKSOUL RESEARCH · STORY × EVENT × PERSON × TEXT × LAW**
+**MOONWITNESS · ROCKSOUL RESEARCH · STORY × EVENT × PERSON × RGBL × AWS**
 
 <br/>
 
@@ -30,7 +30,27 @@ A provenance-first **International Law & Regulation Intelligence** repository fo
 
 </div>
 
+
 ---
+<!-- ROCKSOUL_FIELD_NOTE_START -->
+<div align="center">
+
+### **LAW IS NOT A VIBE. SHOW THE AUTHORITY.**
+
+`/// MOONWITNESS FIELD NOTE ///`
+
+</div>
+
+> A treaty title is not an answer. A signature is not ratification. A court citation is not automatic jurisdiction. AWS keeps authority, legal force, applicability, counterargument, review state, and uncertainty visible.
+
+```text
+SOURCE → RULE → JURISDICTION → APPLICABILITY → ARGUMENT → REVIEW
+```
+
+**NO VIBES-ONLY CLAIMS · NO SOURCELESS LORE · UNCERTAINTY IS DATA**
+
+<!-- ROCKSOUL_FIELD_NOTE_END -->
+
 
 > **Evidence can tell us what happened. Law asks something else.**
 
@@ -54,6 +74,8 @@ That separation is the foundation of AWS.
 - **`rocksoul-assets`** owns the visual language, legal-analysis surface references, dashboard widgets, data-viz, state illustrations, and shared shell.
 - **`rocksoul-crayon`** is the operator console that exposes LAW resources beside STORY, EVENT, PERSON, and TEXT.
 - **AWS remains canonical owner of legal research, applicability, authority, and legal-analysis contracts.**
+
+Canonical runtime facade: **`@moonwitness/aws-engine`**. The older **`@moonwitness/cosmic-engine`** name is retained only as a deprecated compatibility bridge while downstream consumers migrate.
 
 ## Core question
 
@@ -231,7 +253,7 @@ No other remote branches are part of the repository contract. Development lands 
 
 ## Current repository state
 
-This repository was created from a mature MoonWitness/Cosmic-derived engine codebase. That inherited code remains useful technical substrate—persistence, orchestration, evidence, Mizan, review, audit, and API infrastructure—but old **Cosmic** naming and astronomy/revelation-specific surfaces are **not** the canonical AWS domain definition.
+AWS runs on mature MoonWitness engine infrastructure—persistence, orchestration, evidence, Mizan, review, audit, jobs, and API foundations. The canonical product/domain identity is now **AWS / Angel With Shotgun**. Any remaining **Cosmic** identifiers are compatibility debt, not product identity, and are being retired behind tested aliases.
 
 ```text
 PHASE 0  DOMAIN CONTRACT                   ✓
