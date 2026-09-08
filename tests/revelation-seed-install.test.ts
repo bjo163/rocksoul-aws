@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
+import { initializeRuntimeData, runtimeDatasetPaths, REQUIRED_RUNTIME_DATASETS } from '@moonwitness/persistence';
 import { createPersistence } from '../packages/persistence/src/factory.js';
 import { seedIntoPersistenceStore, loadSeedManifest } from '../packages/persistence/src/bootstrap.js';
-import { initializeRuntimeData, runtimeDatasetPaths, REQUIRED_RUNTIME_DATASETS } from '../packages/persistence/src/runtime-data.js';
 import { verifyRevelationCorpusFiles, verifyRevelationSeedDatabase, buildRevelationDerivedIndexes, verifyRevelationDerivedIndexes, loadRevelationCorpusManifest } from '../src/revelation/corpus/revelation-seed.js';
 import { fourBookCorpusSnapshot } from '../src/revelation/corpus/four-book-corpus.js';
 import { runRevelationTenCaseSmoke } from '../src/revelation/verification/ten-case.js';
