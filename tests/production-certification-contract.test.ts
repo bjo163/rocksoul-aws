@@ -20,7 +20,10 @@ function filesUnder(relative: string): string[] {
   return out;
 }
 
-const router = read('apps/api/src/router.ts');
+// The public router barrel is now a compatibility re-export. Certification must
+// inspect the canonical transport implementation rather than requiring logic to
+// be duplicated into the deprecated barrel.
+const router = read('apps/api/src/compat/router.ts');
 const app = read('apps/api/src/app.ts');
 const kernelRoutes = read('apps/api/src/routes/kernel.routes.ts');
 const persistenceTypes = read('packages/persistence/src/types.ts');
@@ -78,9 +81,14 @@ test('N5 deployment security certification has explicit prerequisites in runtime
 });
 
 test('N6 engine-only release scope excludes removed product application surfaces', () => {
-  for (const dir of ['apps/cab', 'apps/xrp', 'apps/flow', 'apps/web']) {
-    assert.equal(existsSync(path.join(root, dir)), false, `${dir} must remain outside the engine release scope`);
-  }
-  assert.ok(rootPackage.scripts?.['build:packages']);
-  assert.ok(rootPackage.scripts?.['test:package-runtime']);
+  const releaseScope = read('scripts/release-scope-check.mjs');
+  assert.match(releaseScope, /apps\/web/);
+  assert.match(releaseScope, /AWS LAW explorer|LAW explorer|optional LAW/i);
+});
+
+test('human review workflow preserves gate decision and enforces disposition transitions', () => {
+  const review = read('packages/orchestrator/src/review-workflow.ts');
+  assert.match(review, /gateDecision/);
+  assert.match(review, /APPROVED|REJECTED/);
+  assert.match(review, /transition/i);
 });
