@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moonwitness.dev/schemas/aws/research-run.schema.json",
+  "title": "AWS Continuous Research Run",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "monitor_ref",
+    "source_ref",
+    "started_at",
+    "finished_at",
+    "status",
+    "changed",
+    "revision_ref",
+    "revision_diff_ref",
+    "affected_case_refs",
+    "reanalysis_job_refs",
+    "error"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^RRUN-AWS-"
+    },
+    "monitor_ref": {
+      "type": "string",
+      "pattern": "^MON-AWS-"
+    },
+    "source_ref": {
+      "type": "string",
+      "pattern": "^SRC-AWS-"
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "finished_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "RUNNING",
+        "COMPLETED",
+        "FAILED",
+        "DEAD_LETTER"
+      ]
+    },
+    "changed": {
+      "type": "boolean"
+    },
+    "revision_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "revision_diff_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "affected_case_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "reanalysis_job_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "error": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

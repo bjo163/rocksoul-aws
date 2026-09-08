@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moonwitness.dev/schemas/aws/source-monitor.schema.json",
+  "title": "AWS Source Monitor",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "source_ref",
+    "adapter_key",
+    "enabled",
+    "poll_interval_minutes",
+    "stale_after_minutes",
+    "max_attempts",
+    "retry_base_ms"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^MON-AWS-"
+    },
+    "source_ref": {
+      "type": "string",
+      "pattern": "^SRC-AWS-"
+    },
+    "adapter_key": {
+      "type": "string",
+      "enum": [
+        "icrc-gciv",
+        "untc-genocide",
+        "icj-bosnia-serbia"
+      ]
+    },
+    "enabled": {
+      "type": "boolean"
+    },
+    "poll_interval_minutes": {
+      "type": "integer",
+      "minimum": 60
+    },
+    "stale_after_minutes": {
+      "type": "integer",
+      "minimum": 60
+    },
+    "max_attempts": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10
+    },
+    "retry_base_ms": {
+      "type": "integer",
+      "minimum": 100
+    }
+  }
+}

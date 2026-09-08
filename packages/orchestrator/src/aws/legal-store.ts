@@ -18,6 +18,11 @@ export type AwsLegalRecordKind =
   | 'CASE_SYNTHESIS'
   | 'FOREIGN_REF'
   | 'CASE_GRAPH'
+  | 'SOURCE_FRESHNESS'
+  | 'RESEARCH_RUN'
+  | 'REVISION_DIFF'
+  | 'REANALYSIS_CANDIDATE'
+  | 'RESEARCH_REVIEW'
   | 'LEGAL_CASE'
   | 'JURISDICTION'
   | 'APPLICABILITY'
@@ -289,6 +294,29 @@ export class AwsLegalStore {
     });
 
     return revision;
+  }
+
+  async appendResearchEvent(
+    entityId: string,
+    eventType: string,
+    payload: Record<string, unknown>,
+    occurredAt: string,
+    actorId = 'SYSTEM-AWS-CONTINUOUS',
+  ) {
+    assertAwsId(entityId);
+    const eventId = deterministicId(
+      'EVT-AWS-RESEARCH',
+      `${entityId}:${eventType}:${occurredAt}:${JSON.stringify(payload)}`,
+    );
+    return this.persistence.eventStore().append({
+      eventId,
+      entityId,
+      eventType,
+      payload: structuredClone(payload),
+      actorId,
+      source: 'AWS_CONTINUOUS_RESEARCH',
+      occurredAt,
+    });
   }
 
   async verifyAuditIntegrity(): Promise<{ valid: boolean; count: number; head: string | null }> {

@@ -165,3 +165,29 @@ Each run should be able to report:
 - rejected candidates;
 - cases queued for re-analysis;
 - failures and retry state.
+
+
+## Phase-7 executable runtime
+
+The automation contract is implemented by:
+
+- `AwsContinuousResearchService`
+- `AwsResearchScheduler`
+- `AwsSourceWorker`
+- `PersistentJobQueue`
+- `AwsLegalStore`
+
+Continuous polling is read-only with respect to canonical legal objects. It creates source revisions, diffs, review work and re-analysis candidates only.
+
+Freshness and review are deliberately separate:
+
+```text
+freshness_state: FRESH | STALE | UNAVAILABLE
+change_state:    UNCHANGED | CHANGED | REVIEW_REQUIRED
+```
+
+A material change produces `REVIEW_REQUIRED`, even when the source itself is freshly retrieved.
+
+Production API lifecycle enables the scheduler unless `AWS_CONTINUOUS_RESEARCH=0`. Development/test do not poll live sources by default; `AWS_CONTINUOUS_RESEARCH=1` explicitly enables it.
+
+See [AWS-PHASE-7-CONTINUOUS-RESEARCH.md](AWS-PHASE-7-CONTINUOUS-RESEARCH.md).

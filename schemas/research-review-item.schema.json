@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moonwitness.dev/schemas/aws/research-review-item.schema.json",
+  "title": "AWS Research Review Item",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "source_ref",
+    "revision_ref",
+    "revision_diff_ref",
+    "case_refs",
+    "candidate_refs",
+    "reason",
+    "state",
+    "created_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^RVIEW-AWS-"
+    },
+    "source_ref": {
+      "type": "string",
+      "pattern": "^SRC-AWS-"
+    },
+    "revision_ref": {
+      "type": "string"
+    },
+    "revision_diff_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "case_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "candidate_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "REVIEW_REQUIRED",
+        "IN_REVIEW",
+        "APPROVED",
+        "REJECTED",
+        "SUPERSEDED"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

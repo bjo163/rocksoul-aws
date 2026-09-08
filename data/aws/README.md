@@ -6,6 +6,7 @@ This directory is the Phase-1 canonical research surface for **AWS — Angel Wit
 
 ```text
 data/aws/
+├── monitors/         official-source polling policy
 ├── bindings/         repository/domain ownership bindings
 ├── sources/
 ├── foreign_refs/     non-authoritative verified external references          official-source registry
@@ -116,3 +117,18 @@ RGBL ──┘
 ```
 
 Cross-repository `MISSING` is an explicit verification state and does not invalidate otherwise healthy local AWS storage.
+
+
+## Phase-7 runtime policy
+
+The canonical monitor registry defines the first continuous official-source cadence:
+
+```text
+ICRC GC IV           6h poll / 24h stale
+UNTC Genocide        3h poll / 12h stale
+ICJ Bosnia/Serbia    3h poll / 12h stale
+```
+
+Runtime freshness, research runs, revision diffs, re-analysis candidates and research-review items are persistence records rather than committed canonical result files.
+
+Continuous polling never overwrites canonical instruments, treaty actions, authorities, holdings, assessments, case syntheses or Mizan results. It creates review work and candidate diffs only.

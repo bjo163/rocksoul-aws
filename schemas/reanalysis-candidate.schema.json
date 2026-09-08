@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moonwitness.dev/schemas/aws/reanalysis-candidate.schema.json",
+  "title": "AWS Reanalysis Candidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "case_ref",
+    "source_ref",
+    "revision_ref",
+    "revision_diff_ref",
+    "generated_at",
+    "changed_scopes",
+    "applicability",
+    "claim_assessments",
+    "case_syntheses",
+    "canonical_mutation",
+    "review_state"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^RCAND-AWS-"
+    },
+    "case_ref": {
+      "type": "string"
+    },
+    "source_ref": {
+      "type": "string",
+      "pattern": "^SRC-AWS-"
+    },
+    "revision_ref": {
+      "type": "string"
+    },
+    "revision_diff_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "changed_scopes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "applicability": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/result"
+      }
+    },
+    "claim_assessments": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/result"
+      }
+    },
+    "case_syntheses": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/result"
+      }
+    },
+    "canonical_mutation": {
+      "type": "boolean",
+      "const": false
+    },
+    "review_state": {
+      "type": "string",
+      "enum": [
+        "REVIEW_REQUIRED",
+        "REVIEWED",
+        "REJECTED",
+        "SUPERSEDED"
+      ]
+    }
+  },
+  "$defs": {
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ref",
+        "before",
+        "after",
+        "changed"
+      ],
+      "properties": {
+        "ref": {
+          "type": "string"
+        },
+        "before": {},
+        "after": {},
+        "changed": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

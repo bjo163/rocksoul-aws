@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moonwitness.dev/schemas/aws/revision-diff.schema.json",
+  "title": "AWS Source Revision Diff",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "source_ref",
+    "from_revision_ref",
+    "to_revision_ref",
+    "added",
+    "removed",
+    "changed",
+    "material"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^RDIFF-AWS-"
+    },
+    "source_ref": {
+      "type": "string",
+      "pattern": "^SRC-AWS-"
+    },
+    "from_revision_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "to_revision_ref": {
+      "type": "string"
+    },
+    "added": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/delta"
+      }
+    },
+    "removed": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/delta"
+      }
+    },
+    "changed": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/change"
+      }
+    },
+    "material": {
+      "type": "boolean"
+    }
+  },
+  "$defs": {
+    "delta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "value"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "value": {}
+      }
+    },
+    "change": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "before",
+        "after"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "before": {},
+        "after": {}
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "MON-AWS-ICRC-GCIV",
+  "source_ref": "SRC-AWS-ICRC-IHL",
+  "adapter_key": "icrc-gciv",
+  "enabled": true,
+  "poll_interval_minutes": 360,
+  "stale_after_minutes": 1440,
+  "max_attempts": 3,
+  "retry_base_ms": 1000
+}

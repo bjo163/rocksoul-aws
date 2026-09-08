@@ -1,0 +1,10 @@
+{
+  "id": "MON-AWS-UNTC-GENOCIDE",
+  "source_ref": "SRC-AWS-UNTC",
+  "adapter_key": "untc-genocide",
+  "enabled": true,
+  "poll_interval_minutes": 180,
+  "stale_after_minutes": 720,
+  "max_attempts": 3,
+  "retry_base_ms": 1000
+}
