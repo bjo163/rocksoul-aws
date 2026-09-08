@@ -1,0 +1,10 @@
+{
+  "id": "MON-AWS-ICJ-BOSNIA-SERBIA",
+  "source_ref": "SRC-AWS-ICJ",
+  "adapter_key": "icj-bosnia-serbia",
+  "enabled": true,
+  "poll_interval_minutes": 180,
+  "stale_after_minutes": 720,
+  "max_attempts": 4,
+  "retry_base_ms": 30000
+}
