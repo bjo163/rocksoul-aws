@@ -105,27 +105,26 @@ export async function buildApp(options: AppOptions = {}): Promise<HttpApp> {
     options.continuousResearch ??
     (process.env.AWS_CONTINUOUS_RESEARCH === '1' ||
       (process.env.NODE_ENV === 'production' && process.env.AWS_CONTINUOUS_RESEARCH !== '0'));
-  let awsResearchScheduler: AwsResearchScheduler | null = null;
 
-  if (continuousResearchEnabled) {
-    const awsLegalStore = new AwsLegalStore(universeStore.persistence.store);
-    const awsSourceWorker = new AwsSourceWorker(awsLegalStore, jobs);
-    const awsContinuousResearch = new AwsContinuousResearchService(
-      awsLegalStore,
-      awsSourceWorker,
-      jobs,
-      createAwsOfficialSourcePollers({
-        icrc: new AwsIcrcAdapter(),
-        untc: new AwsUntcAdapter(),
-        icj: new AwsIcjAdapter(),
-      }),
-    );
-    awsContinuousResearch.registerHandlers(AWS_DEFAULT_SOURCE_MONITORS);
-    awsResearchScheduler = new AwsResearchScheduler(
-      awsContinuousResearch,
-      AWS_DEFAULT_SOURCE_MONITORS,
-    );
-  }
+  const awsLegalStore = new AwsLegalStore(universeStore.persistence.store);
+  const awsSourceWorker = new AwsSourceWorker(awsLegalStore, jobs);
+  const awsContinuousResearch = new AwsContinuousResearchService(
+    awsLegalStore,
+    awsSourceWorker,
+    jobs,
+    createAwsOfficialSourcePollers({
+      icrc: new AwsIcrcAdapter(),
+      untc: new AwsUntcAdapter(),
+      icj: new AwsIcjAdapter(),
+    }),
+  );
+  // Job handlers are always registered so explicit operator re-analysis works
+  // even when live polling/scheduling is disabled for this host.
+  awsContinuousResearch.registerHandlers(AWS_DEFAULT_SOURCE_MONITORS);
+
+  const awsResearchScheduler = continuousResearchEnabled
+    ? new AwsResearchScheduler(awsContinuousResearch, AWS_DEFAULT_SOURCE_MONITORS)
+    : null;
 
   jobs.start();
   awsResearchScheduler?.start();
