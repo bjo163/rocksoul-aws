@@ -1,0 +1,16 @@
+{
+  "id": "XREF-RGBL-761C914690B77F9724FD59FC",
+  "domain": "RGBL",
+  "canonical_ref": "rgbl:mw:passage:web-classic:2020:mar:13:2",
+  "repository": "bjo163/rocksoul-rgbl",
+  "canonical_path": null,
+  "verification": {
+    "state": "VERIFIED",
+    "commit_sha": "303f4bffada536f4ba0544ede923a0dcee163b14",
+    "verified_at": "2026-09-08T00:16:16Z",
+    "evidence_path": "docs/cases/JERUSALEM-70-TEMPLE.md",
+    "match_kind": "INTEROP_CONTRACT"
+  },
+  "ownership": "FOREIGN",
+  "snapshot": null
+}

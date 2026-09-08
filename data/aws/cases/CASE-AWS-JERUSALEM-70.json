@@ -37,5 +37,8 @@
     "legal_result": "UNRESOLVED",
     "summary": "The four evidence domains remain intact. AWS adds a real legal instrument and concludes only that GC IV is temporally inapplicable to 70 CE; it does not convert that negative applicability finding into permission or prohibition."
   },
-  "research_state": "REVIEW_REQUIRED"
+  "research_state": "REVIEW_REQUIRED",
+  "graph_refs": [
+    "CGRAPH-JERUSALEM-70-FIVE-DOMAIN"
+  ]
 }

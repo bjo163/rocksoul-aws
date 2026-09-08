@@ -1,0 +1,16 @@
+{
+  "id": "XREF-PERSON-DA34747C86B82AD6B56287C9",
+  "domain": "PERSON",
+  "canonical_ref": "superhero:PER-JERUSALEM-FLAVIUS-JOSEPHUS",
+  "repository": "bjo163/rocksoul-superhero",
+  "canonical_path": "data/people/PER-JERUSALEM-FLAVIUS-JOSEPHUS.json",
+  "verification": {
+    "state": "VERIFIED",
+    "commit_sha": "ea7e77b2b42b0482d3a471b255e08ebe5edc2d28",
+    "verified_at": "2026-09-08T00:16:16Z",
+    "evidence_path": "data/people/PER-JERUSALEM-FLAVIUS-JOSEPHUS.json",
+    "match_kind": "CANONICAL_RECORD"
+  },
+  "ownership": "FOREIGN",
+  "snapshot": null
+}

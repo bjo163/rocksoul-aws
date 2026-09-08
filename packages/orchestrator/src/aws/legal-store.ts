@@ -16,6 +16,8 @@ export type AwsLegalRecordKind =
   | 'HOLDING'
   | 'CLAIM_ASSESSMENT'
   | 'CASE_SYNTHESIS'
+  | 'FOREIGN_REF'
+  | 'CASE_GRAPH'
   | 'LEGAL_CASE'
   | 'JURISDICTION'
   | 'APPLICABILITY'
@@ -129,6 +131,32 @@ export class AwsLegalStore {
   async listRecords<T extends Record<string, unknown> = Record<string, unknown>>(kind: AwsLegalRecordKind): Promise<AwsLegalRecord<T>[]> {
     const entities = await this.persistence.entityRepository().list(`${ENTITY_PREFIX}${kind}`);
     return entities.map((entity) => toRecord(entity) as AwsLegalRecord<T>);
+  }
+
+  async linkTypedRelation(
+    fromId: string,
+    relationType: string,
+    toId: string,
+    payload: Record<string, unknown> = {},
+    actorId = 'SYSTEM-AWS',
+  ): Promise<RelationRecord> {
+    assertAwsId(fromId);
+    assertAwsId(toId);
+    if (!relationType) throw new Error('AWS_RELATION_TYPE_REQUIRED');
+    const id = deterministicId('REL-AWS-GRAPH', `${fromId}:${relationType}:${toId}`);
+    return this.persistence.relationRepository().put({
+      id,
+      fromId,
+      type: relationType,
+      toId,
+      payload: structuredClone(payload),
+      createdBy: actorId,
+      updatedBy: actorId,
+    });
+  }
+
+  async listRelations(entityId: string): Promise<RelationRecord[]> {
+    return this.persistence.relationRepository().listByEntity(entityId);
   }
 
   /**

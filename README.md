@@ -159,6 +159,9 @@ The legal-domain contracts in `schemas/` now include:
 - `legal-claim.schema.json`
 - `legal-assessment.schema.json`
 - `cross-repo-case.schema.json`
+- `foreign-reference.schema.json`
+- `cross-repo-graph.schema.json`
+- `repository-binding.schema.json`
 
 Stable identifiers use explicit prefixes such as:
 
@@ -169,6 +172,9 @@ TACT-...
 APPL-...
 LCLAIM-...
 LASSMT-...
+XREF-...
+CGRAPH-...
+GEDGE-...
 ```
 
 Runtime SQL tables, search indexes, embeddings, caches, and derived scores are rebuildable implementation artifacts. Canonical research remains provenance-bearing data.
@@ -229,7 +235,7 @@ PHASE 2  PERSISTENCE + SOURCE WORKER ✓
 PHASE 3  OFFICIAL-SOURCE INGESTION ✓
 PHASE 4  APPLICABILITY ENGINE ✓
 PHASE 5  HOLDING-LEVEL LEGAL ASSESSMENT ✓
-PHASE 6  CROSS-REPO CASE GRAPH
+PHASE 6  CROSS-REPO CASE GRAPH ✓
 PHASE 7  CONTINUOUS RESEARCH / RE-ANALYSIS
 ```
 
@@ -251,6 +257,7 @@ Start here:
 - [Phase-3B treaty notices & ICJ authority](docs/AWS-PHASE-3B-AUTHORITY.md)
 - [Phase-4 five-dimension applicability](docs/AWS-PHASE-4-APPLICABILITY.md)
 - [Phase-5 holding-level legal assessment](docs/AWS-PHASE-5-LEGAL-ASSESSMENT.md)
+- [Phase-6 cross-repo case graph](docs/AWS-PHASE-6-CROSS-REPO-GRAPH.md)
 - [Modern golden legal case — ICJ case 91](docs/cases/BOSNIA-SERBIA-ICJ-91.md)
 - [Foundation issue #101](https://github.com/bjo163/rocksoul-aws/issues/101)
 - [Phase-1 issue #103](https://github.com/bjo163/rocksoul-aws/issues/103)

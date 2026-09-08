@@ -1,0 +1,16 @@
+{
+  "id": "XREF-EVENT-A0FC8556DF976CC50C87C9B5",
+  "domain": "EVENT",
+  "canonical_ref": "legend:EVT-JERUSALEM-SECOND-TEMPLE-DESTRUCTION-70",
+  "repository": "bjo163/rocksoul-legend",
+  "canonical_path": "data/events/EVT-JERUSALEM-SECOND-TEMPLE-DESTRUCTION-70.json",
+  "verification": {
+    "state": "VERIFIED",
+    "commit_sha": "ed51055800b1ca48e353823a0c5b4cdf718b73c9",
+    "verified_at": "2026-09-08T00:16:16Z",
+    "evidence_path": "data/events/EVT-JERUSALEM-SECOND-TEMPLE-DESTRUCTION-70.json",
+    "match_kind": "CANONICAL_RECORD"
+  },
+  "ownership": "FOREIGN",
+  "snapshot": null
+}

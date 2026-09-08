@@ -1,0 +1,73 @@
+{
+  "id": "CGRAPH-JERUSALEM-70-FIVE-DOMAIN",
+  "case_ref": "CASE-AWS-JERUSALEM-70",
+  "node_refs": [
+    "CASE-AWS-JERUSALEM-70",
+    "XREF-STORY-10275E334CADCA80AC859AE2",
+    "XREF-EVENT-A0FC8556DF976CC50C87C9B5",
+    "XREF-PERSON-DA34747C86B82AD6B56287C9",
+    "XREF-RGBL-DD461790D15681E5F12950B3",
+    "XREF-RGBL-761C914690B77F9724FD59FC",
+    "LAW-IHL-GCIV-1949",
+    "APPL-JERUSALEM-70-GCIV",
+    "LCLAIM-JERUSALEM-70-GCIV-TEMPORAL",
+    "LASSMT-JERUSALEM-70-GCIV"
+  ],
+  "edges": [
+    {
+      "id": "GEDGE-E704C510E590EA052E162F2B",
+      "from_ref": "CASE-AWS-JERUSALEM-70",
+      "relation": "CASE_HAS_STORY",
+      "to_ref": "XREF-STORY-10275E334CADCA80AC859AE2"
+    },
+    {
+      "id": "GEDGE-B9A57F1D2F5A8F3E8F676D85",
+      "from_ref": "CASE-AWS-JERUSALEM-70",
+      "relation": "CASE_HAS_EVENT",
+      "to_ref": "XREF-EVENT-A0FC8556DF976CC50C87C9B5"
+    },
+    {
+      "id": "GEDGE-53A7A7B0B5A39F04AC94FF7D",
+      "from_ref": "CASE-AWS-JERUSALEM-70",
+      "relation": "CASE_HAS_PERSON",
+      "to_ref": "XREF-PERSON-DA34747C86B82AD6B56287C9"
+    },
+    {
+      "id": "GEDGE-0C6A2E6B8B786C795E149379",
+      "from_ref": "CASE-AWS-JERUSALEM-70",
+      "relation": "CASE_HAS_RGBL",
+      "to_ref": "XREF-RGBL-DD461790D15681E5F12950B3"
+    },
+    {
+      "id": "GEDGE-0DADA0365D9AF8B2D60895CA",
+      "from_ref": "CASE-AWS-JERUSALEM-70",
+      "relation": "CASE_HAS_RGBL",
+      "to_ref": "XREF-RGBL-761C914690B77F9724FD59FC"
+    },
+    {
+      "id": "GEDGE-22E3E56CCBE5B1C391F2AC02",
+      "from_ref": "CASE-AWS-JERUSALEM-70",
+      "relation": "CASE_HAS_LEGAL_BASIS",
+      "to_ref": "LAW-IHL-GCIV-1949"
+    },
+    {
+      "id": "GEDGE-A70ECF4663CF76AA856F2F83",
+      "from_ref": "CASE-AWS-JERUSALEM-70",
+      "relation": "CASE_HAS_APPLICABILITY",
+      "to_ref": "APPL-JERUSALEM-70-GCIV"
+    },
+    {
+      "id": "GEDGE-A46CDDEAC08D0C6B6649B2F1",
+      "from_ref": "CASE-AWS-JERUSALEM-70",
+      "relation": "CASE_HAS_CLAIM",
+      "to_ref": "LCLAIM-JERUSALEM-70-GCIV-TEMPORAL"
+    },
+    {
+      "id": "GEDGE-1E557D0302F87149B8CA61E1",
+      "from_ref": "CASE-AWS-JERUSALEM-70",
+      "relation": "CASE_HAS_ASSESSMENT",
+      "to_ref": "LASSMT-JERUSALEM-70-GCIV"
+    }
+  ],
+  "research_state": "REVIEW_REQUIRED"
+}

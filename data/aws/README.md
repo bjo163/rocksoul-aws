@@ -6,7 +6,9 @@ This directory is the Phase-1 canonical research surface for **AWS — Angel Wit
 
 ```text
 data/aws/
-├── sources/          official-source registry
+├── bindings/         repository/domain ownership bindings
+├── sources/
+├── foreign_refs/     non-authoritative verified external references          official-source registry
 ├── raw/              captured source metadata / provenance inputs
 ├── recipes/          deterministic normalization recipes
 ├── instruments/      canonical legal instruments
@@ -19,7 +21,8 @@ data/aws/
 ├── claims/           legal propositions and counterpositions
 ├── claim_assessments/ claim × applicability × holding determinations
 ├── case_syntheses/   multi-claim synthesis without binary flattening
-├── assessments/      explainable legal / Mizan assessment records
+├── assessments/
+├── case_graphs/      typed STORY/EVENT/PERSON/RGBL/AWS graph records      explainable legal / Mizan assessment records
 └── cases/            five-domain integration records
 ```
 
@@ -97,3 +100,19 @@ cooperation breach SUPPORTED
 The case-wide legal result remains `UNRESOLVED` and Mizan remains `NOT_RUN`.
 
 This is intentional: a mixed judicial disposition is not converted into one permission/prohibition label.
+
+
+## Phase-6 canonical proof
+
+`CGRAPH-JERUSALEM-70-FIVE-DOMAIN` materializes the Jerusalem 70 CE proof as a typed graph over verified foreign-reference nodes plus AWS legal nodes.
+
+Foreign refs remain owned by their source repositories. AWS stores verification evidence and graph connectivity only.
+
+```text
+STORY ─┐
+EVENT ─┤
+PERSON ┼→ CASE-AWS-JERUSALEM-70 → LAW / APPLICABILITY / CLAIM / ASSESSMENT
+RGBL ──┘
+```
+
+Cross-repository `MISSING` is an explicit verification state and does not invalidate otherwise healthy local AWS storage.

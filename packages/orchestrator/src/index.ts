@@ -352,3 +352,5 @@ export * from './aws/untc-legal-notices.js';
 
 export * from './aws/legal-assessment-engine.js';
 export * from './aws/legal-assessment-service.js';
+
+export * from './aws/cross-repo-graph.js';
