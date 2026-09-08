@@ -1,8 +1,11 @@
+import crypto from "node:crypto";
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 
 const COLLECTIONS = [
+  "bindings",
   "sources",
+  "foreign_refs",
   "instruments",
   "treaty_actions",
   "jurisdictions",
@@ -14,6 +17,7 @@ const COLLECTIONS = [
   "claim_assessments",
   "case_syntheses",
   "assessments",
+  "case_graphs",
   "cases"
 ];
 
@@ -70,6 +74,18 @@ function validateResolvedRefs(errors, indexed, refs, file, label) {
   }
 }
 
+function hash24(value) {
+  return crypto.createHash("sha256").update(value).digest("hex").slice(0, 24).toUpperCase();
+}
+
+function expectedForeignRefId(domain, canonicalRef) {
+  return `XREF-${domain}-${hash24(`${domain}|${canonicalRef}`)}`;
+}
+
+function expectedGraphEdgeId(caseRef, relation, targetRef) {
+  return `GEDGE-${hash24(`${caseRef}|${relation}|${targetRef}`)}`;
+}
+
 function expectedClaimAssessmentResult(applicability, supportRefs, contradictionRefs) {
   if (applicability === "NOT_APPLICABLE") return "NOT_REACHED";
   if (applicability === "UNCERTAIN" || applicability === "PARTIALLY_APPLICABLE") return "UNRESOLVED";
@@ -103,6 +119,45 @@ export function validateAwsCorpus(corpus) {
     if (typeof record.id === "string") {
       add(errors, !indexed.has(record.id), `${file}: duplicate id ${record.id}`);
       indexed.set(record.id, { collection, record, file });
+    }
+  }
+
+  const bindingByDomain = new Map();
+  for (const { record, file } of corpus.bindings) {
+    add(errors, /^BIND-AWS-/.test(record.id), `${file}: invalid binding id`);
+    add(errors, Array.isArray(record.bindings) && record.bindings.length >= 4, `${file}: binding registry incomplete`);
+    for (const binding of record.bindings ?? []) {
+      add(errors, !bindingByDomain.has(binding.domain), `${file}: duplicate binding domain ${binding.domain}`);
+      bindingByDomain.set(binding.domain, binding);
+      add(errors, binding.ownership === "FOREIGN", `${file}: binding ownership must remain FOREIGN`);
+    }
+  }
+
+  for (const { record, file } of corpus.foreign_refs) {
+    add(errors, /^XREF-(STORY|EVENT|PERSON|RGBL)-/.test(record.id), `${file}: invalid foreign ref id`);
+    const binding = bindingByDomain.get(record.domain);
+    add(errors, Boolean(binding), `${file}: missing repository binding for ${record.domain}`);
+    if (binding) {
+      add(errors, record.repository === binding.repository, `${file}: foreign repository mismatch for ${record.domain}`);
+      add(errors, record.canonical_ref?.startsWith(binding.ref_prefix), `${file}: foreign ref prefix mismatch for ${record.domain}`);
+    }
+    add(
+      errors,
+      record.id === expectedForeignRefId(record.domain, record.canonical_ref),
+      `${file}: non-deterministic foreign ref id ${record.id}`
+    );
+    add(errors, record.ownership === "FOREIGN", `${file}: foreign ref must not claim AWS ownership`);
+    add(
+      errors,
+      ["VERIFIED", "UNVERIFIED", "MISSING", "STALE"].includes(record.verification?.state),
+      `${file}: invalid foreign verification state`
+    );
+    if (record.verification?.state === "VERIFIED") {
+      add(errors, /^[a-f0-9]{40}$/.test(record.verification?.commit_sha ?? ""), `${file}: verified foreign ref requires commit_sha`);
+      add(errors, typeof record.verification?.evidence_path === "string", `${file}: verified foreign ref requires evidence_path`);
+    }
+    if (record.verification?.state === "MISSING") {
+      add(errors, record.verification?.match_kind === "NOT_FOUND", `${file}: MISSING foreign ref must use NOT_FOUND evidence kind`);
     }
   }
 
@@ -294,6 +349,28 @@ export function validateAwsCorpus(corpus) {
     );
   }
 
+  for (const { record, file } of corpus.case_graphs) {
+    add(errors, /^CGRAPH-/.test(record.id), `${file}: invalid case graph id`);
+    add(errors, indexed.has(record.case_ref), `${file}: unresolved graph case_ref ${record.case_ref}`);
+    validateResolvedRefs(errors, indexed, record.node_refs, file, "graph node_ref");
+
+    const seenEdges = new Set();
+    for (const edge of record.edges ?? []) {
+      add(errors, edge.from_ref === record.case_ref, `${file}: graph edge ${edge.id} must originate at case_ref`);
+      add(errors, indexed.has(edge.from_ref), `${file}: unresolved graph from_ref ${edge.from_ref}`);
+      add(errors, indexed.has(edge.to_ref), `${file}: unresolved graph to_ref ${edge.to_ref}`);
+      add(errors, !seenEdges.has(edge.id), `${file}: duplicate graph edge ${edge.id}`);
+      seenEdges.add(edge.id);
+      add(
+        errors,
+        edge.id === expectedGraphEdgeId(record.case_ref, edge.relation, edge.to_ref),
+        `${file}: non-deterministic graph edge id ${edge.id}`
+      );
+      add(errors, record.node_refs?.includes(edge.from_ref), `${file}: graph from_ref absent from node_refs ${edge.from_ref}`);
+      add(errors, record.node_refs?.includes(edge.to_ref), `${file}: graph to_ref absent from node_refs ${edge.to_ref}`);
+    }
+  }
+
   for (const { record, file } of corpus.cases) {
     add(errors, /^CASE-AWS-/.test(record.id), `${file}: invalid case id`);
     const prefixRules = [
@@ -327,6 +404,54 @@ export function validateAwsCorpus(corpus) {
             }
           }
         }
+      }
+    }
+
+    validateResolvedRefs(errors, indexed, record.graph_refs, file, "graph_ref");
+
+    for (const graphRef of record.graph_refs ?? []) {
+      const graph = indexed.get(graphRef)?.record;
+      if (!graph) continue;
+
+      const externalExpectations = [
+        ["story", "STORY", "CASE_HAS_STORY"],
+        ["event", "EVENT", "CASE_HAS_EVENT"],
+        ["person", "PERSON", "CASE_HAS_PERSON"],
+        ["rgbl", "RGBL", "CASE_HAS_RGBL"]
+      ];
+
+      for (const [key, domain, relation] of externalExpectations) {
+        const expectedRefs = new Set(record.external_refs?.[key] ?? []);
+        const actualRefs = new Set(
+          (graph.edges ?? [])
+            .filter((edge) => edge.relation === relation)
+            .map((edge) => indexed.get(edge.to_ref)?.record)
+            .filter((foreign) => foreign?.domain === domain)
+            .map((foreign) => foreign.canonical_ref)
+        );
+        add(
+          errors,
+          expectedRefs.size === actualRefs.size && [...expectedRefs].every((ref) => actualRefs.has(ref)),
+          `${file}: graph ${graphRef} does not exactly mirror external_refs.${key}`
+        );
+      }
+
+      const localExpectations = [
+        ["legal_basis", "CASE_HAS_LEGAL_BASIS"],
+        ["applicability", "CASE_HAS_APPLICABILITY"],
+        ["claims", "CASE_HAS_CLAIM"],
+        ["assessments", "CASE_HAS_ASSESSMENT"]
+      ];
+      for (const [key, relation] of localExpectations) {
+        const expectedRefs = new Set(record.aws_refs?.[key] ?? []);
+        const actualRefs = new Set(
+          (graph.edges ?? []).filter((edge) => edge.relation === relation).map((edge) => edge.to_ref)
+        );
+        add(
+          errors,
+          expectedRefs.size === actualRefs.size && [...expectedRefs].every((ref) => actualRefs.has(ref)),
+          `${file}: graph ${graphRef} does not exactly mirror aws_refs.${key}`
+        );
       }
     }
 
