@@ -359,3 +359,7 @@ export * from './aws/revision-diff.js';
 export * from './aws/source-freshness.js';
 export * from './aws/continuous-research.js';
 export * from './aws/official-pollers.js';
+
+export * from './aws/query-service.js';
+export * from './aws/observability-service.js';
+export * from './aws/research-operator.js';
