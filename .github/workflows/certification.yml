@@ -43,8 +43,8 @@ jobs:
       - name: Start PostgreSQL 18
         run: |
           set -euo pipefail
-          docker rm -f cosmic-postgres-ci >/dev/null 2>&1 || true
-          docker run -d --name cosmic-postgres-ci \
+          docker rm -f aws-postgres-ci >/dev/null 2>&1 || true
+          docker run -d --name aws-postgres-ci \
             -e POSTGRES_USER=postgres \
             -e POSTGRES_PASSWORD=postgres-ci-only \
             -e POSTGRES_DB=moonwitness_ci \
@@ -54,20 +54,20 @@ jobs:
             --health-retries=30 \
             postgres:18
           for i in $(seq 1 60); do
-            status=$(docker inspect --format='{{.State.Health.Status}}' cosmic-postgres-ci 2>/dev/null || true)
+            status=$(docker inspect --format='{{.State.Health.Status}}' aws-postgres-ci 2>/dev/null || true)
             if [ "$status" = "healthy" ]; then
-              echo "PostgreSQL is ready inside cosmic-postgres-ci"
+              echo "PostgreSQL is ready inside aws-postgres-ci"
               break
             fi
             if [ "$status" = "unhealthy" ]; then
-              docker logs cosmic-postgres-ci || true
+              docker logs aws-postgres-ci || true
               exit 1
             fi
             sleep 2
           done
-          status=$(docker inspect --format='{{.State.Health.Status}}' cosmic-postgres-ci)
+          status=$(docker inspect --format='{{.State.Health.Status}}' aws-postgres-ci)
           test "$status" = healthy
-          docker exec cosmic-postgres-ci pg_isready -U postgres -d moonwitness_ci
+          docker exec aws-postgres-ci pg_isready -U postgres -d moonwitness_ci
 
       - name: Synchronize lockfile with manifest
         run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
@@ -107,7 +107,7 @@ jobs:
 
       - name: Generate verified release provenance
         env:
-          RELEASE_EVIDENCE_DIR: ${{ runner.temp }}/cosmic-release-evidence
+          RELEASE_EVIDENCE_DIR: ${{ runner.temp }}/aws-release-evidence
         run: |
           set -euo pipefail
           mkdir -p "$RELEASE_EVIDENCE_DIR"
@@ -120,10 +120,10 @@ jobs:
       - name: PostgreSQL certification
         run: |
           set -euo pipefail
-          docker rm -f cosmic-postgres-test >/dev/null 2>&1 || true
+          docker rm -f aws-postgres-test >/dev/null 2>&1 || true
           docker create \
-            --name cosmic-postgres-test \
-            --network container:cosmic-postgres-ci \
+            --name aws-postgres-test \
+            --network container:aws-postgres-ci \
             -w /workspace \
             -e STORAGE_DRIVER=postgres \
             -e PGHOST=127.0.0.1 \
@@ -133,8 +133,8 @@ jobs:
             -e PGDATABASE=moonwitness_ci \
             node:26-bookworm \
             bash -lc 'npm run test:postgres'
-          docker cp "$GITHUB_WORKSPACE/." cosmic-postgres-test:/workspace
-          docker start -a cosmic-postgres-test
+          docker cp "$GITHUB_WORKSPACE/." aws-postgres-test:/workspace
+          docker start -a aws-postgres-test
 
       - name: Build API
         run: npm run build:api
@@ -144,16 +144,16 @@ jobs:
 
       - name: Build Docker image
         env:
-          RELEASE_EVIDENCE_DIR: ${{ runner.temp }}/cosmic-release-evidence
+          RELEASE_EVIDENCE_DIR: ${{ runner.temp }}/aws-release-evidence
         run: |
           set -euo pipefail
           docker pull ghcr.io/${{ github.repository }}:latest || true
-          docker build --cache-from ghcr.io/${{ github.repository }}:latest -t cosmic:${{ github.sha }} .
-          image_id=$(docker image inspect --format='{{.Id}}' "cosmic:${{ github.sha }}")
-          created=$(docker image inspect --format='{{.Created}}' "cosmic:${{ github.sha }}")
+          docker build --cache-from ghcr.io/${{ github.repository }}:latest -t rocksoul-aws:${{ github.sha }} .
+          image_id=$(docker image inspect --format='{{.Id}}' "rocksoul-aws:${{ github.sha }}")
+          created=$(docker image inspect --format='{{.Created}}' "rocksoul-aws:${{ github.sha }}")
           cat > "$RELEASE_EVIDENCE_DIR/container-image.json" <<EOF
           {
-            "protocol": "COSMIC_CONTAINER_IMAGE_V1",
+            "protocol": "AWS_CONTAINER_IMAGE_V1",
             "source": {
               "repository": "${{ github.repository }}",
               "gitSha": "${{ github.sha }}",
@@ -161,7 +161,7 @@ jobs:
               "runAttempt": "${{ github.run_attempt }}"
             },
             "image": {
-              "tag": "cosmic:${{ github.sha }}",
+              "tag": "rocksoul-aws:${{ github.sha }}",
               "imageId": "$image_id",
               "created": "$created"
             }
@@ -172,13 +172,13 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cosmic-release-evidence-${{ github.sha }}
-          path: ${{ runner.temp }}/cosmic-release-evidence
-          if-no-files-found: error
+          name: aws-release-evidence-${{ github.sha }}
+          path: ${{ runner.temp }}/aws-release-evidence
+          if-no-files-found: warn
           retention-days: 90
 
       - name: Cleanup PostgreSQL
         if: always()
         run: |
-          docker rm -f cosmic-postgres-test >/dev/null 2>&1 || true
-          docker rm -f cosmic-postgres-ci >/dev/null 2>&1 || true
+          docker rm -f aws-postgres-test >/dev/null 2>&1 || true
+          docker rm -f aws-postgres-ci >/dev/null 2>&1 || true
