@@ -19,6 +19,7 @@ Its canonical question is:
 ## Repository governance
 
 - [BRANCHING.md](BRANCHING.md) — canonical remote model: `main` stable/release, `dev` all development.
+- [AWS-IDENTITY-MIGRATION.md](AWS-IDENTITY-MIGRATION.md) — canonical AWS naming and legacy compatibility map.
 - [../CONTRIBUTING.md](../CONTRIBUTING.md) — coding, validation, and promotion rules.
 
 ## Read in this order
