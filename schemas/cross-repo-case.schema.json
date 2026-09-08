@@ -12,7 +12,8 @@
     "external_refs",
     "aws_refs",
     "result",
-    "research_state"
+    "research_state",
+    "graph_refs"
   ],
   "properties": {
     "id": {
@@ -161,6 +162,15 @@
         "REVIEWED",
         "SUPERSEDED"
       ]
+    },
+    "graph_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^CGRAPH-"
+      },
+      "uniqueItems": true
     }
   }
 }
