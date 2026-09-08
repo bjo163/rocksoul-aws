@@ -1,4 +1,10 @@
-# Cosmic Packages
+# AWS Engine Packages
+
+## **CAPABILITIES, NOT RANDOM FOLDERS.**
+
+> **/// CANONICAL FACADE: @moonwitness/aws-engine ///**
+
+MoonWitness packages provide the technical substrate used by AWS: contracts, persistence, jobs, evidence, orchestration, Mizan, temporal/semantic utilities, and API-facing services. `@moonwitness/cosmic-engine` remains only as a deprecated compatibility bridge during migration.
 
 Packages are capability boundaries, not arbitrary folders.
 
