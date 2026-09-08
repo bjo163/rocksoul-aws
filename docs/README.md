@@ -97,3 +97,11 @@ Phase 6 preserves foreign ownership through verified `FOREIGN_REF` nodes, materi
 - Implementation tracking: issue #118
 
 Phase 7 schedules official-source polling on the existing persistent queue, creates immutable source revisions and diffs, marks freshness independently from review state, queues only affected cases, and writes review-gated re-analysis candidates without canonical legal or Mizan mutation.
+
+
+## Phase-8 query API and observability
+
+- [AWS query API, observability & operator research](AWS-PHASE-8-QUERY-API.md)
+- Implementation tracking: issue #120
+
+Phase 8 exposes the AWS engine through native versioned API contracts, provides research/source observability, and supports permission-gated targeted re-analysis without canonical mutation or automatic Mizan.
