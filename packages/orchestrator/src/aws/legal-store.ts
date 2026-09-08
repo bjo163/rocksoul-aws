@@ -235,6 +235,44 @@ export class AwsLegalStore {
     };
   }
 
+  async listSourceRevisions(sourceId: string): Promise<AwsSourceRevision[]> {
+    assertAwsId(sourceId);
+    const evidence = await this.persistence.evidenceRepository().listByEntity(sourceId);
+    const revisions: AwsSourceRevision[] = [];
+    for (const item of evidence) {
+      if (item.sourceType !== 'AWS_SOURCE_REVISION') continue;
+      const payload = item.payload;
+      if (
+        typeof payload.revisionId !== 'string' ||
+        typeof item.reference !== 'string' ||
+        typeof payload.fingerprint !== 'string' ||
+        typeof payload.capturedAt !== 'string' ||
+        !payload.payload ||
+        typeof payload.payload !== 'object' ||
+        Array.isArray(payload.payload)
+      ) continue;
+      revisions.push({
+        revisionId: payload.revisionId,
+        sourceId,
+        sourceUrl: item.reference,
+        fingerprint: payload.fingerprint,
+        capturedAt: payload.capturedAt,
+        payload: structuredClone(payload.payload as Record<string, unknown>),
+      });
+    }
+    return revisions.sort((a, b) => b.capturedAt.localeCompare(a.capturedAt));
+  }
+
+  async listEvents(entityId: string) {
+    assertAwsId(entityId);
+    return this.persistence.eventStore().listByEntity(entityId);
+  }
+
+  async listAuditRecords(recordId: string) {
+    assertAwsId(recordId);
+    return this.persistence.auditStore().listByRecord(recordId);
+  }
+
   async persistSourceRevision(input: AwsSourceRevisionInput): Promise<AwsSourceRevision> {
     assertAwsId(input.sourceId);
     if (!/^[a-f0-9]{64}$/i.test(input.fingerprint)) throw new Error('AWS_SOURCE_FINGERPRINT_INVALID');
