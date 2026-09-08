@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { buildAiAnalysis, analyzeWithProvider } from '@moonwitness/cosmic-engine';
+import { buildAiAnalysis, analyzeWithProvider } from '@moonwitness/aws-engine';
 import { composeReminderBundle, runAiAnalyzeWorkflow, type WorkflowEvidence } from '@moonwitness/orchestrator';
 import { appendMizanWitness, signCheckpoint as signWitnessCheckpoint } from '@moonwitness/witness';
 
