@@ -7,7 +7,7 @@ import test from 'node:test';
 import { discoverWorkspacePackageFiles } from '../scripts/workspace-discovery.ts';
 
 test('release identity discovers declared workspace manifests without stale workspace references', () => {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'cosmic-release-workspaces-'));
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'aws-release-workspaces-'));
   try {
     fs.mkdirSync(path.join(root, 'apps', 'api'), { recursive: true });
     fs.mkdirSync(path.join(root, 'packages', 'tse-engine'), { recursive: true });
