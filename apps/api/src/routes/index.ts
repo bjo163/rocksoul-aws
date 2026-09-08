@@ -10,10 +10,11 @@ import { semanticRouter } from './semantic.routes.js';
 import { observabilityRouter } from './observability.routes.js';
 import { legacyV1Router } from './route-groups.js';
 import { revelationRouter } from './revelation.routes.js';
+import { awsRouter } from './aws.routes.js';
 
 export const apiCapabilityRouter = new Router();
 for (const router of [
-  revelationRouter, observationRouter, analysisRouter, evaluationRouter, evidenceRouter, reviewRouter,
+  awsRouter, revelationRouter, observationRouter, analysisRouter, evaluationRouter, evidenceRouter, reviewRouter,
   workflowRouter, jobsRouter, semanticRouter, observabilityRouter,
 ]) apiCapabilityRouter.use(router);
 apiCapabilityRouter.use(legacyV1Router);
