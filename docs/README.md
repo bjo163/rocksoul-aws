@@ -8,6 +8,8 @@ This is the canonical documentation map for MoonWitness AWS. The job is not to s
 
 **LEGAL TEXT ≠ APPLICABLE LAW · JURISDICTION ≠ MERITS · LEGAL RESULT ≠ MIZAN**
 
+**Release baseline:** `4.33.0`
+
 ## ANGEL WITH SHOTGUN
 
 AWS is the **International Law & Regulation Intelligence** domain of MoonWitness / Rocksoul Research.
