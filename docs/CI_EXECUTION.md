@@ -11,7 +11,7 @@
 - pushes to `main` so release evidence is retained after promotion;
 - explicit manual dispatch.
 
-The workflow runs on the self-hosted Cosmic Linux/x64 runner with Node 26 and PostgreSQL 18.
+The workflow runs on the deployed GitHub self-hosted runner (`runs-on: self-hosted`) with Node 26 and PostgreSQL 18.
 
 ## Mandatory sequence
 
