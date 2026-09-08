@@ -147,7 +147,9 @@ test('native AWS route contract is mounted and preserves permission boundaries',
   for (const fragment of expected) assert.ok(route.includes(fragment), fragment);
   assert.match(route, /requirePermission\(req, ctx\.auth, 'READ_AUDIT'\)/);
   assert.match(route, /requirePermission\(req, ctx\.auth, 'COMMAND'\)/);
-  assert.match(route, /canonical_mutation/);
+  const operatorSource = await fs.readFile(path.join(process.cwd(), 'packages', 'orchestrator', 'src', 'aws', 'research-operator.ts'), 'utf8');
+  assert.match(operatorSource, /canonical_mutation: false/);
+  assert.match(operatorSource, /mizan_auto_run: false/);
   assert.match(composition, /import \{ awsRouter \} from '\.\/aws\.routes\.js'/);
   assert.match(composition, /awsRouter/);
 });
