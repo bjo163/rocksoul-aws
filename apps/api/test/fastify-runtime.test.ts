@@ -39,18 +39,39 @@ test('graceful shutdown closes app cleanly', async () => {
   await app.close();
 });
 
-test('feature flag defaults to native when COSMIC_FASTIFY_RUNTIME is unset', async () => {
-  const previous = process.env.COSMIC_FASTIFY_RUNTIME;
+test('feature flag defaults to native when AWS_FASTIFY_RUNTIME is unset', async () => {
+  const previousAws = process.env.AWS_FASTIFY_RUNTIME;
+  const previousLegacy = process.env.COSMIC_FASTIFY_RUNTIME;
+  delete process.env.AWS_FASTIFY_RUNTIME;
   delete process.env.COSMIC_FASTIFY_RUNTIME;
   assert.equal(isFastifyEnabled(), false);
   assert.equal(getRuntimeMode(), 'native');
-  if (previous !== undefined) process.env.COSMIC_FASTIFY_RUNTIME = previous;
+  if (previousAws !== undefined) process.env.AWS_FASTIFY_RUNTIME = previousAws;
+  if (previousLegacy !== undefined) process.env.COSMIC_FASTIFY_RUNTIME = previousLegacy;
 });
 
-test('feature flag enables fastify when COSMIC_FASTIFY_RUNTIME=1', async () => {
+test('feature flag enables fastify when AWS_FASTIFY_RUNTIME=1', async () => {
+  process.env.AWS_FASTIFY_RUNTIME = '1';
+  delete process.env.COSMIC_FASTIFY_RUNTIME;
+  assert.equal(isFastifyEnabled(), true);
+  assert.equal(getRuntimeMode(), 'fastify');
+  delete process.env.AWS_FASTIFY_RUNTIME;
+});
+
+test('legacy COSMIC_FASTIFY_RUNTIME remains a compatibility fallback', async () => {
+  delete process.env.AWS_FASTIFY_RUNTIME;
   process.env.COSMIC_FASTIFY_RUNTIME = '1';
   assert.equal(isFastifyEnabled(), true);
   assert.equal(getRuntimeMode(), 'fastify');
+  delete process.env.COSMIC_FASTIFY_RUNTIME;
+});
+
+test('AWS_FASTIFY_RUNTIME takes precedence over the legacy flag', async () => {
+  process.env.AWS_FASTIFY_RUNTIME = '0';
+  process.env.COSMIC_FASTIFY_RUNTIME = '1';
+  assert.equal(isFastifyEnabled(), false);
+  assert.equal(getRuntimeMode(), 'native');
+  delete process.env.AWS_FASTIFY_RUNTIME;
   delete process.env.COSMIC_FASTIFY_RUNTIME;
 });
 
