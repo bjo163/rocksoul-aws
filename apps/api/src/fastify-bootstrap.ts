@@ -20,6 +20,8 @@ export interface FastifyDependencyPorts {
 
 declare module 'fastify' {
   interface FastifyInstance {
+    aws: FastifyDependencyPorts;
+    /** @deprecated Use app.aws. */
     cosmic: FastifyDependencyPorts;
     persistence: UniverseStore;
     auth: RouteContext['auth'];
@@ -52,8 +54,9 @@ export async function bootstrapFastify(options: FastifyBootstrapOptions): Promis
     if (!app.hasDecorator(key)) app.decorate(key, value);
   }
 
-  // Canonical aliases keep Fastify adapters independent from RouteContext's
-  // historical naming while preserving the native runtime unchanged.
+  // Canonical AWS alias keeps Fastify adapters independent from RouteContext.
+  if (!app.hasDecorator('aws')) app.decorate('aws', ports);
+  // Deprecated compatibility alias for pre-AWS consumers.
   if (!app.hasDecorator('cosmic')) app.decorate('cosmic', ports);
   if (!app.hasDecorator('persistence')) app.decorate('persistence', ports.persistence);
   if (!app.hasDecorator('auth')) app.decorate('auth', ports.auth);
