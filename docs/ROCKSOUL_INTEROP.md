@@ -29,26 +29,29 @@ UI naming and repository-to-tab presentation belong to `rocksoul-assets`. AWS mu
 
 ## Cross-repository reference form
 
-An AWS object should identify external ownership explicitly, for example:
+An AWS object identifies semantic domain separately from the canonical owner-repository reference.
+
+Example:
 
 ```json
 {
-  "ref": "event:EVT-...",
-  "domain": "EVENT"
+  "domain": "EVENT",
+  "canonical_ref": "legend:EVT-..."
 }
 ```
 
-Allowed domain prefixes:
+Canonical backend bindings are:
 
 ```text
-story:
-event:
-person:
-rgbl:
-aws:
+STORY   → bjo163/rocksoul-mftl      → mftl:
+EVENT   → bjo163/rocksoul-legend    → legend:
+PERSON  → bjo163/rocksoul-superhero → superhero:
+RGBL    → bjo163/rocksoul-rgbl      → rgbl:
 ```
 
-Local validation may verify shape and known bindings. Cross-repository absence must be distinguishable from local corruption.
+The semantic labels STORY / EVENT / PERSON / RGBL must not be confused with canonical ref prefixes. UI naming remains presentation-owned by `rocksoul-assets`.
+
+Local validation verifies deterministic foreign-node identity, repository binding, canonical prefix, and verification state. Cross-repository absence is represented as `MISSING` and remains distinguishable from local corruption.
 
 ## Non-duplication rule
 
@@ -108,3 +111,35 @@ That is a successful integration result, not a failure. It proves that **evidenc
 `rocksoul-assets` remains the design source of truth for the five-domain visual grammar. AWS exports machine-readable data and stable contracts suitable for public observatory, case, correlation, legal, community, and admin surfaces.
 
 AWS must not embed presentation-specific assumptions into canonical legal records.
+
+
+## Runtime graph
+
+Phase 6 materializes the interop contract through two distinct graph layers.
+
+### Semantic relations
+
+```text
+CASE_HAS_STORY
+CASE_HAS_EVENT
+CASE_HAS_PERSON
+CASE_HAS_RGBL
+CASE_HAS_LEGAL_BASIS
+CASE_HAS_APPLICABILITY
+CASE_HAS_CLAIM
+CASE_HAS_ASSESSMENT
+```
+
+### Impact relations
+
+```text
+AWS_DEPENDS_ON
+```
+
+Semantic edges describe meaning. Dependency edges support targeted re-analysis.
+
+```text
+SEMANTIC EDGE != DEPENDENCY EDGE
+```
+
+Foreign objects are represented locally only by thin `FOREIGN_REF` records with provenance and verification state. Their canonical payload remains owned by the source repository.
