@@ -16,7 +16,7 @@ concurrency:
 jobs:
   audit:
     if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main')
-    runs-on: [self-hosted, linux, x64, cosmic]
+    runs-on: self-hosted
     steps:
       - name: Checkout certified main candidate
         uses: actions/checkout@v4

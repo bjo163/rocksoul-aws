@@ -1,13 +1,13 @@
-# Self-hosted Cosmic CI Contract
+# AWS Self-hosted CI Contract
 
-The `cosmic` self-hosted runner is the authoritative certification environment for `dev` through 5.0.0.
+The deployed GitHub self-hosted runner is the authoritative certification environment for AWS certification.
 
 ## Runner labels
 
 The certification workflow requires:
 
 ```yaml
-runs-on: [self-hosted, linux, x64, cosmic]
+runs-on: self-hosted
 ```
 
 The runner must provide Node 26, npm 11, Git, Docker, Docker Compose, and enough disk/RAM/temp space for the full certification matrix.
@@ -17,7 +17,7 @@ The runner must provide Node 26, npm 11, Git, Docker, Docker Compose, and enough
 ```text
 push dev
   -> GitHub Actions
-  -> self-hosted runner: cosmic
+  -> deployed self-hosted runner
   -> install/verify dependencies
   -> dependency integrity/audit
   -> docs/architecture/lint/typecheck
@@ -32,7 +32,7 @@ push dev
 ## Runner health checklist
 
 - Runner online and idle/available.
-- Correct labels present.
+- Runner is registered with the standard `self-hosted` label and is online.
 - Node 26 and npm 11 selected.
 - Docker daemon available to the runner account.
 - PostgreSQL 18 container can start.
