@@ -1,0 +1,24 @@
+{
+  "id": "LAW-ICC-ROME-STATUTE-ARTICLE-11",
+  "title": "Rome Statute of the International Criminal Court — Article 11: Jurisdiction ratione temporis",
+  "short_title": "Rome Statute Article 11",
+  "instrument_type": "statute",
+  "issuing_body": "International Criminal Court / Assembly of States Parties",
+  "adoption_date": "1998-07-17",
+  "entry_into_force_date": "2002-07-01",
+  "termination_date": null,
+  "languages": ["en"],
+  "source": {
+    "url": "https://www.icc-cpi.int/sites/default/files/2025-05/Rome-Statute-EN-2025.pdf",
+    "stable_id": "icc:rome-statute:article-11:2025-en",
+    "source_role": "PRIMARY_TEXT",
+    "publisher": "International Criminal Court",
+    "language": "en",
+    "retrieved_at": "2026-09-08T02:00:00Z",
+    "sha256": null
+  },
+  "supersedes": [],
+  "superseded_by": [],
+  "research_state": "CANONICAL",
+  "notes": "Article 11 governs jurisdiction ratione temporis: the Court's jurisdiction is limited to crimes committed after the Statute entered into force, with the State-specific rule in Article 11(2) and its Article 12(3) declaration exception. This record is a legal-source identity, not a finding that jurisdiction exists in any particular case. Territorial/personal jurisdiction, trigger mechanisms, admissibility, elements, individual responsibility, liability, and guilt require separate analysis."
+}
