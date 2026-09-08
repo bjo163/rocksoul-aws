@@ -27,6 +27,8 @@ jobs:
       PGUSER: postgres
       PGPASSWORD: postgres-ci-only
       PGDATABASE: moonwitness_ci
+      AWS_PG_CONTAINER: aws-postgres-ci-${{ github.run_id }}-${{ github.run_attempt }}
+      AWS_PG_TEST_CONTAINER: aws-postgres-test-${{ github.run_id }}-${{ github.run_attempt }}
 
     steps:
       - name: Checkout
@@ -43,8 +45,8 @@ jobs:
       - name: Start PostgreSQL 18
         run: |
           set -euo pipefail
-          docker rm -f aws-postgres-ci >/dev/null 2>&1 || true
-          docker run -d --name aws-postgres-ci \
+          docker rm -f "$AWS_PG_CONTAINER" >/dev/null 2>&1 || true
+          docker run -d --name "$AWS_PG_CONTAINER" \
             -e POSTGRES_USER=postgres \
             -e POSTGRES_PASSWORD=postgres-ci-only \
             -e POSTGRES_DB=moonwitness_ci \
@@ -54,20 +56,20 @@ jobs:
             --health-retries=30 \
             postgres:18
           for i in $(seq 1 60); do
-            status=$(docker inspect --format='{{.State.Health.Status}}' aws-postgres-ci 2>/dev/null || true)
+            status=$(docker inspect --format='{{.State.Health.Status}}' "$AWS_PG_CONTAINER" 2>/dev/null || true)
             if [ "$status" = "healthy" ]; then
               echo "PostgreSQL is ready inside aws-postgres-ci"
               break
             fi
             if [ "$status" = "unhealthy" ]; then
-              docker logs aws-postgres-ci || true
+              docker logs "$AWS_PG_CONTAINER" || true
               exit 1
             fi
             sleep 2
           done
-          status=$(docker inspect --format='{{.State.Health.Status}}' aws-postgres-ci)
+          status=$(docker inspect --format='{{.State.Health.Status}}' "$AWS_PG_CONTAINER")
           test "$status" = healthy
-          docker exec aws-postgres-ci pg_isready -U postgres -d moonwitness_ci
+          docker exec "$AWS_PG_CONTAINER" pg_isready -U postgres -d moonwitness_ci
 
       - name: Synchronize lockfile with manifest
         run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
@@ -207,10 +209,10 @@ jobs:
       - name: PostgreSQL certification
         run: |
           set -euo pipefail
-          docker rm -f aws-postgres-test >/dev/null 2>&1 || true
+          docker rm -f "$AWS_PG_TEST_CONTAINER" >/dev/null 2>&1 || true
           docker create \
-            --name aws-postgres-test \
-            --network container:aws-postgres-ci \
+            --name "$AWS_PG_TEST_CONTAINER" \
+            --network "container:$AWS_PG_CONTAINER" \
             -w /workspace \
             -e STORAGE_DRIVER=postgres \
             -e PGHOST=127.0.0.1 \
@@ -220,8 +222,8 @@ jobs:
             -e PGDATABASE=moonwitness_ci \
             node:26-bookworm \
             bash -lc 'npm run test:postgres'
-          docker cp "$GITHUB_WORKSPACE/." aws-postgres-test:/workspace
-          docker start -a aws-postgres-test
+          docker cp "$GITHUB_WORKSPACE/." "$AWS_PG_TEST_CONTAINER:/workspace"
+          docker start -a "$AWS_PG_TEST_CONTAINER"
 
       - name: Build API
         run: npm run build:api
@@ -267,5 +269,5 @@ jobs:
       - name: Cleanup PostgreSQL
         if: always()
         run: |
-          docker rm -f aws-postgres-test >/dev/null 2>&1 || true
-          docker rm -f aws-postgres-ci >/dev/null 2>&1 || true
+          docker rm -f "$AWS_PG_TEST_CONTAINER" >/dev/null 2>&1 || true
+          docker rm -f "$AWS_PG_CONTAINER" >/dev/null 2>&1 || true
