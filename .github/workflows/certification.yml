@@ -18,7 +18,7 @@ jobs:
   verify:
     name: Verify, test, certify, and containerize
     runs-on: self-hosted
-    timeout-minutes: 60
+    timeout-minutes: 90
 
     env:
       STORAGE_DRIVER: postgres
@@ -114,8 +114,65 @@ jobs:
           npm run release:provenance -- --output "$RELEASE_EVIDENCE_DIR/release-provenance.json"
           npm run release:provenance -- --verify "$RELEASE_EVIDENCE_DIR/release-provenance.json"
 
-      - name: Release-focused tests
-        run: npm run test:release
+      - name: Release core suites
+        run: >-
+          node scripts/transpile-runner.mjs
+          tests/release/engine-only-scope.test.ts
+          tests/release/semantic/index.test.ts
+          tests/release/witness/index.test.ts
+          tests/release/revelation/index.test.ts
+          tests/release/event/index.test.ts
+          tests/release/security/index.test.ts
+          tests/release/persistence/index.test.ts
+          tests/release/production/index.test.ts
+
+      - name: Release platform contracts
+        run: npm run test:platform-contracts
+
+      - name: Release witness recovery
+        run: npm run test:witness-recovery
+
+      - name: Release PostgreSQL idempotency contract
+        run: npm run test:postgres-idempotency
+
+      - name: Release database backup contract
+        run: npm run test:database-backup
+
+      - name: Release witness integrity contract
+        run: npm run test:witness-integrity
+
+      - name: Release persistence adapter contract
+        run: npm run test:persistence-adapter
+
+      - name: Release evidence contract
+        run: npm run test:release-evidence
+
+      - name: Release idempotency contract
+        run: npm run test:idempotency
+
+      - name: Release authorization matrix
+        run: npm run test:authorization-matrix
+
+      - name: Release SDK compatibility
+        run: npm run test:sdk-compatibility
+
+      - name: Release deployment configuration
+        run: npm run test:deployment-config
+
+      - name: Release SDK runtime resilience
+        run: npm run test:sdk-runtime-resilience
+
+      - name: Release worker queue
+        run: npm run test:worker-queue
+
+      - name: Release API route inventory
+        run: npm run test:api-route-inventory
+
+      - name: Release AI provider governance
+        run: npm run test:ai-provider-governance
+
+      - name: Release API application tests
+        run: npm --prefix apps/api test
 
       - name: PostgreSQL certification
         run: |
