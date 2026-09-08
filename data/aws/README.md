@@ -15,7 +15,7 @@ data/aws/
 ├── monitors/         official-source polling policy
 ├── bindings/         repository/domain ownership bindings
 ├── sources/
-├── foreign_refs/     non-authoritative verified external references          official-source registry
+├── foreign_refs/     non-authoritative verified external references
 ├── raw/              captured source metadata / provenance inputs
 ├── recipes/          deterministic normalization recipes
 ├── instruments/      canonical legal instruments
@@ -111,7 +111,7 @@ This is intentional: a mixed judicial disposition is not converted into one perm
 
 ## Phase-6 canonical proof
 
-`CGRAPH-JERUSALEM-70-FIVE-DOMAIN` materializes the Jerusalem 70 CE proof as a typed graph over verified foreign-reference nodes plus AWS legal nodes.
+`CGRAPH-JERUSALEM-70-FIVE-DOMAIN` remains the historical Jerusalem 70 CE proof as a typed graph over verified foreign-reference nodes plus AWS legal nodes. Existing `RGBL`-named bindings are replay-compatible; new exact-text bindings use semantic `TEXT`.
 
 Foreign refs remain owned by their source repositories. AWS stores verification evidence and graph connectivity only.
 
@@ -119,7 +119,7 @@ Foreign refs remain owned by their source repositories. AWS stores verification 
 STORY ─┐
 EVENT ─┤
 PERSON ┼→ CASE-AWS-JERUSALEM-70 → LAW / APPLICABILITY / CLAIM / ASSESSMENT
-RGBL ──┘
+TEXT/RGBL legacy ──┘\nPERSPECTIVE / RELATIONSHIP may be added as foreign case context when relevant
 ```
 
 Cross-repository `MISSING` is an explicit verification state and does not invalidate otherwise healthy local AWS storage.
