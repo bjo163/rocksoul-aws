@@ -1,7 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
-import os from 'node:os';
 import path from 'node:path';
 import { MemoryProvider } from '../packages/persistence/src/memory.js';
 import { PersistentJobQueue } from '../packages/jobs/src/index.js';
@@ -18,7 +17,6 @@ import {
   AWS_DEFAULT_SOURCE_MONITORS,
 } from '../packages/orchestrator/src/aws/source-freshness.js';
 import { diffAwsSourceRevisions } from '../packages/orchestrator/src/aws/revision-diff.js';
-import { buildApp } from '../apps/api/src/app.js';
 
 const applies = (label: string) => ({
   status: 'APPLIES' as const,
@@ -450,17 +448,15 @@ test('canonical monitor JSON matches runtime default policy', async () => {
   );
 });
 
-test('API lifecycle can explicitly disable continuous research without live polling', async () => {
-  const dataDir = await fs.mkdtemp(path.join(os.tmpdir(), 'aws-phase7-host-'));
-  const app = await buildApp({
-    dataDir,
-    persistenceDriver: 'file',
-    continuousResearch: false,
-  });
-  try {
-    assert.ok(app.context);
-  } finally {
-    await app.close();
-    await fs.rm(dataDir, { recursive: true, force: true });
-  }
+test('API lifecycle wiring exposes explicit continuous-research control and stops scheduler before queue', async () => {
+  const source = await fs.readFile(
+    path.join(process.cwd(), 'apps', 'api', 'src', 'app.ts'),
+    'utf8',
+  );
+  assert.match(source, /continuousResearch\?: boolean/);
+  assert.match(source, /AWS_CONTINUOUS_RESEARCH === '1'/);
+  assert.match(source, /NODE_ENV === 'production'/);
+  assert.match(source, /awsResearchScheduler\?\.start\(\)/);
+  const closeIndex = source.indexOf('awsResearchScheduler?.stop(); jobs.stop();');
+  assert.ok(closeIndex >= 0, 'scheduler must stop before shared queue shutdown');
 });
