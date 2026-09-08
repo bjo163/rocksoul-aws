@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { loadLegacyBackend } from './legacy-bridge.js';
 import * as authFactory from '@moonwitness/security';
 import * as featureFactory from '@moonwitness/security';
-import { buildAiAnalysis, analyzeWithProvider, createDefaultSemanticProvider } from '@moonwitness/cosmic-engine';
+import { buildAiAnalysis, analyzeWithProvider, createDefaultSemanticProvider } from '@moonwitness/aws-engine';
 import { UniverseStore, IdempotencyStore, PostgresIdempotencyStore, initializeRuntimeData, runtimeDataset, loadDatabaseConfig } from '@moonwitness/persistence';
 import { Observability } from '@moonwitness/observability';
 import { assertPermission, hasPermission, type ActionPermission, PostgresAuthService } from '@moonwitness/security';
