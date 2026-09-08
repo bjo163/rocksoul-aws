@@ -54,3 +54,37 @@ export function isAwsMonitorDue(
   if (!freshness) return true;
   return new Date(freshness.next_due_at).getTime() <= new Date(now).getTime();
 }
+
+
+export const AWS_DEFAULT_SOURCE_MONITORS: readonly AwsSourceMonitor[] = [
+  {
+    id: 'MON-AWS-ICRC-GCIV',
+    source_ref: 'SRC-AWS-ICRC-IHL',
+    adapter_key: 'icrc-gciv',
+    enabled: true,
+    poll_interval_minutes: 360,
+    stale_after_minutes: 1440,
+    max_attempts: 3,
+    retry_base_ms: 1000,
+  },
+  {
+    id: 'MON-AWS-UNTC-GENOCIDE',
+    source_ref: 'SRC-AWS-UNTC',
+    adapter_key: 'untc-genocide',
+    enabled: true,
+    poll_interval_minutes: 180,
+    stale_after_minutes: 720,
+    max_attempts: 3,
+    retry_base_ms: 1000,
+  },
+  {
+    id: 'MON-AWS-ICJ-BOSNIA-SERBIA',
+    source_ref: 'SRC-AWS-ICJ',
+    adapter_key: 'icj-bosnia-serbia',
+    enabled: true,
+    poll_interval_minutes: 180,
+    stale_after_minutes: 720,
+    max_attempts: 3,
+    retry_base_ms: 1000,
+  },
+] as const;
