@@ -15,7 +15,6 @@
   "dependencies": {
     "@moonwitness/contracts": "4.33.0",
     "@moonwitness/application": "4.33.0",
-    "@moonwitness/cosmic-engine": "4.33.0",
     "@moonwitness/jobs": "4.33.0",
     "@moonwitness/mizan-engine": "4.33.0",
     "@moonwitness/observability": "4.33.0",
@@ -25,7 +24,8 @@
     "@moonwitness/semantic-engine": "4.33.0",
     "@moonwitness/witness": "4.33.0",
     "@fastify/otel": "^0.20.1",
-    "fastify": "^5.12.1"
+    "fastify": "^5.12.1",
+    "@moonwitness/aws-engine": "4.33.0"
   },
   "devDependencies": {
     "@types/node": "^26.0.0",
