@@ -340,3 +340,87 @@ test('stale-state refresh does not create source revisions or verdicts', async (
   assert.equal(freshness?.payload.freshness_state, 'STALE');
   assert.equal((await legal.listRecords('ASSESSMENT')).length, 0);
 });
+
+
+test('targeted legal-case reanalysis recomputes all deterministic derived layers without canonical mutation', async () => {
+  const now = () => new Date('2026-09-08T06:00:00.000Z');
+  const persistence = new MemoryProvider();
+  const legal = new AwsLegalStore(persistence);
+  const queue = new PersistentJobQueue(persistence, 60_000, {
+    workerId: 'phase7-legal-case-reanalysis',
+    now,
+  });
+  const worker = new AwsSourceWorker(legal, queue);
+  const service = new AwsContinuousResearchService(
+    legal,
+    worker,
+    queue,
+    pollers(async () => {
+      throw new Error('UNUSED');
+    }),
+    now,
+  );
+
+  await legal.upsertRecord('APPLICABILITY', 'APPL-LCASE', {
+    dimensions: {
+      temporal: applies('t'),
+      territorial: applies('x'),
+      personal: applies('p'),
+      subject_matter: applies('s'),
+      jurisdiction: applies('j'),
+    },
+    overall: 'UNCERTAIN',
+  });
+  await legal.upsertRecord('CLAIM_ASSESSMENT', 'CASSMT-LCASE', {
+    applicability_ref: 'APPL-LCASE',
+    supporting_holding_refs: ['HOLD-SUPPORT'],
+    contradicting_holding_refs: [],
+    result: 'UNRESOLVED',
+  });
+  await legal.upsertRecord('CASE_SYNTHESIS', 'CSYN-LCASE', {
+    claim_assessment_refs: ['CASSMT-LCASE'],
+    result: 'UNRESOLVED',
+    legal_result: 'UNRESOLVED',
+    mizan_status: 'NOT_RUN',
+  });
+  await legal.upsertRecord('LEGAL_CASE', 'LCASE-PHASE7', {
+    applicability_refs: ['APPL-LCASE'],
+    claim_assessment_refs: ['CASSMT-LCASE'],
+    case_synthesis_refs: ['CSYN-LCASE'],
+  });
+
+  const candidate = await service.reanalyzeCase({
+    caseId: 'LCASE-PHASE7',
+    sourceId: 'SRC-AWS-TEST',
+    revisionId: 'REV-AWS-PHASE7',
+    fingerprint: 'a'.repeat(64),
+  });
+
+  assert.deepEqual(candidate.applicability, [
+    { ref: 'APPL-LCASE', before: 'UNCERTAIN', after: 'APPLICABLE', changed: true },
+  ]);
+  assert.deepEqual(candidate.claim_assessments, [
+    { ref: 'CASSMT-LCASE', before: 'UNRESOLVED', after: 'SUPPORTED', changed: true },
+  ]);
+  assert.deepEqual(candidate.case_syntheses, [
+    { ref: 'CSYN-LCASE', before: 'UNRESOLVED', after: 'CONSISTENT_SUPPORT', changed: true },
+  ]);
+  assert.deepEqual(candidate.changed_scopes, [
+    'APPLICABILITY:APPL-LCASE',
+    'CASE_SYNTHESIS:CSYN-LCASE',
+    'CLAIM_ASSESSMENT:CASSMT-LCASE',
+    'SOURCE_CONTENT',
+  ]);
+  assert.equal(candidate.canonical_mutation, false);
+
+  const applicability = await legal.getRecord('APPL-LCASE');
+  const claim = await legal.getRecord('CASSMT-LCASE');
+  const synthesis = await legal.getRecord('CSYN-LCASE');
+  assert.equal(applicability?.version, 1);
+  assert.equal(applicability?.payload.overall, 'UNCERTAIN');
+  assert.equal(claim?.version, 1);
+  assert.equal(claim?.payload.result, 'UNRESOLVED');
+  assert.equal(synthesis?.version, 1);
+  assert.equal(synthesis?.payload.result, 'UNRESOLVED');
+  assert.equal(synthesis?.payload.mizan_status, 'NOT_RUN');
+});
