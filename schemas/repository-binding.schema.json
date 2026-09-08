@@ -5,6 +5,7 @@
   "type": "object",
   "additionalProperties": false,
   "required": [
+    "id",
     "version",
     "bindings"
   ],
@@ -49,6 +50,10 @@
           }
         }
       }
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^BIND-AWS-[A-Z0-9][A-Z0-9._-]*$"
     }
   }
 }
