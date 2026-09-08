@@ -155,7 +155,12 @@ export class AwsContinuousResearchService {
     scheduledFor: string,
   ): Promise<Record<string, unknown>> {
     const runId = researchRunId(monitor.id, scheduledFor);
-    const startedAt = this.now().toISOString();
+    const existingRun = await this.legalStore.getRecord<Record<string, unknown>>(runId);
+    const startedAt =
+      existingRun?.kind === 'RESEARCH_RUN' &&
+      typeof existingRun.payload.started_at === 'string'
+        ? existingRun.payload.started_at
+        : this.now().toISOString();
     const previous = await this.legalStore.latestSourceRevision(monitor.source_ref);
     const freshnessId = awsFreshnessId(monitor.source_ref);
     const previousFreshness = await this.legalStore.getRecord<AwsSourceFreshness>(freshnessId);
