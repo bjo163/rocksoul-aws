@@ -1,4 +1,10 @@
-# Cosmic 4.33.0 — Coolify deployment
+# AWS — Coolify Deployment
+
+## **SHIP THE ENGINE. KEEP THE EVIDENCE INTACT.**
+
+> **/// POSTGRES · API · RUNTIME STATE · HEALTH GATES ///**
+
+This deployment stack runs the MoonWitness AWS engine infrastructure. Some Docker resource identifiers may still retain legacy Cosmic names to avoid silently orphaning existing volumes; those names are compatibility details, not product identity.
 
 This stack is the initial deployment target for Cosmic 4.33.0.
 
