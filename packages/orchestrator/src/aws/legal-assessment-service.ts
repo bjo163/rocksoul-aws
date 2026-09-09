@@ -41,7 +41,13 @@ export class AwsLegalAssessmentService {
   }
 
   async persistClaimAssessment(
-    record: Omit<AwsClaimAssessmentRecord, 'result'> & {
+    record: {
+      id: string;
+      case_ref: string;
+      claim_ref: string;
+      applicability_ref: string;
+      supporting_holding_refs: string[];
+      contradicting_holding_refs: string[];
       applicability: 'APPLICABLE' | 'NOT_APPLICABLE' | 'PARTIALLY_APPLICABLE' | 'UNCERTAIN';
     },
   ): Promise<AwsClaimAssessmentRecord> {

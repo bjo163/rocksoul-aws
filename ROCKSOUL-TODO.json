@@ -1,14 +1,18 @@
 {
-  "schema": "rocksoul.todo.v1",
   "repository_id": "rocksoul-aws",
+  "schema": "rocksoul.todo.v1",
   "tasks": [
     {
-      "id": "AWS-001",
-      "title": "Maintain repository control contract and local TODO",
-      "status": "NOT_STARTED",
-      "scope": "repository",
+      "evidence": [
+        "npm run build:packages: Built 21 workspace packages into dist/",
+        "npm run validate: VALID: 4 sources, 7 gateways, 4 processes, 6236 Quran ayahs, 1754 revelation-derived Asma surface candidates",
+        "verified_at=2026-09-10"
+      ],
       "github_issue": "https://github.com/bjo163/rocksoul-aws/issues/140",
-      "evidence": []
+      "id": "AWS-001",
+      "scope": "repository",
+      "status": "VERIFIED",
+      "title": "Maintain repository control contract and local TODO"
     }
   ]
 }
