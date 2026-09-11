@@ -24,8 +24,8 @@ export const ENGINE_OPERATIONS: readonly EngineOperation[] = Object.freeze([
     requestExample: { semantic: { R: 0.2, G: 0.1, B: 0, L: 0.3 } },
   },
   {
-    id: 'cosmic.analyze', kind: 'UNIT', method: 'POST', path: '/api/v1/ai/analyze',
-    package: '@moonwitness/cosmic-engine', authentication: 'ANALYZE',
+    id: 'aws.analyze', kind: 'UNIT', method: 'POST', path: '/api/v1/ai/analyze',
+    package: '@moonwitness/aws-engine', authentication: 'ANALYZE',
     description: 'Run a single AI/semantic analysis; witness commit is conditional on permission.',
     requestExample: { text: 'A bounded semantic observation.', semanticObservation: { confidence: 0.5, intention: { label: 'UNRESOLVED', rgbl: { R: 0, G: 0, B: 0, L: 0 } } } },
   },

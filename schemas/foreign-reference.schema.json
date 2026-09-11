@@ -16,7 +16,7 @@
   "properties": {
     "id": {
       "type": "string",
-      "pattern": "^XREF-(STORY|EVENT|PERSON|RGBL)-[A-F0-9]{24}$"
+      "pattern": "^XREF-(STORY|EVENT|PERSON|TEXT|RGBL|PERSPECTIVE|RELATIONSHIP)-[A-F0-9]{24}$"
     },
     "domain": {
       "type": "string",
@@ -24,8 +24,12 @@
         "STORY",
         "EVENT",
         "PERSON",
-        "RGBL"
-      ]
+        "TEXT",
+        "RGBL",
+        "PERSPECTIVE",
+        "RELATIONSHIP"
+      ],
+      "description": "Semantic foreign domain. RGBL is retained only as a backward-compatible alias for TEXT; new exact-text references should use TEXT."
     },
     "canonical_ref": {
       "type": "string",

@@ -1,0 +1,84 @@
+{
+  "version": "aws.ownership-boundary.v1",
+  "canonical_domain": "LAW",
+  "canonical_publication_root": "data/aws/**",
+  "classifications": [
+    {
+      "path": "data/aws/**",
+      "classification": "CANONICAL_AWS",
+      "semantics": "Canonical LAW research records: legal sources, instruments, jurisdictions, authority, treaty actions, applicability, claims, holdings/assessments, cases, case bindings, research runs and reanalysis."
+    },
+    {
+      "path": "data/divine-books/**",
+      "classification": "LEGACY_ENGINE_INPUT",
+      "foreign_owner": "rocksoul-rgbl",
+      "foreign_domain": "TEXT",
+      "semantics": "Inherited revelation/scripture corpus input retained for compatibility. It is not canonical AWS LAW research and must not be published as AWS text canon."
+    },
+    {
+      "path": "data/revelation/**",
+      "classification": "LEGACY_ENGINE_INPUT",
+      "foreign_owner": "rocksoul-rgbl",
+      "foreign_domain": "TEXT",
+      "semantics": "Inherited revelation-engine input. Exact source-text ownership remains RGBL/TEXT."
+    },
+    {
+      "path": "data/identity/**",
+      "classification": "LEGACY_ENGINE_INPUT",
+      "foreign_owner": "rocksoul-superhero",
+      "foreign_domain": "PERSON",
+      "semantics": "Inherited identity-engine material. It is not canonical PERSON research."
+    },
+    {
+      "path": "data/events/**",
+      "classification": "LEGACY_ENGINE_INPUT",
+      "foreign_owner": "rocksoul-legend",
+      "foreign_domain": "EVENT",
+      "semantics": "Inherited event-engine material. It is not canonical EVENT reconstruction."
+    },
+    {
+      "path": "data/normative/**",
+      "classification": "COMPATIBILITY",
+      "semantics": "Legacy normative engine inputs retained for compatibility. Canonical legal conclusions must be represented through data/aws LAW records."
+    },
+    {
+      "path": "data/mizan/**",
+      "classification": "DERIVED",
+      "semantics": "Analytical/Mizan capability inputs and derived assessment fixtures. MIZAN is a methodology, not a canonical world-object domain."
+    },
+    {
+      "path": "data/knowledge/**",
+      "classification": "LEGACY_ENGINE_INPUT",
+      "semantics": "Inherited knowledge/ontology engine input; not authoritative AWS research data unless explicitly projected into data/aws with provenance."
+    },
+    {
+      "path": "src/normative/**",
+      "classification": "COMPATIBILITY",
+      "semantics": "Internal legacy engine implementation; does not expand AWS semantic ownership beyond LAW."
+    },
+    {
+      "path": "src/revelation/**",
+      "classification": "COMPATIBILITY",
+      "foreign_owner": "rocksoul-rgbl",
+      "foreign_domain": "TEXT",
+      "semantics": "Internal revelation engine implementation retained for compatibility, not a second TEXT canon."
+    },
+    {
+      "path": "packages/revelation/**",
+      "classification": "COMPATIBILITY",
+      "foreign_owner": "rocksoul-rgbl",
+      "foreign_domain": "TEXT",
+      "semantics": "Legacy package API retained for compatibility; canonical exact-text records belong to RGBL/TEXT."
+    }
+  ],
+  "allowed_classifications": [
+    "CANONICAL_AWS",
+    "DERIVED",
+    "LEGACY_ENGINE_INPUT",
+    "COMPATIBILITY",
+    "FIXTURE",
+    "NON_CANONICAL"
+  ],
+  "publication_rule": "Only CANONICAL_AWS material is authoritative AWS research data. Foreign-domain engine inputs remain compatibility/internal material and should be linked to canonical owner repositories when promoted into legal cases.",
+  "mizan_rule": "MIZAN is an analytical capability/methodology. A Mizan result is contextual analysis, not universal canonical truth."
+}

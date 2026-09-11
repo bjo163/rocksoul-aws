@@ -1,7 +1,7 @@
 {
   "name": "@moonwitness/cosmic-engine",
   "version": "4.33.0",
-  "description": "Host-neutral Cosmic facade for temporal facts, candidate semantic observations, Mizan context, and explanations",
+  "description": "Deprecated compatibility facade; canonical consumers should use @moonwitness/aws-engine",
   "private": true,
   "type": "module",
   "main": "./dist/index.js",

@@ -20,7 +20,10 @@ function filesUnder(relative: string): string[] {
   return out;
 }
 
-const router = read('apps/api/src/router.ts');
+// apps/api/src/router.ts is now a deprecated compatibility barrel. Inspect the
+// canonical transport implementation so the release contract follows ownership
+// instead of requiring duplicated logic in the barrel.
+const router = read('apps/api/src/compat/router.ts');
 const app = read('apps/api/src/app.ts');
 const kernelRoutes = read('apps/api/src/routes/kernel.routes.ts');
 const persistenceTypes = read('packages/persistence/src/types.ts');

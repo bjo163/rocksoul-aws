@@ -16,14 +16,14 @@ test('certification workflow checks out the exact commit and never uses a floati
 test('self-hosted certification contract requires same-SHA evidence', () => {
   assert.match(runnerDoc, /same-SHA/i);
   assert.match(runnerDoc, /self-hosted/i);
-  assert.match(runnerDoc, /cosmic/i);
+  assert.match(runnerDoc, /AWS/i);
 });
 
 test('certification publishes verified provenance and immutable local container identity', () => {
   assert.match(workflow, /Generate verified release provenance/);
   assert.match(workflow, /release-provenance\.json/);
   assert.match(workflow, /release:provenance -- --verify/);
-  assert.match(workflow, /COSMIC_CONTAINER_IMAGE_V1/);
+  assert.match(workflow, /AWS_CONTAINER_IMAGE_V1/);
   assert.match(workflow, /docker image inspect/);
   assert.match(workflow, /actions\/upload-artifact@v4/);
 });

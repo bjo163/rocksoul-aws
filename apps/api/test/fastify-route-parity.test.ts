@@ -67,10 +67,10 @@ test('Fastify exposes canonical dependency ports to plugins', async () => {
   assert.equal(app.auth, context.auth);
   assert.equal(app.jobs, context.jobs);
   assert.equal(app.witness, context.witness);
-  assert.equal(app.cosmic.persistence, context.universeStore);
-  assert.equal(app.cosmic.auth, context.auth);
-  assert.equal(app.cosmic.jobs, context.jobs);
-  assert.equal(app.cosmic.witness, context.witness);
+  assert.equal(app.aws.persistence, context.universeStore);
+  assert.equal(app.aws.auth, context.auth);
+  assert.equal(app.aws.jobs, context.jobs);
+  assert.equal(app.aws.witness, context.witness);
   assert.equal(typeof app.orchestrator.runAnalysisWorkflow, 'function');
 
   await app.close();

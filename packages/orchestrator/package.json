@@ -1,7 +1,7 @@
 {
   "name": "@moonwitness/orchestrator",
   "version": "4.33.0",
-  "description": "Host-neutral workflows that coordinate Cosmic engines through injected persistence, witness, review, and job ports",
+  "description": "Host-neutral workflows that coordinate AWS research and analysis through injected persistence, witness, review, and job ports",
   "private": true,
   "type": "module",
   "main": "./dist/index.js",

@@ -1,12 +1,17 @@
 {
   "name": "@moonwitness/intelligence",
   "version": "4.33.0",
-  "description": "Composable, host-neutral Cosmic intelligence engine facade",
+  "description": "Composable, host-neutral MoonWitness intelligence facade used by AWS",
   "private": true,
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": { ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" } },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit --target ES2022 --module NodeNext --moduleResolution NodeNext --skipLibCheck src/index.ts",
     "test": "tsx --test test/intelligence.test.ts"
@@ -19,5 +24,8 @@
     "@moonwitness/tse-engine": "4.33.0",
     "@moonwitness/workflow": "4.33.0"
   },
-  "devDependencies": { "tsx": "^4.19.0", "typescript": "^5.8.3" }
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.8.3"
+  }
 }

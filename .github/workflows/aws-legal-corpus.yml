@@ -67,3 +67,6 @@ jobs:
 
       - name: AWS legal corpus check
         run: npm run aws:check
+
+      - name: Scheduler V2 LAW priority policy
+        run: node scripts/transpile-runner.mjs tests/aws-research-priority.test.ts

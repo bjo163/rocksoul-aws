@@ -1,5 +1,15 @@
 # AWS — Canonical Documentation
 
+## **TRACE THE LAW.**
+
+> **/// LAW IS NOT A VIBE. SHOW THE AUTHORITY. ///**
+
+This is the canonical documentation map for MoonWitness AWS. The job is not to sound legally certain; the job is to make the route from source → rule → jurisdiction → applicability → argument → review inspectable.
+
+**LEGAL TEXT ≠ APPLICABLE LAW · JURISDICTION ≠ MERITS · LEGAL RESULT ≠ MIZAN**
+
+**Release baseline:** `4.33.0`
+
 ## ANGEL WITH SHOTGUN
 
 AWS is the **International Law & Regulation Intelligence** domain of MoonWitness / Rocksoul Research.
@@ -11,6 +21,7 @@ Its canonical question is:
 ## Repository governance
 
 - [BRANCHING.md](BRANCHING.md) — canonical remote model: `main` stable/release, `dev` all development.
+- [AWS-IDENTITY-MIGRATION.md](AWS-IDENTITY-MIGRATION.md) — canonical AWS naming and legacy compatibility map.
 - [../CONTRIBUTING.md](../CONTRIBUTING.md) — coding, validation, and promotion rules.
 
 ## Read in this order

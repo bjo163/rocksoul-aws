@@ -15,7 +15,7 @@ import type {
   WitnessObservability,
   WitnessTransportService,
 } from '@moonwitness/witness';
-import { createDefaultSemanticProvider } from '@moonwitness/cosmic-engine';
+import { createDefaultSemanticProvider } from '@moonwitness/aws-engine';
 import type { ApplicationServices } from '@moonwitness/application';
 
 export interface Authenticator {

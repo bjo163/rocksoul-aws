@@ -12,7 +12,7 @@
 
 A provenance-first **International Law & Regulation Intelligence** repository for reconstructing applicable law, jurisdiction, legal status, competing arguments, uncertainty, and explainable Mizan analysis.
 
-**MOONWITNESS · ROCKSOUL RESEARCH · STORY × EVENT × PERSON × TEXT × LAW**
+**MOONWITNESS · ROCKSOUL RESEARCH · STORY × EVENT × PERSON × TEXT × LAW × PERSPECTIVE · RELATIONSHIP CONNECTS**
 
 <br/>
 
@@ -30,7 +30,27 @@ A provenance-first **International Law & Regulation Intelligence** repository fo
 
 </div>
 
+
 ---
+<!-- ROCKSOUL_FIELD_NOTE_START -->
+<div align="center">
+
+### **LAW IS NOT A VIBE. SHOW THE AUTHORITY.**
+
+`/// MOONWITNESS FIELD NOTE ///`
+
+</div>
+
+> A treaty title is not an answer. A signature is not ratification. A court citation is not automatic jurisdiction. AWS keeps authority, legal force, applicability, counterargument, review state, and uncertainty visible.
+
+```text
+SOURCE → RULE → JURISDICTION → APPLICABILITY → ARGUMENT → REVIEW
+```
+
+**NO VIBES-ONLY CLAIMS · NO SOURCELESS LORE · UNCERTAINTY IS DATA**
+
+<!-- ROCKSOUL_FIELD_NOTE_END -->
+
 
 > **Evidence can tell us what happened. Law asks something else.**
 
@@ -52,8 +72,10 @@ That separation is the foundation of AWS.
 </div>
 
 - **`rocksoul-assets`** owns the visual language, legal-analysis surface references, dashboard widgets, data-viz, state illustrations, and shared shell.
-- **`rocksoul-crayon`** is the operator console that exposes LAW resources beside STORY, EVENT, PERSON, and TEXT.
+- **`rocksoul-crayon`** is the operator console that exposes LAW resources beside STORY, EVENT, PERSON, TEXT, PERSPECTIVE, and reviewed RELATIONSHIP context.
 - **AWS remains canonical owner of legal research, applicability, authority, and legal-analysis contracts.**
+
+Canonical runtime facade: **`@moonwitness/aws-engine`**. The older **`@moonwitness/cosmic-engine`** name is retained only as a deprecated compatibility bridge while downstream consumers migrate.
 
 ## Core question
 
@@ -111,7 +133,7 @@ flowchart LR
 | [`rocksoul-rgbl`](https://github.com/bjo163/rocksoul-rgbl) | TEXT | What does the exact text say? |
 | **`rocksoul-aws`** | LAW | Was it allowed? |
 
-AWS consumes cross-repository references. It does **not** duplicate canonical STORY, EVENT, PERSON, or TEXT objects.
+AWS consumes cross-repository references. It does **not** duplicate canonical STORY, EVENT, PERSON, TEXT, PERSPECTIVE, or reviewed RELATIONSHIP objects.
 
 [Read the interoperability contract →](docs/ROCKSOUL_INTEROP.md)
 
@@ -231,7 +253,7 @@ No other remote branches are part of the repository contract. Development lands 
 
 ## Current repository state
 
-This repository was created from a mature MoonWitness/Cosmic-derived engine codebase. That inherited code remains useful technical substrate—persistence, orchestration, evidence, Mizan, review, audit, and API infrastructure—but old **Cosmic** naming and astronomy/revelation-specific surfaces are **not** the canonical AWS domain definition.
+AWS runs on mature MoonWitness engine infrastructure—persistence, orchestration, evidence, Mizan, review, audit, jobs, and API foundations. The canonical product/domain identity is now **AWS / Angel With Shotgun**. Any remaining **Cosmic** identifiers are compatibility debt, not product identity, and are being retired behind tested aliases.
 
 ```text
 PHASE 0  DOMAIN CONTRACT                   ✓
@@ -266,7 +288,7 @@ rocksoul-aws/
 | [Documentation index](docs/README.md) | Entry point to AWS documentation |
 | [Branching contract](docs/BRANCHING.md) | `main` / `dev` lifecycle |
 | [Legal research model](docs/LEGAL_RESEARCH_MODEL.md) | Source authority and uncertainty model |
-| [Rocksoul interoperability](docs/ROCKSOUL_INTEROP.md) | Five-domain ownership contract |
+| [Rocksoul interoperability](docs/ROCKSOUL_INTEROP.md) | Six-domain + reviewed Relationship ownership contract |
 | [Automation & freshness](docs/AUTOMATION.md) | Continuous research contract |
 | [Canonical legal data](data/aws/README.md) | Canonical AWS data layout |
 | [Jerusalem five-way case](docs/cases/JERUSALEM-70-FIVE-WAY.md) | Cross-domain proof case |
