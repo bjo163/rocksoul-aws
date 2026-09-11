@@ -1,0 +1,44 @@
+name: ROCKSOUL Repository Task
+description: Track repository-owned work with evidence and workspace mapping.
+title: "[TASK] "
+labels:
+  - rocksoul-task
+body:
+  - type: input
+    id: repository-task-id
+    attributes:
+      label: Repository task ID
+      description: Use the local TODO identifier, for example UI-001 or RUNTIME-046.
+      placeholder: REPO-001
+    validations:
+      required: true
+  - type: dropdown
+    id: status
+    attributes:
+      label: Status
+      options:
+        - NOT_STARTED
+        - IN_PROGRESS
+        - WAITING_REVIEW
+        - BLOCKED
+        - VERIFIED
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and acceptance criteria
+      description: Describe the repository-owned outcome and how it will be verified.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Add commands, test output, commit, release, or artifact links. Do not add secrets.
+  - type: input
+    id: master-task
+    attributes:
+      label: Workspace master task
+      description: If this crosses repositories, add the MASTER-TODO task ID.
+      placeholder: TODO-0000
