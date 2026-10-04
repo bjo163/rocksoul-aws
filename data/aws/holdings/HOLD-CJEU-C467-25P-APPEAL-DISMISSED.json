@@ -1,0 +1,16 @@
+{
+  "id": "HOLD-CJEU-C467-25P-APPEAL-DISMISSED",
+  "authority_ref": "AUTH-CJEU-C467-25P-JUDGMENT-2026-09-10",
+  "case_ref": "LCASE-CJEU-DA-PHARMA-C467-25P",
+  "holding_type": "PROCEDURE",
+  "determination": "DISMISSED",
+  "proposition": "D&A Pharma's appeal was dismissed in full; the Court rejected the grounds concerning the claimed continuing interest in annulment and the limits of appellate review without deciding medicinal-product scientific merits.",
+  "subject_refs": [],
+  "basis_refs": [
+    "LAW-EU-TFEU-2025-CONSOLIDATED",
+    "LAW-EU-CJEU-STATUTE-2025-CONSOLIDATED",
+    "AUTH-CJEU-C467-25P-JUDGMENT-2026-09-10"
+  ],
+  "scope_note": "The holding is limited to the appellate procedural disposition and does not validate or invalidate the underlying CHMP scientific assessment, product efficacy, safety, or marketing-authorisation merits.",
+  "research_state": "REVIEW_REQUIRED"
+}

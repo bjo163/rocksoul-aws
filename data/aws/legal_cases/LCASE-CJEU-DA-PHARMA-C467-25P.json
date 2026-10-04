@@ -1,0 +1,36 @@
+{
+  "id": "LCASE-CJEU-DA-PHARMA-C467-25P",
+  "title": "D&A Pharma v European Medicines Agency (EMA), C-467/25 P",
+  "question": "What EU appellate-procedure rules govern D&A Pharma's interest in bringing proceedings against EMA's refusal to retract or revise a CHMP opinion, and what did the Court decide on the appeal?",
+  "event_date": "2026-09-10",
+  "actors": [
+    "D&A Pharma",
+    "European Medicines Agency"
+  ],
+  "legal_basis_refs": [
+    "LAW-EU-TFEU-2025-CONSOLIDATED",
+    "LAW-EU-CJEU-STATUTE-2025-CONSOLIDATED"
+  ],
+  "treaty_action_refs": [],
+  "jurisdiction_refs": [
+    "JUR-EU-CJEU"
+  ],
+  "authority_refs": [
+    "AUTH-CJEU-C467-25P-JUDGMENT-2026-09-10"
+  ],
+  "applicability_refs": [
+    "APPL-CJEU-C467-25P-APPEAL"
+  ],
+  "claim_refs": [
+    "LCLAIM-CJEU-C467-25P-APPEAL-DISMISSED"
+  ],
+  "assessment_refs": [
+    "LASSMT-CJEU-C467-25P"
+  ],
+  "research_state": "REVIEW_REQUIRED",
+  "holding_refs": [
+    "HOLD-CJEU-C467-25P-APPEAL-DISMISSED"
+  ],
+  "claim_assessment_refs": [],
+  "case_synthesis_refs": []
+}

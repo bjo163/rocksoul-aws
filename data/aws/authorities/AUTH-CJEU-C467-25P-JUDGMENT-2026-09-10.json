@@ -1,0 +1,24 @@
+{
+  "id": "AUTH-CJEU-C467-25P-JUDGMENT-2026-09-10",
+  "authority_type": "JUDGMENT",
+  "title": "D&A Pharma v European Medicines Agency (EMA), C-467/25 P",
+  "case_ref": "LCASE-CJEU-DA-PHARMA-C467-25P",
+  "issuing_body": "Court of Justice of the European Union, Eighth Chamber",
+  "date": "2026-09-10",
+  "document_number": "ECLI:EU:C:2026:737",
+  "jurisdiction_basis_refs": [
+    "JUR-EU-CJEU",
+    "LAW-EU-TFEU-2025-CONSOLIDATED",
+    "LAW-EU-CJEU-STATUTE-2025-CONSOLIDATED"
+  ],
+  "holding_summary": [
+    "The Court dismissed D&A Pharma's appeal in full after rejecting the grounds concerning interest in bringing proceedings and appellate review limits.",
+    "The judgment is procedural and does not determine the scientific efficacy or safety merits of the medicinal product or the underlying CHMP assessment."
+  ],
+  "source": {
+    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:62025CJ0467",
+    "source_ref": "SRC-AWS-EURLEX",
+    "source_role": "JUDGMENT"
+  },
+  "research_state": "REVIEW_REQUIRED"
+}
