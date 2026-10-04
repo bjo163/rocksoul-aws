@@ -1,0 +1,29 @@
+{
+  "id": "JUR-EU-CJEU",
+  "name": "Court of Justice of the European Union",
+  "jurisdiction_type": "regional_court",
+  "competence": {
+    "temporal": [
+      "Competence is procedure-, instrument- and material-date-specific; this registry record does not back-project current treaty or procedural rules into earlier disputes."
+    ],
+    "territorial": [
+      "Jurisdiction operates within the European Union legal order and the treaty-defined external or Member-State contexts relevant to the specific procedure."
+    ],
+    "personal": [
+      "Standing and party capacity depend on the procedure, including Member States, Union institutions, natural or legal persons, and national courts making preliminary references where the Treaties and Statute so provide."
+    ],
+    "subject_matter": [
+      "Includes preliminary rulings under Article 267 TFEU, annulment review under Article 263 TFEU, treaty-defined direct actions, and appeals or other judicial procedures allocated by the Treaties and Protocol No 3; competence remains case-specific."
+    ]
+  },
+  "constitutive_instrument_refs": [
+    "LAW-EU-TFEU-2025-CONSOLIDATED",
+    "LAW-EU-CJEU-STATUTE-2025-CONSOLIDATED"
+  ],
+  "sources": [
+    "https://curia.europa.eu/",
+    "https://eur-lex.europa.eu/eli/treaty/tfeu_2016/2025-03-15/eng",
+    "https://eur-lex.europa.eu/eli/treaty/teu_2016/2025-03-15/eng"
+  ],
+  "notes": "Registry seed for CJEU forum competence. Presence of JUR-EU-CJEU never proves jurisdiction, standing, admissibility, legal force, finality, or a merits outcome in a particular case."
+}
