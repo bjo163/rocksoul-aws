@@ -1,0 +1,17 @@
+{
+  "id": "SRC-AWS-EURLEX",
+  "name": "EUR-Lex Official European Union Law Database",
+  "publisher": "Publications Office of the European Union",
+  "authority_role": "OFFICIAL_INSTITUTIONAL_DATABASE",
+  "canonical_url": "https://eur-lex.europa.eu/",
+  "scope": [
+    "eu_law",
+    "treaties",
+    "legislation",
+    "case_law",
+    "official_journal",
+    "consolidated_texts"
+  ],
+  "retrieved_at": "2026-10-04T13:20:00Z",
+  "notes": "Official EU legal database registry. Consolidated texts remain version-sensitive documentation surfaces; proposition-level canonicalization must retain the exact CELEX/ELI and material-time boundary."
+}
