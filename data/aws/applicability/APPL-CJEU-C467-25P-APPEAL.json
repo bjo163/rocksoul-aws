@@ -1,0 +1,70 @@
+{
+  "id": "APPL-CJEU-C467-25P-APPEAL",
+  "case_ref": "LCASE-CJEU-DA-PHARMA-C467-25P",
+  "legal_basis_ref": "LAW-EU-CJEU-STATUTE-2025-CONSOLIDATED",
+  "jurisdiction_ref": "JUR-EU-CJEU",
+  "dimensions": {
+    "temporal": {
+      "status": "APPLIES",
+      "reasons": [
+        "The appeal was lodged in 2025 and decided on 10 September 2026 under the Court's appellate procedural framework."
+      ],
+      "basis_refs": [
+        "LAW-EU-CJEU-STATUTE-2025-CONSOLIDATED",
+        "AUTH-CJEU-C467-25P-JUDGMENT-2026-09-10"
+      ]
+    },
+    "territorial": {
+      "status": "APPLIES",
+      "reasons": [
+        "The dispute concerns judicial review within the European Union legal order."
+      ],
+      "basis_refs": [
+        "JUR-EU-CJEU"
+      ]
+    },
+    "personal": {
+      "status": "APPLIES",
+      "reasons": [
+        "D&A Pharma was the appellant and EMA the respondent in the Court of Justice appeal."
+      ],
+      "basis_refs": [
+        "AUTH-CJEU-C467-25P-JUDGMENT-2026-09-10"
+      ]
+    },
+    "subject_matter": {
+      "status": "APPLIES",
+      "reasons": [
+        "The narrow observation concerns appellate admissibility, interest in bringing proceedings and the legal consequences of the General Court order, not medicinal-product scientific merits."
+      ],
+      "basis_refs": [
+        "LAW-EU-TFEU-2025-CONSOLIDATED",
+        "LAW-EU-CJEU-STATUTE-2025-CONSOLIDATED",
+        "AUTH-CJEU-C467-25P-JUDGMENT-2026-09-10"
+      ]
+    },
+    "jurisdiction": {
+      "status": "APPLIES",
+      "reasons": [
+        "The Court of Justice exercised appellate jurisdiction over the General Court order."
+      ],
+      "basis_refs": [
+        "JUR-EU-CJEU",
+        "LAW-EU-CJEU-STATUTE-2025-CONSOLIDATED",
+        "AUTH-CJEU-C467-25P-JUDGMENT-2026-09-10"
+      ]
+    }
+  },
+  "overall": "APPLICABLE",
+  "basis_refs": [
+    "JUR-EU-CJEU",
+    "LAW-EU-TFEU-2025-CONSOLIDATED",
+    "LAW-EU-CJEU-STATUTE-2025-CONSOLIDATED",
+    "AUTH-CJEU-C467-25P-JUDGMENT-2026-09-10"
+  ],
+  "contrary_refs": [],
+  "reasoning": [
+    "Applicability is limited to the appellate-procedure proposition resolved by C-467/25 P and does not convert the judgment into a scientific or marketing-authorisation merits ruling."
+  ],
+  "review_state": "REVIEWED"
+}

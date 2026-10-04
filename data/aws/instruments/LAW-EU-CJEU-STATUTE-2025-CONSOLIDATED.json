@@ -1,0 +1,26 @@
+{
+  "id": "LAW-EU-CJEU-STATUTE-2025-CONSOLIDATED",
+  "title": "Protocol (No 3) on the Statute of the Court of Justice of the European Union",
+  "short_title": "CJEU Statute, Protocol No 3 (consolidated 15 March 2025)",
+  "instrument_type": "protocol",
+  "issuing_body": null,
+  "adoption_date": null,
+  "entry_into_force_date": null,
+  "termination_date": null,
+  "languages": [
+    "en"
+  ],
+  "source": {
+    "url": "https://eur-lex.europa.eu/eli/treaty/teu_2016/2025-03-15/eng",
+    "stable_id": "eurlex:02016M/TXT-20250315#protocol-3",
+    "source_role": "PRIMARY_TEXT",
+    "publisher": "Publications Office of the European Union",
+    "language": "en",
+    "retrieved_at": "2026-10-04T13:20:00Z",
+    "sha256": null
+  },
+  "supersedes": [],
+  "superseded_by": [],
+  "research_state": "CANONICAL",
+  "notes": "Current EUR-Lex consolidated Protocol No 3 source as inspected on 2026-10-04. Procedure and appellate-standing propositions must remain article- and material-date-specific."
+}

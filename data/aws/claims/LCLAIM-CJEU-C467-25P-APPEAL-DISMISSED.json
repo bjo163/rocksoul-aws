@@ -1,0 +1,26 @@
+{
+  "id": "LCLAIM-CJEU-C467-25P-APPEAL-DISMISSED",
+  "case_ref": "LCASE-CJEU-DA-PHARMA-C467-25P",
+  "proposition": "On the record reviewed in C-467/25 P, D&A Pharma did not establish an appellate basis requiring reversal of the General Court's conclusion on interest in bringing proceedings, so the appeal was dismissed in full.",
+  "claim_type": "procedure",
+  "asserted_by_refs": [
+    "AUTH-CJEU-C467-25P-JUDGMENT-2026-09-10"
+  ],
+  "basis_refs": [
+    "LAW-EU-TFEU-2025-CONSOLIDATED",
+    "LAW-EU-CJEU-STATUTE-2025-CONSOLIDATED",
+    "JUR-EU-CJEU",
+    "AUTH-CJEU-C467-25P-JUDGMENT-2026-09-10",
+    "APPL-CJEU-C467-25P-APPEAL",
+    "HOLD-CJEU-C467-25P-APPEAL-DISMISSED"
+  ],
+  "evidence_refs": [
+    "SRC-AWS-EURLEX",
+    "SRC-AWS-CURIA"
+  ],
+  "contrary_authority_refs": [],
+  "counterclaim_refs": [],
+  "scope_note": "This is a narrow appellate-procedure proposition. It is not a proposition about medicinal-product efficacy, safety, scientific validity, or the correctness of every CHMP/EMA statement.",
+  "status": "SUPPORTED",
+  "confidence": 0.98
+}

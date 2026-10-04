@@ -1,0 +1,68 @@
+{
+  "id": "APPL-CJEU-C773-23P-APPEAL",
+  "case_ref": "LCASE-CJEU-ECCA-C773-23P",
+  "legal_basis_ref": "LAW-EU-CJEU-STATUTE-2025-CONSOLIDATED",
+  "jurisdiction_ref": "JUR-EU-CJEU",
+  "dimensions": {
+    "temporal": {
+      "status": "APPLIES",
+      "reasons": [
+        "The appeal was lodged on 14 December 2023 and decided on 10 September 2026; the Court applied Article 56 of the Statute to that appellate posture. The current consolidated Statute is used as the source dependency without inferring any material wording change for the relevant period."
+      ],
+      "basis_refs": [
+        "LAW-EU-CJEU-STATUTE-2025-CONSOLIDATED",
+        "AUTH-CJEU-C773-23P-JUDGMENT-2026-09-10"
+      ]
+    },
+    "territorial": {
+      "status": "APPLIES",
+      "reasons": [
+        "The dispute concerns appellate judicial review within the European Union legal order."
+      ],
+      "basis_refs": [
+        "JUR-EU-CJEU"
+      ]
+    },
+    "personal": {
+      "status": "APPLIES",
+      "reasons": [
+        "ECCA was an intervener at first instance and appellant before the Court of Justice; the Article 56 question concerned whether the General Court judgment directly affected ECCA's own legal situation."
+      ],
+      "basis_refs": [
+        "AUTH-CJEU-C773-23P-JUDGMENT-2026-09-10"
+      ]
+    },
+    "subject_matter": {
+      "status": "APPLIES",
+      "reasons": [
+        "The narrow observation concerns an intervener's appellate standing and admissibility under Article 56, not the scientific or regulatory merits of chlorpyrifos-methyl non-renewal."
+      ],
+      "basis_refs": [
+        "LAW-EU-CJEU-STATUTE-2025-CONSOLIDATED",
+        "AUTH-CJEU-C773-23P-JUDGMENT-2026-09-10"
+      ]
+    },
+    "jurisdiction": {
+      "status": "APPLIES",
+      "reasons": [
+        "The Court of Justice exercised appellate jurisdiction over a General Court judgment and resolved the threshold admissibility question."
+      ],
+      "basis_refs": [
+        "JUR-EU-CJEU",
+        "LAW-EU-CJEU-STATUTE-2025-CONSOLIDATED",
+        "AUTH-CJEU-C773-23P-JUDGMENT-2026-09-10"
+      ]
+    }
+  },
+  "overall": "APPLICABLE",
+  "basis_refs": [
+    "JUR-EU-CJEU",
+    "LAW-EU-CJEU-STATUTE-2025-CONSOLIDATED",
+    "AUTH-CJEU-C773-23P-JUDGMENT-2026-09-10"
+  ],
+  "contrary_refs": [],
+  "reasoning": [
+    "Applicability is limited to the Article 56 appellate-standing proposition resolved in C-773/23 P. It does not convert the inadmissibility judgment into a new merits holding on pesticide safety, read-across, weight of evidence, or the validity of Implementing Regulation (EU) 2020/17."
+  ],
+  "review_state": "REVIEWED"
+}

@@ -1,0 +1,26 @@
+{
+  "id": "LAW-EU-TFEU-2025-CONSOLIDATED",
+  "title": "Consolidated version of the Treaty on the Functioning of the European Union",
+  "short_title": "TFEU (consolidated 15 March 2025)",
+  "instrument_type": "treaty",
+  "issuing_body": null,
+  "adoption_date": null,
+  "entry_into_force_date": null,
+  "termination_date": null,
+  "languages": [
+    "en"
+  ],
+  "source": {
+    "url": "https://eur-lex.europa.eu/eli/treaty/tfeu_2016/2025-03-15/eng",
+    "stable_id": "eurlex:02016E/TXT-20250315",
+    "source_role": "PRIMARY_TEXT",
+    "publisher": "Publications Office of the European Union",
+    "language": "en",
+    "retrieved_at": "2026-10-04T13:20:00Z",
+    "sha256": null
+  },
+  "supersedes": [],
+  "superseded_by": [],
+  "research_state": "CANONICAL",
+  "notes": "Current EUR-Lex consolidated TFEU source as inspected on 2026-10-04. Historical applicability remains article- and material-date-specific; later consolidation must not be back-projected into earlier disputes where wording changed."
+}

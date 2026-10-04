@@ -1,0 +1,25 @@
+{
+  "id": "LCLAIM-CJEU-C773-23P-APPEAL-INADMISSIBLE",
+  "case_ref": "LCASE-CJEU-ECCA-C773-23P",
+  "proposition": "Under Article 56 of the Statute, ECCA's first-instance intervention and interest in the result did not by themselves confer appellate standing; because the General Court judgment was not shown to directly affect ECCA's own legal situation, the appeal was inadmissible.",
+  "claim_type": "procedure",
+  "asserted_by_refs": [
+    "AUTH-CJEU-C773-23P-JUDGMENT-2026-09-10"
+  ],
+  "basis_refs": [
+    "LAW-EU-CJEU-STATUTE-2025-CONSOLIDATED",
+    "JUR-EU-CJEU",
+    "AUTH-CJEU-C773-23P-JUDGMENT-2026-09-10",
+    "APPL-CJEU-C773-23P-APPEAL",
+    "HOLD-CJEU-C773-23P-APPEAL-INADMISSIBLE"
+  ],
+  "evidence_refs": [
+    "SRC-AWS-EURLEX",
+    "SRC-AWS-CURIA"
+  ],
+  "contrary_authority_refs": [],
+  "counterclaim_refs": [],
+  "scope_note": "This proposition is confined to intervener appellate standing under Article 56. It is not a proposition on Article 263 standing generally and does not determine the pesticide-science or regulatory merits.",
+  "status": "SUPPORTED",
+  "confidence": 0.99
+}

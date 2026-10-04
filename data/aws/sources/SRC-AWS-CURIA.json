@@ -1,0 +1,18 @@
+{
+  "id": "SRC-AWS-CURIA",
+  "name": "Court of Justice of the European Union Official Judicial Sources",
+  "publisher": "Court of Justice of the European Union",
+  "authority_role": "OFFICIAL_JUDICIAL",
+  "canonical_url": "https://curia.europa.eu/",
+  "scope": [
+    "eu_judicial",
+    "court_of_justice",
+    "general_court",
+    "judgments",
+    "orders",
+    "advocate_general_opinions",
+    "case_dockets"
+  ],
+  "retrieved_at": "2026-10-04T13:20:00Z",
+  "notes": "Official CJEU judicial-source registry. Court and General Court judgments, orders, opinions and docket state must remain distinct by court, procedure, date and legal force."
+}
