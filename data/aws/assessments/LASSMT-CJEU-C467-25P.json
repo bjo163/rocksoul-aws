@@ -35,10 +35,10 @@
     "explanation": "No Mizan result is generated from an appellate procedural dismissal."
   },
   "review": {
-    "status": "REQUIRED",
-    "reviewer_ref": null,
-    "reviewed_at": null,
-    "notes": "Staged from issue #164 as a narrow procedural observation. Canonical promotion requires explicit review after corpus validation and immediate pre-promotion dedup."
+    "status": "APPROVED",
+    "reviewer_ref": "owner-delegated-chatgpt-review",
+    "reviewed_at": "2026-10-04T13:35:00Z",
+    "notes": "Explicit promotion review performed under the repository owner's instruction to execute backlog closure. Exact main dedup was clean immediately before promotion; the review preserves the narrow appellate-procedure scope and excludes medicinal-product scientific merits."
   },
   "source_revision_refs": [],
   "generated_at": "2026-10-04T13:30:00Z"
