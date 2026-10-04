@@ -1,0 +1,38 @@
+{
+  "id": "LCASE-CJEU-ECCA-C773-23P",
+  "title": "ECCA v Commission — appellate standing of an intervener",
+  "question": "Whether ECCA, as a non-Member-State/non-institution intervener at first instance, was directly affected by the General Court judgment within Article 56 of the Statute so as to have standing to appeal.",
+  "event_date": "2026-09-10",
+  "actors": [
+    "European Crop Care Association (ECCA)",
+    "European Commission",
+    "Health and Environment Alliance (HEAL)",
+    "French Republic"
+  ],
+  "legal_basis_refs": [
+    "LAW-EU-TFEU-2025-CONSOLIDATED",
+    "LAW-EU-CJEU-STATUTE-2025-CONSOLIDATED"
+  ],
+  "treaty_action_refs": [],
+  "jurisdiction_refs": [
+    "JUR-EU-CJEU"
+  ],
+  "authority_refs": [
+    "AUTH-CJEU-C773-23P-JUDGMENT-2026-09-10"
+  ],
+  "applicability_refs": [
+    "APPL-CJEU-C773-23P-APPEAL"
+  ],
+  "claim_refs": [
+    "LCLAIM-CJEU-C773-23P-APPEAL-INADMISSIBLE"
+  ],
+  "assessment_refs": [
+    "LASSMT-CJEU-C773-23P"
+  ],
+  "research_state": "REVIEWED",
+  "holding_refs": [
+    "HOLD-CJEU-C773-23P-APPEAL-INADMISSIBLE"
+  ],
+  "claim_assessment_refs": [],
+  "case_synthesis_refs": []
+}

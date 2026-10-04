@@ -1,0 +1,16 @@
+{
+  "id": "HOLD-CJEU-C773-23P-APPEAL-INADMISSIBLE",
+  "authority_ref": "AUTH-CJEU-C773-23P-JUDGMENT-2026-09-10",
+  "case_ref": "LCASE-CJEU-ECCA-C773-23P",
+  "holding_type": "PROCEDURE",
+  "determination": "DISMISSED",
+  "proposition": "A non-Member-State/non-institution intervener may appeal only where the General Court decision directly affects the intervener's own legal situation; ECCA did not establish that condition and its appeal was dismissed as inadmissible.",
+  "subject_refs": [],
+  "basis_refs": [
+    "LAW-EU-CJEU-STATUTE-2025-CONSOLIDATED",
+    "JUR-EU-CJEU",
+    "AUTH-CJEU-C773-23P-JUDGMENT-2026-09-10"
+  ],
+  "scope_note": "The holding is limited to Article 56 appellate standing and admissibility. It does not decide the substantive pesticide-regulatory grounds or independently validate any scientific proposition concerning chlorpyrifos-methyl.",
+  "research_state": "CANONICAL"
+}

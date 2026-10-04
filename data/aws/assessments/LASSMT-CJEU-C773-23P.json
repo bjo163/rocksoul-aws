@@ -1,0 +1,46 @@
+{
+  "id": "LASSMT-CJEU-C773-23P",
+  "case_ref": "LCASE-CJEU-ECCA-C773-23P",
+  "evaluated_conduct": "The appellate admissibility disposition in ECCA v Commission concerning whether a first-instance intervener was directly affected within Article 56 of the Statute.",
+  "applicability_refs": [
+    "APPL-CJEU-C773-23P-APPEAL"
+  ],
+  "claim_refs": [
+    "LCLAIM-CJEU-C773-23P-APPEAL-INADMISSIBLE"
+  ],
+  "legal_result": "UNRESOLVED",
+  "reasoning": [
+    {
+      "statement": "Article 56 requires the General Court decision itself to directly affect the intervener's own legal situation; first-instance intervention interest and effects on the supported main party are insufficient.",
+      "basis_refs": [
+        "APPL-CJEU-C773-23P-APPEAL",
+        "HOLD-CJEU-C773-23P-APPEAL-INADMISSIBLE"
+      ]
+    },
+    {
+      "statement": "Because ECCA did not establish the required direct effect, the Court dismissed the appeal as inadmissible and did not adjudicate the substantive pesticide-regulatory grounds.",
+      "basis_refs": [
+        "AUTH-CJEU-C773-23P-JUDGMENT-2026-09-10",
+        "HOLD-CJEU-C773-23P-APPEAL-INADMISSIBLE"
+      ]
+    }
+  ],
+  "contrary_authority_refs": [],
+  "unresolved_questions": [
+    "Any proposition about chlorpyrifos-methyl scientific risk, read-across, weight of evidence, or the substantive validity of Implementing Regulation (EU) 2020/17 requires separate merits-source analysis."
+  ],
+  "confidence": 0.99,
+  "mizan": {
+    "status": "NOT_RUN",
+    "principle_refs": [],
+    "explanation": "No Mizan result is generated from a procedural appellate inadmissibility judgment."
+  },
+  "review": {
+    "status": "APPROVED",
+    "reviewer_ref": "owner-delegated-chatgpt-review",
+    "reviewed_at": "2026-10-04T13:36:00Z",
+    "notes": "Explicit promotion review performed under the repository owner's instruction to execute backlog closure. Immediate current-main dedup for ECLI:EU:C:2026:730 was clean; the review is limited to Article 56 appellate standing and excludes pesticide scientific/regulatory merits."
+  },
+  "source_revision_refs": [],
+  "generated_at": "2026-10-04T13:36:00Z"
+}

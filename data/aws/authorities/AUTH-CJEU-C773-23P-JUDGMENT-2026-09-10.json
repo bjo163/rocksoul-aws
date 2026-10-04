@@ -1,0 +1,24 @@
+{
+  "id": "AUTH-CJEU-C773-23P-JUDGMENT-2026-09-10",
+  "authority_type": "JUDGMENT",
+  "title": "European Crop Care Association (ECCA) v European Commission, C-773/23 P",
+  "case_ref": "LCASE-CJEU-ECCA-C773-23P",
+  "issuing_body": "Court of Justice of the European Union, First Chamber",
+  "date": "2026-09-10",
+  "document_number": "ECLI:EU:C:2026:730",
+  "jurisdiction_basis_refs": [
+    "JUR-EU-CJEU",
+    "LAW-EU-TFEU-2025-CONSOLIDATED",
+    "LAW-EU-CJEU-STATUTE-2025-CONSOLIDATED"
+  ],
+  "holding_summary": [
+    "A non-Member-State/non-institution intervener may appeal under Article 56 of the Statute only where the General Court decision directly affects its own legal situation; intervention interest alone is insufficient.",
+    "ECCA did not establish the required direct effect and its appeal was dismissed as inadmissible without adjudicating the substantive pesticide-regulatory grounds."
+  ],
+  "source": {
+    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:62023CJ0773",
+    "source_ref": "SRC-AWS-EURLEX",
+    "source_role": "JUDGMENT"
+  },
+  "research_state": "CANONICAL"
+}
